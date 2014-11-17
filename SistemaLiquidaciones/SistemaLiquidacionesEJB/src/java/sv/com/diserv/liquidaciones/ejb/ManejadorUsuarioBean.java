@@ -45,7 +45,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
     static final Logger logger = Logger.getLogger(ManejadorUsuarioBean.class.getName());
     @EJB
     GenericDaoServiceBeanLocal genericDaoBean;
-    @PersistenceContext(unitName = "SistemawebatsEJBPU")
+    @PersistenceContext(unitName = "SistemaLiquidacionesEJBPU")
     private EntityManager em;
 
     /**

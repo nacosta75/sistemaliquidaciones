@@ -25,7 +25,7 @@ import sv.com.diserv.liquidaciones.util.Constants;
 public class GenericDaoServiceBean implements GenericDaoServiceBeanLocal {
 
     Logger logger = Logger.getLogger(GenericDaoServiceBean.class.getName());
-    @PersistenceContext(unitName = "SistemawebatsEJBPU")
+    @PersistenceContext(unitName = "SistemaLiquidacionesEJBPU")
     private EntityManager em;
 
     /**
