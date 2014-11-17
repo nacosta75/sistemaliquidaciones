@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+    <!-- ====================================================== -->
+    <!-- Path to the own error page -->
+    <!-- ====================================================== -->
+    <error-page>
+        <exception-type>java.lang.Throwable
+        </exception-type>
+        <location>/error.zul</location>
+    </error-page>
+    <!-- ====================================================== -->
+    <!-- Path to the character set and sizes -->
+    <!-- Zkoss configuration file -->
+    <!-- Custom components are declared here -->
+    <!-- ====================================================== -->
+    <language-config>
+        <addon-uri>/WEB-INF/lang-addon.xml
+        </addon-uri>
+    </language-config>
+    <!-- ====================================================== -->
+    <!-- Maximal count of desktops which a session can hold -->
+    <!-- ====================================================== -->
+    <session-config>
+        <max-desktops-per-session>10</max-desktops-per-session>
+        <timer-keep-alive>true</timer-keep-alive>
+    </session-config>
+
+    <!-- ====================================================== -->
+    <!-- Displays the wait indicator on every user action -->
+    <!-- and sets the position -->
+    <!-- ====================================================== -->
+    <library-property>
+        <name>org.zkoss.zul.progressbox.position</name>
+        <value>center</value>
+    </library-property>
+    <client-config>
+        <processing-prompt-delay>1</processing-prompt-delay>
+    </client-config>
+
+    <!-- Turn on if you want to ignore the consecutive click events, if it happens
+    too close to the previous one, or the server is still serving the previous
+    click. -->
+    <client-config>
+        <click-filter-delay>390</click-filter-delay>
+    </client-config>
+    <library-property>
+        <name>org.zkoss.zul.Button.mold</name>
+        <value>trendy</value>
+    </library-property>
+
+    <!-- ========================================================== -->
+    <!--                       since 5.0.3                          -->
+    <!--  The default font size is changed to "arial, sans-serif"   -->
+    <!--             Here we set to the old settings                -->
+    <!-- ========================================================== -->
+
+    <library-property>
+        <name>org.zkoss.zul.theme.fontFamilyT</name>
+        <value>Verdana, Tahoma, Arial, Helvetica, sans-serif</value>
+    </library-property>
+    <library-property>
+        <name>org.zkoss.zul.theme.fontFamilyC</name>
+        <value>Verdana, Tahoma, Arial, Helvetica, sans-serif</value>
+    </library-property>
+
+    <!-- ====================================================== -->
+    <!-- Define the font size -->
+    <!-- ====================================================== -->
+
+    <library-property>
+        <name>org.zkoss.zul.theme.fontSizeM
+        </name>
+        <value>10px</value>
+    </library-property>
+    <library-property>
+        <name>org.zkoss.zul.theme.fontSizeS
+        </name>
+        <value>9px</value>
+    </library-property>
+    <library-property>
+        <name>org.zkoss.zul.theme.fontSizeXS
+        </name>
+        <value>8px</value>
+    </library-property>
+    <library-property>
+        <name>org.zkoss.zul.theme.fontSizeMS</name>
+        <value>9px</value>
+    </library-property>
+
+    <session-config>
+        <device-type>ajax</device-type>
+        <automatic-timeout/>
+        <timeout-message>Por razones de seguridad se ha finalizado la sessión tras detectar inactividad por varios minutos, favor vuelva a ingresar al sistema</timeout-message>
+    </session-config>
+    <preference>
+        <name>org.zkoss.zk.ui.WebApp.name</name>
+        <value>..:Sistema Liquidaciones Sifilis:..</value>
+    </preference>
+
+
+</zk>
+

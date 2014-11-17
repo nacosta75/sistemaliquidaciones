@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul
+        http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="buscarUsuariosWindow"
+            border="normal"
+            title="Búsqueda de usuarios"
+            use="sv.com.diserv.liquidaciones.web.ui.usuarios.BuscarUsuariosCtrl"
+            closable="true"
+            width="500px"
+            height="220px"
+            sizable="true"
+            position="center"> 
+        <borderlayout>
+            <north border="none"/>
+            <center flex="true">
+                <panel>
+                    <panelchildren style="padding:5px">
+                        <groupbox id="gbBuscarUsuario" mold="3d" closable="false">
+                            <caption label="Criterios de búsqueda"/>
+                            <grid fixedLayout="true"
+                                  sclass="GridPlain" 
+                                  style="border:0px"
+                                  width="auto">
+                                <columns>
+                                    <column align="left" 
+                                            width="100px" />
+                                    <column width="100%" />
+                                </columns>
+                                <rows>
+                                    <row id="rowCarnetUsuarioBuscar">
+                                        <label value="Carnet:"/>
+                                        <intbox id="intNumeroCarnetBuscar" 
+                                                width="50%"/>
+                                    </row>
+                                    <row id="rowUsuarioBuscar">
+                                        <label value="Usuario:"/>
+                                        <textbox id="txtUsuarioBuscar" 
+                                                 width="90%"/>
+                                    </row>
+                                    <row id="rowNombreUsuarioBuscar">
+                                        <label value="Nombre:" />
+                                        <textbox id="txtNombreBuscar" 
+                                                 width="90%" />
+                                    </row>
+                                </rows>
+                            </grid>
+                        </groupbox>
+                        <separator/>
+                        <div>                           
+                            <grid sclass="GridPlain" >
+                                <rows>
+                                    <row id="rowBotonesBuscarUsuario">
+                                        <hbox align="right">
+                                            <button id="btnBuscarUsuario" 
+                                                    height="30px"
+                                                    image="/images/search.gif"
+                                                    tooltiptext="Buscar usuario"/>
+                                            <button id="btnCerrarBuscaUsuario" 
+                                                    height="30px"
+                                                    image="/images/close.jpg"
+                                                    tooltiptext="Cerrar esta ventana"/>
+                                        </hbox>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </div>   
+                    </panelchildren>                  
+                </panel>                             
+            </center>
+            <south border="none"/>
+        </borderlayout>
+    </window>
+</zk>

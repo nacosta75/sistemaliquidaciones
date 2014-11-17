@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:XMLRootMenu xmlns:ns2="http://www.fiscalia.fgr.gob.sv/menu">
+    <!-- ######################################################### -->
+    <!-- #################### possible Tags ###################### -->
+    <!-- ######################################################### -->
+    <!-- menu:           a parent menu that have child nodes.      -->
+    <!-- menuItem:       the menu item.                            -->
+    <!-- zulNavigation:  the path and name of the zul-file.        -->
+    <!-- iconName:       the path and name to an icon.             -->
+    <!-- rightName:      if it's declared, than the rightname must -->
+    <!--                 be the same as in the securityContext for -->
+    <!--                 creating this menuitem.                   -->
+    <!-- open:           (true/false opens a menu at creation time -->
+    <!-- label:          label to show in view -->
+    <!-- ######################################################### -->
+    <!-- DON'T CHANGE THE ID FOR the Dashboard menu entry -->
+    <!-- it's used in the mainMenuCtrl.java  -->
+    <menuItem id="menu_Item_Home" 
+              label="Menu Inicio"
+              zulNavigation="/WEB-INF/pages/dashboard.zul"
+              iconName="/images/console_view.gif" />
+    <menu id="menu_Administration" 
+          rightName="menu_Administration"
+          open="false"
+          label="Manejo Usuarios"> 
+        <menuItem id="menu_Item_UsuariosRoles"
+                  label="Usuarios - Roles"
+                  iconName="/images/imagenHombre.gif"
+                  zulNavigation="/WEB-INF/xhtml/usuario/listaUsuarios.zul"
+                  rightName="menu_Item_UsuariosRoles"/>      
+        <menuItem id="menu_Item_GruposDerechos"
+                  label="Roles-Permisos"
+                  iconName="/images/user_group_16x16.png"
+                  zulNavigation="/WEB-INF/xhtml/usuario/permisosRoles.zul"
+                  rightName="menu_Item_GruposDerechos"/>
+    </menu>
+    
+     
+</ns2:XMLRootMenu>

@@ -1,0 +1,56 @@
+<?page id="loginTest" title="Agencia Aduanal ATS,El Salvador,CA"?>
+<?link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul
+        http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="loginwin"
+            title="Agencia Aduanal ATS, República El Salvador,CA"
+            border="normal"
+            width="550px"
+            height="350px"
+            position="center"
+            mode="overlapped">
+        <html style="color:red" if="${not empty param.login_error}">
+      <![CDATA[
+        ${SPRING_SECURITY_LAST_EXCEPTION.message}
+       ]]>
+        </html>
+        <h:form id="f" name="f" action="j_spring_security_check"
+                method="POST" xmlns:h="http://www.w3.org/1999/xhtml">
+            <groupbox mold="3d" closable="false">
+                <caption style="font:13px arial,sans-serif;  font-weight: bold;"
+                         label="Ingreso Sistema" />
+                <grid   sclass="GridPlain">
+                    <columns>
+                        <column width="50%" />
+                        <column width="50%" />
+                    </columns>
+                    <rows>
+                        <row>
+                            <hlayout >
+                                <image src="/images/login1.png" width="225px" height="225px" />
+                            </hlayout>
+                            <vlayout>
+                                <label value="Nombre Usuario :"  style="font:13px arial,sans-serif;  font-weight: bold;"/>
+                                <textbox id="u" name="j_username" style="font:13px arial,sans-serif;  font-weight: bold;"/>
+                                <label value="Password :" style="font:13px arial,sans-serif;  font-weight: bold;"/>
+                                <textbox id="p" type="password" name="j_password" style="font:13px arial,sans-serif;  font-weight: bold;"/>
+                                <space />
+                                <hbox>
+                                    <h:input type="submit" value="Entrar" style="font:13px arial,sans-serif;  font-weight: bold;"/>
+                                    <h:input type="reset" value="Limpiar" style="font:13px arial,sans-serif;  font-weight: bold;"/>
+                                </hbox>
+                            </vlayout>
+                        </row>
+                    </rows>
+                </grid>
+                <vlayout>
+                    <label value="Asesoria Tramites y Servicios (ATS)" style="font:12px arial,sans-serif;  " />
+                    <label value="Agente Aduanal Ricardo Hernandez Sanchez - Reservados todos los derechos" style="font:12px arial,sans-serif;   " />
+                </vlayout>
+            </groupbox>
+        </h:form>
+    </window>
+</zk>
