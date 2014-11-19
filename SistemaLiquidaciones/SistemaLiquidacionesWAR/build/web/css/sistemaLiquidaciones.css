@@ -219,20 +219,3 @@ tr.z-row td.z-row-inner {
 .z-tabpanel,.z-tabbox-ver .z-tabpanels-ver {
     border-style: none;
 }
-
-/* --------------------- Popup in Customerlist --------------------- */
-.myPopup .z-popup .z-popup-cm {
-    padding: 0px 0px;
-}
-
-.z-slider-sphere-hor,.z-slider-scale,.z-slider-hor,.z-slider-sphere-hor-center,.z-slider-scale-center,.z-slider-hor-center
-{
-    background: transparent no-repeat 0 top;
-    background-image: url(${  
-        c :     
-        encodeURL('~./zul/img/slider/slider-bg.png')
-}
-
-.z-tabs-header {
-    width: 100%;
-}

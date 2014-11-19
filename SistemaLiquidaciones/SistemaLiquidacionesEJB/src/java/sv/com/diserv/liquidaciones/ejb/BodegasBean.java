@@ -145,32 +145,32 @@ public class BodegasBean implements BodegasBeanLocal {
     public List<Bodegas> buscarBodegaByCriteria(BusquedaBodegaDTO re) throws DiservBusinessException {
         logger.info("[consultarBitacoraFinalizadasParametros]Parametros=" + re.toString());
         List<Bodegas> response = new ArrayList<>();
-        Bodegas cliente;
+        Bodegas bodegas;
         List<String> condiciones = new ArrayList<>();
-        if (re.getIdCliente() != null) {
-            condiciones.add(" UPPER(idCliente) LIKE UPPER('%" + re.getIdCliente() + "%') ");
+        if (re.getIdBodega()!= null) {
+            condiciones.add(" UPPER(idBodega) LIKE UPPER('%" + re.getIdBodega() + "%') ");
         }
-        if (re.getDepartamento() != null) {
-            condiciones.add(" UPPER(departamento) LIKE UPPER('%" + re.getDepartamento() + "%') ");
+        if (re.getCodigo() != null) {
+            condiciones.add(" UPPER(codigo) LIKE UPPER('%" + re.getCodigo() + "%') ");
         }
-        if (re.getEmail() != null) {
-            condiciones.add(" UPPER(emailCliente) LIKE UPPER('%" + re.getEmail() + "%') ");
+        if (re.getNombre() != null) {
+            condiciones.add(" UPPER(nombre) LIKE UPPER('%" + re.getNombre() + "%') ");
         }
-        if (re.getMunicipio() != null) {
-            condiciones.add(" UPPER(municipio) LIKE UPPER('%" + re.getMunicipio() + "%') ");
+        if (re.getDireccion() != null) {
+            condiciones.add(" UPPER(direccion) LIKE UPPER('%" + re.getDireccion() + "%') ");
         }
-        if (re.getNombreCliente() != null) {
-            condiciones.add(" UPPER(nombreCliente) LIKE UPPER('%" + re.getNombreCliente() + "%') ");
+        if (re.getTelefono() != null) {
+            condiciones.add(" UPPER(telefono) LIKE UPPER('%" + re.getTelefono() + "%') ");
         }
-        if (re.getNumeroIva() != null) {
-            condiciones.add(" UPPER(ivaCliente) LIKE UPPER('%" + re.getNumeroIva() + "%') ");
+        if (re.getEncargado() != null) {
+            condiciones.add(" UPPER(encargado) LIKE UPPER('%" + re.getEncargado() + "%') ");
         }
-        if (re.getNumeroNit() != null) {
-            condiciones.add(" UPPER(nitCliente) LIKE UPPER('%" + re.getNumeroNit() + "%') ");
+        if (re.getActiva() != null) {
+            condiciones.add(" UPPER(activa) LIKE UPPER('%" + re.getActiva() + "%') ");
         }
         try {
             StringBuilder sb = new StringBuilder();
-            sb.append(" SELECT * FROM clientes ");
+            sb.append(" SELECT * FROM bodegas ");
             if (!condiciones.isEmpty()) {
                 sb.append(" WHERE ");
                 sb.append(condiciones.get(0));
@@ -179,24 +179,24 @@ public class BodegasBean implements BodegasBeanLocal {
                     sb.append(condiciones.get(i));
                 }
             }
-            sb.append(" ORDER BY idCliente DESC ");
+            sb.append(" ORDER BY idBodega DESC ");
             System.out.println("SQL A EJECUTAR:--> " + sb.toString());
             System.out.println("PARAMETROS RECIBIDOS:-->" + re.toString());
             Query q = em.createNativeQuery(sb.toString());
             List<Object[]> lista = q.getResultList();
             if (lista.size() > 0) {
                 for (Object[] item : lista) {
-//                    cliente = new Clientes();
-//                    cliente.setIdCliente(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
-//                    cliente.setNombreCliente(item[1] != null ? item[1].toString() : "N/D");
-//                    cliente.setIvaCliente(item[2] != null ? item[2].toString() : "N/D");
-//                    cliente.setDireccion(item[3] != null ? item[3].toString() : "N/D");
-//                    cliente.setNitCliente(item[4] != null ? item[4].toString() : "N/D");
-//                    cliente.setMunicipio(item[5] != null ? item[5].toString() : "N/D");
-//                    cliente.setDepartamento(item[6] != null ? item[6].toString() : "N/D");
-//                    cliente.setEmailCliente(item[7] != null ? item[7].toString() : "N/D");
-//                    cliente.setEstadoCliente(item[8] != null ? Boolean.valueOf(item[8].toString()) : false);
-//                    response.add(cliente);
+                    bodegas = new Bodegas();
+                    bodegas.setIdbodega(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                    bodegas.setCodigo(item[1] != null ? item[1].toString() : "N/D");
+                    bodegas.setNombre(item[2] != null ? item[2].toString() : "N/D");
+                    bodegas.setDireccion(item[3] != null ? item[3].toString() : "N/D");
+                    bodegas.setTelefono(item[4] != null ? item[4].toString() : "N/D");
+                    bodegas.setEncargado(item[5] != null ? item[5].toString() : "N/D");
+                   // bodegas.setIdempresa(item[6] != null ? item[6].toString() : "N/D");
+                    bodegas.setActiva(item[7] != null ? item[7].toString() : "N/D");
+                   // cliente.setEstadoCliente(item[8] != null ? Boolean.valueOf(item[8].toString()) : false);
+                    response.add(bodegas);
                 }
             }
         } catch (NoResultException e) {

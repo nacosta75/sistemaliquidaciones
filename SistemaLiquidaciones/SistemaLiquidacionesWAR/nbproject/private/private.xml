@@ -10,5 +10,10 @@
             <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesWAR/src/java/sv/com/diserv/liquidaciones/web/ui/usuarios/renderer/UsuarioItemRendered.java</file>
             <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/login.zul</file>
         </group>
+        <group name="pruebas">
+            <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/error.zul</file>
+            <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/src/java/sv/com/diserv/liquidaciones/web/ui/bodegas/BuscarBodegaCtrll.java</file>
+            <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/index.jsp</file>
+        </group>
     </open-files>
 </project-private>

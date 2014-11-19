@@ -5,31 +5,32 @@ import org.zkoss.zk.ui.sys.ComponentsCtrl;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
-import sv.com.ats.business.entity.Clientes;
+import sv.com.diserv.liquidaciones.entity.Bodegas;
+
 
 public class BodegaItemRenderer implements ListitemRenderer {
 
-    Clientes cliente;
+    Bodegas bodega;
 
     @Override
     public void render(Listitem item, Object data) throws Exception {
-        cliente = (Clientes) data;
-        Listcell lc = new Listcell(String.valueOf(cliente.getIdCliente()));
-        lc.setParent(item);
+        bodega = (Bodegas) data;
+        Listcell lb = new Listcell(String.valueOf(bodega.getIdbodega()));
+        lb.setParent(item);
 
-        lc = new Listcell(String.valueOf(cliente.getNombreCliente()));
-        lc.setParent(item);
+        lb = new Listcell(String.valueOf(bodega.getNombre()));
+        lb.setParent(item);
 
-        lc = new Listcell(cliente.getIvaCliente());
-        lc.setParent(item);
-
-        lc = new Listcell(cliente.getNitCliente());
-        lc.setParent(item);
+//        lb = new Listcell(bodega.getIvaBodega());
+//        lb.setParent(item);
+//
+//        lb = new Listcell(bodega.getNitBodega());
+//        lb.setParent(item);
 
         item.setAttribute("data", data);
 
-        ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedCliente");
-        ComponentsCtrl.applyForward(item, "onClick=onClickedCliente");
+        ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedBodega");
+        ComponentsCtrl.applyForward(item, "onClick=onClickedBodega");
 
     }
 }

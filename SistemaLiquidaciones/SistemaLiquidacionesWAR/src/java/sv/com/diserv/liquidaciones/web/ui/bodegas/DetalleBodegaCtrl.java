@@ -10,52 +10,61 @@ import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+import sv.com.diserv.liquidaciones.dto.OperacionesBodegaDTO;
+import sv.com.diserv.liquidaciones.ejb.BodegasBeanLocal;
+import sv.com.diserv.liquidaciones.entity.Bodegas;
+import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
+import sv.com.diserv.liquidaciones.exception.DiservWebException;
+import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
+import sv.com.diserv.liquidaciones.util.Constants;
+import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.liquidaciones.web.ui.usuarios.util.BaseController;
+import sv.com.diserv.liquidaciones.web.ui.usuarios.util.MensajeMultilinea;
 
 public class DetalleBodegaCtrl extends BaseController {
 
     private static final Logger logger = Logger.getLogger(DetalleBodegaCtrl.class.getName());
     private static final long serialVersionUID = -546886879998950467L;
-    protected Window detalleClienteWindow;
-    protected Intbox txtIdCliente;
-    protected Textbox txtNombreCliente;
+    protected Window detalleBodegasWindow;
+    protected Intbox txtIdBodegas;
+    protected Textbox txtNombreBodegas;
     protected Textbox txtDireccion;
     protected Textbox txtNumeroNit;
     protected Textbox txtRegistroIva;
     protected Textbox txtCorreoElectronico;
     protected Textbox txtDepartamento;
     protected Textbox txtMunicipio;
-    protected Checkbox checkEstadoCliente;
+    protected Checkbox checkEstadoBodegas;
     protected Button btnActualizar;
     protected Button btnNuevo;
     protected Button btnEditar;
     protected Button btnGuardar;
     protected Button btnCerrar;
-    private Clientes clienteSelected;
-    private ListaBodegaCtrl listaClientesCtrl;
+    private Bodegas bodegaSelected;
+    private ListaBodegaCtrl listaBodegasCtrl;
     private transient Integer token;
-    private ClienteBeanLocal clienteBean;
+    private BodegasBeanLocal bodegaBean;
     private ServiceLocator serviceLocator;
-    private OperacionesClienteDTO responseOperacion;
-    private List<Clientes> listaClientesLike;
+    private OperacionesBodegaDTO responseOperacion;
+    private List<Bodegas> listaBodegasLike;
 
     public DetalleBodegaCtrl() {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
-            clienteBean = serviceLocator.getService(Constants.JNDI_CLIENTE_BEAN);
+            bodegaBean = serviceLocator.getService(Constants.JNDI_BODEGA_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
         }
     }
 
-    public void onCreate$detalleClienteWindow(Event event) throws Exception {
-        doOnCreateCommon(this.detalleClienteWindow, event);
+    public void onCreate$detalleBodegasWindow(Event event) throws Exception {
+        doOnCreateCommon(this.detalleBodegasWindow, event);
         MensajeMultilinea.doSetTemplate();
-        if (this.args.containsKey("clienteSelected")) {
-            clienteSelected = ((Clientes) this.args.get("clienteSelected"));
-            setClienteSelected(clienteSelected);
+        if (this.args.containsKey("bodegaSelected")) {
+            bodegaSelected = ((Bodegas) this.args.get("bodegaSelected"));
+            setBodegasSelected(bodegaSelected);
         }
         if (this.args.containsKey("token")) {
             this.token = ((Integer) this.args.get("token"));
@@ -63,32 +72,32 @@ public class DetalleBodegaCtrl extends BaseController {
         } else {
             setToken(Integer.valueOf(0));
         }
-        if (this.args.containsKey("listaClienteCtrl")) {
-            listaClientesCtrl = ((ListaBodegaCtrl) this.args.get("listaClienteCtrl"));
+        if (this.args.containsKey("listaBodegasCtrl")) {
+            listaBodegasCtrl = ((ListaBodegaCtrl) this.args.get("listaBodegasCtrl"));
         }
         checkPermisos();
-        showDetalleCliente();
+        showDetalleBodegas();
     }
 
-    public void showDetalleCliente() {
+    public void showDetalleBodegas() {
         try {
-            if (clienteSelected != null) {
+            if (bodegaSelected != null) {
                 doReadOnly(Boolean.TRUE);
                 doEditButton();
                 loadDataFromEntity();
-//            if (cliente.getIdCliente().intValue() >= 1) {
-//                this.listBoxOrdentrabajoClientes.setModel(new ListModelList(
-//                        this.ordentrabajoDao.buscarOrdenesPorcliente(
-//                        cliente.getIdCliente())));
-//                this.listBoxOrdentrabajoClientes.setItemRenderer(new ClientesOrdentrabajoListModelItemRenderer());
-//                this.panel_tramites_cliente.setTitle(
-//                        "Ultimos tramites del cliente :"
-//                        + cliente.getNombreCliente());
+//            if (bodega.getIdBodegas().intValue() >= 1) {
+//                this.listBoxOrdentrabajoBodegas.setModel(new ListModelList(
+//                        this.ordentrabajoDao.buscarOrdenesPorbodega(
+//                        bodega.getIdBodegas())));
+//                this.listBoxOrdentrabajoBodegas.setItemRenderer(new BodegasOrdentrabajoListModelItemRenderer());
+//                this.panel_tramites_bodega.setTitle(
+//                        "Ultimos tramites del bodega :"
+//                        + bodega.getNombreBodegas());
 //            }
             } else {
                 doNew();
             }
-            detalleClienteWindow.doModal();
+            detalleBodegasWindow.doModal();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,52 +108,52 @@ public class DetalleBodegaCtrl extends BaseController {
      */
     private void loadDataFromEntity() {
         txtCorreoElectronico.setValue("testing");
-        txtDepartamento.setValue(clienteSelected.getDepartamento());
-        txtDireccion.setValue(clienteSelected.getDireccion());
-        txtIdCliente.setValue(clienteSelected.getIdCliente());
-        txtMunicipio.setValue(clienteSelected.getMunicipio());
-        txtNombreCliente.setText(clienteSelected.getNombreCliente());
-        txtNumeroNit.setValue(clienteSelected.getNitCliente());
-        txtRegistroIva.setValue(clienteSelected.getIvaCliente());
-        txtCorreoElectronico.setValue(clienteSelected.getEmailCliente());
-        checkEstadoCliente.setChecked(clienteSelected.getEstadoCliente() != null ? clienteSelected.getEstadoCliente() : false);
+        txtDepartamento.setValue(bodegaSelected.getEncargado());
+        txtDireccion.setValue(bodegaSelected.getDireccion());
+        txtIdBodegas.setValue(bodegaSelected.getIdbodega());
+        txtMunicipio.setValue(bodegaSelected.getTelefono());
+        txtNombreBodegas.setText(bodegaSelected.getNombre());
+        txtNumeroNit.setValue(bodegaSelected.getCodigo());
+     //   txtRegistroIva.setValue(bodegaSelected.getIvaBodegas());
+      //  txtCorreoElectronico.setValue(bodegaSelected.getEmailBodegas());
+        checkEstadoBodegas.setChecked((boolean) (bodegaSelected.getActiva() != null ? bodegaSelected.getActiva() : false));
     }
 
     private void loadDataFromTextboxs() {
         try {
-            clienteSelected = new Clientes();
+            bodegaSelected = new Bodegas();
             //validamos los campos
             if (StringUtils.isEmpty(txtDepartamento.getValue())) {
-                throw new AtsWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar departamento cliente");
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar departamento bodega");
             }
             if (StringUtils.isEmpty(txtDireccion.getValue())) {
-                throw new AtsWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar dirección para cliente");
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar dirección para bodega");
             }
             if (StringUtils.isEmpty(txtMunicipio.getValue())) {
-                throw new AtsWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar municipio cliente");
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar municipio bodega");
             }
-            if (StringUtils.isEmpty(txtNombreCliente.getValue())) {
-                throw new AtsWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar  Nombre Cliente cliente");
+            if (StringUtils.isEmpty(txtNombreBodegas.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar  Nombre Bodegas bodega");
             }
             if (StringUtils.isEmpty(txtNumeroNit.getValue())) {
-                throw new AtsWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   Numero Nit  para  cliente");
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   Numero Nit  para  bodega");
             }
             if (StringUtils.isEmpty(txtRegistroIva.getValue())) {
-                throw new AtsWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   registro iva para cliente");
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   registro iva para bodega");
             }
-            if (checkEstadoCliente.isChecked()) {
-                clienteSelected.setEstadoCliente(checkEstadoCliente.isChecked());
+            if (checkEstadoBodegas.isChecked()) {
+                bodegaSelected.setActiva("S");
             }
-            clienteSelected.setDepartamento(txtDepartamento.getValue());
-            clienteSelected.setDireccion(txtDireccion.getValue());
-            clienteSelected.setIdCliente(txtIdCliente.getValue());
-            clienteSelected.setMunicipio(txtMunicipio.getValue());
-            clienteSelected.setNombreCliente(txtNombreCliente.getValue());
-            clienteSelected.setNitCliente(txtNumeroNit.getValue());
-            clienteSelected.setIvaCliente(txtRegistroIva.getValue());
-            clienteSelected.setEmailCliente(txtCorreoElectronico.getValue());
-            clienteSelected.setEstadoCliente(checkEstadoCliente.isChecked());
-        } catch (AtsWebException ex) {
+            //bodegaSelected.setDepartamento(txtDepartamento.getValue());
+            bodegaSelected.setDireccion(txtDireccion.getValue());
+            bodegaSelected.setIdbodega(txtIdBodegas.getValue());
+            bodegaSelected.setEncargado(txtMunicipio.getValue());
+            bodegaSelected.setNombre(txtNombreBodegas.getValue());
+            bodegaSelected.setCodigo(txtNumeroNit.getValue());
+            //bodegaSelected.setIvaBodegas(txtRegistroIva.getValue());
+            //bodegaSelected.setEmailBodegas(txtCorreoElectronico.getValue());
+            //bodegaSelected.setTelefono(checkEstadoBodegas.isChecked());
+        } catch (DiservWebException ex) {
             MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
         }
 
@@ -154,20 +163,20 @@ public class DetalleBodegaCtrl extends BaseController {
         try {
             if (getToken().intValue() > 0) {
                 loadDataFromTextboxs();
-                responseOperacion = clienteBean.guardarCliente(clienteSelected);
+                responseOperacion = bodegaBean.guardarBodega(bodegaSelected);
                 if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id cliente:" + responseOperacion.getCliente().getIdCliente(), Constants.MENSAJE_TIPO_INFO);
-                    clienteSelected = responseOperacion.getCliente();
+                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id bodega:" + responseOperacion.getBodega().getIdbodega(), Constants.MENSAJE_TIPO_INFO);
+                    bodegaSelected = responseOperacion.getBodega();
                     loadDataFromEntity();
                     doReadOnly(Boolean.TRUE);
                     doEditButton();
-                    listaClientesCtrl.refreshModel(0);
+                    listaBodegasCtrl.refreshModel(0);
                 } else {
                     MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }
                 setToken(0);
             } else if (getToken().intValue() == 0) {
-                throw new AtsWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar el mismo cliente dos veces, por seguridad solo se proceso una vez ");
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar el mismo bodega dos veces, por seguridad solo se proceso una vez ");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -194,29 +203,29 @@ public class DetalleBodegaCtrl extends BaseController {
         this.btnActualizar.setVisible(false);
     }
 
-    public void onBlur$txtNombreCliente(Event event) throws AtsWebException {
+    public void onBlur$txtNombreBodegas(Event event) throws DiservWebException, DiservBusinessException {
         try {
-            if (StringUtils.isEmpty(txtNombreCliente.getValue())) {
-                throw new AtsWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar nombre cliente");
+            if (StringUtils.isEmpty(txtNombreBodegas.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar nombre bodega");
             }
-            listaClientesLike = clienteBean.loadAllClienteByLike(txtNombreCliente.getValue());
-            if (listaClientesLike.size() > 0) {
-                throw new AtsWebException(Constants.CODE_OPERATION_FALLIDA, "Ya existe un cliente con un nombre similar:\n" + listaClientesLike.get(0).getNombreCliente() + "\nId Cliente:" + listaClientesLike.get(0).getIdCliente());
+            listaBodegasLike = bodegaBean.loadAllBodegasByLike(txtNombreBodegas.getValue());
+            if (listaBodegasLike.size() > 0) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Ya existe un bodega con un nombre similar:\n" + listaBodegasLike.get(0).getNombre() + "\nId Bodegas:" + listaBodegasLike.get(0).getIdbodega());
             }
-        } catch (AtsWebException web) {
+        } catch (DiservWebException web) {
             MensajeMultilinea.show(web.getMensaje(), Constants.MENSAJE_TIPO_ALERTA);
-        } catch (AtsBusinessException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     private void doClose() {
-        this.detalleClienteWindow.onClose();
+        this.detalleBodegasWindow.onClose();
     }
 
     public void onDoubleClicked(Event event) throws Exception {
     logger.info("[onDoubleClicked]");
-//        Listitem item = this.listBoxOrdentrabajoClientes.getSelectedItem();
+//        Listitem item = this.listBoxOrdentrabajoBodegas.getSelectedItem();
 //
 //        if (item != null) {
 //            Ordentrabajo ordentrabajo = (Ordentrabajo) item.getAttribute("data");
@@ -224,7 +233,7 @@ public class DetalleBodegaCtrl extends BaseController {
 //            HashMap map = new HashMap();
 //            map.put("ordentrabajo", ordentrabajo);
 //
-//            map.put("lbOrdentabajo", this.listBoxOrdentrabajoClientes);
+//            map.put("lbOrdentabajo", this.listBoxOrdentrabajoBodegas);
 //            map.put("ordentrabajoCtrl", getOrdencontroller());
 //
 //            Executions.createComponents("/html/ordentrabajo/detalleordentrabajo.zul",
@@ -238,7 +247,7 @@ public class DetalleBodegaCtrl extends BaseController {
         this.btnGuardar.setVisible(true);
         this.btnCerrar.setVisible(true);
         this.btnActualizar.setVisible(false);
-        this.checkEstadoCliente.setChecked(Boolean.FALSE);
+        this.checkEstadoBodegas.setChecked(Boolean.FALSE);
         this.btnEditar.setVisible(false);
         this.btnNuevo.setVisible(false);
     }
@@ -256,7 +265,7 @@ public class DetalleBodegaCtrl extends BaseController {
         txtDepartamento.setReadonly(opt);
         txtDireccion.setReadonly(opt);
         txtMunicipio.setReadonly(opt);
-        txtNombreCliente.setReadonly(opt);
+        txtNombreBodegas.setReadonly(opt);
         txtNumeroNit.setReadonly(opt);
         txtRegistroIva.setReadonly(opt);
     }
@@ -265,39 +274,39 @@ public class DetalleBodegaCtrl extends BaseController {
         txtCorreoElectronico.setValue(null);
         txtDepartamento.setValue(null);
         txtDireccion.setValue(null);
-        txtIdCliente.setValue(null);
+        txtIdBodegas.setValue(null);
         txtMunicipio.setValue(null);
-        txtNombreCliente.setValue(null);
+        txtNombreBodegas.setValue(null);
         txtNumeroNit.setValue(null);
         txtRegistroIva.setValue(null);
-        txtNombreCliente.setFocus(true);
+        txtNombreBodegas.setFocus(true);
     }
 
     public void doActualizar() {
         loadDataFromTextboxs();
         try {
-            responseOperacion = clienteBean.actualizarCliente(clienteSelected);
+            responseOperacion = bodegaBean.actualizarBodega(bodegaSelected);
             if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id cliente:" + responseOperacion.getCliente().getIdCliente(), Constants.MENSAJE_TIPO_INFO);
-                clienteSelected = responseOperacion.getCliente();
+                MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id bodega:" + responseOperacion.getBodega().getIdbodega(), Constants.MENSAJE_TIPO_INFO);
+                bodegaSelected = responseOperacion.getBodega();
                 loadDataFromEntity();
                 doReadOnly(Boolean.TRUE);
                 doEditButton();
-                listaClientesCtrl.refreshModel(Constants.PAGINA_INICIO_DEFAULT);
+                listaBodegasCtrl.refreshModel(Constants.PAGINA_INICIO_DEFAULT);
             } else {
                 MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
             }
-        } catch (AtsBusinessException bex) {
+        } catch (Exception bex) {
             bex.printStackTrace();
             logger.severe(_zclass);
             MensajeMultilinea.show(bex.toString(), Constants.MENSAJE_TIPO_ERROR);
 
         }
-//        ListModelList lml = (ListModelList) getLbCliente().getListModel();
-//        if (lml.indexOf(cliente) == -1) {
-//            lml.add(cliente);
+//        ListModelList lml = (ListModelList) getLbBodegas().getListModel();
+//        if (lml.indexOf(bodega) == -1) {
+//            lml.add(bodega);
 //        } else {
-//            lml.set(lml.indexOf(cliente), cliente);
+//            lml.set(lml.indexOf(bodega), bodega);
 //        }
         doReadOnly(Boolean.TRUE);
         doEditButton();
@@ -322,27 +331,27 @@ public class DetalleBodegaCtrl extends BaseController {
         this.token = token;
     }
 
-    public Clientes getClienteSelected() {
-        return clienteSelected;
+    public Bodegas getBodegasSelected() {
+        return bodegaSelected;
     }
 
-    public void setClienteSelected(Clientes clienteSelected) {
-        this.clienteSelected = clienteSelected;
+    public void setBodegasSelected(Bodegas bodegaSelected) {
+        this.bodegaSelected = bodegaSelected;
     }
 
-    public ListaBodegaCtrl getListaClientesCtrl() {
-        return listaClientesCtrl;
+    public ListaBodegaCtrl getListaBodegasCtrl() {
+        return listaBodegasCtrl;
     }
 
-    public void setListaClientesCtrl(ListaBodegaCtrl listaClientesCtrl) {
-        this.listaClientesCtrl = listaClientesCtrl;
+    public void setListaBodegasCtrl(ListaBodegaCtrl listaBodegasCtrl) {
+        this.listaBodegasCtrl = listaBodegasCtrl;
     }
 
-    public List<Clientes> getListaClientesLike() {
-        return listaClientesLike;
+    public List<Bodegas> getListaBodegasLike() {
+        return listaBodegasLike;
     }
 
-    public void setListaClientesLike(List<Clientes> listaClientesLike) {
-        this.listaClientesLike = listaClientesLike;
+    public void setListaBodegasLike(List<Bodegas> listaBodegasLike) {
+        this.listaBodegasLike = listaBodegasLike;
     }
 }

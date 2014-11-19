@@ -15,69 +15,72 @@ import java.io.Serializable;
  * @author edwin.alvarenga
  */
 public class BusquedaBodegaDTO implements Serializable {
-    private Integer idCliente;
-    private String nombreCliente;
-    private String numeroNit;
-    private String numeroIva;
-    private String departamento;
-    private String municipio;
-    private String email;
+    
+    
+    private Integer idBodega;
+    private String nombre;
+    private String direccion;
+    private String telefono;
+    private String encargado;
+    private String activa;
+    private String codigo;
 
-    public Integer getIdCliente() {
-        return idCliente;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
-    public String getNombreCliente() {
-        return nombreCliente;
+    public Integer getIdBodega() {
+        return idBodega;
     }
 
-    public void setNombreCliente(String nombreCliente) {
-        this.nombreCliente = nombreCliente;
+    public void setIdBodega(Integer idBodega) {
+        this.idBodega = idBodega;
     }
 
-    public String getNumeroNit() {
-        return numeroNit;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNumeroNit(String numeroNit) {
-        this.numeroNit = numeroNit;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getNumeroIva() {
-        return numeroIva;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setNumeroIva(String numeroIva) {
-        this.numeroIva = numeroIva;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public String getDepartamento() {
-        return departamento;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setDepartamento(String departamento) {
-        this.departamento = departamento;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
-    public String getMunicipio() {
-        return municipio;
+    public String getEncargado() {
+        return encargado;
     }
 
-    public void setMunicipio(String municipio) {
-        this.municipio = municipio;
+    public void setEncargado(String encargado) {
+        this.encargado = encargado;
     }
 
-    public String getEmail() {
-        return email;
+    public String getActiva() {
+        return activa;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setActiva(String activa) {
+        this.activa = activa;
     }
+    
     
     
 }

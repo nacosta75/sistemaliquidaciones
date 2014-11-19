@@ -59,7 +59,7 @@ public class Bodegas implements Serializable {
     @Column(name = "ENCARGADO", length = 60)
     private String encargado;
     @Column(name = "ACTIVA")
-    private Character activa;
+    private String activa;
     @JoinColumn(name = "IDEMPRESA", referencedColumnName = "IDEMPRESA", nullable = false)
     @ManyToOne(optional = false)
     private Empresas idempresa;
@@ -124,11 +124,11 @@ public class Bodegas implements Serializable {
         this.encargado = encargado;
     }
 
-    public Character getActiva() {
+    public String getActiva() {
         return activa;
     }
 
-    public void setActiva(Character activa) {
+    public void setActiva(String activa) {
         this.activa = activa;
     }
 

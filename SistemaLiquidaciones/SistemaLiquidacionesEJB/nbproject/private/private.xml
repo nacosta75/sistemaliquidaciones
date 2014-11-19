@@ -8,5 +8,9 @@
             <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesEJB/src/java/sv/com/diserv/liquidaciones/ejb/GenericDaoServiceBeanLocal.java</file>
             <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesEJB/src/java/sv/com/diserv/liquidaciones/ejb/ManejadorUsuarioBeanLocal.java</file>
         </group>
+        <group name="pruebas">
+            <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesEJB/src/conf/persistence.xml</file>
+            <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesEJB/src/java/sv/com/diserv/liquidaciones/util/Constants.java</file>
+        </group>
     </open-files>
 </project-private>

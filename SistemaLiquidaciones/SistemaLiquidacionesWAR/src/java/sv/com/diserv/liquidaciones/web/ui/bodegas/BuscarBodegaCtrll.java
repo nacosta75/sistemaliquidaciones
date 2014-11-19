@@ -20,45 +20,54 @@ import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+import sv.com.diserv.liquidaciones.dto.BusquedaBodegaDTO;
+import sv.com.diserv.liquidaciones.ejb.BodegasBeanLocal;
+import sv.com.diserv.liquidaciones.entity.Bodegas;
+import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
+import sv.com.diserv.liquidaciones.util.Constants;
+import sv.com.diserv.liquidaciones.util.ServiceLocator;
+import static sv.com.diserv.liquidaciones.web.ui.bodegas.ListaBodegaCtrl.logger;
+import sv.com.diserv.liquidaciones.web.ui.usuarios.util.BaseController;
+import sv.com.diserv.liquidaciones.web.ui.usuarios.util.MensajeMultilinea;
 
 public class BuscarBodegaCtrll extends BaseController {
 
     private static final long serialVersionUID = -6102616129515843465L;
     private static final transient Logger logger = Logger.getLogger(BuscarBodegaCtrll.class);
-    protected Window busquedaClienteWindow;
-    protected Intbox txtIdCliente;
-    protected Textbox txtNombreCliente;
+    protected Window busquedaBodegaWindow;
+    protected Intbox txtIdBodega;
+    protected Textbox txtNombreBodega;
     protected Textbox txtNumeroNit;
     protected Textbox txtRegistroIva;
     protected Textbox txtCorreoElectronico;
     protected Textbox txtDepartamento;
     protected Textbox txtMunicipio;
-    private BusquedaClienteDTO request;
-    private ClienteBeanLocal clienteBean;
+    private BusquedaBodegaDTO request;
+    private BodegasBeanLocal bodegaBean;
     private ServiceLocator serviceLocator;
-    private ListaBodegaCtrl listaClienteCtrl;
-    private List<Clientes> listaClientes;
+    private ListaBodegaCtrl listaBodegaCtrl;
+    private List<Bodegas> listaBodegas;
 
-    public BuscarBodegaCtrll() {
+    public BuscarBodegaCtrll(){
 
-        logger.info("[BuscarClienteController]");
+        logger.info("[BuscarBodegaCtrll]");
         try {
             serviceLocator = ServiceLocator.getInstance();
-            clienteBean = serviceLocator.getService(Constants.JNDI_CLIENTE_BEAN);
+            bodegaBean = serviceLocator.getService(Constants.JNDI_BODEGA_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.error(ex.getLocalizedMessage());
             ex.printStackTrace();
         }
     }
 
-    public void onCreate$busquedaClienteWindow(Event event)
+    public void onCreate$busquedaBodegaWindow(Event event)
             throws Exception {
         if (logger.isDebugEnabled()) {
             logger.debug("--> " + event.toString());
         }
-        doOnCreateCommon(this.busquedaClienteWindow, event);
-        if (this.args.containsKey("listaClienteCtrl")) {
-            listaClienteCtrl = ((ListaBodegaCtrl) this.args.get("listaClienteCtrl"));
+        doOnCreateCommon(this.busquedaBodegaWindow, event);
+        if (this.args.containsKey("listaBodegaCtrl")) {
+            listaBodegaCtrl = ((ListaBodegaCtrl) this.args.get("listaBodegaCtrl"));
         }
         MensajeMultilinea.doSetTemplate();
         showBuscarClinteWindow();
@@ -80,13 +89,13 @@ public class BuscarBodegaCtrll extends BaseController {
     }
 
     private void doClose() {
-        this.busquedaClienteWindow.onClose();
+        this.busquedaBodegaWindow.onClose();
     }
 
     private void showBuscarClinteWindow()
             throws InterruptedException {
         try {
-            this.busquedaClienteWindow.doModal();
+            this.busquedaBodegaWindow.doModal();
         } catch (Exception e) {
             MensajeMultilinea.show(e.toString(), Constants.MENSAJE_TIPO_ERROR);
 
@@ -95,29 +104,30 @@ public class BuscarBodegaCtrll extends BaseController {
 
     public void doBuscar() {
         try {
-            request = new BusquedaClienteDTO();
-            if (StringUtils.isEmpty(txtIdCliente.getText())) {
-                request.setIdCliente(txtIdCliente.getValue());
+            request = new BusquedaBodegaDTO();
+            if (StringUtils.isEmpty(txtIdBodega.getText())) {
+                request.setIdBodega(txtIdBodega.getValue());
             }
-            if (StringUtils.isNotEmpty(txtNombreCliente.getValue())) {
-                request.setNombreCliente(txtNombreCliente.getValue().toUpperCase());
+            if (StringUtils.isNotEmpty(txtNombreBodega.getValue())) {
+                request.setNombre(txtNombreBodega.getValue().toUpperCase());
             }
             if (StringUtils.isNotEmpty(txtRegistroIva.getValue())) {
-                request.setNumeroIva(txtRegistroIva.getValue());
+                request.setDireccion(txtRegistroIva.getValue());
             }
             if (StringUtils.isNotEmpty(txtDepartamento.getValue())) {
-                request.setDepartamento(txtDepartamento.getValue());
+                request.setEncargado(txtDepartamento.getValue());
             }
             if (StringUtils.isNotEmpty(txtMunicipio.getValue())) {
-                request.setMunicipio(txtMunicipio.getValue());
+                request.setTelefono(txtMunicipio.getValue());
             }
-            listaClientes = clienteBean.buscarClientesByCriteria(request);
-            if (!listaClientes.isEmpty()) {
-                listaClienteCtrl.setTotalClientes(listaClientes.size());
-                listaClienteCtrl.getListBoxCliente().setModel(new ListModelList(listaClientes));
-                listaClienteCtrl.getListBoxCliente().setItemRenderer(new ClienteItemRenderer());
+            listaBodegas = bodegaBean.buscarBodegaByCriteria(request);
+            
+            if (!listaBodegas.isEmpty()) {
+                listaBodegaCtrl.setTotalBodegas(listaBodegas.size());
+                listaBodegaCtrl.getListBoxBodega().setModel(new ListModelList(listaBodegas));
+       //         listaBodegaCtrl.getListBoxBodega().setItemRenderer(new BodegaItemRenderer());
             } else {
-                listaClienteCtrl.getListBoxCliente().setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
+                listaBodegaCtrl.getListBoxBodega().setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
                 MensajeMultilinea.show("No se encontraron clientes con los criterios ingresados", Constants.MENSAJE_TIPO_ALERTA);
             }
         } catch (Exception e) {
@@ -127,27 +137,27 @@ public class BuscarBodegaCtrll extends BaseController {
 
     }
 
-    public BusquedaClienteDTO getRequest() {
+    public BusquedaBodegaDTO getRequest() {
         return request;
     }
 
-    public void setRequest(BusquedaClienteDTO request) {
+    public void setRequest(BusquedaBodegaDTO request) {
         this.request = request;
     }
 
-    public ListaBodegaCtrl getListaClienteCtrl() {
-        return listaClienteCtrl;
+    public ListaBodegaCtrl getListaBodegaCtrl() {
+        return listaBodegaCtrl;
     }
 
-    public void setListaClienteCtrl(ListaBodegaCtrl listaClienteCtrl) {
-        this.listaClienteCtrl = listaClienteCtrl;
+    public void setListaBodegaCtrl(ListaBodegaCtrl listaBodegaCtrl) {
+        this.listaBodegaCtrl = listaBodegaCtrl;
     }
 
-    public List<Clientes> getListaClientes() {
-        return listaClientes;
+    public List<Bodegas> getListaBodegas() {
+        return listaBodegas;
     }
 
-    public void setListaClientes(List<Clientes> listaClientes) {
-        this.listaClientes = listaClientes;
+    public void setListaBodegas(List<Bodegas> listaBodegas) {
+        this.listaBodegas = listaBodegas;
     }
 }

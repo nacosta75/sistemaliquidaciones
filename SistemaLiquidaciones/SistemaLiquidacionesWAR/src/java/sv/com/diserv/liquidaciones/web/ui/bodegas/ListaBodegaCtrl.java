@@ -28,35 +28,43 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.event.PagingEvent;
+import sv.com.diserv.liquidaciones.ejb.BodegasBeanLocal;
+import sv.com.diserv.liquidaciones.entity.Bodegas;
+import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
+import sv.com.diserv.liquidaciones.util.Constants;
+import sv.com.diserv.liquidaciones.util.ServiceLocator;
+import sv.com.diserv.liquidaciones.util.UtilFormat;
+import sv.com.diserv.liquidaciones.web.ui.bodegas.rendered.BodegaItemRenderer;
 import sv.com.diserv.liquidaciones.web.ui.usuarios.util.BaseController;
+import sv.com.diserv.liquidaciones.web.ui.usuarios.util.MensajeMultilinea;
 
 public class ListaBodegaCtrl extends BaseController {
 
     static final Logger logger = Logger.getLogger(ListaBodegaCtrl.class.getCanonicalName());
-    protected Window listaClienteWindow;
-    protected Button btnNuevoCliente;
-    protected Button btnBusquedaCliente;
+    protected Window listaBodegaWindow;
+    protected Button btnNuevoBodega;
+    protected Button btnBusquedaBodega;
     protected Button btnRefresh;
-    protected Paging pagingCliente;
-    protected Listbox listBoxCliente;
-    protected Listheader listheaderIdCliente;
-    protected Listheader listheaderNombreCliente;
-    protected Listheader listheaderClienteRegistroIva;
-    protected Listheader listheaderClienteNumeroNit;
-    protected Listbox listBoxListaTramiteCliente;
+    protected Paging pagingBodega;
+    protected Listbox listBoxBodega;
+    protected Listheader listheaderIdBodega;
+    protected Listheader listheaderNombreBodega;
+    protected Listheader listheaderBodegaRegistroIva;
+    protected Listheader listheaderBodegaNumeroNit;
+    protected Listbox listBoxListaTramiteBodega;
     protected Listheader listheaderIdOrdentrabajo;
     protected Listheader listheaderFechaOrdentrabajo;
     protected Listheader listheaderEstadoTramite;
     protected Listheader listheaderAduanaTramite;
     //contadores pagina
-    private Integer totalClientes;
+    private Integer totalBodegas;
     private Integer numeroPaginInicio = 1;
     private ServiceLocator serviceLocator;
-    private ClienteBeanLocal clienteBean;
-    private List<Clientes> listaClientes;
-    private Clientes clienteSelected;
-    private OrdenTrabajoBeanLocal ordentrabajoBean;
-    private List<Ordentrabajo> listaOrdenesCliente;
+    private BodegasBeanLocal bodegaBean;
+    private List<Bodegas> listaBodegas;
+    private Bodegas bodegaSelected;
+    //private OrdenTrabajoBeanLocal ordentrabajoBean;
+    //private List<Ordentrabajo> listaOrdenesBodega;
 
     /**
      * default constructor.<br>
@@ -65,8 +73,8 @@ public class ListaBodegaCtrl extends BaseController {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
-            ordentrabajoBean = serviceLocator.getService(Constants.JNDI_ORDENTRABAJO_BEAN);
-            clienteBean = serviceLocator.getService(Constants.JNDI_CLIENTE_BEAN);
+            //ordentrabajoBean = serviceLocator.getService(Constants.JNDI_ORDENTRABAJO_BEAN);
+            bodegaBean = serviceLocator.getService(Constants.JNDI_BODEGA_BEAN);
             numeroPaginInicio = 0;
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
@@ -74,22 +82,22 @@ public class ListaBodegaCtrl extends BaseController {
         }
     }
 
-    public void onCreate$listaClienteWindow(Event event) throws Exception {
-        logger.log(Level.INFO, "[onCreate$listaClienteWindow]Event:{0}", event.toString());
-        totalClientes = clienteBean.countAllCliente();
+    public void onCreate$listaBodegaWindow(Event event) throws Exception {
+        logger.log(Level.INFO, "[onCreate$listaBodegaWindow]Event:{0}", event.toString());
+        totalBodegas = bodegaBean.countAllBodegas();
         MensajeMultilinea.doSetTemplate();
 
 
-        if (totalClientes != null) {
-            setTotalClientes(totalClientes);
+        if (totalBodegas != null) {
+            setTotalBodegas(totalBodegas);
         } else {
-            logger.info("[onCreate$listaClienteWindow]No se pudo obtener total registros");
+            logger.info("[onCreate$listaBodegaWindow]No se pudo obtener total registros");
         }
-        pagingCliente.setPageSize(getUserLogin().getRegistrosLista());
-        pagingCliente.setDetailed(true);
+        pagingBodega.setPageSize(getUserLogin().getRegistrosLista());
+        pagingBodega.setDetailed(true);
         refreshModel(numeroPaginInicio);
 //        doCheckPermisos();
-        setOrderListHeaderClientes();
+        setOrderListHeaderBodegas();
         setOrderListHeaderOrdentrabajo();
     }
 
@@ -100,20 +108,20 @@ public class ListaBodegaCtrl extends BaseController {
     }
 
     public void refreshModel(int activePage) {
-        logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Recargar clientes,Pagina activa:{0}", activePage);
+        logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Recargar bodegas,Pagina activa:{0}", activePage);
         try {
-            if (totalClientes > 0) {
-                listaClientes = clienteBean.loadAllCliente(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista());
-                if (listaClientes.size() > 0) {
-                    logger.log(Level.INFO, "Registros cargados=={0}", listaClientes.size());
-                    pagingCliente.setTotalSize(getTotalClientes());
-                    listBoxCliente.setModel(new ListModelList(listaClientes));
-                    listBoxCliente.setItemRenderer(new ClienteItemRenderer());
+            if (totalBodegas > 0) {
+                listaBodegas = bodegaBean.loadAllBodega(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista());
+                if (listaBodegas.size() > 0) {
+                    logger.log(Level.INFO, "Registros cargados=={0}", listaBodegas.size());
+                    pagingBodega.setTotalSize(getTotalBodegas());
+                    listBoxBodega.setModel(new ListModelList(listaBodegas));
+                    listBoxBodega.setItemRenderer(new BodegaItemRenderer());
                 } else {
                     logger.info("No se cargaron registros");
                 }
             } else {
-                listBoxCliente.setEmptyMessage("No se encontraron registros para mostrar");
+                listBoxBodega.setEmptyMessage("No se encontraron registros para mostrar");
             }
         } catch (Exception ex) {
             logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Ocurrio Una exception :{0}", ex.getLocalizedMessage());
@@ -121,25 +129,25 @@ public class ListaBodegaCtrl extends BaseController {
         }
     }
 
-    public void onDoubleClickedCliente(Event event) throws Exception {
-        logger.log(Level.INFO, "[onDoubleClickedCliente]Event:{0}", event.toString());
-        Listitem item = this.listBoxCliente.getSelectedItem();
+    public void onDoubleClickedBodega(Event event) throws Exception {
+        logger.log(Level.INFO, "[onDoubleClickedBodega]Event:{0}", event.toString());
+        Listitem item = this.listBoxBodega.getSelectedItem();
         if (item != null) {
-            Clientes cliente = (Clientes) item.getAttribute("data");
+            Bodegas bodega = (Bodegas) item.getAttribute("data");
             HashMap map = new HashMap();
-            map.put("clienteSelected", cliente);
+            map.put("bodegaSelected", bodega);
             map.put("token", UtilFormat.getToken());
-            map.put("listaClienteCtrl", this);
-            Executions.createComponents("/WEB-INF/xhtml/cliente/detalleCliente.zul", null, map);
+            map.put("listaBodegaCtrl", this);
+            Executions.createComponents("/WEB-INF/xhtml/bodega/detalleBodega.zul", null, map);
         }
     }
 
-    public void onClick$btnNuevoCliente(Event event) throws Exception {
-        logger.log(Level.INFO, "[onClick$btnNuevoCliente]Event:{0}", event.toString());
+    public void onClick$btnNuevoBodega(Event event) throws Exception {
+        logger.log(Level.INFO, "[onClick$btnNuevoBodega]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
-        map.put("listaClienteCtrl", this);
-        Executions.createComponents("/WEB-INF/xhtml/cliente/detalleCliente.zul", null, map);
+        map.put("listaBodegaCtrl", this);
+        Executions.createComponents("/WEB-INF/xhtml/bodega/detalleBodega.zul", null, map);
 
     }
 
@@ -150,31 +158,31 @@ public class ListaBodegaCtrl extends BaseController {
 
     }
 
-    public void onClick$btnBusquedaCliente(Event event) throws Exception {
-        logger.log(Level.INFO, "[onClick$btnBusquedaCliente]Event:{0}", event.toString());
+    public void onClick$btnBusquedaBodega(Event event) throws Exception {
+        logger.log(Level.INFO, "[onClick$btnBusquedaBodega]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
-        map.put("listaClienteCtrl", this);
-        Executions.createComponents("/WEB-INF/xhtml/cliente/busquedaCliente.zul", null, map);
+        map.put("listaBodegaCtrl", this);
+        Executions.createComponents("/WEB-INF/xhtml/bodega/busquedaBodega.zul", null, map);
 
     }
 
-    public void onClickedCliente(Event event) throws Exception {
-        logger.log(Level.INFO, "[onClickedCliente]Event:{0}", event.toString());
-        Listitem item = this.listBoxCliente.getSelectedItem();
+    public void onClickedBodega(Event event) throws Exception {
+        logger.log(Level.INFO, "[onClickedBodega]Event:{0}", event.toString());
+        Listitem item = this.listBoxBodega.getSelectedItem();
         if (item != null) {
-            clienteSelected = (Clientes) item.getAttribute("data");
-            System.out.println("tramites:" + clienteSelected.getOrdentrabajoList().size());
-            if (clienteSelected != null) {
-                listaOrdenesCliente = ordentrabajoBean.loadOrdenesTrabajoByCliente(clienteSelected.getIdCliente(), Constants.PAGINA_INICIO_CERO, Constants.REGISTROS_A_MOSTRAR_LISTA);
-                if (listaOrdenesCliente.size() > 0) {
-                    listBoxListaTramiteCliente.setModel(new ListModelList(listaOrdenesCliente));
-                    listBoxListaTramiteCliente.setItemRenderer(new OrdentrabajoResumenItemRenderer());
-                } else {
-                    listBoxListaTramiteCliente.setModel(new ListModelList(listaOrdenesCliente));
-                    listBoxListaTramiteCliente.setEmptyMessage("Cliente no Tiene Tramites Asociados en Sistema");
-                    logger.info("No se cargaron registros");
-                }
+            bodegaSelected = (Bodegas) item.getAttribute("data");
+           // System.out.println("tramites:" + bodegaSelected.getOrdentrabajoList().size());
+            if (bodegaSelected != null) {
+              //  listaOrdenesBodega = ordentrabajoBean.loadOrdenesTrabajoByBodega(bodegaSelected.getIdBodega(), Constants.PAGINA_INICIO_CERO, Constants.REGISTROS_A_MOSTRAR_LISTA);
+//                if (listaOrdenesBodega.size() > 0) {
+//                    listBoxListaTramiteBodega.setModel(new ListModelList(listaOrdenesBodega));
+//                    listBoxListaTramiteBodega.setItemRenderer(new OrdentrabajoResumenItemRenderer());
+//                } else {
+//                    listBoxListaTramiteBodega.setModel(new ListModelList(listaOrdenesBodega));
+//                    listBoxListaTramiteBodega.setEmptyMessage("Bodega no Tiene Tramites Asociados en Sistema");
+//                    logger.info("No se cargaron registros");
+//                }
             }
         }
     }
@@ -183,22 +191,22 @@ public class ListaBodegaCtrl extends BaseController {
         logger.log(Level.INFO, "[onDoubleClickedEvaluacionAuditoria]Event:{0}", event.toString());
     }
 
-    public void onPaging$pagingCliente(ForwardEvent event) {
-        logger.log(Level.INFO, "[onPaging$pagingCliente]Event:", event.getName());
+    public void onPaging$pagingBodega(ForwardEvent event) {
+        logger.log(Level.INFO, "[onPaging$pagingBodega]Event:", event.getName());
         final PagingEvent pe = (PagingEvent) event.getOrigin();
         numeroPaginInicio = pe.getActivePage();
         refreshModel(numeroPaginInicio);
     }
 
-    private void setOrderListHeaderClientes() {
-        listheaderIdCliente.setSortAscending(new FieldComparator("idCliente", true));
-        listheaderIdCliente.setSortDescending(new FieldComparator("idCliente", false));
-        listheaderNombreCliente.setSortAscending(new FieldComparator("nombreCliente", true));
-        listheaderNombreCliente.setSortDescending(new FieldComparator("nombreCliente", false));
-        listheaderClienteRegistroIva.setSortAscending(new FieldComparator("ivaCliente", true));
-        listheaderClienteRegistroIva.setSortDescending(new FieldComparator("ivaCliente", false));
-        listheaderClienteNumeroNit.setSortAscending(new FieldComparator("nitCliente", true));
-        listheaderClienteNumeroNit.setSortDescending(new FieldComparator("nitCliente", false));
+    private void setOrderListHeaderBodegas() {
+        listheaderIdBodega.setSortAscending(new FieldComparator("idBodega", true));
+        listheaderIdBodega.setSortDescending(new FieldComparator("idBodega", false));
+        listheaderNombreBodega.setSortAscending(new FieldComparator("nombreBodega", true));
+        listheaderNombreBodega.setSortDescending(new FieldComparator("nombreBodega", false));
+        listheaderBodegaRegistroIva.setSortAscending(new FieldComparator("ivaBodega", true));
+        listheaderBodegaRegistroIva.setSortDescending(new FieldComparator("ivaBodega", false));
+        listheaderBodegaNumeroNit.setSortAscending(new FieldComparator("nitBodega", true));
+        listheaderBodegaNumeroNit.setSortDescending(new FieldComparator("nitBodega", false));
     }
 
     private void setOrderListHeaderOrdentrabajo() {
@@ -213,12 +221,12 @@ public class ListaBodegaCtrl extends BaseController {
 
     }
 
-    public Integer getTotalClientes() {
-        return totalClientes;
+    public Integer getTotalBodegas() {
+        return totalBodegas;
     }
 
-    public void setTotalClientes(Integer totalClientes) {
-        this.totalClientes = totalClientes;
+    public void setTotalBodegas(Integer totalBodegas) {
+        this.totalBodegas = totalBodegas;
     }
 
     public Integer getNumeroPaginInicio() {
@@ -229,35 +237,35 @@ public class ListaBodegaCtrl extends BaseController {
         this.numeroPaginInicio = numeroPaginInicio;
     }
 
-    public List<Clientes> getListaClientes() {
-        return listaClientes;
+    public List<Bodegas> getListaBodegas() {
+        return listaBodegas;
     }
 
-    public void setListaClientes(List<Clientes> listaClientes) {
-        this.listaClientes = listaClientes;
+    public void setListaBodegas(List<Bodegas> listaBodegas) {
+        this.listaBodegas = listaBodegas;
     }
 
-    public Clientes getClienteSelected() {
-        return clienteSelected;
+    public Bodegas getBodegaSelected() {
+        return bodegaSelected;
     }
 
-    public void setClienteSelected(Clientes clienteSelected) {
-        this.clienteSelected = clienteSelected;
+    public void setBodegaSelected(Bodegas bodegaSelected) {
+        this.bodegaSelected = bodegaSelected;
     }
 
-    public List<Ordentrabajo> getListaOrdenesCliente() {
-        return listaOrdenesCliente;
+//    public List<Ordentrabajo> getListaOrdenesBodega() {
+//        return listaOrdenesBodega;
+//    }
+//
+//    public void setListaOrdenesBodega(List<Ordentrabajo> listaOrdenesBodega) {
+//        this.listaOrdenesBodega = listaOrdenesBodega;
+//    }
+
+    public Listbox getListBoxBodega() {
+        return listBoxBodega;
     }
 
-    public void setListaOrdenesCliente(List<Ordentrabajo> listaOrdenesCliente) {
-        this.listaOrdenesCliente = listaOrdenesCliente;
-    }
-
-    public Listbox getListBoxCliente() {
-        return listBoxCliente;
-    }
-
-    public void setListBoxCliente(Listbox listBoxCliente) {
-        this.listBoxCliente = listBoxCliente;
+    public void setListBoxBodega(Listbox listBoxBodega) {
+        this.listBoxBodega = listBoxBodega;
     }
 }
