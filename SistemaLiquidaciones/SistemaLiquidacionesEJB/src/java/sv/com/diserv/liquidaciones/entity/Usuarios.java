@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package sv.com.diserv.liquidaciones.entity;
 
 import java.io.Serializable;
@@ -11,74 +10,69 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author edwin.alvarenga
  */
 @Entity
-@Table(catalog = "bdproduccion", schema = "")
-@XmlRootElement
+@Table(name = "USUARIOS", catalog = "", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
-    @NamedQuery(name = "Usuarios.findByIdUsuario", query = "SELECT u FROM Usuarios u WHERE u.idUsuario = :idUsuario"),
-    @NamedQuery(name = "Usuarios.findByNombreUsuario", query = "SELECT u FROM Usuarios u WHERE u.nombreUsuario = :nombreUsuario"),
+    @NamedQuery(name = "Usuarios.findByIdusuario", query = "SELECT u FROM Usuarios u WHERE u.idusuario = :idusuario"),
+    @NamedQuery(name = "Usuarios.findByNombreusuario", query = "SELECT u FROM Usuarios u WHERE u.nombreusuario = :nombreusuario"),
     @NamedQuery(name = "Usuarios.findByContrasena", query = "SELECT u FROM Usuarios u WHERE u.contrasena = :contrasena"),
-    @NamedQuery(name = "Usuarios.findByCodigoEmpleado", query = "SELECT u FROM Usuarios u WHERE u.codigoEmpleado = :codigoEmpleado"),
+    @NamedQuery(name = "Usuarios.findByCodigoempleado", query = "SELECT u FROM Usuarios u WHERE u.codigoempleado = :codigoempleado"),
     @NamedQuery(name = "Usuarios.findByNombreCompleto", query = "SELECT u FROM Usuarios u WHERE u.nombreCompleto = :nombreCompleto"),
     @NamedQuery(name = "Usuarios.findByStatus", query = "SELECT u FROM Usuarios u WHERE u.status = :status"),
-    @NamedQuery(name = "Usuarios.findByRegistrosLista", query = "SELECT u FROM Usuarios u WHERE u.registrosLista = :registrosLista")})
+    @NamedQuery(name = "Usuarios.findByRegistroslista", query = "SELECT u FROM Usuarios u WHERE u.registroslista = :registroslista")})
 public class Usuarios implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    private Integer idUsuario;
+    @NotNull
+    @Column(name = "IDUSUARIO", nullable = false)
+    private Integer idusuario;
     @Size(max = 50)
+    @Column(name = "NOMBREUSUARIO", length = 50)
     private String nombreUsuario;
     @Size(max = 25)
+    @Column(name = "CONTRASENA", length = 25)
     private String contrasena;
     @Size(max = 6)
+    @Column(name = "CODIGOEMPLEADO", length = 6)
     private String codigoEmpleado;
     @Size(max = 40)
-    @Column(name = "nombre_completo")
+    @Column(name = "NOMBRE_COMPLETO", length = 40)
     private String nombreCompleto;
+    @Column(name = "STATUS")
     private Boolean status;
+    @Column(name = "REGISTROSLISTA")
     private Integer registrosLista;
-    @OneToMany(mappedBy = "idUsuario")
-    private List<GroupMembers> groupmembersList;
+    @OneToMany(mappedBy = "idusuario")
+    private List<GroupMembers> groupMembersList;
 
     public Usuarios() {
     }
 
-    public Usuarios(Integer idUsuario) {
-        this.idUsuario = idUsuario;
+    public Usuarios(Integer idusuario) {
+        this.idusuario = idusuario;
     }
 
-    public Integer getIdUsuario() {
-        return idUsuario;
+    public Integer getIdusuario() {
+        return idusuario;
     }
 
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    public void setIdusuario(Integer idusuario) {
+        this.idusuario = idusuario;
     }
 
     public String getContrasena() {
@@ -89,14 +83,6 @@ public class Usuarios implements Serializable {
         this.contrasena = contrasena;
     }
 
-    public String getCodigoEmpleado() {
-        return codigoEmpleado;
-    }
-
-    public void setCodigoEmpleado(String codigoEmpleado) {
-        this.codigoEmpleado = codigoEmpleado;
-    }
-
     public String getNombreCompleto() {
         return nombreCompleto;
     }
@@ -105,12 +91,28 @@ public class Usuarios implements Serializable {
         this.nombreCompleto = nombreCompleto;
     }
 
-    public Boolean getStatus() {
+    public Boolean isStatus() {
         return status;
     }
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getCodigoEmpleado() {
+        return codigoEmpleado;
+    }
+
+    public void setCodigoEmpleado(String codigoEmpleado) {
+        this.codigoEmpleado = codigoEmpleado;
     }
 
     public Integer getRegistrosLista() {
@@ -121,19 +123,18 @@ public class Usuarios implements Serializable {
         this.registrosLista = registrosLista;
     }
 
-    @XmlTransient
-    public List<GroupMembers> getGroupmembersList() {
-        return groupmembersList;
+    public List<GroupMembers> getGroupMembersList() {
+        return groupMembersList;
     }
 
-    public void setGroupmembersList(List<GroupMembers> groupmembersList) {
-        this.groupmembersList = groupmembersList;
+    public void setGroupMembersList(List<GroupMembers> groupMembersList) {
+        this.groupMembersList = groupMembersList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idUsuario != null ? idUsuario.hashCode() : 0);
+        hash += (idusuario != null ? idusuario.hashCode() : 0);
         return hash;
     }
 
@@ -144,7 +145,7 @@ public class Usuarios implements Serializable {
             return false;
         }
         Usuarios other = (Usuarios) object;
-        if ((this.idUsuario == null && other.idUsuario != null) || (this.idUsuario != null && !this.idUsuario.equals(other.idUsuario))) {
+        if ((this.idusuario == null && other.idusuario != null) || (this.idusuario != null && !this.idusuario.equals(other.idusuario))) {
             return false;
         }
         return true;
@@ -152,7 +153,7 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.Usuarios[ idUsuario=" + idUsuario + " ]";
+        return "sv.com.diserv.liquidaciones.entity.Usuarios[ idusuario=" + idusuario + " ]";
     }
-    
+
 }

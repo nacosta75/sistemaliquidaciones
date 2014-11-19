@@ -8,39 +8,38 @@ package sv.com.diserv.liquidaciones.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author edwin.alvarenga
  */
 @Entity
-@Table(catalog = "bdproduccion", schema = "")
-@XmlRootElement
+@Table(name = "GROUPAUTHORITIES", catalog = "", schema = "")
 @NamedQueries({
-    @NamedQuery(name = "Groupauthorities.findAll", query = "SELECT g FROM Groupauthorities g"),
-    @NamedQuery(name = "Groupauthorities.findByIdcorrelativo", query = "SELECT g FROM Groupauthorities g WHERE g.idcorrelativo = :idcorrelativo")})
+    @NamedQuery(name = "GroupAuthorities.findAll", query = "SELECT g FROM GroupAuthorities g"),
+    @NamedQuery(name = "GroupAuthorities.findByIdcorrelativo", query = "SELECT g FROM GroupAuthorities g WHERE g.idcorrelativo = :idcorrelativo")})
 public class GroupAuthorities implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
+    @Column(name = "IDCORRELATIVO", nullable = false)
     private Integer idcorrelativo;
-    @JoinColumn(name = "idAuthority", referencedColumnName = "idAuthority")
-    @ManyToOne
-    private Authorities idAuthority;
-    @JoinColumn(name = "groupId", referencedColumnName = "id")
+    @JoinColumn(name = "GROUPID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private Groups groupId;
+    private Groups groupid;
+    @JoinColumn(name = "IDAUTHORITY", referencedColumnName = "IDAUTHORITY")
+    @ManyToOne
+    private Authorities idauthority;
 
     public GroupAuthorities() {
     }
@@ -57,20 +56,20 @@ public class GroupAuthorities implements Serializable {
         this.idcorrelativo = idcorrelativo;
     }
 
-    public Authorities getIdAuthority() {
-        return idAuthority;
+    public Groups getGroupid() {
+        return groupid;
     }
 
-    public void setIdAuthority(Authorities idAuthority) {
-        this.idAuthority = idAuthority;
+    public void setGroupid(Groups groupid) {
+        this.groupid = groupid;
     }
 
-    public Groups getGroupId() {
-        return groupId;
+    public Authorities getIdauthority() {
+        return idauthority;
     }
 
-    public void setGroupId(Groups groupId) {
-        this.groupId = groupId;
+    public void setIdauthority(Authorities idauthority) {
+        this.idauthority = idauthority;
     }
 
     @Override
@@ -95,7 +94,7 @@ public class GroupAuthorities implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.Groupauthorities[ idcorrelativo=" + idcorrelativo + " ]";
+        return "sv.com.diserv.liquidaciones.entity.GroupAuthorities[ idcorrelativo=" + idcorrelativo + " ]";
     }
     
 }

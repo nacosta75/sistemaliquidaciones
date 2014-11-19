@@ -10,9 +10,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,16 +19,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author edwin.alvarenga
  */
 @Entity
-@Table(catalog = "bdproduccion", schema = "")
-@XmlRootElement
+@Table(name = "GROUPS", catalog = "", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Groups.findAll", query = "SELECT g FROM Groups g"),
     @NamedQuery(name = "Groups.findById", query = "SELECT g FROM Groups g WHERE g.id = :id"),
@@ -37,17 +33,19 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Groups implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID", nullable = false)
     private Long id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
+    @Column(name = "GROUPNAME", nullable = false, length = 50)
     private String groupname;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
-    private List<GroupAuthorities> groupauthoritiesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupid")
-    private List<GroupMembers> groupmembersList;
+    private List<GroupAuthorities> groupAuthoritiesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupid")
+    private List<GroupMembers> groupMembersList;
 
     public Groups() {
     }
@@ -77,22 +75,20 @@ public class Groups implements Serializable {
         this.groupname = groupname;
     }
 
-    @XmlTransient
-    public List<GroupAuthorities> getGroupauthoritiesList() {
-        return groupauthoritiesList;
+    public List<GroupAuthorities> getGroupAuthoritiesList() {
+        return groupAuthoritiesList;
     }
 
-    public void setGroupauthoritiesList(List<GroupAuthorities> groupauthoritiesList) {
-        this.groupauthoritiesList = groupauthoritiesList;
+    public void setGroupAuthoritiesList(List<GroupAuthorities> groupAuthoritiesList) {
+        this.groupAuthoritiesList = groupAuthoritiesList;
     }
 
-    @XmlTransient
-    public List<GroupMembers> getGroupmembersList() {
-        return groupmembersList;
+    public List<GroupMembers> getGroupMembersList() {
+        return groupMembersList;
     }
 
-    public void setGroupmembersList(List<GroupMembers> groupmembersList) {
-        this.groupmembersList = groupmembersList;
+    public void setGroupMembersList(List<GroupMembers> groupMembersList) {
+        this.groupMembersList = groupMembersList;
     }
 
     @Override

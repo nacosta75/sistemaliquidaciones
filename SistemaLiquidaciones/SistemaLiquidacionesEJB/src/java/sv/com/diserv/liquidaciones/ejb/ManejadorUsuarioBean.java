@@ -67,9 +67,9 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
             query.setParameter("idUsuario", name);
             us = (Usuarios) query.getSingleResult();
             if (us != null) {
-                enable = us.getStatus() != null ? us.getStatus() : false;
+                enable = us.isStatus();
                 user.setAccountNonExpired(enable);
-                us.getGroupmembersList();
+                us.getGroupMembersList();
                 user.setAccountNonLocked(enable);
                 user.setCredentialsNonExpired(enable);
                 user.setEnabled(enable);
@@ -140,7 +140,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
             if (userList != null) {
                 //cargamos los roles de usuario
                 for (Usuarios usuario : userList) {
-                    usuario.getGroupmembersList();
+                    usuario.getGroupMembersList();
                 }
                 logger.log(Level.INFO, "[loadAllUser] Se encontraron " + userList.size() + " usuarios");
             }
@@ -301,7 +301,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      */
     @Override
     public GenericResponse saveUserRole(GroupMembers data) throws DiservBusinessException {
-        logger.info("[saveUserRole]Usuario:" + data.getIdUsuario().getNombreCompleto() + ", Rol:" + data.getGroupid().getGroupname());
+        logger.info("[saveUserRole]Usuario:" + data.getIdusuario().getNombreCompleto() + ", Rol:" + data.getGroupid().getGroupname());
         GenericResponse response = new GenericResponse(Constants.CODE_OPERATION_FALLIDA, "No se pudo agregar rol a usuario");
         try {
             genericDaoBean.create(data);
@@ -361,7 +361,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      */
     @Override
     public GenericResponse deleteUserRole(GroupMembers data) throws DiservBusinessException {
-        logger.info("[deleteUserRole]Usuario:" + data.getIdUsuario().getNombreCompleto() + ", Rol:" + data.getGroupid().getGroupname());
+        logger.info("[deleteUserRole]Usuario:" + data.getIdusuario().getNombreCompleto() + ", Rol:" + data.getGroupid().getGroupname());
         GenericResponse response = new GenericResponse(Constants.CODE_OPERATION_FALLIDA, "No se pudo eliminar rol a usuario");
         try {
             genericDaoBean.delete(data);
@@ -541,7 +541,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      */
     @Override
     public GenericResponse saveGroupRight(GroupAuthorities data) throws DiservBusinessException {
-        logger.info("[saveGroupRight]Grupo:" + data.getGroupId().getGroupname() + ", Derecho:" + data.getIdAuthority().getNombre());
+        logger.info("[saveGroupRight]Grupo:" + data.getGroupid().getGroupname() + ", Derecho:" + data.getIdauthority().getNombre());
         GenericResponse response = new GenericResponse(Constants.CODE_OPERATION_FALLIDA, "Fallo al guardar permiso grupo");
         try {
             genericDaoBean.create(data);
@@ -561,7 +561,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      */
     @Override
     public GenericResponse deleteGroupRight(GroupAuthorities data) throws DiservBusinessException {
-        logger.info("[deleteGroupRight]Grupo:" + data.getGroupId().getGroupname());
+        logger.info("[deleteGroupRight]Grupo:" + data.getGroupid().getGroupname());
         GenericResponse response = new GenericResponse(Constants.CODE_OPERATION_FALLIDA, "Operacion fallida");
         try {
             genericDaoBean.delete(data);

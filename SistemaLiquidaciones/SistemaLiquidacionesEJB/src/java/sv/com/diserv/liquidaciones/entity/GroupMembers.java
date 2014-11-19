@@ -8,39 +8,38 @@ package sv.com.diserv.liquidaciones.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author edwin.alvarenga
  */
 @Entity
-@Table(catalog = "bdproduccion", schema = "")
-@XmlRootElement
+@Table(name = "GROUPMEMBERS", catalog = "", schema = "")
 @NamedQueries({
-    @NamedQuery(name = "Groupmembers.findAll", query = "SELECT g FROM Groupmembers g"),
-    @NamedQuery(name = "Groupmembers.findById", query = "SELECT g FROM Groupmembers g WHERE g.id = :id")})
+    @NamedQuery(name = "GroupMembers.findAll", query = "SELECT g FROM GroupMembers g"),
+    @NamedQuery(name = "GroupMembers.findById", query = "SELECT g FROM GroupMembers g WHERE g.id = :id")})
 public class GroupMembers implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID", nullable = false)
     private Long id;
-    @JoinColumn(name = "groupid", referencedColumnName = "id")
+    @JoinColumn(name = "IDUSUARIO", referencedColumnName = "IDUSUARIO")
+    @ManyToOne
+    private Usuarios idusuario;
+    @JoinColumn(name = "GROUPID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private Groups groupid;
-    @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
-    @ManyToOne
-    private Usuarios idUsuario;
 
     public GroupMembers() {
     }
@@ -57,20 +56,20 @@ public class GroupMembers implements Serializable {
         this.id = id;
     }
 
+    public Usuarios getIdusuario() {
+        return idusuario;
+    }
+
+    public void setIdusuario(Usuarios idusuario) {
+        this.idusuario = idusuario;
+    }
+
     public Groups getGroupid() {
         return groupid;
     }
 
     public void setGroupid(Groups groupid) {
         this.groupid = groupid;
-    }
-
-    public Usuarios getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Usuarios idUsuario) {
-        this.idUsuario = idUsuario;
     }
 
     @Override
@@ -95,7 +94,7 @@ public class GroupMembers implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.Groupmembers[ id=" + id + " ]";
+        return "sv.com.diserv.liquidaciones.entity.GroupMembers[ id=" + id + " ]";
     }
     
 }

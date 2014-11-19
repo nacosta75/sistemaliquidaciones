@@ -8,28 +8,25 @@ package sv.com.diserv.liquidaciones.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author edwin.alvarenga
  */
 @Entity
-@Table(catalog = "bdproduccion", schema = "")
-@XmlRootElement
+@Table(name = "AUTHORITIES", catalog = "", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Authorities.findAll", query = "SELECT a FROM Authorities a"),
-    @NamedQuery(name = "Authorities.findByIdAuthority", query = "SELECT a FROM Authorities a WHERE a.idAuthority = :idAuthority"),
+    @NamedQuery(name = "Authorities.findByIdauthority", query = "SELECT a FROM Authorities a WHERE a.idauthority = :idauthority"),
     @NamedQuery(name = "Authorities.findByNombre", query = "SELECT a FROM Authorities a WHERE a.nombre = :nombre"),
     @NamedQuery(name = "Authorities.findByDescripcion", query = "SELECT a FROM Authorities a WHERE a.descripcion = :descripcion"),
     @NamedQuery(name = "Authorities.findByEnabled", query = "SELECT a FROM Authorities a WHERE a.enabled = :enabled")})
@@ -37,30 +34,34 @@ public class Authorities implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    private Integer idAuthority;
+    @NotNull
+    @Column(name = "IDAUTHORITY", nullable = false)
+    private Integer idauthority;
     @Size(max = 80)
+    @Column(name = "NOMBRE", length = 80)
     private String nombre;
     @Size(max = 280)
+    @Column(name = "DESCRIPCION", length = 280)
     private String descripcion;
-    private Boolean enabled;
-    @OneToMany(mappedBy = "idAuthority")
-    private List<GroupAuthorities> groupauthoritiesList;
+    @Column(name = "ENABLED")
+    private Integer enabled;
+    @OneToMany(mappedBy = "idauthority")
+    private List<GroupAuthorities> groupAuthoritiesList;
 
     public Authorities() {
     }
 
-    public Authorities(Integer idAuthority) {
-        this.idAuthority = idAuthority;
+    public Authorities(Integer idauthority) {
+        this.idauthority = idauthority;
     }
 
-    public Integer getIdAuthority() {
-        return idAuthority;
+    public Integer getIdauthority() {
+        return idauthority;
     }
 
-    public void setIdAuthority(Integer idAuthority) {
-        this.idAuthority = idAuthority;
+    public void setIdauthority(Integer idauthority) {
+        this.idauthority = idauthority;
     }
 
     public String getNombre() {
@@ -79,27 +80,26 @@ public class Authorities implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Boolean getEnabled() {
+    public Integer getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(Boolean enabled) {
+    public void setEnabled(Integer enabled) {
         this.enabled = enabled;
     }
 
-    @XmlTransient
-    public List<GroupAuthorities> getGroupauthoritiesList() {
-        return groupauthoritiesList;
+    public List<GroupAuthorities> getGroupAuthoritiesList() {
+        return groupAuthoritiesList;
     }
 
-    public void setGroupauthoritiesList(List<GroupAuthorities> groupauthoritiesList) {
-        this.groupauthoritiesList = groupauthoritiesList;
+    public void setGroupAuthoritiesList(List<GroupAuthorities> groupAuthoritiesList) {
+        this.groupAuthoritiesList = groupAuthoritiesList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idAuthority != null ? idAuthority.hashCode() : 0);
+        hash += (idauthority != null ? idauthority.hashCode() : 0);
         return hash;
     }
 
@@ -110,7 +110,7 @@ public class Authorities implements Serializable {
             return false;
         }
         Authorities other = (Authorities) object;
-        if ((this.idAuthority == null && other.idAuthority != null) || (this.idAuthority != null && !this.idAuthority.equals(other.idAuthority))) {
+        if ((this.idauthority == null && other.idauthority != null) || (this.idauthority != null && !this.idauthority.equals(other.idauthority))) {
             return false;
         }
         return true;
@@ -118,7 +118,7 @@ public class Authorities implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.Authorities[ idAuthority=" + idAuthority + " ]";
+        return "sv.com.diserv.liquidaciones.entity.Authorities[ idauthority=" + idauthority + " ]";
     }
 
 }
