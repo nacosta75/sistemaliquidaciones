@@ -196,7 +196,7 @@ public class ListaPermisoRolCtrl extends BaseController {
                 permisoRolList = usuarioBean.findPermisoRolByUdRole(groupSelected.getId().intValue());
                 if (permisoRolList != null && permisoRolList.size() > 0) {
                     for (int i = 0; i < permisoRolList.size(); i++) {
-                        if (listaPermiso.contains(permisoRolList.get(i).getIdAuthority())) {
+                        if (listaPermiso.contains(permisoRolList.get(i).getIdauthority())) {
 //                            listaPermiso.get(listaPermiso.indexOf(permisoRolList.get(i).getIdAuthority())).setAuthoritiSelected(Boolean.TRUE);
                         }
                     }
@@ -244,7 +244,7 @@ public class ListaPermisoRolCtrl extends BaseController {
                 Authorities aRight = (Authorities) listitem.getAttribute("data");
                 Groups aGroup = getGroupSelected();
                 try {
-                    aGroupRight = usuarioBean.getGroupRightByGroupAndRight(aGroup.getId().intValue(), aRight.getIdAuthority());
+                    aGroupRight = usuarioBean.getGroupRightByGroupAndRight(aGroup.getId().intValue(), aRight.getIdauthority());
                 } catch (Exception e) {
                     e.printStackTrace();
                     throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Ocurrio un error al buscar  permiso-grupo," + e.getMessage());
@@ -253,8 +253,8 @@ public class ListaPermisoRolCtrl extends BaseController {
                     logger.log(Level.INFO, "Grupo:{0}, Derecho:{1}:{2}", new Object[]{aGroup.getGroupname(), aRight.getNombre(), aRight.getDescripcion()});
                     if (aGroupRight == null) {
                         aGroupRight = new GroupAuthorities();
-                        aGroupRight.setGroupId(aGroup);
-                        aGroupRight.setIdAuthority(aRight);
+                        aGroupRight.setGroupid(aGroup);
+                        aGroupRight.setIdauthority(aRight);
 
                         try {
                             usuarioBean.saveGroupRight(aGroupRight);

@@ -8,7 +8,7 @@ package sv.com.diserv.liquidaciones.web.ui.usuarios.util;
 
 /**
  *
- *alvarenga.miranda@gmail.com
+ * alvarenga.miranda@gmail.com
  */
 import java.io.Serializable;
 import java.util.List;

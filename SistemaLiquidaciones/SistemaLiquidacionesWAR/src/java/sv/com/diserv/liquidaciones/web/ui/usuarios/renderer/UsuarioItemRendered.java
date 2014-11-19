@@ -22,7 +22,7 @@ public class UsuarioItemRendered implements ListitemRenderer {
         lc = new Listcell(usuario.getNombreCompleto() != null ? usuario.getNombreCompleto() : "N/D");
         lc.setParent(item);
 
-        lc = new Listcell(usuario.getStatus() != null ? usuario.getStatus() ? "Activo" : "Inactivo" : "N/D");
+        lc = new Listcell(usuario.isStatus() ? "Activo" : "Inactivo");
         lc.setParent(item);
 
         item.setAttribute("data", data);

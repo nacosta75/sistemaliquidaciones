@@ -285,7 +285,7 @@ public class ListaUsuariosCtrl extends BaseController {
                     logger.log(Level.INFO, "usuario:{0}, Rol:{1}:{2}", new Object[]{anUser.getNombreUsuario(), aRole.getId(), aRole.getGroupname()});
                     if (anUserRole == null) {
                         anUserRole = new GroupMembers();
-                        anUserRole.setIdUsuario(anUser);
+                        anUserRole.setIdusuario(anUser);
                         anUserRole.setGroupid(aRole);
                         try {
                             usuariosBean.saveUserRole(anUserRole);

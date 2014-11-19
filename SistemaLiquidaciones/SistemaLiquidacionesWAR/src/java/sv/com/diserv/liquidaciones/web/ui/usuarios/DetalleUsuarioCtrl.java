@@ -11,7 +11,7 @@ import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
-  
+
 import sv.com.diserv.liquidaciones.web.ui.usuarios.util.BaseController;
 import sv.com.diserv.liquidaciones.web.ui.usuarios.util.MensajeMultilinea;
 import sv.com.diserv.liquidaciones.web.ui.usuarios.util.UserWorkspace;
@@ -120,8 +120,8 @@ public class DetalleUsuarioCtrl extends BaseController {
         txtNombreUsuario.setValue(usuarioSelected.getNombreCompleto());
         txtNumerocarne.setValue(usuarioSelected.getCodigoEmpleado());
         txtRegistrosLista.setValue(usuarioSelected.getRegistrosLista());
-        txtUsuarioSistema.setValue(usuarioSelected.getNombreUsuario());
-        checkEstadoUsuario.setChecked(usuarioSelected.getStatus() != null ? usuarioSelected.getStatus() : false);
+        txtUsuarioSistema.setValue(usuarioSelected.getNombreCompleto());
+        checkEstadoUsuario.setChecked(usuarioSelected.isStatus());
     }
 
     private void loadDataFromTextboxs() {
@@ -259,17 +259,17 @@ public class DetalleUsuarioCtrl extends BaseController {
         usuarioSelected.setRegistrosLista(txtRegistrosLista.getValue());
 //        try {
 //            responseOperacion = usuarioBean.guardarUsuario(usuarioSelected, Boolean.FALSE);
-            if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+        if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
 //                MensajeMultilinea.show("Usuario actualizado Satisfactoriamente", Constants.MENSAJE_TIPO_INFO);
 //                usuarioSelected = responseOperacion.getUsuario();
-                loadDataFromEntity();
-                doReadOnly(Boolean.TRUE);
-                doEditButton();
-                listaUsuarioCtrl.refresTotalRegistros();
-                listaUsuarioCtrl.refreshModel(0);
-            } else {
-                MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
-            }
+            loadDataFromEntity();
+            doReadOnly(Boolean.TRUE);
+            doEditButton();
+            listaUsuarioCtrl.refresTotalRegistros();
+            listaUsuarioCtrl.refreshModel(0);
+        } else {
+            MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+        }
 //        } catch (DiservWebException bex) {
 //            bex.printStackTrace();
 //            MensajeMultilinea.show(bex.toString(), Constants.MENSAJE_TIPO_ERROR);
