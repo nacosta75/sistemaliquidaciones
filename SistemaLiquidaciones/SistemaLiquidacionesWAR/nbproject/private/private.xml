@@ -2,18 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="Sigap_2.0">
-            <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/WEB-INF/spring-beans.xml</file>
-            <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/WEB-INF/security-manager.xml</file>
-            <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/WEB-INF/zk.xml</file>
-            <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/WEB-INF/xhtml/usuario/buscarUsuario.zul</file>
-            <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesWAR/src/java/sv/com/diserv/liquidaciones/web/ui/usuarios/renderer/UsuarioItemRendered.java</file>
-            <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/login.zul</file>
-        </group>
         <group name="pruebas">
             <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/error.zul</file>
             <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/src/java/sv/com/diserv/liquidaciones/web/ui/bodegas/BuscarBodegaCtrll.java</file>
             <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/index.jsp</file>
         </group>
+        <group name="Sigap_2.0"/>
     </open-files>
 </project-private>

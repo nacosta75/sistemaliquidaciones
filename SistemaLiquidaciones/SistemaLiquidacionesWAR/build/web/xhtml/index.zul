@@ -1,5 +1,5 @@
 <?page
-    id="indexPage" title="..:Agencia Aduanal ATS:.."
+    id="indexPage" title="..:Distribuiciones y Servicios,SA de CV:.."
     contentType="text/html;charset=UTF-8" cacheable="false"
     language="xul/html" zscriptLanguage="Java"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
@@ -19,7 +19,7 @@ http://www.zkoss.org/2005/zul/zul.xsd">
 		txtEle.scrollHeight; } ]]>
     </script>
     <window id="outerIndexWindow"
-            apply="sv.com.ats.ui.index.IndexCtrl"
+            apply="sv.com.diserv.web.ui.index.IndexCtrl"
             border="none"
             width="100%"
             height="100%">
@@ -45,7 +45,7 @@ http://www.zkoss.org/2005/zul/zul.xsd">
                              style="padding: 1px; ">
                         </div>
                         <div align="left" style="padding: 0px;">
-                            <image src="/images/logoATS.png" />
+                            <image src="/images/newbg2.png" />
                         </div>
 
                         <div align="right" style="float: right">
@@ -59,7 +59,7 @@ http://www.zkoss.org/2005/zul/zul.xsd">
                                         <div align="right" style="float: right">
                                             <!-- USER-BAR. Comps are created in the Controller -->
                                             <window id="winUserBar"
-                                                    apply="sv.com.ats.web.ui.util.UserBarCtrl"
+                                                    apply="sv.com.diserv.web.ui.util.UserBarCtrl"
                                                     border="none" />
                                         </div>
                                         <div align="right"
@@ -156,7 +156,7 @@ http://www.zkoss.org/2005/zul/zul.xsd">
                         <center border="none">
                             <!-- The StatusBar. Comps are created in the Controller -->
                             <window id="winStatusBar"
-                                    apply="sv.com.ats.web.ui.util.StatusBarCtrl"
+                                    apply="sv.com.diserv.web.ui.util.StatusBarCtrl"
                                     border="none"
                                     width="100%"
                                     height="22px" />

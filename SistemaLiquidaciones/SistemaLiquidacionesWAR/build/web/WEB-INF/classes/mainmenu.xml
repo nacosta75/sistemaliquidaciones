@@ -34,6 +34,17 @@
                   zulNavigation="/WEB-INF/xhtml/usuario/permisosRoles.zul"
                   rightName="menu_Item_GruposDerechos"/>
     </menu>
+    <menu id="menu_Clientes" 
+          rightName=""             
+          open="false"
+          label="Bodegas/Vendedor"> 
+        <menuItem id="menu_Item_mantenimientoCliente"
+                  label="Manejo Bodegas"
+                  iconName="/images/personGroup.png"
+                  zulNavigation="/WEB-INF/xhtml/bodega/listaBodega.zul"
+                  rightName="menu_Item_mantenimientoCliente"/>      
+
+    </menu>
     
      
 </ns2:XMLRootMenu>

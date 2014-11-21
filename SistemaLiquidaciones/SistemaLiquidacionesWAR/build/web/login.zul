@@ -1,4 +1,4 @@
-<?page id="loginTest" title="Agencia Aduanal ATS,El Salvador,CA"?>
+<?page id="loginTest" title="Diserv,SA de CV"?>
 <?link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"?>
 <zk xmlns="http://www.zkoss.org/2005/zul"
     xmlns:h="http://www.w3.org/1999/xhtml"
@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.zkoss.org/2005/zul
         http://www.zkoss.org/2005/zul/zul.xsd">
     <window id="loginwin"
-            title="Agencia Aduanal ATS, República El Salvador,CA"
+            title="Sistema Control Liquidaciones"
             border="normal"
             width="550px"
             height="350px"
@@ -47,8 +47,8 @@
                     </rows>
                 </grid>
                 <vlayout>
-                    <label value="Asesoria Tramites y Servicios (ATS)" style="font:12px arial,sans-serif;  " />
-                    <label value="Agente Aduanal Ricardo Hernandez Sanchez - Reservados todos los derechos" style="font:12px arial,sans-serif;   " />
+                    <label value="Distribuiciones y Servicios,SA de CV" style="font:12px arial,sans-serif;  " />
+                    <label value="Diserv SA de CV - Reservados todos los derechos" style="font:12px arial,sans-serif;   " />
                 </vlayout>
             </groupbox>
         </h:form>
