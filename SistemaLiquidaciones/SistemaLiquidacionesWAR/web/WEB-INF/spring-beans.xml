@@ -11,7 +11,7 @@
                             http://www.springframework.org/schema/security
                             http://www.springframework.org/schema/security/spring-security-3.0.xsd" >
     <beans:bean id="mainMenuCtrl" 
-                class="sv.com.ats.ui.menu.MainMenuCtrl"
+                class="sv.com.diserv.web.ui.menu.MainMenuCtrl"
                 scope="prototype"
                 parent="basisCtrl">
         <beans:property name="treeMainMenuFactory" ref="treeMenuFactory" />
@@ -20,21 +20,21 @@
     <beans:bean id="basisCtrl"
                 abstract="true"
                 scope="prototype"
-                class="sv.com.ats.web.ui.util.BaseController">
+                class="sv.com.diserv.web.ui.util.BaseController">
         <beans:property name="userWorkspace" ref="userWorkspace" />
     </beans:bean>
     <beans:bean id="userWorkspace" 
-                class="sv.com.ats.web.ui.util.UserWorkspace"
+                class="sv.com.diserv.web.ui.util.UserWorkspace"
                 scope="session" />
-    <beans:bean id="treeMenuFactory" class="sv.com.ats.ui.menu.tree.TreeMenuFactory">
+    <beans:bean id="treeMenuFactory" class="sv.com.diserv.web.ui.menu.tree.TreeMenuFactory">
         <beans:property name="rootMenuDomainFactory" ref="metaMenuFactory" />
     </beans:bean>
 
     <beans:bean id="metaMenuFactory"
-                class="sv.com.ats.ui.menu.spring.ClasspathMetaMenuFactory">
+                class="sv.com.diserv.web.ui.menu.spring.ClasspathMetaMenuFactory">
         <beans:property name="name" value="/mainmenu.xml" />
     </beans:bean>
-    <beans:bean id="dropDownMenuFactory" class="sv.com.ats.ui.menu.dropdown.DropDownMenuFactory">
+    <beans:bean id="dropDownMenuFactory" class="sv.com.diserv.web.ui.menu.dropdown.DropDownMenuFactory">
         <beans:property name="rootMenuDomainFactory" ref="metaMenuFactory" />
     </beans:bean>
 </beans:beans>
