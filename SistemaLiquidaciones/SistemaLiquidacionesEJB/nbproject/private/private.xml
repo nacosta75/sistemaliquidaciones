@@ -2,15 +2,10 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="Sigap_2.0">
-            <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesEJB/src/java/sv/com/diserv/liquidaciones/entity/Authorities.java</file>
-            <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesEJB/src/java/sv/com/diserv/liquidaciones/ejb/GenericDaoServiceBean.java</file>
-            <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesEJB/src/java/sv/com/diserv/liquidaciones/ejb/GenericDaoServiceBeanLocal.java</file>
-            <file>file:/C:/Proyectos/Testing/noanoa/SistemaLiquidaciones/SistemaLiquidacionesEJB/src/java/sv/com/diserv/liquidaciones/ejb/ManejadorUsuarioBeanLocal.java</file>
-        </group>
         <group name="pruebas">
             <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesEJB/src/conf/persistence.xml</file>
             <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesEJB/src/java/sv/com/diserv/liquidaciones/util/Constants.java</file>
         </group>
+        <group name="Sigap_2.0"/>
     </open-files>
 </project-private>
