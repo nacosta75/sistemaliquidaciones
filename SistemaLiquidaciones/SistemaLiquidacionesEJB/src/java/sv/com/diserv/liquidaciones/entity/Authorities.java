@@ -27,6 +27,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Authorities.findAll", query = "SELECT a FROM Authorities a"),
     @NamedQuery(name = "Authorities.findByIdauthority", query = "SELECT a FROM Authorities a WHERE a.idauthority = :idauthority"),
+    @NamedQuery(name = "Authorities.findByIdNombreUsuario", query = "SELECT distinct r FROM Authorities r join r.groupAuthoritiesList as gr JOIN gr.groupid as rg JOIN rg.groupMembersList as ur JOIN ur.idusuario as user where user.nombreUsuario = :idUsuario"),
     @NamedQuery(name = "Authorities.findByNombre", query = "SELECT a FROM Authorities a WHERE a.nombre = :nombre"),
     @NamedQuery(name = "Authorities.findByDescripcion", query = "SELECT a FROM Authorities a WHERE a.descripcion = :descripcion"),
     @NamedQuery(name = "Authorities.findByEnabled", query = "SELECT a FROM Authorities a WHERE a.enabled = :enabled")})

@@ -63,8 +63,8 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
         Query query;
         CustomUserDTO user = new CustomUserDTO();
         try {
-            query = em.createNamedQuery("Usuarios.findByIdUsuario");
-            query.setParameter("idUsuario", name);
+            query = em.createNamedQuery("Usuarios.findByNombreUsuario");
+            query.setParameter("nombreUsuario", name);
             us = (Usuarios) query.getSingleResult();
             if (us != null) {
                 enable = us.isStatus();
