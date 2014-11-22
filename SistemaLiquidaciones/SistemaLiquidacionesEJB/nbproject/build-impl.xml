@@ -433,7 +433,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
                     </fileset>
                 </union>
                 <taskdef classname="org.testng.TestNGAntTask" classpath="${run.test.classpath}" name="testng"/>
-                <testng classfilesetref="test.set" failureProperty="tests.failed" listeners="org.testng.reporters.VerboseReporter" methods="${testng.methods.arg}" mode="${testng.mode}" outputdir="${build.test.results.dir}" suitename="SistemaLiquidacionesEJB" testname="TestNG tests" workingDir="${basedir}">
+                <testng classfilesetref="test.set" failureProperty="tests.failed" methods="${testng.methods.arg}" mode="${testng.mode}" outputdir="${build.test.results.dir}" suitename="SistemaLiquidacionesEJB" testname="TestNG tests" workingDir="${basedir}">
                     <xmlfileset dir="${build.test.classes.dir}" includes="@{testincludes}"/>
                     <propertyset>
                         <propertyref prefix="test-sys-prop."/>
@@ -818,8 +818,36 @@ exists or setup the property manually. For example like this:
     </target>
     <target depends="compile,-library-inclusion-in-archive-weblogic,-library-inclusion-in-archive-by-user" name="library-inclusion-in-archive"/>
     <target if="is.jars.in.ejbjar" name="-library-inclusion-in-archive-by-user">
+        <copyfiles files="${file.reference.Filters.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.aopalliance-1.0.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.apache-log4j-extras-1.1.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.bsh.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.ckez.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-beanutils-1.8.2.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-collections-2.1.1.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-collections-3.2.1.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-collections.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-digester-1.7.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-fileupload.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-io.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-javaflow-20060411.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-lang.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-logging-1.1.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.commons-logging.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.fckez.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.itext.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.jasperreports-fonts-4.0.1.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.jasperreports.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.javax.validation-1.0.0.GA.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.jcommon.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.jfreechart.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.js.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.jxl.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.log4j-1.2.15.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.mvel.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.mysql-connector-java-5.0.4-bin.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.ognl.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.poi.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.spring-aop-3.0.2.RELEASE.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.spring-asm-3.0.2.RELEASE.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.spring-beans-3.0.2.RELEASE.jar}" todir="${build.classes.dir}"/>
@@ -835,14 +863,49 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.spring-security-web-3.0.2.RELEASE.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.spring-tx-3.0.2.RELEASE.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.spring-web-3.0.2.RELEASE.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.timelinez.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.timeplotz.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.zcommon.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.zcommons-el.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.zhtml.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.zk.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.zkplus.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.zkspring-core.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.zkspring-security-3.0.jar}" todir="${build.classes.dir}"/>
-        <copyfiles files="${file.reference.aopalliance-1.0.jar}" todir="${build.classes.dir}"/>
-        <copyfiles files="${file.reference.commons-lang.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.zul.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.zweb.jar}" todir="${build.classes.dir}"/>
     </target>
     <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
+        <basename file="${file.reference.Filters.jar}" property="manifest.file.reference.Filters.jar"/>
+        <basename file="${file.reference.aopalliance-1.0.jar}" property="manifest.file.reference.aopalliance-1.0.jar"/>
         <basename file="${file.reference.apache-log4j-extras-1.1.jar}" property="manifest.file.reference.apache-log4j-extras-1.1.jar"/>
+        <basename file="${file.reference.bsh.jar}" property="manifest.file.reference.bsh.jar"/>
+        <basename file="${file.reference.ckez.jar}" property="manifest.file.reference.ckez.jar"/>
+        <basename file="${file.reference.commons-beanutils-1.8.2.jar}" property="manifest.file.reference.commons-beanutils-1.8.2.jar"/>
+        <basename file="${file.reference.commons-collections-2.1.1.jar}" property="manifest.file.reference.commons-collections-2.1.1.jar"/>
+        <basename file="${file.reference.commons-collections-3.2.1.jar}" property="manifest.file.reference.commons-collections-3.2.1.jar"/>
+        <basename file="${file.reference.commons-collections.jar}" property="manifest.file.reference.commons-collections.jar"/>
+        <basename file="${file.reference.commons-digester-1.7.jar}" property="manifest.file.reference.commons-digester-1.7.jar"/>
+        <basename file="${file.reference.commons-fileupload.jar}" property="manifest.file.reference.commons-fileupload.jar"/>
+        <basename file="${file.reference.commons-io.jar}" property="manifest.file.reference.commons-io.jar"/>
+        <basename file="${file.reference.commons-javaflow-20060411.jar}" property="manifest.file.reference.commons-javaflow-20060411.jar"/>
+        <basename file="${file.reference.commons-lang.jar}" property="manifest.file.reference.commons-lang.jar"/>
+        <basename file="${file.reference.commons-logging-1.1.jar}" property="manifest.file.reference.commons-logging-1.1.jar"/>
+        <basename file="${file.reference.commons-logging.jar}" property="manifest.file.reference.commons-logging.jar"/>
+        <basename file="${file.reference.fckez.jar}" property="manifest.file.reference.fckez.jar"/>
+        <basename file="${file.reference.itext.jar}" property="manifest.file.reference.itext.jar"/>
+        <basename file="${file.reference.jasperreports-fonts-4.0.1.jar}" property="manifest.file.reference.jasperreports-fonts-4.0.1.jar"/>
+        <basename file="${file.reference.jasperreports.jar}" property="manifest.file.reference.jasperreports.jar"/>
+        <basename file="${file.reference.javax.validation-1.0.0.GA.jar}" property="manifest.file.reference.javax.validation-1.0.0.GA.jar"/>
+        <basename file="${file.reference.jcommon.jar}" property="manifest.file.reference.jcommon.jar"/>
+        <basename file="${file.reference.jfreechart.jar}" property="manifest.file.reference.jfreechart.jar"/>
+        <basename file="${file.reference.js.jar}" property="manifest.file.reference.js.jar"/>
+        <basename file="${file.reference.jxl.jar}" property="manifest.file.reference.jxl.jar"/>
         <basename file="${file.reference.log4j-1.2.15.jar}" property="manifest.file.reference.log4j-1.2.15.jar"/>
+        <basename file="${file.reference.mvel.jar}" property="manifest.file.reference.mvel.jar"/>
+        <basename file="${file.reference.mysql-connector-java-5.0.4-bin.jar}" property="manifest.file.reference.mysql-connector-java-5.0.4-bin.jar"/>
+        <basename file="${file.reference.ognl.jar}" property="manifest.file.reference.ognl.jar"/>
+        <basename file="${file.reference.poi.jar}" property="manifest.file.reference.poi.jar"/>
         <basename file="${file.reference.spring-aop-3.0.2.RELEASE.jar}" property="manifest.file.reference.spring-aop-3.0.2.RELEASE.jar"/>
         <basename file="${file.reference.spring-asm-3.0.2.RELEASE.jar}" property="manifest.file.reference.spring-asm-3.0.2.RELEASE.jar"/>
         <basename file="${file.reference.spring-beans-3.0.2.RELEASE.jar}" property="manifest.file.reference.spring-beans-3.0.2.RELEASE.jar"/>
@@ -858,38 +921,108 @@ exists or setup the property manually. For example like this:
         <basename file="${file.reference.spring-security-web-3.0.2.RELEASE.jar}" property="manifest.file.reference.spring-security-web-3.0.2.RELEASE.jar"/>
         <basename file="${file.reference.spring-tx-3.0.2.RELEASE.jar}" property="manifest.file.reference.spring-tx-3.0.2.RELEASE.jar"/>
         <basename file="${file.reference.spring-web-3.0.2.RELEASE.jar}" property="manifest.file.reference.spring-web-3.0.2.RELEASE.jar"/>
+        <basename file="${file.reference.timelinez.jar}" property="manifest.file.reference.timelinez.jar"/>
+        <basename file="${file.reference.timeplotz.jar}" property="manifest.file.reference.timeplotz.jar"/>
+        <basename file="${file.reference.zcommon.jar}" property="manifest.file.reference.zcommon.jar"/>
+        <basename file="${file.reference.zcommons-el.jar}" property="manifest.file.reference.zcommons-el.jar"/>
+        <basename file="${file.reference.zhtml.jar}" property="manifest.file.reference.zhtml.jar"/>
+        <basename file="${file.reference.zk.jar}" property="manifest.file.reference.zk.jar"/>
+        <basename file="${file.reference.zkplus.jar}" property="manifest.file.reference.zkplus.jar"/>
         <basename file="${file.reference.zkspring-core.jar}" property="manifest.file.reference.zkspring-core.jar"/>
         <basename file="${file.reference.zkspring-security-3.0.jar}" property="manifest.file.reference.zkspring-security-3.0.jar"/>
-        <basename file="${file.reference.aopalliance-1.0.jar}" property="manifest.file.reference.aopalliance-1.0.jar"/>
-        <basename file="${file.reference.commons-lang.jar}" property="manifest.file.reference.commons-lang.jar"/>
+        <basename file="${file.reference.zul.jar}" property="manifest.file.reference.zul.jar"/>
+        <basename file="${file.reference.zweb.jar}" property="manifest.file.reference.zweb.jar"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 jar-7 jar-8 jar-9 jar-10 jar-11 jar-12 jar-13 jar-14 jar-15 jar-16 jar-17 jar-18 jar-19 jar-20 jar-21 "/>
-            <attribute name="jar-1-Extension-Name" value="${manifest.file.reference.apache-log4j-extras-1.1.jar}"/>
-            <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.log4j-1.2.15.jar}"/>
-            <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.spring-aop-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-4-Extension-Name" value="${manifest.file.reference.spring-asm-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-5-Extension-Name" value="${manifest.file.reference.spring-beans-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-6-Extension-Name" value="${manifest.file.reference.spring-context-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-7-Extension-Name" value="${manifest.file.reference.spring-context-support-3.0.1.RELEASE.jar}"/>
-            <attribute name="jar-8-Extension-Name" value="${manifest.file.reference.spring-core-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-9-Extension-Name" value="${manifest.file.reference.spring-expression-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-10-Extension-Name" value="${manifest.file.reference.spring-jdbc-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-11-Extension-Name" value="${manifest.file.reference.spring-orm-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-12-Extension-Name" value="${manifest.file.reference.spring-security-acl-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-13-Extension-Name" value="${manifest.file.reference.spring-security-config-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-14-Extension-Name" value="${manifest.file.reference.spring-security-core-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-15-Extension-Name" value="${manifest.file.reference.spring-security-web-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-16-Extension-Name" value="${manifest.file.reference.spring-tx-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-17-Extension-Name" value="${manifest.file.reference.spring-web-3.0.2.RELEASE.jar}"/>
-            <attribute name="jar-18-Extension-Name" value="${manifest.file.reference.zkspring-core.jar}"/>
-            <attribute name="jar-19-Extension-Name" value="${manifest.file.reference.zkspring-security-3.0.jar}"/>
-            <attribute name="jar-20-Extension-Name" value="${manifest.file.reference.aopalliance-1.0.jar}"/>
-            <attribute name="jar-21-Extension-Name" value="${manifest.file.reference.commons-lang.jar}"/>
+            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 jar-7 jar-8 jar-9 jar-10 jar-11 jar-12 jar-13 jar-14 jar-15 jar-16 jar-17 jar-18 jar-19 jar-20 jar-21 jar-22 jar-23 jar-24 jar-25 jar-26 jar-27 jar-28 jar-29 jar-30 jar-31 jar-32 jar-33 jar-34 jar-35 jar-36 jar-37 jar-38 jar-39 jar-40 jar-41 jar-42 jar-43 jar-44 jar-45 jar-46 jar-47 jar-48 jar-49 jar-50 jar-51 jar-52 jar-53 jar-54 jar-55 jar-56 "/>
+            <attribute name="jar-1-Extension-Name" value="${manifest.file.reference.Filters.jar}"/>
+            <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.aopalliance-1.0.jar}"/>
+            <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.apache-log4j-extras-1.1.jar}"/>
+            <attribute name="jar-4-Extension-Name" value="${manifest.file.reference.bsh.jar}"/>
+            <attribute name="jar-5-Extension-Name" value="${manifest.file.reference.ckez.jar}"/>
+            <attribute name="jar-6-Extension-Name" value="${manifest.file.reference.commons-beanutils-1.8.2.jar}"/>
+            <attribute name="jar-7-Extension-Name" value="${manifest.file.reference.commons-collections-2.1.1.jar}"/>
+            <attribute name="jar-8-Extension-Name" value="${manifest.file.reference.commons-collections-3.2.1.jar}"/>
+            <attribute name="jar-9-Extension-Name" value="${manifest.file.reference.commons-collections.jar}"/>
+            <attribute name="jar-10-Extension-Name" value="${manifest.file.reference.commons-digester-1.7.jar}"/>
+            <attribute name="jar-11-Extension-Name" value="${manifest.file.reference.commons-fileupload.jar}"/>
+            <attribute name="jar-12-Extension-Name" value="${manifest.file.reference.commons-io.jar}"/>
+            <attribute name="jar-13-Extension-Name" value="${manifest.file.reference.commons-javaflow-20060411.jar}"/>
+            <attribute name="jar-14-Extension-Name" value="${manifest.file.reference.commons-lang.jar}"/>
+            <attribute name="jar-15-Extension-Name" value="${manifest.file.reference.commons-logging-1.1.jar}"/>
+            <attribute name="jar-16-Extension-Name" value="${manifest.file.reference.commons-logging.jar}"/>
+            <attribute name="jar-17-Extension-Name" value="${manifest.file.reference.fckez.jar}"/>
+            <attribute name="jar-18-Extension-Name" value="${manifest.file.reference.itext.jar}"/>
+            <attribute name="jar-19-Extension-Name" value="${manifest.file.reference.jasperreports-fonts-4.0.1.jar}"/>
+            <attribute name="jar-20-Extension-Name" value="${manifest.file.reference.jasperreports.jar}"/>
+            <attribute name="jar-21-Extension-Name" value="${manifest.file.reference.javax.validation-1.0.0.GA.jar}"/>
+            <attribute name="jar-22-Extension-Name" value="${manifest.file.reference.jcommon.jar}"/>
+            <attribute name="jar-23-Extension-Name" value="${manifest.file.reference.jfreechart.jar}"/>
+            <attribute name="jar-24-Extension-Name" value="${manifest.file.reference.js.jar}"/>
+            <attribute name="jar-25-Extension-Name" value="${manifest.file.reference.jxl.jar}"/>
+            <attribute name="jar-26-Extension-Name" value="${manifest.file.reference.log4j-1.2.15.jar}"/>
+            <attribute name="jar-27-Extension-Name" value="${manifest.file.reference.mvel.jar}"/>
+            <attribute name="jar-28-Extension-Name" value="${manifest.file.reference.mysql-connector-java-5.0.4-bin.jar}"/>
+            <attribute name="jar-29-Extension-Name" value="${manifest.file.reference.ognl.jar}"/>
+            <attribute name="jar-30-Extension-Name" value="${manifest.file.reference.poi.jar}"/>
+            <attribute name="jar-31-Extension-Name" value="${manifest.file.reference.spring-aop-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-32-Extension-Name" value="${manifest.file.reference.spring-asm-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-33-Extension-Name" value="${manifest.file.reference.spring-beans-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-34-Extension-Name" value="${manifest.file.reference.spring-context-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-35-Extension-Name" value="${manifest.file.reference.spring-context-support-3.0.1.RELEASE.jar}"/>
+            <attribute name="jar-36-Extension-Name" value="${manifest.file.reference.spring-core-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-37-Extension-Name" value="${manifest.file.reference.spring-expression-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-38-Extension-Name" value="${manifest.file.reference.spring-jdbc-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-39-Extension-Name" value="${manifest.file.reference.spring-orm-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-40-Extension-Name" value="${manifest.file.reference.spring-security-acl-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-41-Extension-Name" value="${manifest.file.reference.spring-security-config-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-42-Extension-Name" value="${manifest.file.reference.spring-security-core-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-43-Extension-Name" value="${manifest.file.reference.spring-security-web-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-44-Extension-Name" value="${manifest.file.reference.spring-tx-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-45-Extension-Name" value="${manifest.file.reference.spring-web-3.0.2.RELEASE.jar}"/>
+            <attribute name="jar-46-Extension-Name" value="${manifest.file.reference.timelinez.jar}"/>
+            <attribute name="jar-47-Extension-Name" value="${manifest.file.reference.timeplotz.jar}"/>
+            <attribute name="jar-48-Extension-Name" value="${manifest.file.reference.zcommon.jar}"/>
+            <attribute name="jar-49-Extension-Name" value="${manifest.file.reference.zcommons-el.jar}"/>
+            <attribute name="jar-50-Extension-Name" value="${manifest.file.reference.zhtml.jar}"/>
+            <attribute name="jar-51-Extension-Name" value="${manifest.file.reference.zk.jar}"/>
+            <attribute name="jar-52-Extension-Name" value="${manifest.file.reference.zkplus.jar}"/>
+            <attribute name="jar-53-Extension-Name" value="${manifest.file.reference.zkspring-core.jar}"/>
+            <attribute name="jar-54-Extension-Name" value="${manifest.file.reference.zkspring-security-3.0.jar}"/>
+            <attribute name="jar-55-Extension-Name" value="${manifest.file.reference.zul.jar}"/>
+            <attribute name="jar-56-Extension-Name" value="${manifest.file.reference.zweb.jar}"/>
         </manifest>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
+        <copyfiles files="${file.reference.Filters.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.aopalliance-1.0.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.apache-log4j-extras-1.1.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.bsh.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.ckez.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-beanutils-1.8.2.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-collections-2.1.1.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-collections-3.2.1.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-collections.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-digester-1.7.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-fileupload.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-io.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-javaflow-20060411.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-lang.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-logging-1.1.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.commons-logging.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.fckez.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.itext.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.jasperreports-fonts-4.0.1.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.jasperreports.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.javax.validation-1.0.0.GA.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.jcommon.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.jfreechart.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.js.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.jxl.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.log4j-1.2.15.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.mvel.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.mysql-connector-java-5.0.4-bin.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.ognl.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.poi.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.spring-aop-3.0.2.RELEASE.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.spring-asm-3.0.2.RELEASE.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.spring-beans-3.0.2.RELEASE.jar}" todir="${dist.ear.dir}/lib"/>
@@ -905,10 +1038,17 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.spring-security-web-3.0.2.RELEASE.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.spring-tx-3.0.2.RELEASE.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.spring-web-3.0.2.RELEASE.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.timelinez.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.timeplotz.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.zcommon.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.zcommons-el.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.zhtml.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.zk.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.zkplus.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.zkspring-core.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.zkspring-security-3.0.jar}" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.aopalliance-1.0.jar}" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.commons-lang.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.zul.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.zweb.jar}" todir="${dist.ear.dir}/lib"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target name="-copy-meta-inf">
