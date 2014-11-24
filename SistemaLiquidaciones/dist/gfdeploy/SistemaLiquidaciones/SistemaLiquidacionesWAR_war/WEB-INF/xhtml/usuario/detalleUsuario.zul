@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="detalleUsuarioWindow"
+            title="Mantenimiento de usuarios"
+            border="none"
+            use="sv.com.diserv.liquidaciones.web.ui.usuarios.DetalleUsuarioCtrl"
+            closable="true"
+            width="600px"
+            height="350px"
+            sizable="true"
+            sclass="pageWindowTitle"
+            mode="modal">
+        <div sclass="z-toolbar" style="padding:0">
+            <hbox pack="stretch" sclass="hboxRemoveWhiteStrips" width="100%">
+                <!-- CRUD BUTTONS -->
+                <toolbar align="end"
+                         style="float:right; border-style:none;">
+                    <button id="btnNew"
+                            sclass="oT_ButtonWithIcon"
+                            image="/images/btnnew.gif"
+                            visible="false"/>
+                    <button id="btnEdit"
+                            sclass="oT_ButtonWithIcon"
+                            image="/images/btnedit.gif"
+                            visible="false"/>
+                    <button id="btnUpdate"
+                            sclass="oT_ButtonWithIcon"
+                            image="/images/btnsave.gif"
+                            visible="false"/>
+                    <button id="btnSave"
+                            sclass="oT_ButtonWithIcon"
+                            image="/images/btnsave.gif"/>
+                    <button id="btnClose"
+                            sclass="oT_ButtonWithIcon"
+                            image="/images/close.jpg"/>
+                </toolbar>
+            </hbox>
+        </div>
+        <borderlayout id="borderlayoutCustomer">
+            <north border="none"></north>
+            <center border="none">
+                <div id="divCenterCustomer">
+                    <tabbox id="tabBoxCustomer" width="100%" >
+                        <tabs>
+                            <tab   label="Ficha Completa de Usuario Sistema" />
+                        </tabs>
+                        <tabpanels>
+                            <!-- Tab Address -->
+                            <tabpanel   height="100%" style="border: 0px; padding: 0px">
+                                <hbox align="stretch"
+                                      pack="stretch"
+                                      sclass="FDCenterNoBorder"
+                                      width="100%"
+                                      style="padding: 3px;">
+                                    <!-- Left CONTENT AREA -->
+                                    <!-- simulates a columnLayout -->
+                                    <cell width="50%">
+                                        <vbox align="stretch"
+                                              pack="stretch"
+                                              width="100%"
+                                              style="padding: 3px;">
+                                            <div>
+                                                <panel
+                                                    border="none">
+                                                    <panelchildren>
+                                                        <groupbox id="gb_address" mold="3d" closable="false">
+                                                            <caption image="/images/person.gif"
+                                                                     label="Datos Personales" />
+                                                            <grid sclass="GridPlain">
+                                                                <columns>
+                                                                    <column align="left" width="150px" />
+                                                                    <column width="100%" />
+                                                                </columns>
+                                                                <rows>
+                                                                    <row>
+                                                                        <hbox>
+                                                                            <label value="Nombre  Usuario" />
+                                                                            <label value="*" style="color:red;font-size:10px" />
+                                                                        </hbox>
+                                                                        <textbox
+                                                                            id="txtNombreUsuario"
+                                                                            hflex="1"
+                                                                            tooltiptext="Nombre completo de cliente"/>
+                                                                    </row>
+                                                                    <row>
+                                                                        <hbox>
+                                                                            <label value="Usuario Sistema" />
+                                                                            <label value="*" style="color:red;font-size:10px" />
+                                                                        </hbox>
+                                                                        <textbox
+                                                                            id="txtUsuarioSistema"
+                                                                            hflex="1"
+                                                                            tooltiptext="Nombre para ingreso a sistema"/>
+                                                                    </row>
+
+                                                                    <row>
+                                                                        <hbox>
+                                                                            <label
+                                                                                value="Clave : " />
+                                                                            <label value="*" style="color:red; font-size:10px" />
+                                                                        </hbox>
+                                                                        <textbox maxlength="10"
+                                                                                 id="txtClaveUsuario"
+                                                                                  
+                                                                                 hflex="1" />
+                                                                    </row>
+                                                                    <row>
+                                                                        <hbox>
+                                                                            <label
+                                                                                value="Confirmar Clave : " />
+                                                                            <label value="*" style="color:red; font-size:10px" />
+                                                                        </hbox>
+                                                                        <textbox maxlength="10"
+                                                                                 id="txtClaveUsuario2"
+
+                                                                                 hflex="1" />
+                                                                    </row>
+
+                                                                    <row>
+                                                                        <hbox>
+                                                                            <label
+                                                                                value="Codigo Carne : " />
+                                                                            <label value="*" style="color:red; font-size:10px" />
+                                                                        </hbox>
+                                                                        <textbox maxlength="10" id="txtNumerocarne"  hflex="1" />
+                                                                    </row>
+
+                                                                    <row>
+                                                                        <hbox>
+                                                                            <label
+                                                                                value="Registros por lista : " />
+                                                                            <label value="*" style="color:red; font-size:10px" />
+                                                                        </hbox>
+                                                                        <intbox   id="txtRegistrosLista"  hflex="1" />
+                                                                    </row>
+                                                                    <row>
+                                                                        <hbox>
+                                                                            <label
+                                                                                value="Estado Activo :" />
+                                                                            <!--label value="*" style="color:red;font-size:10px" /-->
+                                                                        </hbox>
+                                                                        <!--listbox id="lstEstadoUsuario" mold="select" rows="1" hflex="1" /-->
+                                                                        <checkbox id="checkEstadoUsuario" />
+                                                                        <!--textbox maxlength="1" id="txtEstadoUsuario" hflex="1" /-->
+                                                                    </row>
+                                                                </rows>
+                                                            </grid>
+                                                        </groupbox>
+                                                    </panelchildren>
+                                                </panel>
+                                            </div>
+                                        </vbox>
+                                    </cell>
+
+                                </hbox>
+                            </tabpanel>
+                        </tabpanels>
+                    </tabbox>
+                </div>
+            </center>
+        </borderlayout>
+    </window>
+</zk>

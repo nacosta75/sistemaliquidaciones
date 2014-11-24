@@ -5,36 +5,8 @@
         <data xmlns="http://www.netbeans.org/ns/j2ee-ejbjarproject/3">
             <name>SistemaLiquidacionesEJB</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
-            <included-library dirs="200">file.reference.Filters.jar</included-library>
-            <included-library dirs="200">file.reference.aopalliance-1.0.jar</included-library>
             <included-library dirs="200">file.reference.apache-log4j-extras-1.1.jar</included-library>
-            <included-library dirs="200">file.reference.bsh.jar</included-library>
-            <included-library dirs="200">file.reference.ckez.jar</included-library>
-            <included-library dirs="200">file.reference.commons-beanutils-1.8.2.jar</included-library>
-            <included-library dirs="200">file.reference.commons-collections-2.1.1.jar</included-library>
-            <included-library dirs="200">file.reference.commons-collections-3.2.1.jar</included-library>
-            <included-library dirs="200">file.reference.commons-collections.jar</included-library>
-            <included-library dirs="200">file.reference.commons-digester-1.7.jar</included-library>
-            <included-library dirs="200">file.reference.commons-fileupload.jar</included-library>
-            <included-library dirs="200">file.reference.commons-io.jar</included-library>
-            <included-library dirs="200">file.reference.commons-javaflow-20060411.jar</included-library>
-            <included-library dirs="200">file.reference.commons-lang.jar</included-library>
-            <included-library dirs="200">file.reference.commons-logging-1.1.jar</included-library>
-            <included-library dirs="200">file.reference.commons-logging.jar</included-library>
-            <included-library dirs="200">file.reference.fckez.jar</included-library>
-            <included-library dirs="200">file.reference.itext.jar</included-library>
-            <included-library dirs="200">file.reference.jasperreports-fonts-4.0.1.jar</included-library>
-            <included-library dirs="200">file.reference.jasperreports.jar</included-library>
-            <included-library dirs="200">file.reference.javax.validation-1.0.0.GA.jar</included-library>
-            <included-library dirs="200">file.reference.jcommon.jar</included-library>
-            <included-library dirs="200">file.reference.jfreechart.jar</included-library>
-            <included-library dirs="200">file.reference.js.jar</included-library>
-            <included-library dirs="200">file.reference.jxl.jar</included-library>
             <included-library dirs="200">file.reference.log4j-1.2.15.jar</included-library>
-            <included-library dirs="200">file.reference.mvel.jar</included-library>
-            <included-library dirs="200">file.reference.mysql-connector-java-5.0.4-bin.jar</included-library>
-            <included-library dirs="200">file.reference.ognl.jar</included-library>
-            <included-library dirs="200">file.reference.poi.jar</included-library>
             <included-library dirs="200">file.reference.spring-aop-3.0.2.RELEASE.jar</included-library>
             <included-library dirs="200">file.reference.spring-asm-3.0.2.RELEASE.jar</included-library>
             <included-library dirs="200">file.reference.spring-beans-3.0.2.RELEASE.jar</included-library>
@@ -50,17 +22,10 @@
             <included-library dirs="200">file.reference.spring-security-web-3.0.2.RELEASE.jar</included-library>
             <included-library dirs="200">file.reference.spring-tx-3.0.2.RELEASE.jar</included-library>
             <included-library dirs="200">file.reference.spring-web-3.0.2.RELEASE.jar</included-library>
-            <included-library dirs="200">file.reference.timelinez.jar</included-library>
-            <included-library dirs="200">file.reference.timeplotz.jar</included-library>
-            <included-library dirs="200">file.reference.zcommon.jar</included-library>
-            <included-library dirs="200">file.reference.zcommons-el.jar</included-library>
-            <included-library dirs="200">file.reference.zhtml.jar</included-library>
-            <included-library dirs="200">file.reference.zk.jar</included-library>
-            <included-library dirs="200">file.reference.zkplus.jar</included-library>
             <included-library dirs="200">file.reference.zkspring-core.jar</included-library>
             <included-library dirs="200">file.reference.zkspring-security-3.0.jar</included-library>
-            <included-library dirs="200">file.reference.zul.jar</included-library>
-            <included-library dirs="200">file.reference.zweb.jar</included-library>
+            <included-library dirs="200">file.reference.aopalliance-1.0.jar</included-library>
+            <included-library dirs="200">file.reference.commons-lang.jar</included-library>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>

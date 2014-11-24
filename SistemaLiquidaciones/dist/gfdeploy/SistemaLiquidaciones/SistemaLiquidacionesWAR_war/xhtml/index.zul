@@ -1,0 +1,169 @@
+<?page
+    id="indexPage" title="..:Distribuiciones y Servicios,SA de CV:.."
+    contentType="text/html;charset=UTF-8" cacheable="false"
+    language="xul/html" zscriptLanguage="Java"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul
+http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <script type="text/javascript">
+        <!-- Function for scrolling the text -->
+        <!-- thanks to dagarwal82; http://www.zkoss.org/forum/listComment/16011 -->
+		<![CDATA[ function scrollTextbox(txtBox) { var txtEle = document.getElementById(txtBox); txtEle.scrollTop =
+		txtEle.scrollHeight; } ]]>
+    </script>
+    <window id="outerIndexWindow"
+            apply="sv.com.diserv.web.ui.index.IndexCtrl"
+            border="none"
+            width="100%"
+            height="100%">
+        <style>
+            body { padding: 0 0; /* 0 padding on top and bottom and 0 padding on right and left */ }
+            .z-loading { top: 50% !important; left: 45% !important; align: center; vertical-align: middle; }
+            <!-- groupbox inner content area, NO padding -->
+            .myGroupBoxContentArea .z-groupbox-cnt{ background-color: white; padding: 0px }
+        </style>
+
+        <!-- HIDDEN fields for storing the current desktop height and width -->
+        <intbox id="currentDesktopHeight" visible="false" />
+        <intbox id="currentDesktopWidth" visible="false" />
+        <!-- HIDDEN field for storing the initial menu type -->
+        <checkbox id="CBtreeMenu" checked="true" visible="false" />
+        <borderlayout id="borderlayoutMain" height="100%">
+            <north id="borderlayoutMainNorth" border="none" height="40px" splittable="false">
+                <div id="div1"
+                     style="background-color:silver; background-image:url('images/newbg2.png');background-repeat: repeat-x; border: 'none';">
+                    <hbox pack="stretch" width="100%">
+                        <div id="divNo"
+                             align="left"
+                             style="padding: 1px; ">
+                        </div>
+                        <div align="left" style="padding: 0px;">
+                            <image src="/images/newbg2.png" />
+                        </div>
+
+                        <div align="right" style="float: right">
+                            <hbox>
+                                <!-- Monitor Background pic -->
+                                <div
+                                    align="right">
+                                </div>
+                                <div align="right" style="float: right">
+                                    <vlayout>
+                                        <div align="right" style="float: right">
+                                            <!-- USER-BAR. Comps are created in the Controller -->
+                                            <window id="winUserBar"
+                                                    apply="sv.com.diserv.web.ui.util.UserBarCtrl"
+                                                    border="none" />
+                                        </div>
+                                        <div align="right"
+                                             style="float: right; padding-bottom: 3px;">
+                                            <hbox pack="end">
+                                                <a id="btnUserSettings"
+                                                   label="Configuración Cuenta"
+                                                   style="color: white;" />
+                                                <space width="5px" />
+                                                <a id="btnAbout"
+                                                   label="Acerca de"
+                                                   style="color: white;" />
+                                                <space width="5px" />
+                                                <a id="btnLogout"
+                                                   label="Salir"
+                                                   style="color: white;" />
+                                                <space width="8px" />
+                                            </hbox>
+                                        </div>
+                                    </vlayout>
+                                </div>
+                            </hbox>
+                        </div>
+                    </hbox>
+                    <div id="divDropDownMenu">
+                        <menubar id="mainMenuBar" height="25px"></menubar>
+                    </div>
+                </div>
+            </north>
+            <!-- MAIN MENU AREA -->
+            <west id="west"
+                  border="none"
+                  margins="0,0,0,0"
+                  size="260px"
+                  collapsible="true"
+                  style="background-color: #D6DCDE; padding: 5px"
+                  flex="true"
+                  minsize="100"
+                  splittable="true"
+                  autoscroll="false"
+            >
+                <div id="divWest">WEST</div>
+            </west>
+            <!-- MODULE CONTENT AREA -->
+            <center id="center"
+                    border="none"
+                    flex="true"
+                    autoscroll="true"
+                    style="background-color: #D6DCDE; padding: 5px">
+                <div id="divCenter">
+                    <panel border="normal">
+                        <caption style="color: #000000; font-weight: bold;"
+                                 label="Espacio de Trabajo">
+                            <hbox pack="stretch"
+                                  sclass="hboxRemoveWhiteStrips" width="100%">
+                                <toolbar align="start"
+                                         style="float:left; border-style: none;">
+                                </toolbar>
+                                <toolbar align="center"
+                                         style="float:left; border-style: none;">
+                                </toolbar>
+                                <toolbar align="end"
+                                         style="float:right; border-style: none;">
+                                    <toolbarbutton id="btnTestMain"
+                                                   image="/images/properties.gif"
+                                                   tooltiptext="Propiedades" />
+                                    <toolbarbutton id="btnCloseAllTabs"
+                                                   image="/images/btnclose.gif"
+                                                   tooltiptext="Cerrar todos los tabs" />
+                                </toolbar>
+                            </hbox>
+                        </caption>
+                        <panelchildren>
+                            <tabbox id="tabBoxIndexCenter"
+                                    width="100%"
+                                    style="padding: 0px">
+                                <tabs id="tabsIndexCenter"></tabs>
+                                <tabpanels id="tabpanelsBoxIndexCenter"></tabpanels>
+                            </tabbox>
+                        </panelchildren>
+                    </panel>
+                </div>
+            </center>
+            <!-- STATUS BAR AREA -->
+            <south id="south"
+                   border="none"
+                   height="22px"
+                   splittable="false">
+                <div id="divSouth"
+                     align="left"
+                     style="float: left; padding: 0px"
+                     width="100%">
+                    <borderlayout width="100%" height="22px">
+                        <center border="none">
+                            <!-- The StatusBar. Comps are created in the Controller -->
+                            <window id="winStatusBar"
+                                    apply="sv.com.diserv.web.ui.util.StatusBarCtrl"
+                                    border="none"
+                                    width="100%"
+                                    height="22px" />
+                        </center>
+                    </borderlayout>
+                </div>
+            </south>
+        </borderlayout>
+    </window>
+</zk>

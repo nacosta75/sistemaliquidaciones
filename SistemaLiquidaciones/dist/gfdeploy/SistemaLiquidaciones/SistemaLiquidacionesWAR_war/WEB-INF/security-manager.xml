@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:aop="http://www.springframework.org/schema/aop"
+             xmlns:p="http://www.springframework.org/schema/p"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                            http://www.springframework.org/schema/aop
+                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                            http://www.springframework.org/schema/security
+                            http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+    <global-method-security secured-annotations="enabled">
+    </global-method-security>
+    <http auto-config="true" access-denied-page="/error.zul">
+        <intercept-url pattern="/index.zul" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/WEB-INF/xhtml/mainTreeMenu.zul" access="IS_AUTHENTICATED_REMEMBERED" />
+        <intercept-url pattern="/xhtml/index.zul" access="IS_AUTHENTICATED_REMEMBERED" />
+        <intercept-url pattern="/WEB-INF/xhtml/**" access="IS_AUTHENTICATED_REMEMBERED" />
+        <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <form-login login-page="/login.zul" authentication-failure-url="/login.zul?login_error=1" />
+    </http>    
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userLoginService">    
+        </authentication-provider>
+    </authentication-manager>	
+    <beans:bean id="userLoginService"  class="sv.com.diserv.liquidaciones.security.SecurityManager"/>  
+    
+    <beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <beans:property name="basenames">
+            <beans:list>
+                <beans:value>mymessages</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>     
+   
+</beans:beans>

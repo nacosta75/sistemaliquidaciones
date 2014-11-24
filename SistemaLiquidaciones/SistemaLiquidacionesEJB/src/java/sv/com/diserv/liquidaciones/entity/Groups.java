@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package sv.com.diserv.liquidaciones.entity;
 
 import java.io.Serializable;
@@ -28,9 +27,12 @@ import javax.validation.constraints.Size;
 @Table(name = "GROUPS", catalog = "", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Groups.findAll", query = "SELECT g FROM Groups g"),
+    @NamedQuery(name = "Groups.countAll", query = "SELECT count(g.id) FROM Groups g"),
+
     @NamedQuery(name = "Groups.findById", query = "SELECT g FROM Groups g WHERE g.id = :id"),
     @NamedQuery(name = "Groups.findByGroupname", query = "SELECT g FROM Groups g WHERE g.groupname = :groupname")})
 public class Groups implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -115,5 +117,5 @@ public class Groups implements Serializable {
     public String toString() {
         return "sv.com.diserv.liquidaciones.entity.Groups[ id=" + id + " ]";
     }
-    
+
 }

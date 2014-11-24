@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:aop="http://www.springframework.org/schema/aop"
+             xmlns:p="http://www.springframework.org/schema/p"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                            http://www.springframework.org/schema/aop
+                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                            http://www.springframework.org/schema/security
+                            http://www.springframework.org/schema/security/spring-security-3.0.xsd" >
+    <beans:bean id="mainMenuCtrl" 
+                class="sv.com.diserv.web.ui.menu.MainMenuCtrl"
+                scope="prototype"
+                parent="basisCtrl">
+        <beans:property name="treeMainMenuFactory" ref="treeMenuFactory" />
+        <beans:property name="dropDownMenuFactory" ref="dropDownMenuFactory" />
+    </beans:bean>
+    <beans:bean id="basisCtrl"
+                abstract="true"
+                scope="prototype"
+                class="sv.com.diserv.web.ui.util.BaseController">
+        <beans:property name="userWorkspace" ref="userWorkspace" />
+    </beans:bean>
+    <beans:bean id="userWorkspace" 
+                class="sv.com.diserv.web.ui.util.UserWorkspace"
+                scope="session" />
+    <beans:bean id="treeMenuFactory" class="sv.com.diserv.web.ui.menu.tree.TreeMenuFactory">
+        <beans:property name="rootMenuDomainFactory" ref="metaMenuFactory" />
+    </beans:bean>
+
+    <beans:bean id="metaMenuFactory"
+                class="sv.com.diserv.web.ui.menu.spring.ClasspathMetaMenuFactory">
+        <beans:property name="name" value="/mainmenu.xml" />
+    </beans:bean>
+    <beans:bean id="dropDownMenuFactory" class="sv.com.diserv.web.ui.menu.dropdown.DropDownMenuFactory">
+        <beans:property name="rootMenuDomainFactory" ref="metaMenuFactory" />
+    </beans:bean>
+</beans:beans>

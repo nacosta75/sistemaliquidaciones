@@ -7,6 +7,10 @@
             <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/src/java/sv/com/diserv/liquidaciones/web/ui/bodegas/BuscarBodegaCtrll.java</file>
             <file>file:/C:/Users/abraham.acosta/Documents/firebird/miRepo/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/index.jsp</file>
         </group>
-        <group name="Sigap_2.0"/>
+        <group name="Sigap_2.0">
+            <file>file:/C:/Proyectos/Testing/noanoa/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/WEB-INF/xhtml/usuario/buscarUsuario.zul</file>
+            <file>file:/C:/Proyectos/Testing/noanoa/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/WEB-INF/xhtml/usuario/listaUsuarios.zul</file>
+            <file>file:/C:/Proyectos/Testing/noanoa/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/src/java/sv/com/diserv/web/ui/usuarios/ListaUsuariosCtrl.java</file>
+        </group>
     </open-files>
 </project-private>
