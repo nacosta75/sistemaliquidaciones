@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package sv.com.diserv.liquidaciones.entity;
 
 import java.io.Serializable;
@@ -16,38 +17,30 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author edwin.alvarenga
  */
 @Entity
-@Table(name = "GROUPS", catalog = "", schema = "")
+@Table(catalog = "", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Groups.findAll", query = "SELECT g FROM Groups g"),
-    @NamedQuery(name = "Groups.countAll", query = "SELECT count(g.id) FROM Groups g"),
-
     @NamedQuery(name = "Groups.findById", query = "SELECT g FROM Groups g WHERE g.id = :id"),
     @NamedQuery(name = "Groups.findByGroupname", query = "SELECT g FROM Groups g WHERE g.groupname = :groupname")})
 public class Groups implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     private Long id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "GROUPNAME", nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String groupname;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupid")
-    private List<GroupAuthorities> groupAuthoritiesList;
+    private List<GroupMembers> groupmembersList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupid")
-    private List<GroupMembers> groupMembersList;
+    private List<GroupAuthorities> groupauthoritiesList;
 
     public Groups() {
     }
@@ -77,20 +70,20 @@ public class Groups implements Serializable {
         this.groupname = groupname;
     }
 
-    public List<GroupAuthorities> getGroupAuthoritiesList() {
-        return groupAuthoritiesList;
+    public List<GroupMembers> getGroupmembersList() {
+        return groupmembersList;
     }
 
-    public void setGroupAuthoritiesList(List<GroupAuthorities> groupAuthoritiesList) {
-        this.groupAuthoritiesList = groupAuthoritiesList;
+    public void setGroupmembersList(List<GroupMembers> groupmembersList) {
+        this.groupmembersList = groupmembersList;
     }
 
-    public List<GroupMembers> getGroupMembersList() {
-        return groupMembersList;
+    public List<GroupAuthorities> getGroupauthoritiesList() {
+        return groupauthoritiesList;
     }
 
-    public void setGroupMembersList(List<GroupMembers> groupMembersList) {
-        this.groupMembersList = groupMembersList;
+    public void setGroupauthoritiesList(List<GroupAuthorities> groupauthoritiesList) {
+        this.groupauthoritiesList = groupauthoritiesList;
     }
 
     @Override
@@ -117,5 +110,5 @@ public class Groups implements Serializable {
     public String toString() {
         return "sv.com.diserv.liquidaciones.entity.Groups[ id=" + id + " ]";
     }
-
+    
 }

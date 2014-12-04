@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package sv.com.diserv.liquidaciones.entity;
 
 import java.io.Serializable;
@@ -15,40 +16,32 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author edwin.alvarenga
  */
 @Entity
-@Table(name = "AUTHORITIES", catalog = "", schema = "")
+@Table(catalog = "", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Authorities.findAll", query = "SELECT a FROM Authorities a"),
     @NamedQuery(name = "Authorities.findByIdauthority", query = "SELECT a FROM Authorities a WHERE a.idauthority = :idauthority"),
-    @NamedQuery(name = "Authorities.findByIdNombreUsuario", query = "SELECT distinct r FROM Authorities r join r.groupAuthoritiesList as gr JOIN gr.groupid as rg JOIN rg.groupMembersList as ur JOIN ur.idusuario as user where user.nombreUsuario = :idUsuario"),
     @NamedQuery(name = "Authorities.findByNombre", query = "SELECT a FROM Authorities a WHERE a.nombre = :nombre"),
     @NamedQuery(name = "Authorities.findByDescripcion", query = "SELECT a FROM Authorities a WHERE a.descripcion = :descripcion"),
     @NamedQuery(name = "Authorities.findByEnabled", query = "SELECT a FROM Authorities a WHERE a.enabled = :enabled")})
 public class Authorities implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "IDAUTHORITY", nullable = false)
+    @Column(nullable = false)
     private Integer idauthority;
-    @Size(max = 80)
-    @Column(name = "NOMBRE", length = 80)
+    @Column(length = 80)
     private String nombre;
-    @Size(max = 280)
-    @Column(name = "DESCRIPCION", length = 280)
+    @Column(length = 280)
     private String descripcion;
-    @Column(name = "ENABLED")
     private Integer enabled;
     @OneToMany(mappedBy = "idauthority")
-    private List<GroupAuthorities> groupAuthoritiesList;
+    private List<GroupAuthorities> groupauthoritiesList;
 
     public Authorities() {
     }
@@ -89,12 +82,12 @@ public class Authorities implements Serializable {
         this.enabled = enabled;
     }
 
-    public List<GroupAuthorities> getGroupAuthoritiesList() {
-        return groupAuthoritiesList;
+    public List<GroupAuthorities> getGroupauthoritiesList() {
+        return groupauthoritiesList;
     }
 
-    public void setGroupAuthoritiesList(List<GroupAuthorities> groupAuthoritiesList) {
-        this.groupAuthoritiesList = groupAuthoritiesList;
+    public void setGroupauthoritiesList(List<GroupAuthorities> groupauthoritiesList) {
+        this.groupauthoritiesList = groupauthoritiesList;
     }
 
     @Override
@@ -121,5 +114,5 @@ public class Authorities implements Serializable {
     public String toString() {
         return "sv.com.diserv.liquidaciones.entity.Authorities[ idauthority=" + idauthority + " ]";
     }
-
+    
 }

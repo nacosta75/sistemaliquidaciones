@@ -9,180 +9,150 @@ package sv.com.diserv.liquidaciones.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author edwin.alvarenga
  */
 @Entity
-@Table(name = "EMPRESAS", catalog = "", schema = "")
+@Table(catalog = "", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Empresas.findAll", query = "SELECT e FROM Empresas e"),
-    @NamedQuery(name = "Empresas.findByIdempresa", query = "SELECT e FROM Empresas e WHERE e.idempresa = :idempresa"),
-    @NamedQuery(name = "Empresas.findByCodigo", query = "SELECT e FROM Empresas e WHERE e.codigo = :codigo"),
-    @NamedQuery(name = "Empresas.findByNombre", query = "SELECT e FROM Empresas e WHERE e.nombre = :nombre"),
-    @NamedQuery(name = "Empresas.findByDireccion", query = "SELECT e FROM Empresas e WHERE e.direccion = :direccion"),
-    @NamedQuery(name = "Empresas.findByCiudad", query = "SELECT e FROM Empresas e WHERE e.ciudad = :ciudad"),
-    @NamedQuery(name = "Empresas.findByIdmuni", query = "SELECT e FROM Empresas e WHERE e.idmuni = :idmuni"),
-    @NamedQuery(name = "Empresas.findByPais", query = "SELECT e FROM Empresas e WHERE e.pais = :pais"),
-    @NamedQuery(name = "Empresas.findByTelefono", query = "SELECT e FROM Empresas e WHERE e.telefono = :telefono"),
-    @NamedQuery(name = "Empresas.findByRegistro", query = "SELECT e FROM Empresas e WHERE e.registro = :registro"),
+    @NamedQuery(name = "Empresas.findByCorrEmpresa", query = "SELECT e FROM Empresas e WHERE e.corrEmpresa = :corrEmpresa"),
+    @NamedQuery(name = "Empresas.findByCodEmpresa", query = "SELECT e FROM Empresas e WHERE e.codEmpresa = :codEmpresa"),
+    @NamedQuery(name = "Empresas.findByNombreEmpresa", query = "SELECT e FROM Empresas e WHERE e.nombreEmpresa = :nombreEmpresa"),
+    @NamedQuery(name = "Empresas.findByRazonSocial", query = "SELECT e FROM Empresas e WHERE e.razonSocial = :razonSocial"),
+    @NamedQuery(name = "Empresas.findByCalleOPasaje", query = "SELECT e FROM Empresas e WHERE e.calleOPasaje = :calleOPasaje"),
+    @NamedQuery(name = "Empresas.findByColonia", query = "SELECT e FROM Empresas e WHERE e.colonia = :colonia"),
     @NamedQuery(name = "Empresas.findByNit", query = "SELECT e FROM Empresas e WHERE e.nit = :nit"),
-    @NamedQuery(name = "Empresas.findByEmail", query = "SELECT e FROM Empresas e WHERE e.email = :email"),
-    @NamedQuery(name = "Empresas.findByWeb", query = "SELECT e FROM Empresas e WHERE e.web = :web"),
-    @NamedQuery(name = "Empresas.findByGiro", query = "SELECT e FROM Empresas e WHERE e.giro = :giro"),
-    @NamedQuery(name = "Empresas.findByActiva", query = "SELECT e FROM Empresas e WHERE e.activa = :activa")})
+    @NamedQuery(name = "Empresas.findByTipoContribuyente", query = "SELECT e FROM Empresas e WHERE e.tipoContribuyente = :tipoContribuyente"),
+    @NamedQuery(name = "Empresas.findByNoRegistroFiscal", query = "SELECT e FROM Empresas e WHERE e.noRegistroFiscal = :noRegistroFiscal"),
+    @NamedQuery(name = "Empresas.findByGiroEmpresa", query = "SELECT e FROM Empresas e WHERE e.giroEmpresa = :giroEmpresa"),
+    @NamedQuery(name = "Empresas.findByTelefono1", query = "SELECT e FROM Empresas e WHERE e.telefono1 = :telefono1"),
+    @NamedQuery(name = "Empresas.findByTelefono2", query = "SELECT e FROM Empresas e WHERE e.telefono2 = :telefono2"),
+    @NamedQuery(name = "Empresas.findByTelefono3", query = "SELECT e FROM Empresas e WHERE e.telefono3 = :telefono3"),
+    @NamedQuery(name = "Empresas.findByTelefono4", query = "SELECT e FROM Empresas e WHERE e.telefono4 = :telefono4"),
+    @NamedQuery(name = "Empresas.findByFax", query = "SELECT e FROM Empresas e WHERE e.fax = :fax"),
+    @NamedQuery(name = "Empresas.findByDiaQuedan", query = "SELECT e FROM Empresas e WHERE e.diaQuedan = :diaQuedan"),
+    @NamedQuery(name = "Empresas.findByCodCorrRep1", query = "SELECT e FROM Empresas e WHERE e.codCorrRep1 = :codCorrRep1"),
+    @NamedQuery(name = "Empresas.findByCodCorrRep2", query = "SELECT e FROM Empresas e WHERE e.codCorrRep2 = :codCorrRep2"),
+    @NamedQuery(name = "Empresas.findByCodCorrRep3", query = "SELECT e FROM Empresas e WHERE e.codCorrRep3 = :codCorrRep3"),
+    @NamedQuery(name = "Empresas.findByCodCorrContador", query = "SELECT e FROM Empresas e WHERE e.codCorrContador = :codCorrContador"),
+    @NamedQuery(name = "Empresas.findByCodCorrAuditor", query = "SELECT e FROM Empresas e WHERE e.codCorrAuditor = :codCorrAuditor")})
 public class Empresas implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "IDEMPRESA", nullable = false)
-    private Integer idempresa;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "CODIGO", nullable = false, length = 10)
-    private String codigo;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "NOMBRE", nullable = false, length = 100)
-    private String nombre;
-    @Size(max = 100)
-    @Column(name = "DIRECCION", length = 100)
-    private String direccion;
-    @Size(max = 20)
-    @Column(name = "CIUDAD", length = 20)
-    private String ciudad;
-    @Size(max = 3)
-    @Column(name = "IDMUNI", length = 3)
-    private String idmuni;
-    @Size(max = 20)
-    @Column(name = "PAIS", length = 20)
-    private String pais;
-    @Size(max = 20)
-    @Column(name = "TELEFONO", length = 20)
-    private String telefono;
-    @Size(max = 10)
-    @Column(name = "REGISTRO", length = 10)
-    private String registro;
-    @Size(max = 20)
-    @Column(name = "NIT", length = 20)
+    @Column(name = "CORR_EMPRESA", nullable = false)
+    private Integer corrEmpresa;
+    @Column(name = "COD_EMPRESA")
+    private Integer codEmpresa;
+    @Column(name = "NOMBRE_EMPRESA", length = 80)
+    private String nombreEmpresa;
+    @Column(name = "RAZON_SOCIAL", length = 80)
+    private String razonSocial;
+    @Column(name = "CALLE_O_PASAJE", length = 100)
+    private String calleOPasaje;
+    @Column(length = 80)
+    private String colonia;
+    @Column(length = 20)
     private String nit;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 60)
-    @Column(name = "EMAIL", length = 60)
-    private String email;
-    @Size(max = 60)
-    @Column(name = "WEB", length = 60)
-    private String web;
-    @Size(max = 100)
-    @Column(name = "GIRO", length = 100)
-    private String giro;
-    @Column(name = "ACTIVA")
-    private Character activa;
-    @JoinColumn(name = "IDDEPTO", referencedColumnName = "IDDEPTO")
-    @ManyToOne
-    private DeptoPais iddepto;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idempresa")
-    private List<Bodegas> bodegasList;
+    @Column(name = "TIPO_CONTRIBUYENTE", length = 1)
+    private String tipoContribuyente;
+    @Column(name = "NO_REGISTRO_FISCAL", length = 20)
+    private String noRegistroFiscal;
+    @Column(name = "GIRO_EMPRESA", length = 200)
+    private String giroEmpresa;
+    @Column(length = 13)
+    private String telefono1;
+    @Column(length = 13)
+    private String telefono2;
+    @Column(length = 13)
+    private String telefono3;
+    @Column(length = 13)
+    private String telefono4;
+    @Column(length = 13)
+    private String fax;
+    @Column(name = "DIA_QUEDAN", length = 1)
+    private String diaQuedan;
+    @Column(name = "COD_CORR_REP1")
+    private Integer codCorrRep1;
+    @Column(name = "COD_CORR_REP2")
+    private Integer codCorrRep2;
+    @Column(name = "COD_CORR_REP3")
+    private Integer codCorrRep3;
+    @Column(name = "COD_CORR_CONTADOR")
+    private Integer codCorrContador;
+    @Column(name = "COD_CORR_AUDITOR")
+    private Integer codCorrAuditor;
+    @JoinColumn(name = "CORR_EMPRESA", referencedColumnName = "CORR", nullable = false, insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private PaisDepMuni paisDepMuni;
+    @OneToMany(mappedBy = "corrEmpresa")
+    private List<Correlativos> correlativosList;
 
     public Empresas() {
     }
 
-    public Empresas(Integer idempresa) {
-        this.idempresa = idempresa;
+    public Empresas(Integer corrEmpresa) {
+        this.corrEmpresa = corrEmpresa;
     }
 
-    public Empresas(Integer idempresa, String codigo, String nombre) {
-        this.idempresa = idempresa;
-        this.codigo = codigo;
-        this.nombre = nombre;
+    public Integer getCorrEmpresa() {
+        return corrEmpresa;
     }
 
-    public Integer getIdempresa() {
-        return idempresa;
+    public void setCorrEmpresa(Integer corrEmpresa) {
+        this.corrEmpresa = corrEmpresa;
     }
 
-    public void setIdempresa(Integer idempresa) {
-        this.idempresa = idempresa;
+    public Integer getCodEmpresa() {
+        return codEmpresa;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public void setCodEmpresa(Integer codEmpresa) {
+        this.codEmpresa = codEmpresa;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public String getNombreEmpresa() {
+        return nombreEmpresa;
     }
 
-    public String getNombre() {
-        return nombre;
+    public void setNombreEmpresa(String nombreEmpresa) {
+        this.nombreEmpresa = nombreEmpresa;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public String getRazonSocial() {
+        return razonSocial;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public String getCalleOPasaje() {
+        return calleOPasaje;
     }
 
-    public String getCiudad() {
-        return ciudad;
+    public void setCalleOPasaje(String calleOPasaje) {
+        this.calleOPasaje = calleOPasaje;
     }
 
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+    public String getColonia() {
+        return colonia;
     }
 
-    public String getIdmuni() {
-        return idmuni;
-    }
-
-    public void setIdmuni(String idmuni) {
-        this.idmuni = idmuni;
-    }
-
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getRegistro() {
-        return registro;
-    }
-
-    public void setRegistro(String registro) {
-        this.registro = registro;
+    public void setColonia(String colonia) {
+        this.colonia = colonia;
     }
 
     public String getNit() {
@@ -193,58 +163,138 @@ public class Empresas implements Serializable {
         this.nit = nit;
     }
 
-    public String getEmail() {
-        return email;
+    public String getTipoContribuyente() {
+        return tipoContribuyente;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setTipoContribuyente(String tipoContribuyente) {
+        this.tipoContribuyente = tipoContribuyente;
     }
 
-    public String getWeb() {
-        return web;
+    public String getNoRegistroFiscal() {
+        return noRegistroFiscal;
     }
 
-    public void setWeb(String web) {
-        this.web = web;
+    public void setNoRegistroFiscal(String noRegistroFiscal) {
+        this.noRegistroFiscal = noRegistroFiscal;
     }
 
-    public String getGiro() {
-        return giro;
+    public String getGiroEmpresa() {
+        return giroEmpresa;
     }
 
-    public void setGiro(String giro) {
-        this.giro = giro;
+    public void setGiroEmpresa(String giroEmpresa) {
+        this.giroEmpresa = giroEmpresa;
     }
 
-    public Character getActiva() {
-        return activa;
+    public String getTelefono1() {
+        return telefono1;
     }
 
-    public void setActiva(Character activa) {
-        this.activa = activa;
+    public void setTelefono1(String telefono1) {
+        this.telefono1 = telefono1;
     }
 
-    public DeptoPais getIddepto() {
-        return iddepto;
+    public String getTelefono2() {
+        return telefono2;
     }
 
-    public void setIddepto(DeptoPais iddepto) {
-        this.iddepto = iddepto;
+    public void setTelefono2(String telefono2) {
+        this.telefono2 = telefono2;
     }
 
-    public List<Bodegas> getBodegasList() {
-        return bodegasList;
+    public String getTelefono3() {
+        return telefono3;
     }
 
-    public void setBodegasList(List<Bodegas> bodegasList) {
-        this.bodegasList = bodegasList;
+    public void setTelefono3(String telefono3) {
+        this.telefono3 = telefono3;
+    }
+
+    public String getTelefono4() {
+        return telefono4;
+    }
+
+    public void setTelefono4(String telefono4) {
+        this.telefono4 = telefono4;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public String getDiaQuedan() {
+        return diaQuedan;
+    }
+
+    public void setDiaQuedan(String diaQuedan) {
+        this.diaQuedan = diaQuedan;
+    }
+
+    public Integer getCodCorrRep1() {
+        return codCorrRep1;
+    }
+
+    public void setCodCorrRep1(Integer codCorrRep1) {
+        this.codCorrRep1 = codCorrRep1;
+    }
+
+    public Integer getCodCorrRep2() {
+        return codCorrRep2;
+    }
+
+    public void setCodCorrRep2(Integer codCorrRep2) {
+        this.codCorrRep2 = codCorrRep2;
+    }
+
+    public Integer getCodCorrRep3() {
+        return codCorrRep3;
+    }
+
+    public void setCodCorrRep3(Integer codCorrRep3) {
+        this.codCorrRep3 = codCorrRep3;
+    }
+
+    public Integer getCodCorrContador() {
+        return codCorrContador;
+    }
+
+    public void setCodCorrContador(Integer codCorrContador) {
+        this.codCorrContador = codCorrContador;
+    }
+
+    public Integer getCodCorrAuditor() {
+        return codCorrAuditor;
+    }
+
+    public void setCodCorrAuditor(Integer codCorrAuditor) {
+        this.codCorrAuditor = codCorrAuditor;
+    }
+
+    public PaisDepMuni getPaisDepMuni() {
+        return paisDepMuni;
+    }
+
+    public void setPaisDepMuni(PaisDepMuni paisDepMuni) {
+        this.paisDepMuni = paisDepMuni;
+    }
+
+    public List<Correlativos> getCorrelativosList() {
+        return correlativosList;
+    }
+
+    public void setCorrelativosList(List<Correlativos> correlativosList) {
+        this.correlativosList = correlativosList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idempresa != null ? idempresa.hashCode() : 0);
+        hash += (corrEmpresa != null ? corrEmpresa.hashCode() : 0);
         return hash;
     }
 
@@ -255,7 +305,7 @@ public class Empresas implements Serializable {
             return false;
         }
         Empresas other = (Empresas) object;
-        if ((this.idempresa == null && other.idempresa != null) || (this.idempresa != null && !this.idempresa.equals(other.idempresa))) {
+        if ((this.corrEmpresa == null && other.corrEmpresa != null) || (this.corrEmpresa != null && !this.corrEmpresa.equals(other.corrEmpresa))) {
             return false;
         }
         return true;
@@ -263,7 +313,7 @@ public class Empresas implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.Empresas[ idempresa=" + idempresa + " ]";
+        return "sv.com.diserv.liquidaciones.entity.Empresas[ corrEmpresa=" + corrEmpresa + " ]";
     }
     
 }

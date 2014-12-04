@@ -16,23 +16,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author edwin.alvarenga
  */
 @Entity
-@Table(name = "GROUPMEMBERS", catalog = "", schema = "")
+@Table(catalog = "", schema = "")
 @NamedQueries({
-    @NamedQuery(name = "GroupMembers.findAll", query = "SELECT g FROM GroupMembers g"),
-    @NamedQuery(name = "GroupMembers.findById", query = "SELECT g FROM GroupMembers g WHERE g.id = :id")})
+    @NamedQuery(name = "Groupmembers.findAll", query = "SELECT g FROM Groupmembers g"),
+    @NamedQuery(name = "Groupmembers.findById", query = "SELECT g FROM Groupmembers g WHERE g.id = :id")})
 public class GroupMembers implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     private Long id;
     @JoinColumn(name = "IDUSUARIO", referencedColumnName = "IDUSUARIO")
     @ManyToOne
@@ -94,7 +92,7 @@ public class GroupMembers implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.GroupMembers[ id=" + id + " ]";
+        return "sv.com.diserv.liquidaciones.entity.Groupmembers[ id=" + id + " ]";
     }
     
 }

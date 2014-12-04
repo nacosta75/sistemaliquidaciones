@@ -16,23 +16,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author edwin.alvarenga
  */
 @Entity
-@Table(name = "GROUPAUTHORITIES", catalog = "", schema = "")
+@Table(catalog = "", schema = "")
 @NamedQueries({
-    @NamedQuery(name = "GroupAuthorities.findAll", query = "SELECT g FROM GroupAuthorities g"),
-    @NamedQuery(name = "GroupAuthorities.findByIdcorrelativo", query = "SELECT g FROM GroupAuthorities g WHERE g.idcorrelativo = :idcorrelativo")})
+    @NamedQuery(name = "Groupauthorities.findAll", query = "SELECT g FROM Groupauthorities g"),
+    @NamedQuery(name = "Groupauthorities.findByIdcorrelativo", query = "SELECT g FROM Groupauthorities g WHERE g.idcorrelativo = :idcorrelativo")})
 public class GroupAuthorities implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "IDCORRELATIVO", nullable = false)
+    @Column(nullable = false)
     private Integer idcorrelativo;
     @JoinColumn(name = "GROUPID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
@@ -94,7 +92,7 @@ public class GroupAuthorities implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.GroupAuthorities[ idcorrelativo=" + idcorrelativo + " ]";
+        return "sv.com.diserv.liquidaciones.entity.Groupauthorities[ idcorrelativo=" + idcorrelativo + " ]";
     }
     
 }

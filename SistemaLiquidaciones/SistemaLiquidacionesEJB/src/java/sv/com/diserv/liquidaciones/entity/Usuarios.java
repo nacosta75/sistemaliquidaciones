@@ -7,6 +7,7 @@ package sv.com.diserv.liquidaciones.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,66 +16,43 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author edwin.alvarenga
  */
 @Entity
-@Table(name = "USUARIOS", catalog = "", schema = "")
+@Table(catalog = "", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
     @NamedQuery(name = "Usuarios.findByIdusuario", query = "SELECT u FROM Usuarios u WHERE u.idusuario = :idusuario"),
-    //@NamedQuery(name = "Usuarios.findByNombreusuario", query = "SELECT u FROM Usuarios u WHERE u.nombreUsuario = :nombreusuario"),
-    @NamedQuery(name = "Usuarios.findByNombreUsuario", query = "SELECT u FROM Usuarios u WHERE u.nombreUsuario = :nombreUsuario"),
-    @NamedQuery(name = "Usuarios.countAll", query = "SELECT count(u.idusuario) FROM Usuarios u"),
+    @NamedQuery(name = "Usuarios.findByNombreusuario", query = "SELECT u FROM Usuarios u WHERE u.nombreusuario = :nombreusuario"),
     @NamedQuery(name = "Usuarios.findByContrasena", query = "SELECT u FROM Usuarios u WHERE u.contrasena = :contrasena"),
-    @NamedQuery(name = "Usuarios.findByCodigoempleado", query = "SELECT u FROM Usuarios u WHERE u.codigoEmpleado = :codigoempleado"),
+    @NamedQuery(name = "Usuarios.findByCodigoempleado", query = "SELECT u FROM Usuarios u WHERE u.codigoempleado = :codigoempleado"),
     @NamedQuery(name = "Usuarios.findByNombreCompleto", query = "SELECT u FROM Usuarios u WHERE u.nombreCompleto = :nombreCompleto"),
     @NamedQuery(name = "Usuarios.findByStatus", query = "SELECT u FROM Usuarios u WHERE u.status = :status"),
-    @NamedQuery(name = "Usuarios.findByRegistroslista", query = "SELECT u FROM Usuarios u WHERE u.registrosLista = :registroslista")})
+    @NamedQuery(name = "Usuarios.findByRegistroslista", query = "SELECT u FROM Usuarios u WHERE u.registroslista = :registroslista")})
 public class Usuarios implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "IDUSUARIO", nullable = false)
-    private Integer idusuario;
-    @Size(max = 50)
-    @Column(name = "NOMBREUSUARIO", length = 50)
+    @Column(nullable = false)
+    private Integer idUsuario;
+    @Column(length = 50)
     private String nombreUsuario;
-    @Size(max = 25)
-    @Column(name = "CONTRASENA", length = 25)
+    @Column(length = 25)
     private String contrasena;
-    @Size(max = 6)
-    @Column(name = "CODIGOEMPLEADO", length = 6)
+    @Column(length = 6)
     private String codigoEmpleado;
-    @Size(max = 40)
     @Column(name = "NOMBRE_COMPLETO", length = 40)
     private String nombreCompleto;
-    @Column(name = "STATUS")
     private Boolean status;
-    @Column(name = "REGISTROSLISTA")
     private Integer registrosLista;
     @OneToMany(mappedBy = "idusuario")
     private List<GroupMembers> groupMembersList;
 
     public Usuarios() {
-    }
-
-    public Usuarios(Integer idusuario) {
-        this.idusuario = idusuario;
-    }
-
-    public Integer getIdusuario() {
-        return idusuario;
-    }
-
-    public void setIdusuario(Integer idusuario) {
-        this.idusuario = idusuario;
     }
 
     public String getContrasena() {
@@ -101,6 +79,22 @@ public class Usuarios implements Serializable {
         this.status = status;
     }
 
+    public List<GroupMembers> getGroupMembersList() {
+        return groupMembersList;
+    }
+
+    public void setGroupMembersList(List<GroupMembers> groupMembersList) {
+        this.groupMembersList = groupMembersList;
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -125,29 +119,23 @@ public class Usuarios implements Serializable {
         this.registrosLista = registrosLista;
     }
 
-    public List<GroupMembers> getGroupMembersList() {
-        return groupMembersList;
-    }
-
-    public void setGroupMembersList(List<GroupMembers> groupMembersList) {
-        this.groupMembersList = groupMembersList;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (idusuario != null ? idusuario.hashCode() : 0);
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.idUsuario);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuarios)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Usuarios other = (Usuarios) object;
-        if ((this.idusuario == null && other.idusuario != null) || (this.idusuario != null && !this.idusuario.equals(other.idusuario))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuarios other = (Usuarios) obj;
+        if (!Objects.equals(this.idUsuario, other.idUsuario)) {
             return false;
         }
         return true;
@@ -155,7 +143,7 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.Usuarios[ idusuario=" + idusuario + " ]";
+        return "Usuarios{" + "idUsuario=" + idUsuario + ", nombreUsuario=" + nombreUsuario + ", contrasena=" + contrasena + ", codigoEmpleado=" + codigoEmpleado + ", nombreCompleto=" + nombreCompleto + ", status=" + status + ", registrosLista=" + registrosLista + ", groupMembersList=" + groupMembersList + '}';
     }
 
 }
