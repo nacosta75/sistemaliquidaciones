@@ -9,7 +9,7 @@ import java.util.List;
 import javax.ejb.Local;
 import sv.com.diserv.liquidaciones.dto.BusquedaBodegaDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesBodegaDTO;
-import sv.com.diserv.liquidaciones.entity.Bodegas;
+import sv.com.diserv.liquidaciones.entity.SucurBode;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 
 /**
@@ -27,7 +27,7 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public List<Bodegas> loadAllBodega(int inicio, int fin) throws DiservBusinessException;
+    public List<SucurBode> loadAllBodega(int inicio, int fin) throws DiservBusinessException;
 
     /**
      * *
@@ -43,7 +43,7 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public OperacionesBodegaDTO guardarBodega(Bodegas bodega) throws DiservBusinessException;
+    public OperacionesBodegaDTO guardarBodega(SucurBode bodega) throws DiservBusinessException;
 
     /**
      * *
@@ -52,7 +52,7 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public List<Bodegas> loadAllBodegasByLike(String nombreLike) throws DiservBusinessException;
+    public List<SucurBode> loadAllBodegasByLike(String nombreLike) throws DiservBusinessException;
 
     /**
      * *
@@ -61,7 +61,7 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public OperacionesBodegaDTO actualizarBodega(Bodegas cliente) throws DiservBusinessException;
+    public OperacionesBodegaDTO actualizarBodega(SucurBode cliente) throws DiservBusinessException;
 
     /**
      * *
@@ -70,7 +70,7 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public List<Bodegas> buscarBodegaByCriteria(BusquedaBodegaDTO request) throws DiservBusinessException;
+    public List<SucurBode> buscarBodegaByCriteria(BusquedaBodegaDTO request) throws DiservBusinessException;
 
     /**
      * *
@@ -79,7 +79,7 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public List<Bodegas> loadBodegaByNombreLike(String likeNombre) throws DiservBusinessException;
+    public List<SucurBode> loadBodegaByNombreLike(String likeNombre) throws DiservBusinessException;
 
     /**
      * **
@@ -88,5 +88,5 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public Bodegas loadBodegaByID(Integer idCliente) throws DiservBusinessException;
+    public SucurBode loadBodegaByID(Integer idCliente) throws DiservBusinessException;
 }

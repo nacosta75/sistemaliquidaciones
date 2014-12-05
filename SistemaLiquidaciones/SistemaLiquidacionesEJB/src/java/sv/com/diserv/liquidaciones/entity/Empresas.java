@@ -9,6 +9,7 @@ package sv.com.diserv.liquidaciones.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,13 +19,18 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author edwin.alvarenga
+ * @author abraham.acosta
  */
 @Entity
-@Table(catalog = "", schema = "")
+@Table(name = "EMPRESAS")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Empresas.findAll", query = "SELECT e FROM Empresas e"),
     @NamedQuery(name = "Empresas.findByCorrEmpresa", query = "SELECT e FROM Empresas e WHERE e.corrEmpresa = :corrEmpresa"),
@@ -52,37 +58,53 @@ public class Empresas implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "CORR_EMPRESA", nullable = false)
+    @NotNull
+    @Column(name = "CORR_EMPRESA")
     private Integer corrEmpresa;
     @Column(name = "COD_EMPRESA")
     private Integer codEmpresa;
-    @Column(name = "NOMBRE_EMPRESA", length = 80)
+    @Size(max = 80)
+    @Column(name = "NOMBRE_EMPRESA")
     private String nombreEmpresa;
-    @Column(name = "RAZON_SOCIAL", length = 80)
+    @Size(max = 80)
+    @Column(name = "RAZON_SOCIAL")
     private String razonSocial;
-    @Column(name = "CALLE_O_PASAJE", length = 100)
+    @Size(max = 100)
+    @Column(name = "CALLE_O_PASAJE")
     private String calleOPasaje;
-    @Column(length = 80)
+    @Size(max = 80)
+    @Column(name = "COLONIA")
     private String colonia;
-    @Column(length = 20)
+    @Size(max = 20)
+    @Column(name = "NIT")
     private String nit;
-    @Column(name = "TIPO_CONTRIBUYENTE", length = 1)
+    @Size(max = 1)
+    @Column(name = "TIPO_CONTRIBUYENTE")
     private String tipoContribuyente;
-    @Column(name = "NO_REGISTRO_FISCAL", length = 20)
+    @Size(max = 20)
+    @Column(name = "NO_REGISTRO_FISCAL")
     private String noRegistroFiscal;
-    @Column(name = "GIRO_EMPRESA", length = 200)
+    @Size(max = 200)
+    @Column(name = "GIRO_EMPRESA")
     private String giroEmpresa;
-    @Column(length = 13)
+    @Size(max = 13)
+    @Column(name = "TELEFONO1")
     private String telefono1;
-    @Column(length = 13)
+    @Size(max = 13)
+    @Column(name = "TELEFONO2")
     private String telefono2;
-    @Column(length = 13)
+    @Size(max = 13)
+    @Column(name = "TELEFONO3")
     private String telefono3;
-    @Column(length = 13)
+    @Size(max = 13)
+    @Column(name = "TELEFONO4")
     private String telefono4;
-    @Column(length = 13)
+    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
+    @Size(max = 13)
+    @Column(name = "FAX")
     private String fax;
-    @Column(name = "DIA_QUEDAN", length = 1)
+    @Size(max = 1)
+    @Column(name = "DIA_QUEDAN")
     private String diaQuedan;
     @Column(name = "COD_CORR_REP1")
     private Integer codCorrRep1;
@@ -94,11 +116,11 @@ public class Empresas implements Serializable {
     private Integer codCorrContador;
     @Column(name = "COD_CORR_AUDITOR")
     private Integer codCorrAuditor;
-    @JoinColumn(name = "CORR_EMPRESA", referencedColumnName = "CORR", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "CORR_EMPRESA", referencedColumnName = "CORR", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private PaisDepMuni paisDepMuni;
-    @OneToMany(mappedBy = "corrEmpresa")
-    private List<Correlativos> correlativosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "corrEmpresa")
+    private List<SucurBode> sucurBodeList;
 
     public Empresas() {
     }
@@ -283,12 +305,13 @@ public class Empresas implements Serializable {
         this.paisDepMuni = paisDepMuni;
     }
 
-    public List<Correlativos> getCorrelativosList() {
-        return correlativosList;
+    @XmlTransient
+    public List<SucurBode> getSucurBodeList() {
+        return sucurBodeList;
     }
 
-    public void setCorrelativosList(List<Correlativos> correlativosList) {
-        this.correlativosList = correlativosList;
+    public void setSucurBodeList(List<SucurBode> sucurBodeList) {
+        this.sucurBodeList = sucurBodeList;
     }
 
     @Override
@@ -313,7 +336,7 @@ public class Empresas implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.Empresas[ corrEmpresa=" + corrEmpresa + " ]";
+        return "entity.Empresas[ corrEmpresa=" + corrEmpresa + " ]";
     }
     
 }

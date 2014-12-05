@@ -8,7 +8,7 @@
  */
 package sv.com.diserv.liquidaciones.dto;
 
-import sv.com.diserv.liquidaciones.entity.Bodegas;
+import sv.com.diserv.liquidaciones.entity.SucurBode;
 
 /**
  *
@@ -16,17 +16,17 @@ import sv.com.diserv.liquidaciones.entity.Bodegas;
  */
 public class OperacionesBodegaDTO extends BaseResponse {
 
-    private Bodegas bodega;
+    private SucurBode bodega;
 
     public OperacionesBodegaDTO(Integer codigoRespuesta, String mensajeRespuesta) {
         super(codigoRespuesta, mensajeRespuesta);
     }
 
-    public Bodegas getBodega() {
+    public SucurBode getBodega() {
         return bodega;
     }
 
-    public void setBodega(Bodegas bodega) {
+    public void setBodega(SucurBode bodega) {
         this.bodega = bodega;
     }
 

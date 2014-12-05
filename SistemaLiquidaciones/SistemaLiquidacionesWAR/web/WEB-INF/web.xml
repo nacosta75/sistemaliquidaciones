@@ -250,4 +250,10 @@
         <local>sv.com.diserv.liquidaciones.ejb.ManejadorUsuarioBeanLocal</local>
         <mapped-name>ejb/ManejadorUsuarioBean</mapped-name>
     </ejb-local-ref>
+	 <ejb-local-ref>
+        <ejb-ref-name>ejb/BodegasBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sv.com.diserv.liquidaciones.ejb.BodegasBeanLocal</local>
+        <mapped-name>ejb/BodegasBean</mapped-name>
+    </ejb-local-ref>
 </web-app>

@@ -9,5 +9,6 @@
         <group name="Sigap_2.0">
             <file>file:/C:/Proyectos/Testing/noanoa/javacode/SistemaLiquidaciones/SistemaLiquidacionesEJB/setup/glassfish-resources.xml</file>
         </group>
+        <group name="grpLiquid"/>
     </open-files>
 </project-private>

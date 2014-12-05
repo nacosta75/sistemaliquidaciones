@@ -16,13 +16,17 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author edwin.alvarenga
+ * @author abraham.acosta
  */
 @Entity
-@Table(name = "PAIS_DEP_MUNI", catalog = "", schema = "")
+@Table(name = "PAIS_DEP_MUNI")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PaisDepMuni.findAll", query = "SELECT p FROM PaisDepMuni p"),
     @NamedQuery(name = "PaisDepMuni.findByCorr", query = "SELECT p FROM PaisDepMuni p WHERE p.corr = :corr"),
@@ -32,12 +36,15 @@ public class PaisDepMuni implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(nullable = false)
+    @NotNull
+    @Column(name = "CORR")
     private Integer corr;
     @Column(name = "CORR_DEPTO_MUNI")
     private Integer corrDeptoMuni;
     @Basic(optional = false)
-    @Column(nullable = false, length = 40)
+    @NotNull
+    @Size(min = 1, max = 40)
+    @Column(name = "DESCRIPCION")
     private String descripcion;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "paisDepMuni")
     private Empresas empresas;
@@ -108,7 +115,7 @@ public class PaisDepMuni implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.PaisDepMuni[ corr=" + corr + " ]";
+        return "entity.PaisDepMuni[ corr=" + corr + " ]";
     }
     
 }

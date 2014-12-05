@@ -19,7 +19,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.BusquedaBodegaDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesBodegaDTO;
-import sv.com.diserv.liquidaciones.entity.Bodegas;
+import sv.com.diserv.liquidaciones.entity.SucurBode;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.util.Constants;
 
@@ -44,15 +44,16 @@ public class BodegasBean implements BodegasBeanLocal {
      */
     @Override
     public Integer countAllBodegas() throws DiservBusinessException {
-        logger.log(Level.INFO, "[countAllCliente]INIT");
+        logger.log(Level.INFO, "[countAllBodega]INIT");
         int count = 0;
         Query query;
         try {
-            query = em.createNamedQuery("Clientes.CountAll");
+           // query = em.createNamedQuery("SucurBode.countAll");
+            query = em.createQuery("SELECT count(s) FROM SucurBode s");
             count = ((Long) query.getSingleResult()).intValue();
             logger.log(Level.INFO, "[Total de registros encontrados]" + count);
         } catch (Exception e) {
-            logger.log(Level.INFO, "[Excepcion en countAllCliente]" + e.toString());
+            logger.log(Level.INFO, "[Excepcion en countAllBodega]" + e.toString());
             //throw new DesempenoBusinessException(Constants.CODE_OPERATION_FALLIDA, "");
             e.printStackTrace();
         }
@@ -69,56 +70,56 @@ public class BodegasBean implements BodegasBeanLocal {
      */
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public List<Bodegas> loadAllBodega(int inicio, int fin) throws DiservBusinessException {
-        logger.log(Level.INFO, "[loadAllCliente] desde:" + inicio + " hasta:" + fin);
-        List<Bodegas> clienteList = null;
+    public List<SucurBode> loadAllBodega(int inicio, int fin) throws DiservBusinessException {
+        logger.log(Level.INFO, "[loadAllBodega] desde:" + inicio + " hasta:" + fin);
+        List<SucurBode> clienteList = null;
         Query query;
         try {
-            query = em.createNamedQuery("Clientes.findAll");
+            query = em.createNamedQuery("Bodegas.findAll");
             query.setFirstResult(inicio);
             query.setMaxResults(fin);
             clienteList = query.getResultList();
             if (clienteList != null) {
-                logger.log(Level.INFO, "[loadAllCliente] Se encontraron " + clienteList.size() + " clientes");
+                logger.log(Level.INFO, "[loadAllBodega] Se encontraron " + clienteList.size() + " clientes");
             }
         } catch (NoResultException ex) {
-            logger.log(Level.INFO, "[loadAllCliente][NoResultException]No se encontraron usuarios");
+            logger.log(Level.INFO, "[loadAllBodega][NoResultException]No se encontraron usuarios");
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron cliente");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.log(Level.INFO, "[loadAllCliente][Exception]Se mostro una excepcion al buscar cliente");
+            logger.log(Level.INFO, "[loadAllBodega][Exception]Se mostro una excepcion al buscar cliente");
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
         }
         return clienteList;
     }
 
     @Override
-    public List<Bodegas> loadAllBodegasByLike(String nombreLike) throws DiservBusinessException {
-        logger.log(Level.INFO, "[loadAllClienteByLike] nombreLike:" + nombreLike);
-        List<Bodegas> clienteList = null;
+    public List<SucurBode> loadAllBodegasByLike(String nombreLike) throws DiservBusinessException {
+        logger.log(Level.INFO, "[loadAllBodegaByLike] nombreLike:" + nombreLike);
+        List<SucurBode> clienteList = null;
         Query query;
         try {
-            query = em.createNamedQuery("Clientes.findByNombreClienteLike");
-            query.setParameter("nombreCliente", "%" + nombreLike.toUpperCase() + "%");
+            query = em.createNamedQuery("Bodegas.findByNombreBodegaLike");
+            query.setParameter("nombreBodega", "%" + nombreLike.toUpperCase() + "%");
             query.setMaxResults(Constants.REGISTROS_A_MOSTRAR_LISTA);
             clienteList = query.getResultList();
         } catch (NoResultException ex) {
-            logger.log(Level.INFO, "[loadAllClienteByLike][NoResultException]No se encontraron usuarios");
+            logger.log(Level.INFO, "[loadAllBodegaByLike][NoResultException]No se encontraron usuarios");
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron cliente");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.log(Level.INFO, "[loadAllClienteByLike][Exception]Se mostro una excepcion al buscar cliente");
+            logger.log(Level.INFO, "[loadAllBodegaByLike][Exception]Se mostro una excepcion al buscar cliente");
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
         }
         return clienteList;
     }
 
     @Override
-    public OperacionesBodegaDTO guardarBodega(Bodegas cliente) throws DiservBusinessException {
+    public OperacionesBodegaDTO guardarBodega(SucurBode cliente) throws DiservBusinessException {
         OperacionesBodegaDTO response = new OperacionesBodegaDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar cliente");
         try {
             cliente = genericDaoBean.create(cliente);
-            response = new OperacionesBodegaDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Cliente creado satisfactoriamente");
+            response = new OperacionesBodegaDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Bodega creado satisfactoriamente");
             response.setBodega(cliente);
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,11 +129,11 @@ public class BodegasBean implements BodegasBeanLocal {
     }
 
     @Override
-    public OperacionesBodegaDTO actualizarBodega(Bodegas cliente) throws DiservBusinessException {
+    public OperacionesBodegaDTO actualizarBodega(SucurBode cliente) throws DiservBusinessException {
         OperacionesBodegaDTO response = new OperacionesBodegaDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar cliente");
         try {
             cliente = genericDaoBean.update(cliente);
-            response = new OperacionesBodegaDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Cliente actualizado satisfactoriamente");
+            response = new OperacionesBodegaDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Bodega actualizado satisfactoriamente");
             response.setBodega(cliente);
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,10 +143,10 @@ public class BodegasBean implements BodegasBeanLocal {
     }
 
     @Override
-    public List<Bodegas> buscarBodegaByCriteria(BusquedaBodegaDTO re) throws DiservBusinessException {
+    public List<SucurBode> buscarBodegaByCriteria(BusquedaBodegaDTO re) throws DiservBusinessException {
         logger.info("[consultarBitacoraFinalizadasParametros]Parametros=" + re.toString());
-        List<Bodegas> response = new ArrayList<>();
-        Bodegas bodegas;
+        List<SucurBode> response = new ArrayList<>();
+        SucurBode bodegas;
         List<String> condiciones = new ArrayList<>();
         if (re.getIdBodega()!= null) {
             condiciones.add(" UPPER(idBodega) LIKE UPPER('%" + re.getIdBodega() + "%') ");
@@ -186,16 +187,16 @@ public class BodegasBean implements BodegasBeanLocal {
             List<Object[]> lista = q.getResultList();
             if (lista.size() > 0) {
                 for (Object[] item : lista) {
-                    bodegas = new Bodegas();
-                    bodegas.setIdbodega(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
-                    bodegas.setCodigo(item[1] != null ? item[1].toString() : "N/D");
-                    bodegas.setNombre(item[2] != null ? item[2].toString() : "N/D");
-                    bodegas.setDireccion(item[3] != null ? item[3].toString() : "N/D");
-                    bodegas.setTelefono(item[4] != null ? item[4].toString() : "N/D");
-                    bodegas.setEncargado(item[5] != null ? item[5].toString() : "N/D");
+                    bodegas = new SucurBode();
+                    bodegas.setCorrSucur(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                    //bodegas.setCodigo(item[1] != null ? item[1].toString() : "N/D");
+                    bodegas.setNombreSucBod(item[2] != null ? item[2].toString() : "N/D");
+                    bodegas.setCalleOPasaje(item[3] != null ? item[3].toString() : "N/D");
+                    bodegas.setTelefono1(item[4] != null ? item[4].toString() : "N/D");
+                    bodegas.setNombreSucBod(item[5] != null ? item[5].toString() : "N/D");
                    // bodegas.setIdempresa(item[6] != null ? item[6].toString() : "N/D");
-                    bodegas.setActiva(item[7] != null ? item[7].toString() : "N/D");
-                   // cliente.setEstadoCliente(item[8] != null ? Boolean.valueOf(item[8].toString()) : false);
+                    //bodegas.setActiva(item[7] != null ? item[7].toString() : "N/D");
+                   // cliente.setEstadoBodega(item[8] != null ? Boolean.valueOf(item[8].toString()) : false);
                     response.add(bodegas);
                 }
             }
@@ -215,12 +216,12 @@ public class BodegasBean implements BodegasBeanLocal {
      * @throws DiservBusinessException
      */
     @Override
-    public List<Bodegas> loadBodegaByNombreLike(String likeNombre) throws DiservBusinessException {
-        logger.log(Level.INFO, "[loadClienteByNombreLike]Buscando:" + likeNombre);
+    public List<SucurBode> loadBodegaByNombreLike(String likeNombre) throws DiservBusinessException {
+        logger.log(Level.INFO, "[loadBodegaByNombreLike]Buscando:" + likeNombre);
         Query query;
         try {
-            query = em.createQuery("Clientes.findBySomeCriteria");
-            query.setParameter("nombreCliente", "%" + likeNombre + "%");
+            query = em.createQuery("Bodegas.findBySomeCriteria");
+            query.setParameter("nombreBodega", "%" + likeNombre + "%");
             return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.ERROR, "[getDelito]Exception={0}", e);
@@ -232,25 +233,25 @@ public class BodegasBean implements BodegasBeanLocal {
     /**
      * Metodo permite buscar cliente por su numero de id cliente
      *
-     * @param idCliente
-     * @return Clientes encontrado, null en caso de no encontrar nada
+     * @param idBodega
+     * @return SucurBode encontrado, null en caso de no encontrar nada
      * @throws DiservBusinessException
      */
     @Override
-    public Bodegas loadBodegaByID(Integer idCliente) throws DiservBusinessException {
-        logger.log(Level.INFO, "[loadClienteByID] Idcliente:" + idCliente);
-        Bodegas cliente = null;
+    public SucurBode loadBodegaByID(Integer idBodega) throws DiservBusinessException {
+        logger.log(Level.INFO, "[loadBodegaByID] Idcliente:" + idBodega);
+        SucurBode cliente = null;
         Query query;
         try {
-            query = em.createNamedQuery("Clientes.findByIdCliente");
-            query.setParameter("idCliente", idCliente);
-            cliente = (Bodegas) query.getSingleResult();
+            query = em.createNamedQuery("Bodegas.findByIdBodega");
+            query.setParameter("idBodega", idBodega);
+            cliente = (SucurBode) query.getSingleResult();
         } catch (NoResultException ex) {
-            logger.log(Level.INFO, "[loadClienteByID][NoResultException]No se encontraron usuarios");
+            logger.log(Level.INFO, "[loadBodegaByID][NoResultException]No se encontraron usuarios");
 //            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron cliente");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.log(Level.INFO, "[loadClienteByID][Exception]Se mostro una excepcion al buscar cliente");
+            logger.log(Level.INFO, "[loadBodegaByID][Exception]Se mostro una excepcion al buscar cliente");
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
         }
         return cliente;

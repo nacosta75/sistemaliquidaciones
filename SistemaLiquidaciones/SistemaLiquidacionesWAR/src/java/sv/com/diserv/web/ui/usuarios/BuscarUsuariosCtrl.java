@@ -6,7 +6,7 @@
  * @author Carlos Godoy
  * Fiscalía General de la República 2013
  */
-package sv.com.diserv.liquidaciones.web.ui.usuarios;
+package sv.com.diserv.web.ui.usuarios;
 
 import java.util.List;
 import org.apache.commons.lang.StringUtils;

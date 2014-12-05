@@ -1,4 +1,4 @@
-package sv.com.diserv.liquidaciones.web.ui.usuarios;
+package sv.com.diserv.web.ui.usuarios;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

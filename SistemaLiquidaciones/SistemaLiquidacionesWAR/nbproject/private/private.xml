@@ -12,5 +12,6 @@
             <file>file:/C:/Proyectos/Testing/noanoa/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/web/WEB-INF/xhtml/usuario/listaUsuarios.zul</file>
             <file>file:/C:/Proyectos/Testing/noanoa/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/src/java/sv/com/diserv/web/ui/usuarios/ListaUsuariosCtrl.java</file>
         </group>
+        <group name="grpLiquid"/>
     </open-files>
 </project-private>

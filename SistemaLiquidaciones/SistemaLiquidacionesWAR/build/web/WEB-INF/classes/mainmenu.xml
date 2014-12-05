@@ -34,17 +34,75 @@
                   zulNavigation="/WEB-INF/xhtml/usuario/permisosRoles.zul"
                   rightName="menu_Item_GruposDerechos"/>
     </menu>
-    <menu id="menu_Clientes" 
+    <menu id="menu_Mantenimientos" 
           rightName=""             
           open="false"
-          label="Bodegas/Vendedor"> 
-        <menuItem id="menu_Item_mantenimientoCliente"
-                  label="Manejo Bodegas"
+          label="Mantenimientos"> 
+        <menuItem id="menu_Item_MantenimientoClientes"
+                  label="Clientes"
+                  iconName="/images/personGroup.png"
+                  zulNavigation="/WEB-INF/xhtml/bodega/listaCliente.zul"
+                  rightName=""/> 
+        <menuItem id="menu_Item_MantenimientoProveedores"
+                  label="Proveedores"
                   iconName="/images/personGroup.png"
                   zulNavigation="/WEB-INF/xhtml/bodega/listaBodega.zul"
-                  rightName="menu_Item_mantenimientoCliente"/>      
+                  rightName=""/> 
+        <menuItem id="menu_Item_MantenimientoProductos"
+                  label="Productos"
+                  iconName="/images/personGroup.png"
+                  zulNavigation="/WEB-INF/xhtml/bodega/listaProducto.zul"
+                  rightName=""/>  
+        <menuItem id="menu_Item_MantenimientoVendedores"
+                  label="Vendedores"
+                  iconName="/images/personGroup.png"
+                  zulNavigation="/WEB-INF/xhtml/bodega/listaVendedor.zul"
+                  rightName=""/>  
+        <menuItem id="menu_Item_MantenimientoLineas"
+                  label="Lineas de Productos"
+                  iconName="/images/personGroup.png"
+                  zulNavigation="/WEB-INF/xhtml/bodega/listaLineas.zul"
+                  rightName=""/> 
+        <menuItem id="menu_Item_MantenimientoBodega"
+                  label="Control de Bodegas"
+                  iconName="/images/personGroup.png"
+                  zulNavigation="/WEB-INF/xhtml/bodega/listaBodega.zul"
+                  rightName="menu_Item_MantenimientoBodega"/>      
+      
+        
+    </menu>
+    <menu id="menu_Transacciones" 
+          rightName=""             
+          open="false"
+          label="Transacciones"> 
+        <menuItem id="menu_Item_Compras"
+                  label="Compras"
+                  iconName="/images/personGroup.png"
+                  zulNavigation="/WEB-INF/xhtml/bodega/listaCompras.zul"
+                  rightName=""/>    
+        <menuItem id="menu_Item_Asignaciones"
+                  label="Asignaciones"
+                  iconName="/images/personGroup.png"
+                  zulNavigation="/WEB-INF/xhtml/bodega/listaAsignaciones.zul"
+                  rightName=""/>     
+        <menuItem id="menu_Item_Devoluciones"
+                  label="Devoluciones"
+                  iconName="/images/personGroup.png"
+                  zulNavigation="/WEB-INF/xhtml/bodega/listaDevoluciones.zul"
+                  rightName=""/>    
+        <menuItem id="menu_Item_Liquidaciones"
+                  label="Liquidaciones"
+                  iconName="/images/personGroup.png"
+                  zulNavigation="/WEB-INF/xhtml/bodega/listaLiquidaciones.zul"
+                  rightName=""/>  
 
     </menu>
-    
+    <menu id="menu_Reportes" 
+          rightName=""             
+          open="false"
+          label="Reportes"> 
+        
+
+    </menu>
      
 </ns2:XMLRootMenu>

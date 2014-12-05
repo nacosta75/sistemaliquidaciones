@@ -13,22 +13,27 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author edwin.alvarenga
+ * @author abraham.acosta
  */
 @Entity
-@Table(name = "SUCUR_BODE", catalog = "", schema = "")
+@Table(name = "SUCUR_BODE")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SucurBode.findAll", query = "SELECT s FROM SucurBode s"),
     @NamedQuery(name = "SucurBode.findByCorrSucur", query = "SELECT s FROM SucurBode s WHERE s.corrSucur = :corrSucur"),
-    @NamedQuery(name = "SucurBode.findByCorrSucurHijo", query = "SELECT s FROM SucurBode s WHERE s.corrSucurHijo = :corrSucurHijo"),
-    @NamedQuery(name = "SucurBode.findByCorrEmpresa", query = "SELECT s FROM SucurBode s WHERE s.corrEmpresa = :corrEmpresa"),
     @NamedQuery(name = "SucurBode.findByNombreSucBod", query = "SELECT s FROM SucurBode s WHERE s.nombreSucBod = :nombreSucBod"),
     @NamedQuery(name = "SucurBode.findByCalleOPasaje", query = "SELECT s FROM SucurBode s WHERE s.calleOPasaje = :calleOPasaje"),
     @NamedQuery(name = "SucurBode.findByColonia", query = "SELECT s FROM SucurBode s WHERE s.colonia = :colonia"),
@@ -44,47 +49,63 @@ public class SucurBode implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "CORR_SUCUR", nullable = false)
+    @NotNull
+    @Column(name = "CORR_SUCUR")
     private Integer corrSucur;
     @Basic(optional = false)
-    @Column(name = "CORR_SUCUR_HIJO", nullable = false)
-    private int corrSucurHijo;
-    @Basic(optional = false)
-    @Column(name = "CORR_EMPRESA", nullable = false)
-    private int corrEmpresa;
-    @Basic(optional = false)
-    @Column(name = "NOMBRE_SUC_BOD", nullable = false, length = 80)
+    @NotNull
+    @Size(min = 1, max = 80)
+    @Column(name = "NOMBRE_SUC_BOD")
     private String nombreSucBod;
     @Basic(optional = false)
-    @Column(name = "CALLE_O_PASAJE", nullable = false, length = 100)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "CALLE_O_PASAJE")
     private String calleOPasaje;
     @Basic(optional = false)
-    @Column(nullable = false, length = 80)
+    @NotNull
+    @Size(min = 1, max = 80)
+    @Column(name = "COLONIA")
     private String colonia;
     @Basic(optional = false)
-    @Column(nullable = false, length = 80)
+    @NotNull
+    @Size(min = 1, max = 80)
+    @Column(name = "CIUDAD")
     private String ciudad;
     @Basic(optional = false)
-    @Column(name = "TELEFONO1_", nullable = false, length = 13)
+    @NotNull
+    @Size(min = 1, max = 13)
+    @Column(name = "TELEFONO1_")
     private String telefono1;
-    @Column(length = 13)
+    @Size(max = 13)
+    @Column(name = "TELEFONO2")
     private String telefono2;
-    @Column(length = 13)
+    @Size(max = 13)
+    @Column(name = "TELEFONO3")
     private String telefono3;
-    @Column(length = 13)
+    @Size(max = 13)
+    @Column(name = "TELEFONO4")
     private String telefono4;
-    @Column(length = 13)
+    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
+    @Size(max = 13)
+    @Column(name = "FAX")
     private String fax;
     @Basic(optional = false)
-    @Column(name = "COD_CORR_JEFE", nullable = false)
+    @NotNull
+    @Column(name = "COD_CORR_JEFE")
     private int codCorrJefe;
     @Basic(optional = false)
-    @Column(name = "COD_CORR_SUBJEFE", nullable = false)
+    @NotNull
+    @Column(name = "COD_CORR_SUBJEFE")
     private int codCorrSubjefe;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "corrSucur")
-    private List<LotesExistencia> lotesExistenciaList;
-    @OneToMany(mappedBy = "corrSucur")
-    private List<Existencia> existenciaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "corrSucurHijo")
+    private List<SucurBode> sucurBodeList;
+    @JoinColumn(name = "CORR_SUCUR_HIJO", referencedColumnName = "CORR_SUCUR")
+    @ManyToOne(optional = false)
+    private SucurBode corrSucurHijo;
+    @JoinColumn(name = "CORR_EMPRESA", referencedColumnName = "CORR_EMPRESA")
+    @ManyToOne(optional = false)
+    private Empresas corrEmpresa;
 
     public SucurBode() {
     }
@@ -93,10 +114,8 @@ public class SucurBode implements Serializable {
         this.corrSucur = corrSucur;
     }
 
-    public SucurBode(Integer corrSucur, int corrSucurHijo, int corrEmpresa, String nombreSucBod, String calleOPasaje, String colonia, String ciudad, String telefono1, int codCorrJefe, int codCorrSubjefe) {
+    public SucurBode(Integer corrSucur, String nombreSucBod, String calleOPasaje, String colonia, String ciudad, String telefono1, int codCorrJefe, int codCorrSubjefe) {
         this.corrSucur = corrSucur;
-        this.corrSucurHijo = corrSucurHijo;
-        this.corrEmpresa = corrEmpresa;
         this.nombreSucBod = nombreSucBod;
         this.calleOPasaje = calleOPasaje;
         this.colonia = colonia;
@@ -112,22 +131,6 @@ public class SucurBode implements Serializable {
 
     public void setCorrSucur(Integer corrSucur) {
         this.corrSucur = corrSucur;
-    }
-
-    public int getCorrSucurHijo() {
-        return corrSucurHijo;
-    }
-
-    public void setCorrSucurHijo(int corrSucurHijo) {
-        this.corrSucurHijo = corrSucurHijo;
-    }
-
-    public int getCorrEmpresa() {
-        return corrEmpresa;
-    }
-
-    public void setCorrEmpresa(int corrEmpresa) {
-        this.corrEmpresa = corrEmpresa;
     }
 
     public String getNombreSucBod() {
@@ -218,20 +221,29 @@ public class SucurBode implements Serializable {
         this.codCorrSubjefe = codCorrSubjefe;
     }
 
-    public List<LotesExistencia> getLotesExistenciaList() {
-        return lotesExistenciaList;
+    @XmlTransient
+    public List<SucurBode> getSucurBodeList() {
+        return sucurBodeList;
     }
 
-    public void setLotesExistenciaList(List<LotesExistencia> lotesExistenciaList) {
-        this.lotesExistenciaList = lotesExistenciaList;
+    public void setSucurBodeList(List<SucurBode> sucurBodeList) {
+        this.sucurBodeList = sucurBodeList;
     }
 
-    public List<Existencia> getExistenciaList() {
-        return existenciaList;
+    public SucurBode getCorrSucurHijo() {
+        return corrSucurHijo;
     }
 
-    public void setExistenciaList(List<Existencia> existenciaList) {
-        this.existenciaList = existenciaList;
+    public void setCorrSucurHijo(SucurBode corrSucurHijo) {
+        this.corrSucurHijo = corrSucurHijo;
+    }
+
+    public Empresas getCorrEmpresa() {
+        return corrEmpresa;
+    }
+
+    public void setCorrEmpresa(Empresas corrEmpresa) {
+        this.corrEmpresa = corrEmpresa;
     }
 
     @Override
@@ -256,7 +268,7 @@ public class SucurBode implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.SucurBode[ corrSucur=" + corrSucur + " ]";
+        return "entity.SucurBode[ corrSucur=" + corrSucur + " ]";
     }
     
 }

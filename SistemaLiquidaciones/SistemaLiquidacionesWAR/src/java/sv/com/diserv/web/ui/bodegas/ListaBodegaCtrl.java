@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.ForwardEvent;
@@ -60,6 +61,7 @@ public class ListaBodegaCtrl extends BaseController {
     private Integer totalBodegas;
     private Integer numeroPaginInicio = 1;
     private ServiceLocator serviceLocator;
+    //@EJB
     private BodegasBeanLocal bodegaBean;
     private List<Bodegas> listaBodegas;
     private Bodegas bodegaSelected;
