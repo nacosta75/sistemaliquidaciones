@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SucurBode.findByFax", query = "SELECT s FROM SucurBode s WHERE s.fax = :fax"),
     @NamedQuery(name = "SucurBode.findByCodCorrJefe", query = "SELECT s FROM SucurBode s WHERE s.codCorrJefe = :codCorrJefe"),
     @NamedQuery(name = "SucurBode.findByCodCorrSubjefe", query = "SELECT s FROM SucurBode s WHERE s.codCorrSubjefe = :codCorrSubjefe")})
-public class SucurBode implements Serializable {
+public class Bodegas implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -99,22 +99,22 @@ public class SucurBode implements Serializable {
     @Column(name = "COD_CORR_SUBJEFE")
     private int codCorrSubjefe;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "corrSucurHijo")
-    private List<SucurBode> sucurBodeList;
+    private List<Bodegas> sucurBodeList;
     @JoinColumn(name = "CORR_SUCUR_HIJO", referencedColumnName = "CORR_SUCUR")
     @ManyToOne(optional = false)
-    private SucurBode corrSucurHijo;
+    private Bodegas corrSucurHijo;
     @JoinColumn(name = "CORR_EMPRESA", referencedColumnName = "CORR_EMPRESA")
     @ManyToOne(optional = false)
     private Empresas corrEmpresa;
 
-    public SucurBode() {
+    public Bodegas() {
     }
 
-    public SucurBode(Integer corrSucur) {
+    public Bodegas(Integer corrSucur) {
         this.corrSucur = corrSucur;
     }
 
-    public SucurBode(Integer corrSucur, String nombreSucBod, String calleOPasaje, String colonia, String ciudad, String telefono1, int codCorrJefe, int codCorrSubjefe) {
+    public Bodegas(Integer corrSucur, String nombreSucBod, String calleOPasaje, String colonia, String ciudad, String telefono1, int codCorrJefe, int codCorrSubjefe) {
         this.corrSucur = corrSucur;
         this.nombreSucBod = nombreSucBod;
         this.calleOPasaje = calleOPasaje;
@@ -222,19 +222,19 @@ public class SucurBode implements Serializable {
     }
 
     @XmlTransient
-    public List<SucurBode> getSucurBodeList() {
+    public List<Bodegas> getSucurBodeList() {
         return sucurBodeList;
     }
 
-    public void setSucurBodeList(List<SucurBode> sucurBodeList) {
+    public void setSucurBodeList(List<Bodegas> sucurBodeList) {
         this.sucurBodeList = sucurBodeList;
     }
 
-    public SucurBode getCorrSucurHijo() {
+    public Bodegas getCorrSucurHijo() {
         return corrSucurHijo;
     }
 
-    public void setCorrSucurHijo(SucurBode corrSucurHijo) {
+    public void setCorrSucurHijo(Bodegas corrSucurHijo) {
         this.corrSucurHijo = corrSucurHijo;
     }
 
@@ -256,10 +256,10 @@ public class SucurBode implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SucurBode)) {
+        if (!(object instanceof Bodegas)) {
             return false;
         }
-        SucurBode other = (SucurBode) object;
+        Bodegas other = (Bodegas) object;
         if ((this.corrSucur == null && other.corrSucur != null) || (this.corrSucur != null && !this.corrSucur.equals(other.corrSucur))) {
             return false;
         }

@@ -120,7 +120,7 @@ public class Empresas implements Serializable {
     @OneToOne(optional = false)
     private PaisDepMuni paisDepMuni;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "corrEmpresa")
-    private List<SucurBode> sucurBodeList;
+    private List<Bodegas> sucurBodeList;
 
     public Empresas() {
     }
@@ -306,11 +306,11 @@ public class Empresas implements Serializable {
     }
 
     @XmlTransient
-    public List<SucurBode> getSucurBodeList() {
+    public List<Bodegas> getSucurBodeList() {
         return sucurBodeList;
     }
 
-    public void setSucurBodeList(List<SucurBode> sucurBodeList) {
+    public void setSucurBodeList(List<Bodegas> sucurBodeList) {
         this.sucurBodeList = sucurBodeList;
     }
 

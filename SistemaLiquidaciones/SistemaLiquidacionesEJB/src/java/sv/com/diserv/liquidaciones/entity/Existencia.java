@@ -39,7 +39,7 @@ public class Existencia implements Serializable {
     private BigDecimal exitencia;
     @JoinColumn(name = "CORR_SUCUR", referencedColumnName = "CORR_SUCUR")
     @ManyToOne
-    private SucurBode corrSucur;
+    private Bodegas corrSucur;
     @JoinColumn(name = "CORR_ARTICULO", referencedColumnName = "CORR_ARTICULO", nullable = false)
     @ManyToOne(optional = false)
     private Articulos corrArticulo;
@@ -67,11 +67,11 @@ public class Existencia implements Serializable {
         this.exitencia = exitencia;
     }
 
-    public SucurBode getCorrSucur() {
+    public Bodegas getCorrSucur() {
         return corrSucur;
     }
 
-    public void setCorrSucur(SucurBode corrSucur) {
+    public void setCorrSucur(Bodegas corrSucur) {
         this.corrSucur = corrSucur;
     }
 

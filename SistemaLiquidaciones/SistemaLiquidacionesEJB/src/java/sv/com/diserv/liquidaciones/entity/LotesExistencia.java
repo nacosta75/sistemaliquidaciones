@@ -62,7 +62,7 @@ public class LotesExistencia implements Serializable {
     private Date fechaMov;
     @JoinColumn(name = "CORR_SUCUR", referencedColumnName = "CORR_SUCUR", nullable = false)
     @ManyToOne(optional = false)
-    private SucurBode corrSucur;
+    private Bodegas corrSucur;
     @JoinColumn(name = "CORR_ARTICULO", referencedColumnName = "CORR_ARTICULO", nullable = false)
     @ManyToOne(optional = false)
     private Articulos corrArticulo;
@@ -145,11 +145,11 @@ public class LotesExistencia implements Serializable {
         this.fechaMov = fechaMov;
     }
 
-    public SucurBode getCorrSucur() {
+    public Bodegas getCorrSucur() {
         return corrSucur;
     }
 
-    public void setCorrSucur(SucurBode corrSucur) {
+    public void setCorrSucur(Bodegas corrSucur) {
         this.corrSucur = corrSucur;
     }
 
