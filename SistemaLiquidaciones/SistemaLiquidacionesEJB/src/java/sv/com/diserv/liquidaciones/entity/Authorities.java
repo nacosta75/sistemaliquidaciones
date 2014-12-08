@@ -16,13 +16,18 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author edwin.alvarenga
+ * @author abraham.acosta
  */
 @Entity
-@Table(catalog = "", schema = "")
+@Table(name = "AUTHORITIES")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Authorities.findAll", query = "SELECT a FROM Authorities a"),
     @NamedQuery(name = "Authorities.findByIdauthority", query = "SELECT a FROM Authorities a WHERE a.idauthority = :idauthority"),
@@ -33,12 +38,16 @@ public class Authorities implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(nullable = false)
+    @NotNull
+    @Column(name = "IDAUTHORITY")
     private Integer idauthority;
-    @Column(length = 80)
+    @Size(max = 80)
+    @Column(name = "NOMBRE")
     private String nombre;
-    @Column(length = 280)
+    @Size(max = 280)
+    @Column(name = "DESCRIPCION")
     private String descripcion;
+    @Column(name = "ENABLED")
     private Integer enabled;
     @OneToMany(mappedBy = "idauthority")
     private List<GroupAuthorities> groupauthoritiesList;
@@ -82,6 +91,7 @@ public class Authorities implements Serializable {
         this.enabled = enabled;
     }
 
+    @XmlTransient
     public List<GroupAuthorities> getGroupauthoritiesList() {
         return groupauthoritiesList;
     }
@@ -112,7 +122,7 @@ public class Authorities implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.Authorities[ idauthority=" + idauthority + " ]";
+        return "entity.Authorities[ idauthority=" + idauthority + " ]";
     }
     
 }

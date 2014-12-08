@@ -32,19 +32,19 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "SUCUR_BODE")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SucurBode.findAll", query = "SELECT s FROM SucurBode s"),
-    @NamedQuery(name = "SucurBode.findByCorrSucur", query = "SELECT s FROM SucurBode s WHERE s.corrSucur = :corrSucur"),
-    @NamedQuery(name = "SucurBode.findByNombreSucBod", query = "SELECT s FROM SucurBode s WHERE s.nombreSucBod = :nombreSucBod"),
-    @NamedQuery(name = "SucurBode.findByCalleOPasaje", query = "SELECT s FROM SucurBode s WHERE s.calleOPasaje = :calleOPasaje"),
-    @NamedQuery(name = "SucurBode.findByColonia", query = "SELECT s FROM SucurBode s WHERE s.colonia = :colonia"),
-    @NamedQuery(name = "SucurBode.findByCiudad", query = "SELECT s FROM SucurBode s WHERE s.ciudad = :ciudad"),
-    @NamedQuery(name = "SucurBode.findByTelefono1", query = "SELECT s FROM SucurBode s WHERE s.telefono1 = :telefono1"),
-    @NamedQuery(name = "SucurBode.findByTelefono2", query = "SELECT s FROM SucurBode s WHERE s.telefono2 = :telefono2"),
-    @NamedQuery(name = "SucurBode.findByTelefono3", query = "SELECT s FROM SucurBode s WHERE s.telefono3 = :telefono3"),
-    @NamedQuery(name = "SucurBode.findByTelefono4", query = "SELECT s FROM SucurBode s WHERE s.telefono4 = :telefono4"),
-    @NamedQuery(name = "SucurBode.findByFax", query = "SELECT s FROM SucurBode s WHERE s.fax = :fax"),
-    @NamedQuery(name = "SucurBode.findByCodCorrJefe", query = "SELECT s FROM SucurBode s WHERE s.codCorrJefe = :codCorrJefe"),
-    @NamedQuery(name = "SucurBode.findByCodCorrSubjefe", query = "SELECT s FROM SucurBode s WHERE s.codCorrSubjefe = :codCorrSubjefe")})
+    @NamedQuery(name = "Bodegas.findAll", query = "SELECT s FROM Bodegas s"),
+    @NamedQuery(name = "Bodegas.findByCorrSucur", query = "SELECT s FROM Bodegas s WHERE s.corrSucur = :corrSucur"),
+    @NamedQuery(name = "Bodegas.findByNombreSucBod", query = "SELECT s FROM Bodegas s WHERE s.nombreSucBod = :nombreSucBod"),
+    @NamedQuery(name = "Bodegas.findByCalleOPasaje", query = "SELECT s FROM Bodegas s WHERE s.calleOPasaje = :calleOPasaje"),
+    @NamedQuery(name = "Bodegas.findByColonia", query = "SELECT s FROM Bodegas s WHERE s.colonia = :colonia"),
+    @NamedQuery(name = "Bodegas.findByCiudad", query = "SELECT s FROM Bodegas s WHERE s.ciudad = :ciudad"),
+    @NamedQuery(name = "Bodegas.findByTelefono1", query = "SELECT s FROM Bodegas s WHERE s.telefono1 = :telefono1"),
+    @NamedQuery(name = "Bodegas.findByTelefono2", query = "SELECT s FROM Bodegas s WHERE s.telefono2 = :telefono2"),
+    @NamedQuery(name = "Bodegas.findByTelefono3", query = "SELECT s FROM Bodegas s WHERE s.telefono3 = :telefono3"),
+    @NamedQuery(name = "Bodegas.findByTelefono4", query = "SELECT s FROM Bodegas s WHERE s.telefono4 = :telefono4"),
+    @NamedQuery(name = "Bodegas.findByFax", query = "SELECT s FROM Bodegas s WHERE s.fax = :fax"),
+    @NamedQuery(name = "SBodegas.findByCodCorrJefe", query = "SELECT s FROM Bodegas s WHERE s.codCorrJefe = :codCorrJefe"),
+    @NamedQuery(name = "Bodegas.findByCodCorrSubjefe", query = "SELECT s FROM Bodegas s WHERE s.codCorrSubjefe = :codCorrSubjefe")})
 public class Bodegas implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -222,11 +222,11 @@ public class Bodegas implements Serializable {
     }
 
     @XmlTransient
-    public List<Bodegas> getSucurBodeList() {
+    public List<Bodegas> getBodegasList() {
         return sucurBodeList;
     }
 
-    public void setSucurBodeList(List<Bodegas> sucurBodeList) {
+    public void setBodegasList(List<Bodegas> sucurBodeList) {
         this.sucurBodeList = sucurBodeList;
     }
 
@@ -268,7 +268,7 @@ public class Bodegas implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.SucurBode[ corrSucur=" + corrSucur + " ]";
+        return "entity.Bodegas[ corrSucur=" + corrSucur + " ]";
     }
     
 }

@@ -17,13 +17,18 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author edwin.alvarenga
+ * @author abraham.acosta
  */
 @Entity
-@Table(catalog = "", schema = "")
+@Table(name = "GROUPS")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Groups.findAll", query = "SELECT g FROM Groups g"),
     @NamedQuery(name = "Groups.findById", query = "SELECT g FROM Groups g WHERE g.id = :id"),
@@ -32,13 +37,14 @@ public class Groups implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(nullable = false)
+    @NotNull
+    @Column(name = "ID")
     private Long id;
     @Basic(optional = false)
-    @Column(nullable = false, length = 50)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "GROUPNAME")
     private String groupname;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupid")
-    private List<GroupMembers> groupmembersList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupid")
     private List<GroupAuthorities> groupauthoritiesList;
 
@@ -70,14 +76,7 @@ public class Groups implements Serializable {
         this.groupname = groupname;
     }
 
-    public List<GroupMembers> getGroupmembersList() {
-        return groupmembersList;
-    }
-
-    public void setGroupmembersList(List<GroupMembers> groupmembersList) {
-        this.groupmembersList = groupmembersList;
-    }
-
+    @XmlTransient
     public List<GroupAuthorities> getGroupauthoritiesList() {
         return groupauthoritiesList;
     }
@@ -108,7 +107,7 @@ public class Groups implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.Groups[ id=" + id + " ]";
+        return "entity.Groups[ id=" + id + " ]";
     }
     
 }

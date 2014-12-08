@@ -24,8 +24,8 @@ import javax.persistence.Table;
 @Entity
 @Table(catalog = "", schema = "")
 @NamedQueries({
-    @NamedQuery(name = "Groupmembers.findAll", query = "SELECT g FROM Groupmembers g"),
-    @NamedQuery(name = "Groupmembers.findById", query = "SELECT g FROM Groupmembers g WHERE g.id = :id")})
+    @NamedQuery(name = "GroupMembers.findAll", query = "SELECT g FROM GroupMembers g"),
+    @NamedQuery(name = "GroupMembers.findById", query = "SELECT g FROM GroupMembers g WHERE g.id = :id")})
 public class GroupMembers implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

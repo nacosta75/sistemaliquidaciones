@@ -26,13 +26,13 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
     @NamedQuery(name = "Usuarios.countAll", query = "SELECT count(u) FROM Usuarios u"),
-    @NamedQuery(name = "Usuarios.findByIdusuario", query = "SELECT u FROM Usuarios u WHERE u.idusuario = :idusuario"),
-    @NamedQuery(name = "Usuarios.findByNombreusuario", query = "SELECT u FROM Usuarios u WHERE u.nombreusuario = :nombreusuario"),
+    @NamedQuery(name = "Usuarios.findByIdusuario", query = "SELECT u FROM Usuarios u WHERE u.idUsuario = :idusuario"),
+    @NamedQuery(name = "Usuarios.findByNombreusuario", query = "SELECT u FROM Usuarios u WHERE u.nombreUsuario = :nombreusuario"),
     @NamedQuery(name = "Usuarios.findByContrasena", query = "SELECT u FROM Usuarios u WHERE u.contrasena = :contrasena"),
-    @NamedQuery(name = "Usuarios.findByCodigoempleado", query = "SELECT u FROM Usuarios u WHERE u.codigoempleado = :codigoempleado"),
+    @NamedQuery(name = "Usuarios.findByCodigoempleado", query = "SELECT u FROM Usuarios u WHERE u.codigoEmpleado = :codigoempleado"),
     @NamedQuery(name = "Usuarios.findByNombreCompleto", query = "SELECT u FROM Usuarios u WHERE u.nombreCompleto = :nombreCompleto"),
     @NamedQuery(name = "Usuarios.findByStatus", query = "SELECT u FROM Usuarios u WHERE u.status = :status"),
-    @NamedQuery(name = "Usuarios.findByRegistroslista", query = "SELECT u FROM Usuarios u WHERE u.registroslista = :registroslista")})
+    @NamedQuery(name = "Usuarios.findByRegistroslista", query = "SELECT u FROM Usuarios u WHERE u.registrosLista = :registroslista")})
 public class Usuarios implements Serializable {
 
     private static final long serialVersionUID = 1L;

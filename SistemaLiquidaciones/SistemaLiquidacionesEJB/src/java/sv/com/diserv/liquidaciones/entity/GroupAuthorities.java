@@ -16,23 +16,27 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author edwin.alvarenga
+ * @author abraham.acosta
  */
 @Entity
-@Table(catalog = "", schema = "")
+@Table(name = "GROUPAUTHORITIES")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Groupauthorities.findAll", query = "SELECT g FROM Groupauthorities g"),
-    @NamedQuery(name = "Groupauthorities.findByIdcorrelativo", query = "SELECT g FROM Groupauthorities g WHERE g.idcorrelativo = :idcorrelativo")})
+    @NamedQuery(name = "GroupAuthorities.findAll", query = "SELECT g FROM GroupAuthorities g"),
+    @NamedQuery(name = "GroupAuthorities.findByIdcorrelativo", query = "SELECT g FROM GroupAuthorities g WHERE g.idcorrelativo = :idcorrelativo")})
 public class GroupAuthorities implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(nullable = false)
+    @NotNull
+    @Column(name = "IDCORRELATIVO")
     private Integer idcorrelativo;
-    @JoinColumn(name = "GROUPID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "GROUPID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Groups groupid;
     @JoinColumn(name = "IDAUTHORITY", referencedColumnName = "IDAUTHORITY")
@@ -92,7 +96,7 @@ public class GroupAuthorities implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.diserv.liquidaciones.entity.Groupauthorities[ idcorrelativo=" + idcorrelativo + " ]";
+        return "entity.Groupauthorities[ idcorrelativo=" + idcorrelativo + " ]";
     }
     
 }
