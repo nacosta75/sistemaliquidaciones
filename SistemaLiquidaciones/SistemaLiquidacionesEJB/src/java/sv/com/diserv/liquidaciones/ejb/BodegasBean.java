@@ -48,8 +48,8 @@ public class BodegasBean implements BodegasBeanLocal {
         int count = 0;
         Query query;
         try {
-           // query = em.createNamedQuery("SucurBode.countAll");
-            query = em.createQuery("SELECT count(s) FROM SucurBode s");
+           //query = em.createNamedQuery("SucurBode.countAll");
+            query = em.createQuery("SELECT count(*) FROM SucurBode ");
             count = ((Long) query.getSingleResult()).intValue();
             logger.log(Level.INFO, "[Total de registros encontrados]" + count);
         } catch (Exception e) {
