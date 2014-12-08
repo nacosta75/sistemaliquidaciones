@@ -108,15 +108,15 @@ public class DetalleBodegaCtrl extends BaseController {
      */
     private void loadDataFromEntity() {
         txtCorreoElectronico.setValue("testing");
-        txtDepartamento.setValue(bodegaSelected.getEncargado());
-        txtDireccion.setValue(bodegaSelected.getDireccion());
-        txtIdBodegas.setValue(bodegaSelected.getIdbodega());
-        txtMunicipio.setValue(bodegaSelected.getTelefono());
-        txtNombreBodegas.setText(bodegaSelected.getNombre());
-        txtNumeroNit.setValue(bodegaSelected.getCodigo());
+        txtDepartamento.setValue(bodegaSelected.getCiudad());
+        txtDireccion.setValue(bodegaSelected.getCalleOPasaje());
+        txtIdBodegas.setValue(bodegaSelected.getCorrSucur());
+        txtMunicipio.setValue(bodegaSelected.getTelefono1());
+        txtNombreBodegas.setText(bodegaSelected.getNombreSucBod());
+        txtNumeroNit.setValue(bodegaSelected.getTelefono1());
      //   txtRegistroIva.setValue(bodegaSelected.getIvaBodegas());
       //  txtCorreoElectronico.setValue(bodegaSelected.getEmailBodegas());
-        checkEstadoBodegas.setChecked((boolean) (bodegaSelected.getActiva() != null ? bodegaSelected.getActiva() : false));
+        //checkEstadoBodegas.setChecked((boolean) (bodegaSelected.getActiva() != null ? bodegaSelected.getActiva() : false));
     }
 
     private void loadDataFromTextboxs() {
@@ -142,14 +142,14 @@ public class DetalleBodegaCtrl extends BaseController {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   registro iva para bodega");
             }
             if (checkEstadoBodegas.isChecked()) {
-                bodegaSelected.setActiva("S");
+              //  bodegaSelected.setActiva("S");
             }
             //bodegaSelected.setDepartamento(txtDepartamento.getValue());
-            bodegaSelected.setDireccion(txtDireccion.getValue());
-            bodegaSelected.setIdbodega(txtIdBodegas.getValue());
-            bodegaSelected.setEncargado(txtMunicipio.getValue());
-            bodegaSelected.setNombre(txtNombreBodegas.getValue());
-            bodegaSelected.setCodigo(txtNumeroNit.getValue());
+            bodegaSelected.setCalleOPasaje(txtDireccion.getValue());
+            bodegaSelected.setCorrSucur(txtIdBodegas.getValue());
+            bodegaSelected.setTelefono1(txtMunicipio.getValue());
+            bodegaSelected.setNombreSucBod(txtNombreBodegas.getValue());
+            bodegaSelected.setTelefono1(txtNumeroNit.getValue());
             //bodegaSelected.setIvaBodegas(txtRegistroIva.getValue());
             //bodegaSelected.setEmailBodegas(txtCorreoElectronico.getValue());
             //bodegaSelected.setTelefono(checkEstadoBodegas.isChecked());
@@ -165,7 +165,7 @@ public class DetalleBodegaCtrl extends BaseController {
                 loadDataFromTextboxs();
                 responseOperacion = bodegaBean.guardarBodega(bodegaSelected);
                 if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id bodega:" + responseOperacion.getBodega().getIdbodega(), Constants.MENSAJE_TIPO_INFO);
+                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id bodega:" + responseOperacion.getBodega().getCorrSucur(), Constants.MENSAJE_TIPO_INFO);
                     bodegaSelected = responseOperacion.getBodega();
                     loadDataFromEntity();
                     doReadOnly(Boolean.TRUE);
@@ -210,7 +210,7 @@ public class DetalleBodegaCtrl extends BaseController {
             }
             listaBodegasLike = bodegaBean.loadAllBodegasByLike(txtNombreBodegas.getValue());
             if (listaBodegasLike.size() > 0) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Ya existe un bodega con un nombre similar:\n" + listaBodegasLike.get(0).getNombre() + "\nId Bodegas:" + listaBodegasLike.get(0).getIdbodega());
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Ya existe un bodega con un nombre similar:\n" + listaBodegasLike.get(0).getNombreSucBod() + "\nId Bodegas:" + listaBodegasLike.get(0).getCorrSucur());
             }
         } catch (DiservWebException web) {
             MensajeMultilinea.show(web.getMensaje(), Constants.MENSAJE_TIPO_ALERTA);
@@ -287,7 +287,7 @@ public class DetalleBodegaCtrl extends BaseController {
         try {
             responseOperacion = bodegaBean.actualizarBodega(bodegaSelected);
             if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id bodega:" + responseOperacion.getBodega().getIdbodega(), Constants.MENSAJE_TIPO_INFO);
+                MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id bodega:" + responseOperacion.getBodega().getCorrSucur(), Constants.MENSAJE_TIPO_INFO);
                 bodegaSelected = responseOperacion.getBodega();
                 loadDataFromEntity();
                 doReadOnly(Boolean.TRUE);
