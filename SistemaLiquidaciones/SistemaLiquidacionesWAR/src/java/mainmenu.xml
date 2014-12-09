@@ -67,7 +67,7 @@
                   label="Control de Bodegas"
                   iconName="/images/personGroup.png"
                   zulNavigation="/WEB-INF/xhtml/bodega/listaBodega.zul"
-                  rightName="menu_Item_MantenimientoBodega"/>      
+                  rightName=""/>      
       
         
     </menu>

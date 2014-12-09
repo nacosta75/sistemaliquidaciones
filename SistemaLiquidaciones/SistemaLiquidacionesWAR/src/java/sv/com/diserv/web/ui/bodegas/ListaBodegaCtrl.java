@@ -50,7 +50,7 @@ public class ListaBodegaCtrl extends BaseController {
     protected Listbox listBoxBodega;
     protected Listheader listheaderIdBodega;
     protected Listheader listheaderNombreBodega;
-    protected Listheader listheaderBodegaRegistroIva;
+    protected Listheader listheaderBodegaTelefono;
     protected Listheader listheaderBodegaNumeroNit;
     protected Listbox listBoxListaTramiteBodega;
     protected Listheader listheaderIdOrdentrabajo;
@@ -205,10 +205,10 @@ public class ListaBodegaCtrl extends BaseController {
         listheaderIdBodega.setSortDescending(new FieldComparator("idBodega", false));
         listheaderNombreBodega.setSortAscending(new FieldComparator("nombreBodega", true));
         listheaderNombreBodega.setSortDescending(new FieldComparator("nombreBodega", false));
-        listheaderBodegaRegistroIva.setSortAscending(new FieldComparator("ivaBodega", true));
-        listheaderBodegaRegistroIva.setSortDescending(new FieldComparator("ivaBodega", false));
-        listheaderBodegaNumeroNit.setSortAscending(new FieldComparator("nitBodega", true));
-        listheaderBodegaNumeroNit.setSortDescending(new FieldComparator("nitBodega", false));
+        listheaderBodegaTelefono.setSortAscending(new FieldComparator("telefono1", true));
+        listheaderBodegaTelefono.setSortDescending(new FieldComparator("telefono1", false));
+        listheaderBodegaNumeroNit.setSortAscending(new FieldComparator("telefono2", true));
+        listheaderBodegaNumeroNit.setSortDescending(new FieldComparator("telefono2", false));
     }
 
     private void setOrderListHeaderOrdentrabajo() {
