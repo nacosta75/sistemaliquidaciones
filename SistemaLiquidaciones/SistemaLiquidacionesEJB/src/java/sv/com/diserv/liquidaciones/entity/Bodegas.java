@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Bodegas.findByTelefono3", query = "SELECT s FROM Bodegas s WHERE s.telefono3 = :telefono3"),
     @NamedQuery(name = "Bodegas.findByTelefono4", query = "SELECT s FROM Bodegas s WHERE s.telefono4 = :telefono4"),
     @NamedQuery(name = "Bodegas.findByFax", query = "SELECT s FROM Bodegas s WHERE s.fax = :fax"),
-    @NamedQuery(name = "SBodegas.findByCodCorrJefe", query = "SELECT s FROM Bodegas s WHERE s.codCorrJefe = :codCorrJefe"),
+    @NamedQuery(name = "Bodegas.findByCodCorrJefe", query = "SELECT s FROM Bodegas s WHERE s.codCorrJefe = :codCorrJefe"),
     @NamedQuery(name = "Bodegas.findByCodCorrSubjefe", query = "SELECT s FROM Bodegas s WHERE s.codCorrSubjefe = :codCorrSubjefe")})
 public class Bodegas implements Serializable {
     private static final long serialVersionUID = 1L;
