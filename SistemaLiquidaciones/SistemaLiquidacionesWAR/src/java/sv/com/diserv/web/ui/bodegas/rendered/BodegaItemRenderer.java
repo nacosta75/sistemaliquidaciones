@@ -7,7 +7,6 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import sv.com.diserv.liquidaciones.entity.Bodegas;
 
-
 public class BodegaItemRenderer implements ListitemRenderer {
 
     Bodegas bodega;

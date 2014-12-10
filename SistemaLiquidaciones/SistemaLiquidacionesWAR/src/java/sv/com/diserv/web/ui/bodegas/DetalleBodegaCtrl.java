@@ -25,7 +25,7 @@ public class DetalleBodegaCtrl extends BaseController {
 
     private static final Logger logger = Logger.getLogger(DetalleBodegaCtrl.class.getName());
     private static final long serialVersionUID = -546886879998950467L;
-    protected Window detalleBodegasWindow;
+    protected Window detalleBodegaWindow;
     protected Intbox txtIdBodegas;
     protected Textbox txtNombreBodegas;
     protected Textbox txtDireccion;
@@ -59,8 +59,8 @@ public class DetalleBodegaCtrl extends BaseController {
         }
     }
 
-    public void onCreate$detalleBodegasWindow(Event event) throws Exception {
-        doOnCreateCommon(this.detalleBodegasWindow, event);
+    public void onCreate$detalleBodegaWindow(Event event) throws Exception {
+        doOnCreateCommon(this.detalleBodegaWindow, event);
         MensajeMultilinea.doSetTemplate();
         if (this.args.containsKey("bodegaSelected")) {
             bodegaSelected = ((Bodegas) this.args.get("bodegaSelected"));
@@ -97,7 +97,7 @@ public class DetalleBodegaCtrl extends BaseController {
             } else {
                 doNew();
             }
-            detalleBodegasWindow.doModal();
+            detalleBodegaWindow.doModal();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -220,7 +220,7 @@ public class DetalleBodegaCtrl extends BaseController {
     }
 
     private void doClose() {
-        this.detalleBodegasWindow.onClose();
+        this.detalleBodegaWindow.onClose();
     }
 
     public void onDoubleClicked(Event event) throws Exception {

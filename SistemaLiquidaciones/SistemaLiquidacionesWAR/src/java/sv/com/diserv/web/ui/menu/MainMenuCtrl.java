@@ -44,7 +44,6 @@ import sv.com.diserv.web.ui.menu.util.Menu;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.UserWorkspace;
 
-
 /**
  *
  * Main menu controller. <br> <br> Added the buttons for expanding/closing the
