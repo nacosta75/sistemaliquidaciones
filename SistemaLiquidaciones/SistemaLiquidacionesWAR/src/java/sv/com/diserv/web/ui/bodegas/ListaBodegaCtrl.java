@@ -50,7 +50,7 @@ public class ListaBodegaCtrl extends BaseController {
     protected Listheader listheaderIdBodega;
     protected Listheader listheaderNombreBodega;
     protected Listheader listheaderBodegaTelefono;
-    protected Listheader listheaderBodegaNumeroNit;
+    protected Listheader listheaderBodegaDireccion;
     protected Listbox listBoxListaTramiteBodega;
     protected Listheader listheaderIdOrdentrabajo;
     protected Listheader listheaderFechaOrdentrabajo;
@@ -200,25 +200,25 @@ public class ListaBodegaCtrl extends BaseController {
     }
 
     private void setOrderListHeaderBodegas() {
-        listheaderIdBodega.setSortAscending(new FieldComparator("idBodega", true));
-        listheaderIdBodega.setSortDescending(new FieldComparator("idBodega", false));
-        listheaderNombreBodega.setSortAscending(new FieldComparator("nombreBodega", true));
-        listheaderNombreBodega.setSortDescending(new FieldComparator("nombreBodega", false));
-        listheaderBodegaTelefono.setSortAscending(new FieldComparator("telefono1", true));
-        listheaderBodegaTelefono.setSortDescending(new FieldComparator("telefono1", false));
-        listheaderBodegaNumeroNit.setSortAscending(new FieldComparator("telefono2", true));
-        listheaderBodegaNumeroNit.setSortDescending(new FieldComparator("telefono2", false));
+        listheaderIdBodega.setSortAscending(new FieldComparator("idbodega", true));
+        listheaderIdBodega.setSortDescending(new FieldComparator("idbodega", false));
+        listheaderNombreBodega.setSortAscending(new FieldComparator("nombre", true));
+        listheaderNombreBodega.setSortDescending(new FieldComparator("nombre", false));
+//        listheaderBodegaTelefono.setSortAscending(new FieldComparator("direccion", true));
+//        listheaderBodegaTelefono.setSortDescending(new FieldComparator("direccion", false));
+//        listheaderBodegaDireccion.setSortAscending(new FieldComparator("encargado", true));
+//        listheaderBodegaDireccion.setSortDescending(new FieldComparator("encargado", false));
     }
 
     private void setOrderListHeaderOrdentrabajo() {
-        listheaderIdOrdentrabajo.setSortAscending(new FieldComparator("idOrdenTrabajo", true));
-        listheaderIdOrdentrabajo.setSortDescending(new FieldComparator("idOrdenTrabajo", false));
-        listheaderFechaOrdentrabajo.setSortAscending(new FieldComparator("fechaIngreso", true));
-        listheaderFechaOrdentrabajo.setSortDescending(new FieldComparator("fechaIngreso", false));
-        listheaderEstadoTramite.setSortAscending(new FieldComparator("idEstado.descripcionEstado", true));
-        listheaderEstadoTramite.setSortDescending(new FieldComparator("idEstado.descripcionEstado", false));
-        listheaderAduanaTramite.setSortAscending(new FieldComparator("aduana", true));
-        listheaderAduanaTramite.setSortDescending(new FieldComparator("aduana", false));
+//        listheaderIdOrdentrabajo.setSortAscending(new FieldComparator("idOrdenTrabajo", true));
+//        listheaderIdOrdentrabajo.setSortDescending(new FieldComparator("idOrdenTrabajo", false));
+//        listheaderFechaOrdentrabajo.setSortAscending(new FieldComparator("fechaIngreso", true));
+//        listheaderFechaOrdentrabajo.setSortDescending(new FieldComparator("fechaIngreso", false));
+//        listheaderEstadoTramite.setSortAscending(new FieldComparator("idEstado.descripcionEstado", true));
+//        listheaderEstadoTramite.setSortDescending(new FieldComparator("idEstado.descripcionEstado", false));
+//        listheaderAduanaTramite.setSortAscending(new FieldComparator("aduana", true));
+//        listheaderAduanaTramite.setSortDescending(new FieldComparator("aduana", false));
 
     }
 
