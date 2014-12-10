@@ -31,7 +31,7 @@
                 <button id="btnGuardar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsave.gif"
-                        tooltiptext="Refrescar registros"/>
+                        tooltiptext="Guardar registro"/>
                 <button id="btnActualizar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsave.gif"
@@ -39,7 +39,7 @@
                 <button id="btnCerrar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/close.jpg"
-                        tooltiptext="Refrescar registros"/>
+                        tooltiptext="Salir de la pantalla"/>
                 
             </toolbar>
         </groupbox>
@@ -86,6 +86,14 @@
                                                                 tooltiptext="Identificador unico de bodega"
                                                                 readonly="true" />
                                                         </row>
+                                                         <row>
+                                                            <hbox>
+                                                                <label value="Activa:" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+   
+                                                            <checkbox id="checkEstadoBodegas" onCheck=""  hflex="1" />
+                                                        </row>
                                                                                                                                       
                                                         <row>
                                                             <hbox>
@@ -119,10 +127,10 @@
 
                                                         <row>
                                                             <hbox>
-                                                                <label value="Telfono2:" />
+                                                                <label value="Encargado:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox   id="txtTelefono2"
+                                                            <textbox   id="txtEncargado"
                                                                        hflex="1" />
                                                         </row>
                                                      </rows>
