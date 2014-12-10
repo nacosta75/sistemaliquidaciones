@@ -26,7 +26,7 @@ import sv.com.diserv.web.ui.util.ManejadorMensajes;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 import sv.com.diserv.web.ui.util.UserWorkspace;
 import sv.com.diserv.liquidaciones.ejb.ManejadorUsuarioBeanLocal;
-import sv.com.diserv.liquidaciones.entity.GroupMembers;
+import sv.com.diserv.liquidaciones.entity.Groupmembers;
 import sv.com.diserv.liquidaciones.entity.Groups;
 import sv.com.diserv.liquidaciones.entity.Usuarios;
 import sv.com.diserv.liquidaciones.exception.DiservWebException;
@@ -210,7 +210,7 @@ public class ListaUsuariosCtrl extends BaseController {
 
     public void mostrarSeleccionados() {
         logger.log(Level.INFO, "[mostrarSeleccionados]Se seleccionan los roles que corresponden al usuario seleccionado");
-        List<GroupMembers> userRoleList = new ArrayList<GroupMembers>();
+        List<Groupmembers> userRoleList = new ArrayList<Groupmembers>();
         Listitem item = this.listBoxUsuario.getSelectedItem();
         if (item != null) {
             usuarioSelected = (Usuarios) item.getAttribute("data");
@@ -218,7 +218,7 @@ public class ListaUsuariosCtrl extends BaseController {
                 for (int i = 0; i < listaRoles.size(); i++) {
 //                    listaRoles.get(i).setGroupSelected(Boolean.FALSE);
                 }
-                userRoleList = usuariosBean.findUserRoleByNumeroCarnet(usuarioSelected.getNombreUsuario());
+                userRoleList = usuariosBean.findUserRoleByNumeroCarnet(usuarioSelected.getNombreusuario());
                 if (userRoleList != null && userRoleList.size() > 0) {
                     for (int i = 0; i < userRoleList.size(); i++) {
                         if (listaRoles.contains(userRoleList.get(i).getGroupid())) { //new Roles(userRoleList.get(i).getRoleId().getRoleId())
@@ -230,7 +230,7 @@ public class ListaUsuariosCtrl extends BaseController {
                 listBoxRol.setItemRenderer(new RolItemRendered());
                 ManejadorMensajes.mostraMensajeOperacion("Mostra Información user selected");
             } catch (Exception e) {
-                logger.log(Level.SEVERE, "Excepcion al buscar roles del usuario:{0}", usuarioSelected.getCodigoEmpleado());
+                logger.log(Level.SEVERE, "Excepcion al buscar roles del usuario:{0}", usuarioSelected.getCodigoempleado());
                 //e.printStackTrace();
             }
         }
@@ -267,7 +267,7 @@ public class ListaUsuariosCtrl extends BaseController {
 
     public void doSave() throws DiservWebException {
         logger.log(Level.INFO, "[doSave]INIT");
-        GroupMembers anUserRole = null;
+        Groupmembers anUserRole = null;
         List<Listitem> li = this.listBoxRol.getItems();
         for (Listitem listitem : li) {
             Listcell lc = (Listcell) listitem.getFirstChild();
@@ -276,15 +276,15 @@ public class ListaUsuariosCtrl extends BaseController {
                 Groups aRole = (Groups) listitem.getAttribute("data");
                 Usuarios anUser = getUsuarioSelected();
                 try {
-                    anUserRole = usuariosBean.getUserRoleByUserAndRole(anUser.getNombreUsuario(), aRole.getId().intValue());
+                    anUserRole = usuariosBean.getUserRoleByUserAndRole(anUser.getNombreusuario(), aRole.getId().intValue());
                 } catch (Exception e) {
                     logger.log(Level.INFO, "Retorno null, no se encontraron registros");
                     throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Ocurrio un error al buscar  usuario-role," + e.getMessage());
                 }
                 if (cb.isChecked() == true) {
-                    logger.log(Level.INFO, "usuario:{0}, Rol:{1}:{2}", new Object[]{anUser.getNombreUsuario(), aRole.getId(), aRole.getGroupname()});
+                    logger.log(Level.INFO, "usuario:{0}, Rol:{1}:{2}", new Object[]{anUser.getNombreusuario(), aRole.getId(), aRole.getGroupname()});
                     if (anUserRole == null) {
-                        anUserRole = new GroupMembers();
+                        anUserRole = new Groupmembers();
                         anUserRole.setIdusuario(anUser);
                         anUserRole.setGroupid(aRole);
                         try {
@@ -296,7 +296,7 @@ public class ListaUsuariosCtrl extends BaseController {
                         }
                     }
                 } else if (cb.isChecked() == false) {
-                    logger.log(Level.INFO, "usuario:{0}, Rol no seleccionado:{1}:{2}", new Object[]{anUser.getNombreUsuario(), aRole.getId(), aRole.getGroupname()});
+                    logger.log(Level.INFO, "usuario:{0}, Rol no seleccionado:{1}:{2}", new Object[]{anUser.getNombreusuario(), aRole.getId(), aRole.getGroupname()});
                     if (anUserRole != null) {
                         try {
                             usuariosBean.deleteUserRole(anUserRole);

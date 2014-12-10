@@ -36,8 +36,8 @@ public class BuscarBodegaCtrll extends BaseController {
     protected Window busquedaBodegaWindow;
     protected Intbox txtIdBodega;
     protected Textbox txtNombreBodega;
-    protected Textbox txtNumeroNit;
-    protected Textbox txtRegistroIva;
+    protected Textbox txtTelefono2;
+    protected Textbox txtTelefono;
     protected Textbox txtCorreoElectronico;
     protected Textbox txtDepartamento;
     protected Textbox txtMunicipio;
@@ -110,8 +110,8 @@ public class BuscarBodegaCtrll extends BaseController {
             if (StringUtils.isNotEmpty(txtNombreBodega.getValue())) {
                 request.setNombre(txtNombreBodega.getValue().toUpperCase());
             }
-            if (StringUtils.isNotEmpty(txtRegistroIva.getValue())) {
-                request.setDireccion(txtRegistroIva.getValue());
+            if (StringUtils.isNotEmpty(txtTelefono2.getValue())) {
+                request.setDireccion(txtTelefono.getValue());
             }
             if (StringUtils.isNotEmpty(txtDepartamento.getValue())) {
                 request.setEncargado(txtDepartamento.getValue());

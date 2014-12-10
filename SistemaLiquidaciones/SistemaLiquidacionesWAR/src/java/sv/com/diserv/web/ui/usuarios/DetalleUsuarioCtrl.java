@@ -118,10 +118,10 @@ public class DetalleUsuarioCtrl extends BaseController {
         txtClaveUsuario.setValue(usuarioSelected.getContrasena());
         txtClaveUsuario2.setValue(usuarioSelected.getContrasena());
         txtNombreUsuario.setValue(usuarioSelected.getNombreCompleto());
-        txtNumerocarne.setValue(usuarioSelected.getCodigoEmpleado());
-        txtRegistrosLista.setValue(usuarioSelected.getRegistrosLista());
+        txtNumerocarne.setValue(usuarioSelected.getCodigoempleado());
+        txtRegistrosLista.setValue(usuarioSelected.getRegistroslista());
         txtUsuarioSistema.setValue(usuarioSelected.getNombreCompleto());
-        checkEstadoUsuario.setChecked(usuarioSelected.isStatus());
+        //checkEstadoUsuario.setChecked(usuarioSelected.getStatus());
     }
 
     private void loadDataFromTextboxs() {
@@ -149,12 +149,12 @@ public class DetalleUsuarioCtrl extends BaseController {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar cantida de registros por pagina");
             }
             //if (checkEstadoUsuario.isChecked()) {
-            usuarioSelected.setStatus(checkEstadoUsuario.isChecked());
-            usuarioSelected.setCodigoEmpleado(txtNumerocarne.getValue());
+          //  usuarioSelected.setStatus(checkEstadoUsuario.isChecked());
+            usuarioSelected.setCodigoempleado(txtNumerocarne.getValue());
             usuarioSelected.setContrasena(txtClaveUsuario2.getValue());
             usuarioSelected.setNombreCompleto(txtNombreUsuario.getValue());
-            usuarioSelected.setNombreUsuario(txtUsuarioSistema.getValue());
-            usuarioSelected.setRegistrosLista(txtRegistrosLista.getValue());
+            usuarioSelected.setNombreusuario(txtUsuarioSistema.getValue());
+            usuarioSelected.setRegistroslista(txtRegistrosLista.getValue());
 
         } catch (DiservWebException ex) {
             MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
@@ -251,12 +251,12 @@ public class DetalleUsuarioCtrl extends BaseController {
     }
 
     public void doActualizar() {
-        usuarioSelected.setStatus(checkEstadoUsuario.isChecked());
-        usuarioSelected.setCodigoEmpleado(txtNumerocarne.getValue());
+       // usuarioSelected.setStatus(checkEstadoUsuario.isChecked());
+        usuarioSelected.setCodigoempleado(txtNumerocarne.getValue());
         usuarioSelected.setContrasena(txtClaveUsuario2.getValue());
         usuarioSelected.setNombreCompleto(txtNombreUsuario.getValue());
-        usuarioSelected.setNombreUsuario(txtUsuarioSistema.getValue());
-        usuarioSelected.setRegistrosLista(txtRegistrosLista.getValue());
+        usuarioSelected.setNombreusuario(txtUsuarioSistema.getValue());
+        usuarioSelected.setRegistroslista(txtRegistrosLista.getValue());
 //        try {
 //            responseOperacion = usuarioBean.guardarUsuario(usuarioSelected, Boolean.FALSE);
         if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {

@@ -15,10 +15,10 @@ public class BodegaItemRenderer implements ListitemRenderer {
     @Override
     public void render(Listitem item, Object data) throws Exception {
         bodega = (Bodegas) data;
-        Listcell lb = new Listcell(String.valueOf(bodega.getCorrSucur()));
+        Listcell lb = new Listcell(String.valueOf(bodega.getIdbodega()));
         lb.setParent(item);
 
-        lb = new Listcell(String.valueOf(bodega.getNombreSucBod()));
+        lb = new Listcell(String.valueOf(bodega.getNombre()));
         lb.setParent(item);
 
 //        lb = new Listcell(bodega.getIvaBodega());

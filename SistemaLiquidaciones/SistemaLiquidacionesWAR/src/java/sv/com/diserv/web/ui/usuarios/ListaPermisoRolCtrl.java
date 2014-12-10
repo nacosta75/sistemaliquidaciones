@@ -29,7 +29,7 @@ import sv.com.diserv.web.ui.util.MensajeMultilinea;
 import sv.com.diserv.web.ui.util.UserWorkspace;
 import sv.com.diserv.liquidaciones.ejb.ManejadorUsuarioBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Authorities;
-import sv.com.diserv.liquidaciones.entity.GroupAuthorities;
+import sv.com.diserv.liquidaciones.entity.Groupauthorities;
 import sv.com.diserv.liquidaciones.entity.Groups;
 import sv.com.diserv.liquidaciones.exception.DiservWebException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
@@ -185,7 +185,7 @@ public class ListaPermisoRolCtrl extends BaseController {
 
     public void mostrarSeleccionados() {
         logger.log(Level.INFO, "[mostrarSeleccionados]Se seleccionan los derechos que corresponden al grupo seleccionado");
-        List<GroupAuthorities> permisoRolList;
+        List<Groupauthorities> permisoRolList;
         Listitem item = this.listBoxGrupos.getSelectedItem();
         if (item != null) {
             groupSelected = (Groups) item.getAttribute("data");
@@ -235,7 +235,7 @@ public class ListaPermisoRolCtrl extends BaseController {
      */
     public void doSave() throws InterruptedException, DiservWebException {
         logger.log(Level.INFO, "[doSave]INIT");
-        GroupAuthorities aGroupRight = null;
+        Groupauthorities aGroupRight = null;
         List<Listitem> li = this.listBoxDerecho.getItems();
         for (Listitem listitem : li) {
             Listcell lc = (Listcell) listitem.getFirstChild();
@@ -252,7 +252,7 @@ public class ListaPermisoRolCtrl extends BaseController {
                 if (cb.isChecked()) {
                     logger.log(Level.INFO, "Grupo:{0}, Derecho:{1}:{2}", new Object[]{aGroup.getGroupname(), aRight.getNombre(), aRight.getDescripcion()});
                     if (aGroupRight == null) {
-                        aGroupRight = new GroupAuthorities();
+                        aGroupRight = new Groupauthorities();
                         aGroupRight.setGroupid(aGroup);
                         aGroupRight.setIdauthority(aRight);
 

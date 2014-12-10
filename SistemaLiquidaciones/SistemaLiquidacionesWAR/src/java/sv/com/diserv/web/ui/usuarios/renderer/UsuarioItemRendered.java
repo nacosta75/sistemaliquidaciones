@@ -13,16 +13,17 @@ public class UsuarioItemRendered implements ListitemRenderer {
     @Override
     public void render(Listitem item, Object data) throws Exception {
         usuario = (Usuarios) data;
-        Listcell lc = new Listcell(usuario.getCodigoEmpleado() != null ? usuario.getCodigoEmpleado() : "N/D");
+        Listcell lc = new Listcell(usuario.getCodigoempleado() != null ? usuario.getCodigoempleado(): "N/D");
         lc.setParent(item);
 
-        lc = new Listcell(usuario.getNombreUsuario() != null ? usuario.getNombreUsuario() : "N/D");
+        lc = new Listcell(usuario.getNombreusuario() != null ? usuario.getNombreusuario() : "N/D");
         lc.setParent(item);
 
         lc = new Listcell(usuario.getNombreCompleto() != null ? usuario.getNombreCompleto() : "N/D");
         lc.setParent(item);
 
-        lc = new Listcell(usuario.isStatus() ? "Activo" : "Inactivo");
+        //lc = new Listcell(usuario.getStatus() ? "Activo" : "Inactivo");
+        lc = new Listcell(true ? "Activo" : "Inactivo");
         lc.setParent(item);
 
         item.setAttribute("data", data);

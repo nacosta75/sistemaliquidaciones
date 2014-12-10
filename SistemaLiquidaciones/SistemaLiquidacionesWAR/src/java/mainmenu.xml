@@ -20,24 +20,25 @@
               zulNavigation="/WEB-INF/pages/dashboard.zul"
               iconName="/images/console_view.gif" />
     <menu id="menu_Administration" 
-          rightName="menu_Administration"
+          rightName=""
           open="false"
           label="Manejo Usuarios"> 
         <menuItem id="menu_Item_UsuariosRoles"
                   label="Usuarios - Roles"
                   iconName="/images/imagenHombre.gif"
                   zulNavigation="/WEB-INF/xhtml/usuario/listaUsuarios.zul"
-                  rightName="menu_Item_UsuariosRoles"/>      
+                  rightName=""/>      
         <menuItem id="menu_Item_GruposDerechos"
                   label="Roles-Permisos"
                   iconName="/images/user_group_16x16.png"
                   zulNavigation="/WEB-INF/xhtml/usuario/permisosRoles.zul"
-                  rightName="menu_Item_GruposDerechos"/>
+                  rightName=""/>
     </menu>
     <menu id="menu_Mantenimientos" 
           rightName=""             
           open="false"
           label="Mantenimientos"> 
+         
         <menuItem id="menu_Item_MantenimientoClientes"
                   label="Clientes"
                   iconName="/images/personGroup.png"
