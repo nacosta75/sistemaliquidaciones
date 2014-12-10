@@ -30,11 +30,16 @@ public class DetalleBodegaCtrl extends BaseController {
     protected Textbox txtNombreBodegas;
     protected Textbox txtDireccion;
     protected Textbox txtTelefono;
-    protected Textbox txtTelefono2;
-    protected Textbox txtCorreoElectronico;
-    protected Textbox txtDepartamento;
-    protected Textbox txtMunicipio;
+    protected Textbox txtEncargado;
+//    protected Textbox txtCorreoElectronico;
+//    protected Textbox txtDepartamento;
+//    protected Textbox txtMunicipio;
     protected Checkbox checkEstadoBodegas;
+    
+    
+    
+    
+    
     protected Button btnActualizar;
     protected Button btnNuevo;
     protected Button btnEditar;
@@ -107,13 +112,12 @@ public class DetalleBodegaCtrl extends BaseController {
      * cargamos los textboxs desde entity
      */
     private void loadDataFromEntity() {
-        txtCorreoElectronico.setValue("testing");
-        txtDepartamento.setValue(bodegaSelected.getDireccion());
+        
         txtDireccion.setValue(bodegaSelected.getDireccion());
         txtIdBodegas.setValue(bodegaSelected.getIdbodega());
-        txtMunicipio.setValue(bodegaSelected.getTelefono());
+        
         txtNombreBodegas.setText(bodegaSelected.getNombre());
-        txtTelefono2.setValue(bodegaSelected.getTelefono());
+     
      //   txtRegistroIva.setValue(bodegaSelected.getIvaBodegas());
       //  txtCorreoElectronico.setValue(bodegaSelected.getEmailBodegas());
         //checkEstadoBodegas.setChecked((boolean) (bodegaSelected.getActiva() != null ? bodegaSelected.getActiva() : false));
@@ -123,21 +127,15 @@ public class DetalleBodegaCtrl extends BaseController {
         try {
             bodegaSelected = new Bodegas();
             //validamos los campos
-            if (StringUtils.isEmpty(txtDepartamento.getValue())) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar departamento bodega");
-            }
+        
             if (StringUtils.isEmpty(txtDireccion.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar dirección para bodega");
             }
-            if (StringUtils.isEmpty(txtMunicipio.getValue())) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar municipio bodega");
-            }
+           
             if (StringUtils.isEmpty(txtNombreBodegas.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar  Nombre Bodegas bodega");
             }
-            if (StringUtils.isEmpty(txtTelefono2.getValue())) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   Numero Telefonos  para  bodega");
-            }
+            
             if (StringUtils.isEmpty(txtTelefono.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   Numero Telefono para bodega");
             }
@@ -147,9 +145,9 @@ public class DetalleBodegaCtrl extends BaseController {
             //bodegaSelected.setDepartamento(txtDepartamento.getValue());
             bodegaSelected.setDireccion(txtDireccion.getValue());
             bodegaSelected.setIdbodega(txtIdBodegas.getValue());
-            bodegaSelected.setTelefono(txtMunicipio.getValue());
+           
             bodegaSelected.setNombre(txtNombreBodegas.getValue());
-            bodegaSelected.setTelefono(txtTelefono2.getValue());
+            
             //bodegaSelected.setIvaBodegas(txtRegistroIva.getValue());
             //bodegaSelected.setEmailBodegas(txtCorreoElectronico.getValue());
             //bodegaSelected.setTelefono(checkEstadoBodegas.isChecked());
@@ -261,23 +259,21 @@ public class DetalleBodegaCtrl extends BaseController {
     }
 
     public void doReadOnly(Boolean opt) {
-        txtCorreoElectronico.setReadonly(opt);
-        txtDepartamento.setReadonly(opt);
+         
         txtDireccion.setReadonly(opt);
-        txtMunicipio.setReadonly(opt);
+         
         txtNombreBodegas.setReadonly(opt);
-        txtTelefono2.setReadonly(opt);
+       
         txtTelefono.setReadonly(opt);
     }
 
     public void doClear() {
-        txtCorreoElectronico.setValue(null);
-        txtDepartamento.setValue(null);
+     
         txtDireccion.setValue(null);
         txtIdBodegas.setValue(null);
-        txtMunicipio.setValue(null);
+        
         txtNombreBodegas.setValue(null);
-        txtTelefono2.setValue(null);
+        
         txtTelefono.setValue(null);
         txtNombreBodegas.setFocus(true);
     }
