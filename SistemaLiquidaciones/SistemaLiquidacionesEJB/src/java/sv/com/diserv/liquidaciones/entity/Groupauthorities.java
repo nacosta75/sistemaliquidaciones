@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "GROUPAUTHORITIES")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "GroupAuthorities.findAll", query = "SELECT g FROM GroupAuthorities g"),
-    @NamedQuery(name = "GroupAuthorities.findByIdcorrelativo", query = "SELECT g FROM GroupAuthorities g WHERE g.idcorrelativo = :idcorrelativo")})
-public class GroupAuthorities implements Serializable {
+    @NamedQuery(name = "Groupauthorities.findAll", query = "SELECT g FROM Groupauthorities g"),
+    @NamedQuery(name = "Groupauthorities.findByIdcorrelativo", query = "SELECT g FROM Groupauthorities g WHERE g.idcorrelativo = :idcorrelativo")})
+public class Groupauthorities implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -43,10 +43,10 @@ public class GroupAuthorities implements Serializable {
     @ManyToOne
     private Authorities idauthority;
 
-    public GroupAuthorities() {
+    public Groupauthorities() {
     }
 
-    public GroupAuthorities(Integer idcorrelativo) {
+    public Groupauthorities(Integer idcorrelativo) {
         this.idcorrelativo = idcorrelativo;
     }
 
@@ -84,10 +84,10 @@ public class GroupAuthorities implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof GroupAuthorities)) {
+        if (!(object instanceof Groupauthorities)) {
             return false;
         }
-        GroupAuthorities other = (GroupAuthorities) object;
+        Groupauthorities other = (Groupauthorities) object;
         if ((this.idcorrelativo == null && other.idcorrelativo != null) || (this.idcorrelativo != null && !this.idcorrelativo.equals(other.idcorrelativo))) {
             return false;
         }

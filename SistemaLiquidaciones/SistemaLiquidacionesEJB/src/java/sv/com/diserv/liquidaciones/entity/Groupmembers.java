@@ -7,57 +7,47 @@
 package sv.com.diserv.liquidaciones.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author abraham.acosta
  */
 @Entity
-@Table(name = "GROUPS")
+@Table(name = "GROUPMEMBERS")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Groups.findAll", query = "SELECT g FROM Groups g"),
-    @NamedQuery(name = "Groups.findById", query = "SELECT g FROM Groups g WHERE g.id = :id"),
-    @NamedQuery(name = "Groups.findByGroupname", query = "SELECT g FROM Groups g WHERE g.groupname = :groupname")})
-public class Groups implements Serializable {
+    @NamedQuery(name = "Groupmembers.findAll", query = "SELECT g FROM Groupmembers g"),
+    @NamedQuery(name = "Groupmembers.findById", query = "SELECT g FROM Groupmembers g WHERE g.id = :id")})
+public class Groupmembers implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "GROUPNAME")
-    private String groupname;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupid")
-    private List<GroupAuthorities> groupauthoritiesList;
+    @JoinColumn(name = "IDUSUARIO", referencedColumnName = "IDUSUARIO")
+    @ManyToOne
+    private Usuarios idusuario;
+    @JoinColumn(name = "GROUPID", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Groups groupid;
 
-    public Groups() {
+    public Groupmembers() {
     }
 
-    public Groups(Long id) {
+    public Groupmembers(Long id) {
         this.id = id;
-    }
-
-    public Groups(Long id, String groupname) {
-        this.id = id;
-        this.groupname = groupname;
     }
 
     public Long getId() {
@@ -68,21 +58,20 @@ public class Groups implements Serializable {
         this.id = id;
     }
 
-    public String getGroupname() {
-        return groupname;
+    public Usuarios getIdusuario() {
+        return idusuario;
     }
 
-    public void setGroupname(String groupname) {
-        this.groupname = groupname;
+    public void setIdusuario(Usuarios idusuario) {
+        this.idusuario = idusuario;
     }
 
-    @XmlTransient
-    public List<GroupAuthorities> getGroupauthoritiesList() {
-        return groupauthoritiesList;
+    public Groups getGroupid() {
+        return groupid;
     }
 
-    public void setGroupauthoritiesList(List<GroupAuthorities> groupauthoritiesList) {
-        this.groupauthoritiesList = groupauthoritiesList;
+    public void setGroupid(Groups groupid) {
+        this.groupid = groupid;
     }
 
     @Override
@@ -95,10 +84,10 @@ public class Groups implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Groups)) {
+        if (!(object instanceof Groupmembers)) {
             return false;
         }
-        Groups other = (Groups) object;
+        Groupmembers other = (Groupmembers) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -107,7 +96,7 @@ public class Groups implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Groups[ id=" + id + " ]";
+        return "entity.Groupmembers[ id=" + id + " ]";
     }
     
 }
