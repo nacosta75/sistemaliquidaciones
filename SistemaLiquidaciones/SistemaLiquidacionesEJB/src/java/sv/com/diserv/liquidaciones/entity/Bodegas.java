@@ -58,7 +58,7 @@ public class Bodegas implements Serializable {
     @Column(name = "ENCARGADO")
     private String encargado;
     @Column(name = "ACTIVA")
-    private Character activa;
+    private String activa;
     @OneToMany(mappedBy = "idbodegaentrada")
     private List<Movimientos> movimientosList;
     @OneToMany(mappedBy = "idbodegasalida")
@@ -116,11 +116,11 @@ public class Bodegas implements Serializable {
         this.encargado = encargado;
     }
 
-    public Character getActiva() {
+    public String getActiva() {
         return activa;
     }
 
-    public void setActiva(Character activa) {
+    public void setActiva(String activa) {
         this.activa = activa;
     }
 
