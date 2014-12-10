@@ -188,12 +188,12 @@ public class BodegasBean implements BodegasBeanLocal {
             if (lista.size() > 0) {
                 for (Object[] item : lista) {
                     bodegas = new Bodegas();
-                    bodegas.setCorrSucur(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                    bodegas.setIdbodega(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
                     //bodegas.setCodigo(item[1] != null ? item[1].toString() : "N/D");
-                    bodegas.setNombreSucBod(item[2] != null ? item[2].toString() : "N/D");
-                    bodegas.setCalleOPasaje(item[3] != null ? item[3].toString() : "N/D");
-                    bodegas.setTelefono1(item[4] != null ? item[4].toString() : "N/D");
-                    bodegas.setNombreSucBod(item[5] != null ? item[5].toString() : "N/D");
+                    bodegas.setNombre(item[2] != null ? item[2].toString() : "N/D");
+                    bodegas.setDireccion(item[3] != null ? item[3].toString() : "N/D");
+                    bodegas.setTelefono(item[4] != null ? item[4].toString() : "N/D");
+                    bodegas.setEncargado(item[5] != null ? item[5].toString() : "N/D");
                    // bodegas.setIdempresa(item[6] != null ? item[6].toString() : "N/D");
                     //bodegas.setActiva(item[7] != null ? item[7].toString() : "N/D");
                    // cliente.setEstadoBodega(item[8] != null ? Boolean.valueOf(item[8].toString()) : false);

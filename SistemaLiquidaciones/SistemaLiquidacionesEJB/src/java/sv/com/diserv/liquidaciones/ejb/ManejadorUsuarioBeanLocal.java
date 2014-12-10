@@ -12,8 +12,8 @@ import sv.com.diserv.liquidaciones.dto.BusquedaUserDTO;
 import sv.com.diserv.liquidaciones.dto.CustomUserDTO;
 import sv.com.diserv.liquidaciones.dto.GenericResponse;
 import sv.com.diserv.liquidaciones.entity.Authorities;
-import sv.com.diserv.liquidaciones.entity.GroupAuthorities;
-import sv.com.diserv.liquidaciones.entity.GroupMembers;
+import sv.com.diserv.liquidaciones.entity.Groupauthorities;
+import sv.com.diserv.liquidaciones.entity.Groupmembers;
 import sv.com.diserv.liquidaciones.entity.Groups;
 import sv.com.diserv.liquidaciones.entity.Usuarios;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
@@ -84,7 +84,7 @@ public interface ManejadorUsuarioBeanLocal {
      * @return
      * @throws sv.com.diserv.liquidaciones.exception.DiservBusinessException
      */
-    public List<GroupMembers> findUserRoleByNumeroCarnet(String nombreUsuario) throws DiservBusinessException;
+    public List<Groupmembers> findUserRoleByNumeroCarnet(String nombreUsuario) throws DiservBusinessException;
 
     /**
      * Metodo para extraer una combinacion RolUsuario partiendo del id de
@@ -95,7 +95,7 @@ public interface ManejadorUsuarioBeanLocal {
      * @return UserRole
      * @throws sv.com.diserv.liquidaciones.exception.DiservBusinessException
      */
-    public GroupMembers getUserRoleByUserAndRole(String nombreUsuario, Integer rolId) throws DiservBusinessException;
+    public Groupmembers getUserRoleByUserAndRole(String nombreUsuario, Integer rolId) throws DiservBusinessException;
 
     /**
      * Metodo para guardar una relacion Usuario-Rol
@@ -104,7 +104,7 @@ public interface ManejadorUsuarioBeanLocal {
      * @return GenericResponse
      * @throws sv.com.diserv.liquidaciones.exception.DiservBusinessException
      */
-    public GenericResponse saveUserRole(GroupMembers data) throws DiservBusinessException;
+    public GenericResponse saveUserRole(Groupmembers data) throws DiservBusinessException;
 
     /**
      * Metodo para borrar una relacion Usuario-Rol
@@ -113,7 +113,7 @@ public interface ManejadorUsuarioBeanLocal {
      * @return GenericResponse
      * @throws sv.com.diserv.liquidaciones.exception.DiservBusinessException
      */
-    public GenericResponse deleteUserRole(GroupMembers data) throws DiservBusinessException;
+    public GenericResponse deleteUserRole(Groupmembers data) throws DiservBusinessException;
 
     /**
      * Metodo para obtener el numero de grupos
@@ -165,7 +165,7 @@ public interface ManejadorUsuarioBeanLocal {
      * @return
      * @throws sv.com.diserv.liquidaciones.exception.DiservBusinessException
      */
-    public List<GroupAuthorities> findPermisoRolByUdRole(Integer idRol) throws DiservBusinessException;
+    public List<Groupauthorities> findPermisoRolByUdRole(Integer idRol) throws DiservBusinessException;
 
     /**
      *
@@ -180,7 +180,7 @@ public interface ManejadorUsuarioBeanLocal {
      * @return
      * @throws sv.com.diserv.liquidaciones.exception.DiservBusinessException
      */
-    public GroupAuthorities getGroupRightByGroupAndRight(int groupId, int rightId) throws DiservBusinessException;
+    public Groupauthorities getGroupRightByGroupAndRight(int groupId, int rightId) throws DiservBusinessException;
 
     /**
      *
@@ -188,7 +188,7 @@ public interface ManejadorUsuarioBeanLocal {
      * @return
      * @throws sv.com.diserv.liquidaciones.exception.DiservBusinessException
      */
-    public GenericResponse saveGroupRight(GroupAuthorities data) throws DiservBusinessException;
+    public GenericResponse saveGroupRight(Groupauthorities data) throws DiservBusinessException;
 
     /**
      *
@@ -196,6 +196,6 @@ public interface ManejadorUsuarioBeanLocal {
      * @return
      * @throws sv.com.diserv.liquidaciones.exception.DiservBusinessException
      */
-    public GenericResponse deleteGroupRight(GroupAuthorities data) throws DiservBusinessException;
+    public GenericResponse deleteGroupRight(Groupauthorities data) throws DiservBusinessException;
 
 }

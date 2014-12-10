@@ -28,8 +28,8 @@ import sv.com.diserv.liquidaciones.dto.BusquedaUserDTO;
 import sv.com.diserv.liquidaciones.dto.CustomUserDTO;
 import sv.com.diserv.liquidaciones.dto.GenericResponse;
 import sv.com.diserv.liquidaciones.entity.Authorities;
-import sv.com.diserv.liquidaciones.entity.GroupAuthorities;
-import sv.com.diserv.liquidaciones.entity.GroupMembers;
+import sv.com.diserv.liquidaciones.entity.Groupauthorities;
+import sv.com.diserv.liquidaciones.entity.Groupmembers;
 import sv.com.diserv.liquidaciones.entity.Groups;
 import sv.com.diserv.liquidaciones.entity.Usuarios;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
@@ -67,17 +67,17 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
             query.setParameter("nombreUsuario", name);
             us = (Usuarios) query.getSingleResult();
             if (us != null) {
-                enable = us.isStatus();
+                enable = true;//us.getStatus();
                 user.setAccountNonExpired(enable);
-                us.getGroupMembersList();
+                us.getGroupmembersList();
                 user.setAccountNonLocked(enable);
                 user.setCredentialsNonExpired(enable);
                 user.setEnabled(enable);
-                user.setUsername(us.getNombreUsuario());
+                user.setUsername(us.getNombreusuario());
                 user.setPassword(us.getContrasena());
-                user.setPerfiles(getGrantedAuthority(us.getNombreUsuario()));
+                user.setPerfiles(getGrantedAuthority(us.getNombreusuario()));
                 user.setUsuario(us);
-                user.setRegistrosLista(us.getRegistrosLista() != null ? us.getRegistrosLista() : Constants.REGISTROS_A_MOSTRAR_LISTA);
+                user.setRegistrosLista(us.getRegistroslista() != null ? us.getRegistroslista() : Constants.REGISTROS_A_MOSTRAR_LISTA);
                 logger.log(Level.INFO, "[findByName] Se recupero usuario={0}" + us.getNombreCompleto());
             }
         } catch (NoResultException ex) {
@@ -140,7 +140,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
             if (userList != null) {
                 //cargamos los roles de usuario
                 for (Usuarios usuario : userList) {
-                    usuario.getGroupMembersList();
+                    usuario.getGroupmembersList();
                 }
                 logger.log(Level.INFO, "[loadAllUser] Se encontraron " + userList.size() + " usuarios");
             }
@@ -238,9 +238,9 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      * @return List<UserRole>
      */
     @Override
-    public List<GroupMembers> findUserRoleByNumeroCarnet(String nombreUsuario) throws DiservBusinessException {
+    public List<Groupmembers> findUserRoleByNumeroCarnet(String nombreUsuario) throws DiservBusinessException {
         logger.log(Level.INFO, "[findUserRoleByNumeroCarnet] numero de usuario:" + nombreUsuario);
-        List<GroupMembers> userRolList = null;
+        List<Groupmembers> userRolList = null;
         Query query;
         try {
             query = em.createNamedQuery("GroupMembers.findByUserId");
@@ -269,15 +269,15 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      * @return UserRole
      */
     @Override
-    public GroupMembers getUserRoleByUserAndRole(String idUsuario, Integer idRole) throws DiservBusinessException {
+    public Groupmembers getUserRoleByUserAndRole(String idUsuario, Integer idRole) throws DiservBusinessException {
         logger.log(Level.INFO, "[getUserRoleByUserAndRole] usuario:" + idUsuario + " and rolId:" + idRole);
-        GroupMembers userRol;
+        Groupmembers userRol;
         Query query;
         try {
             query = em.createNamedQuery("GroupMembers.findByUserIdAndGroupId");
             query.setParameter("idUsuario", idUsuario);
             query.setParameter("idGrupo", idRole);
-            userRol = (GroupMembers) query.getSingleResult();
+            userRol = (Groupmembers) query.getSingleResult();
             if (userRol != null) {
                 logger.log(Level.INFO, "[getUserRoleByUserAndRole] Se encontro el rol " + userRol.getId() + " asignado al usuario:" + idUsuario);
             }
@@ -300,7 +300,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      * @return GenericResponse
      */
     @Override
-    public GenericResponse saveUserRole(GroupMembers data) throws DiservBusinessException {
+    public GenericResponse saveUserRole(Groupmembers data) throws DiservBusinessException {
         logger.info("[saveUserRole]Usuario:" + data.getIdusuario().getNombreCompleto() + ", Rol:" + data.getGroupid().getGroupname());
         GenericResponse response = new GenericResponse(Constants.CODE_OPERATION_FALLIDA, "No se pudo agregar rol a usuario");
         try {
@@ -360,7 +360,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      * @return GenericResponse
      */
     @Override
-    public GenericResponse deleteUserRole(GroupMembers data) throws DiservBusinessException {
+    public GenericResponse deleteUserRole(Groupmembers data) throws DiservBusinessException {
         logger.info("[deleteUserRole]Usuario:" + data.getIdusuario().getNombreCompleto() + ", Rol:" + data.getGroupid().getGroupname());
         GenericResponse response = new GenericResponse(Constants.CODE_OPERATION_FALLIDA, "No se pudo eliminar rol a usuario");
         try {
@@ -482,9 +482,9 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      * @return List<GroupRight>
      */
     @Override
-    public List<GroupAuthorities> findPermisoRolByUdRole(Integer idRol) throws DiservBusinessException {
+            public List<Groupauthorities> findPermisoRolByUdRole(Integer idRol) throws DiservBusinessException {
         logger.log(Level.INFO, "[findGroupRightByGroupId] id de grupo:" + idRol);
-        List<GroupAuthorities> groupRightList = null;
+        List<Groupauthorities> groupRightList = null;
         Query query;
         try {
             query = em.createNamedQuery("GroupAuthorities.findByIdGroup");
@@ -513,15 +513,15 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      * @return GroupRight
      */
     @Override
-    public GroupAuthorities getGroupRightByGroupAndRight(int groupId, int rightId) throws DiservBusinessException {
+    public Groupauthorities getGroupRightByGroupAndRight(int groupId, int rightId) throws DiservBusinessException {
         logger.log(Level.INFO, "[getGroupRightByGroupAndRight] groupId:" + groupId + " and rightId:" + rightId);
-        GroupAuthorities groupRight = new GroupAuthorities();
+        Groupauthorities groupRight = new Groupauthorities();
         Query query;
         try {
             query = em.createNamedQuery("GroupAuthorities.findByIdGroupAndAuthority");
             query.setParameter("idGroup", groupId);
             query.setParameter("idPermiso", rightId);
-            groupRight = (GroupAuthorities) query.getSingleResult();
+            groupRight = (Groupauthorities) query.getSingleResult();
         } catch (NoResultException ex) {
             groupRight = null;
             logger.log(Level.INFO, "[getGroupRightByGroupAndRight][NoResultException]No se encontraron coincidencias para este grupo");
@@ -540,7 +540,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      * @return GenericResponse
      */
     @Override
-    public GenericResponse saveGroupRight(GroupAuthorities data) throws DiservBusinessException {
+    public GenericResponse saveGroupRight(Groupauthorities data) throws DiservBusinessException {
         logger.info("[saveGroupRight]Grupo:" + data.getGroupid().getGroupname() + ", Derecho:" + data.getIdauthority().getNombre());
         GenericResponse response = new GenericResponse(Constants.CODE_OPERATION_FALLIDA, "Fallo al guardar permiso grupo");
         try {
@@ -560,7 +560,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      * @return GenericResponse
      */
     @Override
-    public GenericResponse deleteGroupRight(GroupAuthorities data) throws DiservBusinessException {
+    public GenericResponse deleteGroupRight(Groupauthorities data) throws DiservBusinessException {
         logger.info("[deleteGroupRight]Grupo:" + data.getGroupid().getGroupname());
         GenericResponse response = new GenericResponse(Constants.CODE_OPERATION_FALLIDA, "Operacion fallida");
         try {
