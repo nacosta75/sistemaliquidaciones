@@ -17,11 +17,11 @@
                 <button id="btnNuevoBodega"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnnew.gif"
-                        tooltiptext="Agregar nuevo cliente"  />
+                        tooltiptext="Agregar nueva bodega"  />
                 <button id="btnBusquedaBodega"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsearch.gif"
-                        tooltiptext="Buscar cliente por criterios"/>
+                        tooltiptext="Buscar bodega por criterios"/>
                 <button id="btnRefresh"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnrefresh.gif"
@@ -52,21 +52,17 @@
                                 sort="auto"
                                 width="50%"
                                 label="Nombre Bodega" />
-                    <listheader id="listheaderBodegaRegistroIva"
+<!--                    <listheader id="listheaderBodegaDireccion"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="20%"
-                                label="Registro IVA" />
-                    <listheader id="listheaderBodegaNumeroNit"
-                                sclass="FDListBoxHeader1"
-                                sort="auto"
-                                width="20%"
-                                label="Número NIT" />
+                                label="Direccion" />-->
+                  
                 </listhead>
             </listbox>
         </groupbox>
         <separator />
-        <groupbox mold="3d" width="100%" height="250px">
+<!--        <groupbox mold="3d" width="100%" height="250px">
             <caption label="Lista ultimos tramites asociados a cliente" />
             <listbox id="listBoxListaTramiteBodega"
                      style="border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; border-bottom-width: 1px;"
@@ -103,6 +99,6 @@
                         label="Aduana tramite" /> 
                 </listhead>
             </listbox>
-        </groupbox>
+        </groupbox>-->
     </window>
 </zk>

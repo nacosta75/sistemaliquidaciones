@@ -5,10 +5,10 @@
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-    <window id="detalleClienteWindow"
-            title="Mantenimiento de clientes"
+    <window id="detalleBodegaWindow"
+            title="Mantenimiento de bodegas"
             border="normal"
-            use="sv.com.diserv.liquidaciones.web.ui.bodegas.DetalleBodegaCtrl"
+            use="sv.com.diserv.web.ui.bodegas.DetalleBodegaCtrl"
             closable="true"
             width="650px" 
             height="420px"
@@ -23,11 +23,11 @@
                 <button id="btnNuevo"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnnew.gif"
-                        tooltiptext="Agregar nuevo cliente"  />
+                        tooltiptext="Agregar nueva bodega"  />
                 <button id="btnEditar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnedit.gif"
-                        tooltiptext="Buscar cliente por criterios"/>
+                        tooltiptext="Buscar bodega por criterios"/>
                 <button id="btnGuardar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsave.gif"
@@ -61,13 +61,13 @@
                                   width="100%" 
                                   style="padding: 3px;">
                                 <div>
-                                    <panel id="panelInformacionCliente" border="none">
+                                    <panel id="panelInformacionBodega" border="none">
                                         <panelchildren>
                                             <groupbox id="gb_address"
                                                       mold="3d" 
                                                       closable="false">
                                                 <caption image="/images/person.gif"
-                                                         label="Información Cliente" />
+                                                         label="Información Bodega" />
                                                 <grid sclass="GridPlain">
                                                     <columns>
                                                         <column align="left" width="150px" />
@@ -76,24 +76,24 @@
                                                     <rows>
                                                         <row>
                                                             <hbox>
-                                                                <label value="Id Cliente" />
+                                                                <label value="Id Bodega" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
                                                             <intbox
-                                                                id="txtIdCliente"
+                                                                id="txtIdBodegas"
                                                                 hflex="1"
                                                                 maxlength="10"
-                                                                tooltiptext="Identificador unico de cliente"
+                                                                tooltiptext="Identificador unico de bodega"
                                                                 readonly="true" />
                                                         </row>
                                                                                                                                       
                                                         <row>
                                                             <hbox>
                                                                 <label
-                                                                    value="Nombre cliente : " />
+                                                                    value="Nombre Bodega : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <textbox   id="txtNombreCliente"   hflex="1" />
+                                                            <textbox   id="txtNombreBodegas"   hflex="1" />
                                                         </row>
                                                                     
                                                         <row>
@@ -109,53 +109,23 @@
 
                                                         <row>
                                                             <hbox>
-                                                                <label value="Numero de NIT" />
+                                                                <label value="Telefono" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
                                                             <textbox  
-                                                                id="txtNumeroNit" 
+                                                                id="txtTelefono" 
                                                                 hflex="1" />
                                                         </row>
 
                                                         <row>
                                                             <hbox>
-                                                                <label value="Numero registro IVA:" />
+                                                                <label value="Telfono2:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox   id="txtRegistroIva"
+                                                            <textbox   id="txtTelefono2"
                                                                        hflex="1" />
                                                         </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label  value="Correo electrónico " />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <textbox  id="txtCorreoElectronico" hflex="1" />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label
-                                                                    value="Departamento" />
-                                                                <label value="" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <textbox  id="txtDepartamento" hflex="1" />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label
-                                                                    value="Municipio :" />
-                                                                <label value="" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <textbox  id="txtMunicipio" hflex="1" />
-                                                        </row>                                                                    
-                                                        <row>
-                                                            <hbox>
-                                                                <label
-                                                                    value="Cliente Activo:" />
-                                                            </hbox>
-                                                            <checkbox id="checkEstadoCliente" />
-                                                        </row>
-                                                    </rows>
+                                                     </rows>
                                                 </grid>
                                             </groupbox>
                                         </panelchildren>
