@@ -1,8 +1,10 @@
 package sv.com.diserv.web.ui.bodegas;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jxl.biff.drawing.ComboBox;
 import org.apache.commons.lang.StringUtils;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Button;
@@ -29,17 +31,11 @@ public class DetalleBodegaCtrl extends BaseController {
     protected Intbox txtIdBodegas;
     protected Textbox txtNombreBodegas;
     protected Textbox txtDireccion;
-    protected Textbox txtTelefono;
     protected Textbox txtEncargado;
-//    protected Textbox txtCorreoElectronico;
-//    protected Textbox txtDepartamento;
-//    protected Textbox txtMunicipio;
+    protected Textbox txtTelefono;
     protected Checkbox checkEstadoBodegas;
-    
-    
-    
-    
-    
+    protected ComboBox cmbSucursal;
+
     protected Button btnActualizar;
     protected Button btnNuevo;
     protected Button btnEditar;
@@ -52,6 +48,19 @@ public class DetalleBodegaCtrl extends BaseController {
     private ServiceLocator serviceLocator;
     private OperacionesBodegaDTO responseOperacion;
     private List<Bodegas> listaBodegasLike;
+
+    private static List<String> colors = new ArrayList<String>();
+     
+     static{
+        colors.add("blue");
+        colors.add("black");
+        colors.add("white");
+                
+    }
+     
+    public static final List<String> getColors() {
+        return new ArrayList<String>(colors);
+    }
 
     public DetalleBodegaCtrl() {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl]INIT");
@@ -112,41 +121,62 @@ public class DetalleBodegaCtrl extends BaseController {
      * cargamos los textboxs desde entity
      */
     private void loadDataFromEntity() {
-        
+
+        txtEncargado.setValue(bodegaSelected.getEncargado());
         txtDireccion.setValue(bodegaSelected.getDireccion());
         txtIdBodegas.setValue(bodegaSelected.getIdbodega());
-        
         txtNombreBodegas.setText(bodegaSelected.getNombre());
-     
-     //   txtRegistroIva.setValue(bodegaSelected.getIvaBodegas());
-      //  txtCorreoElectronico.setValue(bodegaSelected.getEmailBodegas());
+        txtTelefono.setValue(bodegaSelected.getTelefono());
+        //cmbSucursal.
         //checkEstadoBodegas.setChecked((boolean) (bodegaSelected.getActiva() != null ? bodegaSelected.getActiva() : false));
+        if (bodegaSelected.getActiva().equals("S"))
+        {
+           checkEstadoBodegas.setChecked(true);
+        } else { checkEstadoBodegas.setChecked(false);}
+           
     }
 
     private void loadDataFromTextboxs() {
         try {
+            Bodegas bodegaSelected2 = bodegaSelected;
             bodegaSelected = new Bodegas();
             //validamos los campos
-        
+//            if (StringUtils.isEmpty(txtDepartamento.getValue())) {
+//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar departamento bodega");
+//            }
+
             if (StringUtils.isEmpty(txtDireccion.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar dirección para bodega");
             }
-           
+
             if (StringUtils.isEmpty(txtNombreBodegas.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar  Nombre Bodegas bodega");
             }
-            
+
             if (StringUtils.isEmpty(txtTelefono.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   Numero Telefono para bodega");
             }
+            
+            
             if (checkEstadoBodegas.isChecked()) {
-              //  bodegaSelected.setActiva("S");
+               bodegaSelected.setActiva("S");
             }
+            else
+            {
+               bodegaSelected.setActiva("N");
+            }
+                
             //bodegaSelected.setDepartamento(txtDepartamento.getValue());
             bodegaSelected.setDireccion(txtDireccion.getValue());
             bodegaSelected.setIdbodega(txtIdBodegas.getValue());
-           
+
+            bodegaSelected.setTelefono(txtTelefono.getValue());
             bodegaSelected.setNombre(txtNombreBodegas.getValue());
+            bodegaSelected.setEncargado(txtEncargado.getValue());
+
+            // sucursal
+            //Sucursales obj =
+            bodegaSelected.setIdsucursal( bodegaSelected2.getIdsucursal());
             
             //bodegaSelected.setIvaBodegas(txtRegistroIva.getValue());
             //bodegaSelected.setEmailBodegas(txtCorreoElectronico.getValue());
@@ -259,21 +289,28 @@ public class DetalleBodegaCtrl extends BaseController {
     }
 
     public void doReadOnly(Boolean opt) {
-         
+
+       // txtCorreoElectronico.setReadonly(opt);
+        txtEncargado.setReadonly(opt);
         txtDireccion.setReadonly(opt);
-         
+        //txtMunicipio.setReadonly(opt);
         txtNombreBodegas.setReadonly(opt);
-       
+
+       // txtTelefono2.setReadonly(opt);
         txtTelefono.setReadonly(opt);
     }
 
     public void doClear() {
-     
+
+       // txtCorreoElectronico.setValue(null);
+        txtEncargado.setValue(null);
         txtDireccion.setValue(null);
         txtIdBodegas.setValue(null);
-        
+
+       // txtMunicipio.setValue(null);
         txtNombreBodegas.setValue(null);
-        
+
+       // txtTelefono2.setValue(null);
         txtTelefono.setValue(null);
         txtNombreBodegas.setFocus(true);
     }
@@ -281,6 +318,7 @@ public class DetalleBodegaCtrl extends BaseController {
     public void doActualizar() {
         loadDataFromTextboxs();
         try {
+            
             responseOperacion = bodegaBean.actualizarBodega(bodegaSelected);
             if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                 MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id bodega:" + responseOperacion.getBodega().getIdbodega(), Constants.MENSAJE_TIPO_INFO);
