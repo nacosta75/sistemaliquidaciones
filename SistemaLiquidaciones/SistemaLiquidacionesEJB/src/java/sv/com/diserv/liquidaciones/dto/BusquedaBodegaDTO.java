@@ -9,6 +9,7 @@
 package sv.com.diserv.liquidaciones.dto;
 
 import java.io.Serializable;
+import sv.com.diserv.liquidaciones.entity.Sucursales;
 
 /**
  *
@@ -24,7 +25,16 @@ public class BusquedaBodegaDTO implements Serializable {
     private String encargado;
     private String activa;
     private String codigo;
+    private Sucursales sucursales;
 
+    public Sucursales getSucursales() {
+        return sucursales;
+    }
+
+    public void setSucursales(Sucursales sucursales) {
+        this.sucursales = sucursales;
+    }
+    
     public String getCodigo() {
         return codigo;
     }
