@@ -86,6 +86,7 @@
                                                                 tooltiptext="Identificador unico de bodega"
                                                                 readonly="true" />
                                                         </row>
+                                                        
                                                          <row>
                                                             <hbox>
                                                                 <label value="Activa:" />
@@ -132,6 +133,15 @@
                                                             </hbox>
                                                             <textbox   id="txtEncargado"
                                                                        hflex="1" />
+                                                        </row>
+                                                        <row>
+                                                            <hbox>
+                                                                <label value="Sucursal:" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                           <combobox id="cmbSucursal">
+                                                              <comboitem label="1"/>
+                                                            </combobox> 
                                                         </row>
                                                      </rows>
                                                 </grid>
