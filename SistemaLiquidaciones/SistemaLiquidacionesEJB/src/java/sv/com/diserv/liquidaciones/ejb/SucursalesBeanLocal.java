@@ -7,6 +7,7 @@
 package sv.com.diserv.liquidaciones.ejb;
 
 import java.util.List;
+import javax.ejb.Local;
 import sv.com.diserv.liquidaciones.dto.BusquedaSucursalDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesSucursalDTO;
 import sv.com.diserv.liquidaciones.entity.Sucursales;
@@ -16,6 +17,7 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
  *
  * @author abraham.acosta
  */
+@Local
 public interface SucursalesBeanLocal {
     
      /**

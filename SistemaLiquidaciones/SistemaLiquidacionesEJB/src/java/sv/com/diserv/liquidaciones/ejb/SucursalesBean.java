@@ -9,6 +9,7 @@ package sv.com.diserv.liquidaciones.ejb;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
@@ -27,6 +28,7 @@ import sv.com.diserv.liquidaciones.util.Constants;
  *
  * @author abraham.acosta
  */
+@Stateless
 public class SucursalesBean implements SucursalesBeanLocal {
 
     
