@@ -64,6 +64,11 @@
                   iconName="/images/personGroup.png"
                   zulNavigation="/WEB-INF/xhtml/bodega/listaLineas.zul"
                   rightName=""/> 
+        <menuItem id="menu_Item_MantenimientoSucursales"
+                  label="Control de Sucursales"
+                  iconName="/images/personGroup.png"
+                  zulNavigation="/WEB-INF/xhtml/sucursal/listaSucursales.zul"
+                  rightName=""/>     
         <menuItem id="menu_Item_MantenimientoBodega"
                   label="Control de Bodegas"
                   iconName="/images/personGroup.png"
