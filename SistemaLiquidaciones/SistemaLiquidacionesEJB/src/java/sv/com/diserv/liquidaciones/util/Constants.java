@@ -28,6 +28,7 @@ public class Constants {
     public static final String RUTA_REPORTE_TELEDESPACHO = "reportes//nombreReporteCualquiera.jasper";
     public static final String MSG_SISTEMA = properties.getProperty("enlace.default.mensaje.sistema");
     public static int REGISTROS_A_MOSTRAR_LISTA_CON_CHECKBOX=15;
-    public static String JNDI_BODEGA_BEAN= "java:comp/env/ejb/BodegasBean";;
+    public static String JNDI_BODEGA_BEAN= "java:comp/env/ejb/BodegasBean";
     public static int PAGINA_INICIO_DEFAULT;
+    public static String JNDI_SUCURSAL_BEAN= "java:comp/env/ejb/SucursalesBean";
 }

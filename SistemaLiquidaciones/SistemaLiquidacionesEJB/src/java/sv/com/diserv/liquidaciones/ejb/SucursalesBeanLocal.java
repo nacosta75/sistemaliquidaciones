@@ -3,23 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package sv.com.diserv.liquidaciones.ejb;
 
 import java.util.List;
-import javax.ejb.Local;
-import sv.com.diserv.liquidaciones.dto.BusquedaBodegaDTO;
-import sv.com.diserv.liquidaciones.dto.OperacionesBodegaDTO;
-import sv.com.diserv.liquidaciones.entity.Bodegas;
+import sv.com.diserv.liquidaciones.dto.BusquedaSucursalDTO;
+import sv.com.diserv.liquidaciones.dto.OperacionesSucursalDTO;
+import sv.com.diserv.liquidaciones.entity.Sucursales;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 
 /**
  *
- * @author edwin.alvarenga
+ * @author abraham.acosta
  */
-@Local
-public interface BodegasBeanLocal {
-
-    /**
+public interface SucursalesBeanLocal {
+    
+     /**
      * *
      *
      * @param inicio
@@ -27,23 +26,23 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public List<Bodegas> loadAllBodega(int inicio, int fin) throws DiservBusinessException;
+    public List<Sucursales> loadAllSucursal(int inicio, int fin) throws DiservBusinessException;
 
     /**
      * *
      *
      * @return @throws DiservBusinessException
      */
-    public Integer countAllBodegas() throws DiservBusinessException;
+    public Integer countAllSucursal() throws DiservBusinessException;
 
     /**
      * *
      *
-     * @param bodega
+     * @param sucursal
      * @return
      * @throws DiservBusinessException
      */
-    public OperacionesBodegaDTO guardarBodega(Bodegas bodega) throws DiservBusinessException;
+    public OperacionesSucursalDTO guardarSucursal(Sucursales sucursal) throws DiservBusinessException;
 
     /**
      * *
@@ -52,7 +51,7 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public List<Bodegas> loadAllBodegasByLike(String nombreLike) throws DiservBusinessException;
+    public List<Sucursales> loadAllSucursalsByLike(String nombreLike) throws DiservBusinessException;
 
     /**
      * *
@@ -61,7 +60,7 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public OperacionesBodegaDTO actualizarBodega(Bodegas cliente) throws DiservBusinessException;
+    public OperacionesSucursalDTO actualizarSucursal(Sucursales sucursal) throws DiservBusinessException;
 
     /**
      * *
@@ -70,7 +69,7 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public List<Bodegas> buscarBodegaByCriteria(BusquedaBodegaDTO request) throws DiservBusinessException;
+    public List<Sucursales> buscarSucursalByCriteria(BusquedaSucursalDTO request) throws DiservBusinessException;
 
     /**
      * *
@@ -79,14 +78,16 @@ public interface BodegasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public List<Bodegas> loadBodegaByNombreLike(String likeNombre) throws DiservBusinessException;
+    public List<Sucursales> loadSucursalByNombreLike(String likeNombre) throws DiservBusinessException;
 
     /**
      * **
      *
-     * @param idBodega
+     * @param idSucursal
      * @return
      * @throws DiservBusinessException
      */
-    public Bodegas loadBodegaByID(Integer idBodega) throws DiservBusinessException;
+    public Sucursales loadSucursalByID(Integer idSucursal) throws DiservBusinessException;
+
+    
 }
