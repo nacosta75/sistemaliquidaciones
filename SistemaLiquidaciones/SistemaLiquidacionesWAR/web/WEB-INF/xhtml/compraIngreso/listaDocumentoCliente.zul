@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul
+	http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="listaDocumentoClienteWindow" 
+            border="normal"
+            width="100%"
+            height="100%"            
+            use="sv.com.ats.ui.facturacion.ListaDocumentoClienteCtrl">
+        <groupbox height="45px"
+                  mold="3d" 
+                  closable="false">    
+            <toolbar align="end"
+                     style="float:right; border-style:none;">
+                <button id="btnImprimir"
+                            sclass="oT_ButtonWithIcon"
+                            image="/images/btnprint.gif"
+                            tooltiptext="Imprimir documentos cliente"/>
+            
+                <button id="btnNuevoDocumento"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnnew.gif"
+                        tooltiptext="Agregar Nuevo documento Cliente"  />
+                <button id="btnBusquedaDocumento"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnsearch.gif"
+                        tooltiptext="Buscar Documentos cliente"/>
+                <button id="btnRefresh"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnrefresh.gif"
+                        tooltiptext="Refrescar registros"/>
+                
+            </toolbar>
+        </groupbox>
+        <groupbox mold="3d" width="100%" height="325px">  
+            <caption label="Lista Documentos de cobro a clientes ingresados" /> 
+            <paging id="pagingDocumentoCliente" /> 
+            <listbox id="listBoxDocumentoCliente"
+                     style="border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; border-bottom-width: 1px;"
+                     tooltiptext="Para ver detalle click sobre registro" 
+                     width="100%"
+                     height="100%"                     
+                     mold="paging"
+                     pagingPosition="top"
+                     multiple="false">
+                <listhead sizable="true">
+                    <listheader id="lhNumeroDocumento"
+                                sclass="FDListBoxHeader1"
+                               
+                                width="6%" 
+                                label="# No" />
+                    <listheader id="lhNombreCliente"
+                                sclass="FDListBoxHeader1"
+                               
+                                width="35%"
+                                label="Nombre Cliente" />
+                    <listheader id="lhFechaElaboracion"
+                                sclass="FDListBoxHeader1"
+                               
+                                width="10%"
+                                label="Fecha Emisión" />
+                   
+                    <listheader id="lhEstado"
+                                sclass="FDListBoxHeader1"
+                               
+                                width="8%"
+                                label="Estado" />
+                    <listheader id="lhTipoDocumento"
+                                sclass="FDListBoxHeader1"
+                                
+                                width="5%"
+                                label="Tipo Documento" />
+                    <listheader id="lhGravado"
+                                sclass="FDListBoxHeader1"
+                              
+                                width="9%"
+                                label="Gravado" />
+                    <listheader id="lhExento"
+                                sclass="FDListBoxHeader1"
+                               
+                                width="9%"
+                                label="Exento" />
+                    <listheader id="lhIva"
+                                sclass="FDListBoxHeader1"
+                               
+                                width="9%"
+                                label="IVA" />
+                    <listheader id="lhSumas"
+                                sclass="FDListBoxHeader1"
+                                
+                                width="9%"
+                                label="Sumas" />                    
+                </listhead>
+            </listbox>
+        </groupbox>   
+        <separator />
+        <groupbox mold="3d" 
+                  width="100%" 
+                  height="250px">  
+            <caption label="Lista Items agregados a documento seleccionado" />
+            <listbox id="listBoxDetalleDocumento"
+                     style="border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; border-bottom-width: 1px;"
+                     vflex="true"
+                     height="100%"
+                     width="100%"
+                     multiple="false">
+                <listhead sizable="true">
+                    <listheader
+                        id="listheaderidOperacion"
+                        sclass="FDListBoxHeader1" 
+                       
+                        width="20%"
+                        label="Id Ordentrabajo" />
+                    <listheader
+                        id="listheaderdescripcion"
+                        sclass="FDListBoxHeader1"
+                         
+                        width="20%"
+                        label="Descripion" />
+                    <listheader
+                        id="listheaderusuario"
+                        sclass="FDListBoxHeader1"
+                       
+                        width="20%"
+                        label="Cantidad" />
+                    <listheader
+                        id="listheaderfechaOperacion"
+                        sclass="FDListBoxHeader1"
+                        
+                        width="20%"
+                        label="Unitario" />
+                    <listheader
+                        id="listheaderSumas"
+                        sclass="FDListBoxHeader1"
+                         
+                        width="20%"
+                        label="Sumas" />
+                    
+                </listhead>                
+            </listbox>
+        </groupbox>
+    </window>
+</zk>

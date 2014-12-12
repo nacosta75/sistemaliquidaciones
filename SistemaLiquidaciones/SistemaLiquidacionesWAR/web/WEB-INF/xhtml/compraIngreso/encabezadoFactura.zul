@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="encabezadoFacturaWindow"
+            title="Administración Documentos de Cobro a Cliente"
+            border="normal"
+            use="sv.com.ats.ui.facturacion.EncabezadoFacturaCtrl"
+            closable="true"
+            width="700px" 
+            height="600px"
+            sizable="true" 
+            sclass="pageWindowTitle"
+            mode="modal">
+        <groupbox height="45px"
+                  mold="3d" 
+                  closable="false">    
+            <toolbar align="end"
+                     style="float:right; border-style:none;">
+                <button id="btnImprimir"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnprint.gif"
+                        tooltiptext="Imprimir Documento"  />
+                <button id="btnNuevo"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnnew.gif"
+                        tooltiptext="Agregar Nuevo Documento"  />
+                <button id="btnEditar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnedit.gif"
+                        tooltiptext="Editar Registro"/>
+                <button id="btnGuardar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnsave.gif"
+                        tooltiptext="Guardar Encabezado"/>
+                <button id="btnActualizar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnsave.gif"
+                        tooltiptext="Actualizar Registro"/>
+                <button id="btnCerrar"
+                        height="20"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/close.jpg"
+                        tooltiptext="Cerrar esta Ventana"/>
+            </toolbar>
+        </groupbox>
+        <borderlayout>
+            <north border="none"></north>
+            <center border="none">
+                <div id="divCenterOrdenTrabajo">
+                    <hbox align="stretch"
+                          pack="stretch"
+                          sclass="FDCenterNoBorder"
+                          width="100%"
+                          style="padding: 3px;">
+                        <!-- Left CONTENT AREA -->
+                        <!-- simulates a columnLayout -->
+                        <cell width="50%">
+                            <vbox align="stretch"
+                                  pack="stretch"
+                                  width="100%" 
+                                  style="padding: 3px;">
+                                <div>
+                                    <panel  border="none">
+                                        <panelchildren>
+                                            <groupbox  
+                                                mold="3d" 
+                                                closable="false">
+                                                <caption image="/images/btnEditar.gif"
+                                                         label="Información Cliente" />
+                                                <grid sclass="GridPlain">
+                                                    <columns>
+                                                        <column align="left" width="160px" />
+                                                        <column width="100%" />
+                                                    </columns>
+                                                    <rows>                                                        
+                                                        <row>   
+                                                            <hbox>                                                                                                                     
+                                                                <label value="Nombre Cliente: " />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                            
+                                                            <combobox id="comboNombreCliente" 
+                                                                      autodrop="true"
+                                                                      mold="rounded"
+                                                                      autocomplete="true"
+                                                                      hflex="1"/>
+                                                        </row>
+                                                        <row>
+                                                            <hbox>
+                                                                <label value="Id Cliente" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                            <intbox
+                                                                id="txtIdCliente"
+                                                                hflex="1"
+                                                                maxlength="10"
+                                                                tooltiptext="Identificador unico de cliente"
+                                                                readonly="false" />
+                                                        </row>
+                                                        <row>
+                                                            <label
+                                                                value="Número Registro IVA " />
+                                                            <textbox maxlength="10"
+                                                                     id="txtRegistroIVA" 
+                                                                     hflex="1"  
+                                                                     readonly="true"/>
+                                                        </row>                                                              
+                                                        <row>                                                           
+                                                            <label
+                                                                value="Número NIT  : " />
+                                                            <textbox id="txtNumeroNIT" 
+                                                                     readonly="true"
+                                                                     hflex="1" />
+                                                        </row>
+                                                    </rows>
+                                                </grid>
+                                            </groupbox>
+                                            <hbox>                                                
+                                                <button id="btnAgregarItem" label="Agregar Servicio"/>
+                                            </hbox>
+                                            <groupbox  
+                                                mold="3d" 
+                                                closable="false">
+                                                <caption image="/images/icon-edit.png"
+                                                         label="Identificación Documento Cliente" />
+                                                <grid sclass="GridPlain">
+                                                    <columns>
+                                                        <column align="left" width="160px" />
+                                                        <column width="100%" />
+                                                    </columns>
+                                                    <rows>                                                        
+                                                       
+                                                        <row>
+                                                            <hbox>
+                                                                <label value="Número Documento" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                            <intbox id="txtNumeroDocumento"
+                                                                    hflex="1"
+                                                                    maxlength="10"
+                                                                    tooltiptext="Identificador Unico de Documento"
+                                                                    readonly="false" />
+                                                        </row>
+                                                        <row>                                                            
+                                                            <label value="Tipo Documento: " />
+                                                            <combobox id="comboTipoDocumento" 
+                                                                      autodrop="true"
+                                                                      mold="rounded"
+                                                                      hflex="1"/>          
+                                                            />
+                                                        </row> 
+                                                        <row>                                                           
+                                                            <label value="Estado Documento:" />
+                                                            <combobox id="comboEstadoDocumento" 
+                                                                      autodrop="true"
+                                                                      mold="rounded"
+                                                                      hflex="1"
+                                                                      disabled="true" />          
+                                                        </row> 
+                                                    </rows>
+                                                </grid>
+                                            </groupbox>
+                                            <groupbox id="gbDetalleDocumento"
+                                                      height="200px"
+                                                      mold="3d" 
+                                                      closable="false">
+                                                <caption image="/images/properties.gif"
+                                                         label="Detalle Documento Cliente" />
+                                                <listbox id="listBoxDetalleDocumento"
+                                                         tooltiptext="Lista Detalle Documentos Cliente"
+                                                         width="100%"
+                                                         height="100%" 
+                                                         multiple="false">
+                                                    <listhead sizable="true">
+                                                        <listheader  id="listheaderIdOrdenTrabajo" 
+                                                                     width="15%" 
+                                                                     label="Id Orden" />
+                                                        <listheader id="listheaderDescripcion" 
+                                                                    width="40%" 
+                                                                    label="Descripción" />
+                                                        <listheader id="listheaderCantidad" 
+                                                                    width="15%" 
+                                                                    label="Cantidad" />
+                                                        <listheader id="listheaderUnitario"
+                                                                    width="15%" 
+                                                                    label="Precio Unitario" />
+                                                        <listheader id="listheaderSumas"
+                                                                    width="15%" 
+                                                                    label="Sumas" />
+                                                    </listhead>
+                                                </listbox>
+                                            </groupbox>
+                                        </panelchildren>
+                                    </panel>
+                                </div>
+                            </vbox>
+                        </cell>                                 
+                    </hbox>                         
+                </div>
+            </center>
+        </borderlayout>
+    </window>
+</zk>

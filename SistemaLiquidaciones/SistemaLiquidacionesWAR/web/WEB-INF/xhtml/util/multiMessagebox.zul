@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="Multiline Messagebox" language="xul/html"?>
+
+<window border="none" 
+        width="300pt" 
+        closable="true" 
+        use="org.zkoss.zul.impl.MessageboxDlg"  position="center" >
+    <style>
+		body { padding: 0 0; /* 0 padding on top and bottom and 0
+		padding on right and left */ }
+    </style>
+
+    <style dynamic="true">
+        .myMultiMessageBox .z-panel-header { background: #9EAECF -1px;
+		font-weight:bold; zoom: 1; border: 1px solid; line-height:
+		15px;} .myMultiMessageBox .z-panel-body { border-style:none
+		solid solid; border-width:0 1px 1px; overflow:hidden;
+		padding:0px; }
+        .z-messagebox-btn 
+    {
+        font-size: 11px;
+        padding: .2em 1em .275em;
+    }
+
+    .z-messagebox-btn 
+    {
+        -webkit-border-radius: 2em;
+        -moz-border-radius: 2em;
+        border-radius: 2em;
+    }
+
+    .z-messagebox-btn 
+    {
+        color: #fef4e9;
+        border: solid 1px #da7c0c;
+        background: #f78d1d;
+        background: -webkit-gradient(linear, left top, left bottom, from(#ffac53), to(#fe7d1e));
+        background: -moz-linear-gradient(top,  #ffac53,  #fe7d1e);
+        filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffac53', endColorstr='#fe7d1e');
+        padding: 3px 5px 3px 5px;
+    }
+    
+    .z-messagebox-btn:hover 
+    {
+        background: #f47c20;
+        background: -webkit-gradient(linear, left top, left bottom, from(#fe7d1e), to(#ffac53));
+        background: -moz-linear-gradient(top,  #fe7d1e,  #ffac53);
+        filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#fe7d1e', endColorstr='#ffac53');
+        padding: 4px 5px 2px 5px;
+    }
+
+
+    .z-messagebox-btn.z-button .z-button-cm 
+    {
+        background-image: none;
+        color: white; 
+        font-weight : bolder; 
+    }
+
+    .z-messagebox-btn.z-button .z-button-tm, .z-button .z-button-bm 
+    {
+        background-image: none;
+    }
+
+    .z-messagebox-btn.z-button .z-button-cl, .z-button .z-button-cr 
+    {
+        background-image: none;
+    }
+
+    .z-messagebox-btn.z-button .z-button-tl 
+    {
+           background-image: none;
+    }
+
+    .z-messagebox-btn.z-button .z-button-bl 
+    {
+           background-image: none;
+    }
+
+    .z-messagebox-btn.z-button .z-button-tr 
+    {
+           background-image: none;
+    }
+
+    .z-messagebox-btn.z-button .z-button-br 
+    {
+           background-image: none;
+    }
+
+
+    .z-messagebox-window .z-window-highlighted-hm, .z-window-highlighted-br,
+        .z-window-highlighted-cr, .z-window-highlighted-cl,
+        .z-window-highlighted-hr, .z-window-highlighted-tr,
+        .z-window-highlighted-hl 
+        { 
+            background-image:none; background-color : #0C6BA8; 
+        }
+        
+    .z-messagebox-window .z-window-highlighted-header
+    {
+        padding-top : 1px; 
+        padding-right : -1px; 
+        padding-bottom : 1px;
+        padding-left : 0; 
+        margin-right: -4px; 
+        color:white; 
+        font-family: "Tahoma", verdana,arial,sans-serif; 
+        font-size:    12px; 
+        font-weight : bolder;
+    }
+    
+    .z-messagebox-window .z-window-highlighted-icon 
+    { 
+        width: 20px; height: 16px;
+        border-width: 1px; border-style: solid; border-color: #0C6BA8
+        #0C6BA8 #0C6BA8 #0C6BA8; box-shadow: inset 0 1px 0 #0C6BA8,
+        inset -1px -1px 0 #0C6BA8, inset -1px -2px 0 #0C6BA8; 
+    }
+        
+    .z-messagebox-window .z-window-highlighted-close 
+    { 
+        background:url('./images/close.jpg')
+        transparent no-repeat 0 0; 
+    }       
+    </style>
+    <panel title="${arg.title}" 
+            border="normal"
+            sclass="myMultiMessageBox">
+        <panelchildren>
+            <hbox>
+                <div class="${arg.icon}" />
+                <div sclass="z-messagebox"
+                     width="100%">
+                    <label multiline="true" 
+                        value="${arg.message}"
+			sclass="word-wrap" width="100%" />
+                </div>
+            </hbox>
+            <separator bar="true" />
+            <hbox style="margin-left:auto; margin-right:auto">
+                <button id="btn1"
+                identity="${arg.OK}"
+		sclass="z-messagebox-btn"
+		use="org.zkoss.zul.impl.MessageboxDlg$Button"
+		if="${!empty arg.OK}" />
+                <button
+                    identity="${arg.CANCEL}"
+                    sclass="z-messagebox-btn"
+                    use="org.zkoss.zul.impl.MessageboxDlg$Button"
+                    if="${!empty arg.CANCEL}" />
+                <button 
+                identity="${arg.YES}"
+                sclass="z-messagebox-btn"
+		use="org.zkoss.zul.impl.MessageboxDlg$Button"
+		if="${!empty arg.YES}" />
+                <button 
+                identity="${arg.NO}"
+                sclass="z-messagebox-btn"
+		use="org.zkoss.zul.impl.MessageboxDlg$Button"
+		if="${!empty arg.NO}" />
+                <button
+                    identity="${arg.RETRY}"
+                    sclass="z-messagebox-btn"
+                    use="org.zkoss.zul.impl.MessageboxDlg$Button"
+                    if="${!empty arg.RETRY}" />
+                <button
+                    identity="${arg.ABORT}"
+                    sclass="z-messagebox-btn"
+                    use="org.zkoss.zul.impl.MessageboxDlg$Button"
+                    if="${!empty arg.ABORT}" />
+                <button
+                    identity="${arg.IGNORE}"
+                    sclass="z-messagebox-btn"
+                    use="org.zkoss.zul.impl.MessageboxDlg$Button"
+                    if="${!empty arg.IGNORE}" />
+            </hbox>
+            <separator></separator>
+        </panelchildren>
+    </panel>
+</window>

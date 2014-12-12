@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="testReportWindow"  
+	border="normal" title="Manejador Impresiones"	
+        use="sv.gob.fgr.sitac.test.testReportCtrl" 
+	closable="true"	width="900px" height="600px">       
+        <toolbar>
+            <button id="btnNuevo" label="Imprimir"/>
+                
+            </toolbar>
+        <panel border="normal" width="100%" height="100%" collapsible="true" title="manejarod">
+            <panelchildren>
+                <iframe id="frameReporte" height="90%" width="90%" vflex="true" hflex="true"/>  
+            </panelchildren>
+        </panel>                                    
+    </window>
+</zk>

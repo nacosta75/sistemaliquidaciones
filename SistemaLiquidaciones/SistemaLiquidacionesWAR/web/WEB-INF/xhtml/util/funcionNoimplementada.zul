@@ -1,0 +1,27 @@
+<?page id="testZul" title=" Página funcion no disponible por el momento" cacheable="false" 
+	language="xul/html" zscriptLanguage="Java"
+        contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul
+        http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="funcionNomImplementadaWindow" 
+        border="normal"  
+        title="Funcionalidad no disponible por el momento" width="350px" height="200px" 
+	mode="modal" 
+        position="center" >
+        <separator  />	
+        <label value="La función a la que desea ejecutar no disponible  por el momento" />
+        <separator   />
+        <separator   />
+        <separator bar="true" />
+        <label value="Actualmente se encuentra  en proceso de implementación y pruebas, esperamos pronto tenerla a su disposición " />
+        <separator  />
+        <separator bar="true" />  
+        <hbox style="margin-left:auto; margin-right:auto">
+            <button  id="btnClose" label="OK" onClick="funcionNomImplementadaWindow.onClose()" />
+        </hbox>
+    </window>
+
+</zk>
