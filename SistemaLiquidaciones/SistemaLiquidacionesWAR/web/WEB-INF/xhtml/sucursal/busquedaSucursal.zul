@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="busquedaSucursalWindow"
+            title="Busqueda Sucursals"
+            border="normal"
+            use="sv.com.diserv.web.ui.sucursales.BuscarSucursalCtrl"
+            closable="true"
+            width="550px" 
+            height="330px"
+            sizable="true" 
+            sclass="pageWindowTitle"
+            mode="modal">
+        <groupbox height="45px"
+                  mold="3d" 
+                  closable="false">    
+            <toolbar align="end"
+                     style="float:right; border-style:none;">
+                <button id="btnBuscar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnsearch.gif"
+                        tooltiptext="Buscar sucursal con criterios seleccionados"  />
+                <button id="btnCerrar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/close.jpg"
+                        tooltiptext="Cerrar ventana"/>
+            </toolbar>
+        </groupbox>
+        <borderlayout id="borderlayoutCustomer">
+            <north border="none"></north>
+            <center border="none">
+                <div id="divCenterCustomer">
+                    <hbox align="stretch"
+                          pack="stretch"
+                          sclass="FDCenterNoBorder"
+                          width="100%"
+                          style="padding: 3px;">
+                        <!-- Left CONTENT AREA -->
+                        <!-- simulates a columnLayout -->
+                        <cell width="50%">
+                            <vbox align="stretch"
+                                  pack="stretch"
+                                  width="100%" 
+                                  style="padding: 3px;">
+                                <div>
+                                    <panel id="panelBuquedaSucursal" border="none">
+                                        <panelchildren>
+                                            <groupbox  mold="3d"
+                                                       closable="false">
+                                                <caption image="/images/person.gif"
+                                                         label="Criterios de busqueda Sucursal" />
+                                                <grid sclass="GridPlain">
+                                                    <columns>
+                                                        <column align="left" width="160px" />
+                                                        <column width="100%" />
+                                                    </columns>
+                                                    <rows>
+                                                        <row>
+                                                            <hbox>
+                                                                <label value="Id Sucursal" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                            <intbox
+                                                                id="txtIdSucursal"
+                                                                hflex="1"
+                                                                maxlength="10"
+                                                                tooltiptext="Identificador unico de sucursal"
+                                                            />
+                                                        </row>
+                                                        <row>
+                                                            <hbox>
+                                                                <label
+                                                                    value="Descripcion sucursal : " />
+                                                                <label value="*" style="color:red; font-size:10px" />
+                                                            </hbox>
+                                                            <textbox  id="txtDescripcionSucursal" 
+                                                                      hflex="1" />
+                                                        </row>                                                              
+                                                        
+                                                        <row>
+                                                            <hbox>
+                                                                <label value="Encargado" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                            <textbox  
+                                                                id="txtEncargado" 
+                                                                hflex="1" />
+                                                        </row>
+                                                                                                               
+                                                    </rows>
+                                                </grid>
+                                            </groupbox>
+                                        </panelchildren>
+                                    </panel>
+                                </div>
+                            </vbox>
+                        </cell>                                 
+                    </hbox>                         
+                </div>
+            </center>
+        </borderlayout>
+    </window>
+</zk>
