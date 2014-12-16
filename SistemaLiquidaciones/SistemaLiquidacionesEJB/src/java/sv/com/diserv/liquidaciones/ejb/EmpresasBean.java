@@ -6,6 +6,7 @@
 
 package sv.com.diserv.liquidaciones.ejb;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -20,6 +21,7 @@ import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.BusquedaEmpresaDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesEmpresaDTO;
 import static sv.com.diserv.liquidaciones.ejb.EmpresasBean.logger;
+import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
@@ -138,7 +140,67 @@ public class EmpresasBean implements EmpresasBeanLocal {
 
     @Override
     public List<Empresas> buscarEmpresaByCriteria(BusquedaEmpresaDTO request) throws DiservBusinessException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        logger.info("[consultarBitacoraFinalizadasParametros]Parametros=" + request.toString());
+        List<Empresas> response = new ArrayList<>();
+        Empresas empresas;
+        List<String> condiciones = new ArrayList<>();
+        if (request.getIdempresa()!= null) {
+            condiciones.add(" UPPER(idEmpresa) LIKE UPPER('%" + request.getIdempresa() + "%') ");
+        }
+      
+        if (request.getNombre() != null) {
+            condiciones.add(" UPPER(nombre) LIKE UPPER('%" + request.getNombre() + "%') ");
+        }
+        if (request.getDireccion() != null) {
+            condiciones.add(" UPPER(direccion) LIKE UPPER('%" + request.getDireccion() + "%') ");
+        }
+        if (request.getTelefono() != null) {
+            condiciones.add(" UPPER(telefono) LIKE UPPER('%" + request.getTelefono() + "%') ");
+        }
+        if (request.getRegistro()!= null) {
+            condiciones.add(" UPPER(registro) LIKE UPPER('%" + request.getRegistro() + "%') ");
+        }
+        if (request.getNit() != null) {
+            condiciones.add(" UPPER(nit) LIKE UPPER('%" + request.getNit() + "%') ");
+        }
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(" SELECT * FROM Empresas ");
+            if (!condiciones.isEmpty()) {
+                sb.append(" WHERE ");
+                sb.append(condiciones.get(0));
+                for (int i = 1; i < condiciones.size(); i++) {
+                    sb.append(" AND ");
+                    sb.append(condiciones.get(i));
+                }
+            }
+            sb.append(" ORDER BY idEmpresa DESC ");
+            System.out.println("SQL A EJECUTAR:--> " + sb.toString());
+            System.out.println("PARAMETROS RECIBIDOS:-->" + request.toString());
+            Query q = em.createNativeQuery(sb.toString());
+            List<Object[]> lista = q.getResultList();
+            if (lista.size() > 0) {
+                for (Object[] item : lista) {
+                    empresas = new Empresas();
+                    empresas.setIdempresa(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                    empresas.setCodigo(item[1] != null ? item[1].toString() : "N/D");
+                    empresas.setNombre(item[2] != null ? item[2].toString() : "N/D");
+                    empresas.setDireccion(item[3] != null ? item[3].toString() : "N/D");
+                    empresas.setNit(item[4] != null ? item[4].toString() : "N/D");
+                    empresas.setCiudad(item[5] != null ? item[5].toString() : "N/D");
+                    empresas.setPais(item[6] != null ? item[6].toString() : "N/D");
+                    empresas.setEmail(item[7] != null ? item[7].toString() : "N/D");
+                    //empresas.setActiva(item[7] != null ? item[7].toString() : "N/D");
+                    response.add(empresas);
+                }
+            }
+        } catch (NoResultException e) {
+            logger.info("[consultarBitacoraFinalizadasParametros]No se encontraron registros con criterios recibidos");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron registros con parametros proporcionados");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
     @Override
