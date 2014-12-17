@@ -31,4 +31,5 @@ public class Constants {
     public static String JNDI_BODEGA_BEAN= "java:comp/env/ejb/BodegasBean";
     public static int PAGINA_INICIO_DEFAULT;
     public static String JNDI_SUCURSAL_BEAN= "java:comp/env/ejb/SucursalesBean";
+    public static String JNDI_LINEAS_BEAN= "java:comp/env/ejb/LineaArticuloBean";;
 }

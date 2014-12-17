@@ -8,6 +8,7 @@ package sv.com.diserv.liquidaciones.ejb;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -24,6 +25,7 @@ import sv.com.diserv.liquidaciones.util.Constants;
  *
  * @author trompudo
  */
+@Stateless
 public class LineaArticuloBean implements LineaArticuloBeanLocal{
 
     
