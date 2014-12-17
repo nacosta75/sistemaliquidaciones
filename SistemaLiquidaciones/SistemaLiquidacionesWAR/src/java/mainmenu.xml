@@ -62,7 +62,7 @@
         <menuItem id="menu_Item_MantenimientoLineas"
                   label="Lineas de Productos"
                   iconName="/images/personGroup.png"
-                  zulNavigation="/WEB-INF/xhtml/bodega/listaLineas.zul"
+                  zulNavigation="/WEB-INF/xhtml/lineas/listaLineas.zul"
                   rightName=""/> 
         <menuItem id="menu_Item_MantenimientoSucursales"
                   label="Control de Sucursales"
