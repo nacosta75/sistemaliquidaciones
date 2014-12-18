@@ -183,6 +183,15 @@ public class ListaLineaArticuloCtrl extends BaseController {
 
     }
 
+    public Listbox getListBoxLinea() {
+        return listBoxLinea;
+    }
+
+    public void setListBoxLinea(Listbox listBoxLinea) {
+        this.listBoxLinea = listBoxLinea;
+    }
+
+    
     
     
     

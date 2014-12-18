@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Textbox;
@@ -37,6 +38,8 @@ public class BuscarSucursalCtrl extends BaseController {
     protected Intbox txtIdSucursal;
     protected Textbox txtDescSucursal;
     protected Textbox txtEncargado;
+    protected Button btnBuscar;
+    protected Button btnCerrar;
     private BusquedaSucursalDTO request;
     private SucursalesBeanLocal sucursalBean;
     private ServiceLocator serviceLocator;

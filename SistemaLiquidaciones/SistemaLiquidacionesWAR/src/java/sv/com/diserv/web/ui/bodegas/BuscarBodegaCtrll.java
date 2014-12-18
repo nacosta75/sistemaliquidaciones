@@ -16,6 +16,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Textbox;
@@ -41,6 +42,8 @@ public class BuscarBodegaCtrll extends BaseController {
     protected Textbox txtCorreoElectronico;
     protected Textbox txtDepartamento;
     protected Textbox txtMunicipio;
+    protected Button btnBuscar;
+    protected Button btnCerrar;
     private BusquedaBodegaDTO request;
     private BodegasBeanLocal bodegaBean;
     private ServiceLocator serviceLocator;
@@ -69,7 +72,7 @@ public class BuscarBodegaCtrll extends BaseController {
             listaBodegaCtrl = ((ListaBodegaCtrl) this.args.get("listaBodegaCtrl"));
         }
         MensajeMultilinea.doSetTemplate();
-        showBuscarClinteWindow();
+        showBuscarBodegaWindow();
     }
 
     public void onClick$btnBuscar(Event event) throws InterruptedException {
@@ -91,7 +94,7 @@ public class BuscarBodegaCtrll extends BaseController {
         this.busquedaBodegaWindow.onClose();
     }
 
-    private void showBuscarClinteWindow()
+    private void showBuscarBodegaWindow()
             throws InterruptedException {
         try {
             this.busquedaBodegaWindow.doModal();

@@ -18,19 +18,19 @@
     <menuItem id="menu_Item_Home" 
               label="Menu Inicio"
               zulNavigation="/WEB-INF/pages/dashboard.zul"
-              iconName="/images/console_view.gif" />
+              iconName="/images/house.png" />
     <menu id="menu_Administration" 
           rightName=""
           open="false"
           label="Manejo Usuarios"> 
         <menuItem id="menu_Item_UsuariosRoles"
                   label="Usuarios - Roles"
-                  iconName="/images/imagenHombre.gif"
+                  iconName="/images/user.png"
                   zulNavigation="/WEB-INF/xhtml/usuario/listaUsuarios.zul"
                   rightName=""/>      
         <menuItem id="menu_Item_GruposDerechos"
                   label="Roles-Permisos"
-                  iconName="/images/user_group_16x16.png"
+                  iconName="/images/key.png"
                   zulNavigation="/WEB-INF/xhtml/usuario/permisosRoles.zul"
                   rightName=""/>
     </menu>
@@ -46,24 +46,10 @@
                   rightName=""/> 
         <menuItem id="menu_Item_MantenimientoProveedores"
                   label="Proveedores"
-                  iconName="/images/personGroup.png"
+                  iconName="/images/lorry_add.png"
                   zulNavigation="/WEB-INF/xhtml/bodega/listaBodega.zul"
                   rightName=""/> 
-        <menuItem id="menu_Item_MantenimientoProductos"
-                  label="Productos"
-                  iconName="/images/personGroup.png"
-                  zulNavigation="/WEB-INF/xhtml/bodega/listaProducto.zul"
-                  rightName=""/>  
-        <menuItem id="menu_Item_MantenimientoVendedores"
-                  label="Vendedores"
-                  iconName="/images/personGroup.png"
-                  zulNavigation="/WEB-INF/xhtml/bodega/listaVendedor.zul"
-                  rightName=""/>  
-        <menuItem id="menu_Item_MantenimientoLineas"
-                  label="Lineas de Productos"
-                  iconName="/images/personGroup.png"
-                  zulNavigation="/WEB-INF/xhtml/lineas/listaLineas.zul"
-                  rightName=""/> 
+         
         <menuItem id="menu_Item_MantenimientoSucursales"
                   label="Control de Sucursales"
                   iconName="/images/personGroup.png"
@@ -71,9 +57,30 @@
                   rightName=""/>     
         <menuItem id="menu_Item_MantenimientoBodega"
                   label="Control de Bodegas"
-                  iconName="/images/personGroup.png"
+                  iconName="/images/icon_package_get.gif"
                   zulNavigation="/WEB-INF/xhtml/bodega/listaBodega.zul"
                   rightName=""/>      
+          <menuItem id="menu_Item_MantenimientoLineas"
+                  label="Lineas"
+                  iconName="/images/medal_gold_1.png"
+                  zulNavigation="/WEB-INF/xhtml/lineas/listaLineas.zul"
+                  rightName=""/> 
+            <menuItem id="menu_Item_MantenimientoMarcas"
+                  label="Marcas"
+                  iconName="/images/medal_silver_3.png"
+                  zulNavigation="/WEB-INF/xhtml/lineas/listaMarcas.zul"
+                  rightName=""/> 
+         <menuItem id="menu_Item_MantenimientoProductos"
+                  label="Productos"
+                  iconName="/images/icon_component.gif"
+                  zulNavigation="/WEB-INF/xhtml/producto/listaProducto.zul"
+                  rightName=""/>  
+        <menuItem id="menu_Item_MantenimientoVendedores"
+                  label="Vendedores"
+                  iconName="/images/group_edit.png"
+                  zulNavigation="/WEB-INF/xhtml/bodega/listaVendedor.zul"
+                  rightName=""/>  
+     
       
         
     </menu>
@@ -83,23 +90,23 @@
           label="Transacciones"> 
         <menuItem id="menu_Item_Compras"
                   label="Compras"
-                  iconName="/images/personGroup.png"
-                  zulNavigation="/WEB-INF/xhtml/bodega/listaCompras.zul"
+                  iconName="/images/lorry.png"
+                  zulNavigation="/WEB-INF/xhtml/inventario/listaCompras.zul"
                   rightName=""/>    
         <menuItem id="menu_Item_Asignaciones"
                   label="Asignaciones"
-                  iconName="/images/personGroup.png"
-                  zulNavigation="/WEB-INF/xhtml/bodega/listaAsignaciones.zul"
+                  iconName="/images/phone_add.png"
+                  zulNavigation="/WEB-INF/xhtml/inventario/listaAsignaciones.zul"
                   rightName=""/>     
         <menuItem id="menu_Item_Devoluciones"
                   label="Devoluciones"
-                  iconName="/images/personGroup.png"
-                  zulNavigation="/WEB-INF/xhtml/bodega/listaDevoluciones.zul"
+                  iconName="/images/phone_delete.png"
+                  zulNavigation="/WEB-INF/xhtml/inventario/listaDevoluciones.zul"
                   rightName=""/>    
         <menuItem id="menu_Item_Liquidaciones"
                   label="Liquidaciones"
-                  iconName="/images/personGroup.png"
-                  zulNavigation="/WEB-INF/xhtml/bodega/listaLiquidaciones.zul"
+                  iconName="/images/coins.png"
+                  zulNavigation="/WEB-INF/xhtml/inventario/listaLiquidaciones.zul"
                   rightName=""/>  
 
     </menu>
