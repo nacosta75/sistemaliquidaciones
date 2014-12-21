@@ -158,11 +158,11 @@ public class ListaLineaArticuloCtrl extends BaseController {
         }
     }
 
-    public void onClick$btnNuevoLinea(Event event) throws Exception {
+    public void onClick$btnNuevaLinea(Event event) throws Exception {
         logger.log(Level.INFO, "[onClick$btnNuevaLinea]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
-        map.put("listaLineaCtrl", this);
+        map.put("ListaLineaArticuloCtrl", this);
         Executions.createComponents("/WEB-INF/xhtml/lineas/detalleLinea.zul", null, map);
 
     }
