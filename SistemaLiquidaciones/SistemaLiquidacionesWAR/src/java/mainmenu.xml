@@ -42,17 +42,17 @@
         <menuItem id="menu_Item_MantenimientoClientes"
                   label="Clientes"
                   iconName="/images/personGroup.png"
-                  zulNavigation="/WEB-INF/xhtml/bodega/listaCliente.zul"
+                  zulNavigation="/WEB-INF/xhtml/persona/listaCliente.zul"
                   rightName=""/> 
         <menuItem id="menu_Item_MantenimientoProveedores"
                   label="Proveedores"
                   iconName="/images/lorry_add.png"
-                  zulNavigation="/WEB-INF/xhtml/bodega/listaBodega.zul"
+                  zulNavigation="/WEB-INF/xhtml/persona/listaProveedor.zul"
                   rightName=""/> 
          
         <menuItem id="menu_Item_MantenimientoSucursales"
                   label="Control de Sucursales"
-                  iconName="/images/personGroup.png"
+                  iconName="/images/flag_blue.png"
                   zulNavigation="/WEB-INF/xhtml/sucursal/listaSucursales.zul"
                   rightName=""/>     
         <menuItem id="menu_Item_MantenimientoBodega"
@@ -78,7 +78,7 @@
         <menuItem id="menu_Item_MantenimientoVendedores"
                   label="Vendedores"
                   iconName="/images/group_edit.png"
-                  zulNavigation="/WEB-INF/xhtml/bodega/listaVendedor.zul"
+                  zulNavigation="/WEB-INF/xhtml/persona/listaVendedor.zul"
                   rightName=""/>  
      
       
