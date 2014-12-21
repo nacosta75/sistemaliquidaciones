@@ -46,18 +46,22 @@
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="10%"
-                                label="Id Bodega" />
+                                label="Codigo" />
                     <listheader id="listheaderNombreBodega"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="50%"
                                 label="Nombre Bodega" />
-<!--                    <listheader id="listheaderBodegaDireccion"
+                    <listheader id="listheaderBodegaTelefono"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="20%"
-                                label="Direccion" />-->
-                  
+                                label="Telefono" />
+<!--                    <listheader id="listheaderBodegaNumeroNit"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="20%"
+                                label="Número NIT" />-->
                 </listhead>
             </listbox>
         </groupbox>

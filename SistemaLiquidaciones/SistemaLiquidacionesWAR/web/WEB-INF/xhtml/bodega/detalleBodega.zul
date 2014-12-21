@@ -34,7 +34,7 @@
                         tooltiptext="Guardar registro"/>
                 <button id="btnActualizar"
                         sclass="oT_ButtonWithIcon"
-                        image="/images/btnsave.gif"
+                        image="/images/btnrefresh.gif"
                         tooltiptext="Refrescar registros"/>
                 <button id="btnCerrar"
                         sclass="oT_ButtonWithIcon"
