@@ -32,6 +32,10 @@
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsave.gif"
                         tooltiptext="Guardar registro"/>
+                <button id="btnEliminar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btndelete.gif"
+                        tooltiptext="Eliminar registro"/>
                 <button id="btnActualizar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsave.gif"

@@ -44,13 +44,23 @@
                     <listheader id="listheaderIdCliente"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
-                                width="10%"
+                                width="15%"
                                 label="Id Cliente" />
                     <listheader id="listheaderNombreCliente"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="50%"
                                 label="Nombre Cliente" />
+                     <listheader id="listheaderTelefonoCliente"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="50%"
+                                label="Telefono Cliente" />
+                      <listheader id="listheaderRegistroCliente"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="50%"
+                                label="Numero de Registro Fiscal del Cliente" />
                 </listhead>
             </listbox>
         </groupbox>

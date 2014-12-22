@@ -4,10 +4,10 @@
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-    <window id="busquedaBodegaWindow"
-            title="Busqueda Bodegas"
+    <window id="busquedaClienteWindow"
+            title="Busqueda Clientes"
             border="normal"
-            use="sv.com.diserv.web.ui.bodegas.BuscarBodegaCtrl"
+            use="sv.com.diserv.web.ui.personas.BuscarPersonaCtrl"
             closable="true"
             width="550px" 
             height="330px"
@@ -22,7 +22,7 @@
                 <button id="btnBuscar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsearch.gif"
-                        tooltiptext="Buscar bodega con criterios seleccionados"  />
+                        tooltiptext="Buscar cliente con criterios seleccionados"  />
                 <button id="btnCerrar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/close.jpg"
@@ -46,12 +46,12 @@
                                   width="100%" 
                                   style="padding: 3px;">
                                 <div>
-                                    <panel id="panelBuquedaBodega" border="none">
+                                    <panel id="panelBuquedaCliente" border="none">
                                         <panelchildren>
                                             <groupbox  mold="3d"
                                                        closable="false">
                                                 <caption image="/images/person.gif"
-                                                         label="Criterios de busqueda Bodega" />
+                                                         label="Criterios de busqueda Cliente" />
                                                 <grid sclass="GridPlain">
                                                     <columns>
                                                         <column align="left" width="160px" />
@@ -60,23 +60,23 @@
                                                     <rows>
                                                         <row>
                                                             <hbox>
-                                                                <label value="Id Bodega" />
+                                                                <label value="Id Cliente" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
                                                             <intbox
-                                                                id="txtIdBodega"
+                                                                id="txtIdCliente"
                                                                 hflex="1"
                                                                 maxlength="10"
-                                                                tooltiptext="Identificador unico de bodega"
+                                                                tooltiptext="Identificador unico de cliente"
                                                             />
                                                         </row>
                                                         <row>
                                                             <hbox>
                                                                 <label
-                                                                    value="Nombre bodega : " />
+                                                                    value="Nombre Cliente : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <textbox  id="txtNombreBodega" 
+                                                            <textbox  id="txtNombreCliente" 
                                                                       hflex="1" />
                                                         </row>                                                              
                                                         
@@ -91,37 +91,13 @@
                                                         </row>
                                                         <row>
                                                             <hbox>
-                                                                <label value="Numero registro IVA:" />
+                                                                <label value="Numero Registro Fiscal:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
                                                             <textbox  
-                                                                id="txtRegistroIva"
+                                                                id="txtRegistroFiscal"
                                                                 hflex="1" />
                                                         </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label  value="Correo electrónico " />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <textbox   id="txtCorreoElectronico" hflex="1" />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label
-                                                                    value="Departamento" />
-                                                                <label value="" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <textbox   id="txtDepartamento" hflex="1" />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label
-                                                                    value="Municipio :" />
-                                                                <label value="" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <textbox   id="txtMunicipio" hflex="1" />
-                                                        </row>
-                                                        
                                                     </rows>
                                                 </grid>
                                             </groupbox>

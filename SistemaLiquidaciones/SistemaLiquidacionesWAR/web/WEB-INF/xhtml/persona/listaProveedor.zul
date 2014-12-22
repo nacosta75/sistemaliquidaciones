@@ -45,18 +45,23 @@
                     <listheader id="listheaderIdProveedor"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
-                                width="10%"
+                                width="20%"
                                 label="Id Proveedor" />
                     <listheader id="listheaderNombreProveedor"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="50%"
                                 label="Nombre Proveedor" />
-<!--                    <listheader id="listheaderBodegaDireccion"
+                    <listheader id="listheaderTelefonoProveedor"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
-                                width="20%"
-                                label="Direccion" />-->
+                                width="50%"
+                                label="Telefono Proveedor" />
+                     <listheader id="listheaderRegistroProveedor"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="50%"
+                                label="Numero de Registro Fiscal del Proveedor" />            
                   
                 </listhead>
             </listbox>
