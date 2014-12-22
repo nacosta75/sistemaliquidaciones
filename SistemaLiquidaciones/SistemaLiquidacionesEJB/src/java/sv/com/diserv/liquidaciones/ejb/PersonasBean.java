@@ -18,6 +18,7 @@ import javax.persistence.Query;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.BusquedaBodegaDTO;
+import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
 import sv.com.diserv.liquidaciones.entity.Bodegas;
 import sv.com.diserv.liquidaciones.entity.Personas;
@@ -143,35 +144,30 @@ public class PersonasBean implements PersonasBeanLocal {
     }
 
     @Override
-    public List<Bodegas> buscarBodegaByCriteria(BusquedaBodegaDTO re) throws DiservBusinessException {
+    public List<Personas> buscarPersonaByCriteria(BusquedaPersonaDTO re) throws DiservBusinessException {
         logger.info("[consultarBitacoraFinalizadasParametros]Parametros=" + re.toString());
-        List<Bodegas> response = new ArrayList<>();
-        Bodegas bodegas;
+        List<Personas> response = new ArrayList<>();
+        Personas personas;
         List<String> condiciones = new ArrayList<>();
-        if (re.getIdBodega()!= null) {
-            condiciones.add(" UPPER(idBodega) LIKE UPPER('%" + re.getIdBodega() + "%') ");
-        }
-        if (re.getCodigo() != null) {
-            condiciones.add(" UPPER(codigo) LIKE UPPER('%" + re.getCodigo() + "%') ");
+        if (re.getIdPersona()!= null) {
+            condiciones.add(" idPersona=" + re.getIdPersona()+ " ");
         }
         if (re.getNombre() != null) {
             condiciones.add(" UPPER(nombre) LIKE UPPER('%" + re.getNombre() + "%') ");
         }
-        if (re.getDireccion() != null) {
-            condiciones.add(" UPPER(direccion) LIKE UPPER('%" + re.getDireccion() + "%') ");
+        if (re.getNit()!= null) {
+            condiciones.add(" UPPER(nit) LIKE UPPER('%" + re.getNit()+ "%') ");
         }
-        if (re.getTelefono() != null) {
-            condiciones.add(" UPPER(telefono) LIKE UPPER('%" + re.getTelefono() + "%') ");
+        if (re.getNumeroRegistro()!= null) {
+            condiciones.add(" UPPER(noRegistroFiscal) LIKE UPPER('%" + re.getNumeroRegistro() + "%') ");
         }
-        if (re.getEncargado() != null) {
-            condiciones.add(" UPPER(encargado) LIKE UPPER('%" + re.getEncargado() + "%') ");
+        if (re.getTipoPersona()!= 0) {
+            condiciones.add(" idtipopersona = " + re.getTipoPersona()+ " ");
         }
-        if (re.getActiva() != null) {
-            condiciones.add(" UPPER(activa) LIKE UPPER('%" + re.getActiva() + "%') ");
-        }
+        
         try {
             StringBuilder sb = new StringBuilder();
-            sb.append(" SELECT * FROM bodegas ");
+            sb.append(" SELECT * FROM personas ");
             if (!condiciones.isEmpty()) {
                 sb.append(" WHERE ");
                 sb.append(condiciones.get(0));
@@ -180,24 +176,20 @@ public class PersonasBean implements PersonasBeanLocal {
                     sb.append(condiciones.get(i));
                 }
             }
-            sb.append(" ORDER BY idBodega DESC ");
+            sb.append(" ORDER BY idPersona DESC ");
             System.out.println("SQL A EJECUTAR:--> " + sb.toString());
             System.out.println("PARAMETROS RECIBIDOS:-->" + re.toString());
             Query q = em.createNativeQuery(sb.toString());
             List<Object[]> lista = q.getResultList();
             if (lista.size() > 0) {
                 for (Object[] item : lista) {
-                    bodegas = new Bodegas();
-                    bodegas.setIdbodega(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
-                    //bodegas.setCodigo(item[1] != null ? item[1].toString() : "N/D");
-                    bodegas.setNombre(item[2] != null ? item[2].toString() : "N/D");
-                    bodegas.setDireccion(item[3] != null ? item[3].toString() : "N/D");
-                    bodegas.setTelefono(item[4] != null ? item[4].toString() : "N/D");
-                    bodegas.setEncargado(item[5] != null ? item[5].toString() : "N/D");
-                   // bodegas.setIdempresa(item[6] != null ? item[6].toString() : "N/D");
-                    //bodegas.setActiva(item[7] != null ? item[7].toString() : "N/D");
-                   // bodega.setEstadoBodega(item[8] != null ? Boolean.valueOf(item[8].toString()) : false);
-                    response.add(bodegas);
+                    personas = new Personas();
+                    personas.setIdpersona(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                    personas.setNombre(item[4] != null ? item[4].toString() : "N/D");
+                    personas.setNit(item[8] != null ? item[8].toString() : "N/D");
+                    personas.setNoRegistroFiscal(item[9] != null ? item[9].toString() : "N/D");
+                  
+                    response.add(personas);
                 }
             }
         } catch (NoResultException e) {
