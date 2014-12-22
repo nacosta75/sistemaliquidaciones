@@ -29,13 +29,13 @@ import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
-public class DetalleClienteCtrl extends BaseController {
+public class DetalleVendedorCtrl extends BaseController {
 
-    private static final Logger logger = Logger.getLogger(DetalleClienteCtrl.class.getName());
+    private static final Logger logger = Logger.getLogger(DetalleVendedorCtrl.class.getName());
     private static final long serialVersionUID = -546886879998950467L;
-    protected Window detalleClienteWindow;
-    protected Intbox txtIdClientes;
-    protected Textbox txtNombreClientes;
+    protected Window detalleVendedorWindow;
+    protected Intbox txtIdVendedor;
+    protected Textbox txtNombreVendedor;
     protected Textbox txtCallePasaje;
     protected Textbox txtColonia;
     protected Textbox txtNIT;
@@ -59,12 +59,12 @@ public class DetalleClienteCtrl extends BaseController {
     protected Button btnGuardar;
     protected Button btnCerrar;
     private Personas clienteSelected;
-    private ListaClienteCtrl listaClientesCtrl;
+    private ListaVendedorCtrl listaVendedoresCtrl;
     private transient Integer token;
     private PersonasBeanLocal personaBean;
     private ServiceLocator serviceLocator;
     private OperacionesPersonaDTO responseOperacion;
-    private List<Personas> listaClientesLike;
+    private List<Personas> listaVendedoresLike;
 
     private static List<String> colors = new ArrayList<String>();
      
@@ -79,7 +79,7 @@ public class DetalleClienteCtrl extends BaseController {
         return new ArrayList<String>(colors);
     }
 
-    public DetalleClienteCtrl() {
+    public DetalleVendedorCtrl() {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
@@ -90,12 +90,12 @@ public class DetalleClienteCtrl extends BaseController {
         }
     }
 
-    public void onCreate$detalleClienteWindow(Event event) throws Exception {
-        doOnCreateCommon(this.detalleClienteWindow, event);
+    public void onCreate$detalleVendedorWindow(Event event) throws Exception {
+        doOnCreateCommon(this.detalleVendedorWindow, event);
         MensajeMultilinea.doSetTemplate();
         if (this.args.containsKey("clienteSelected")) {
             clienteSelected = ((Personas) this.args.get("clienteSelected"));
-            setClienteSelected(clienteSelected);
+            setVendedorSelected(clienteSelected);
         }
         if (this.args.containsKey("token")) {
             this.token = ((Integer) this.args.get("token"));
@@ -103,14 +103,14 @@ public class DetalleClienteCtrl extends BaseController {
         } else {
             setToken(Integer.valueOf(0));
         }
-        if (this.args.containsKey("listaClienteCtrl")) {
-            listaClientesCtrl = ((ListaClienteCtrl) this.args.get("listaClienteCtrl"));
+        if (this.args.containsKey("listaVendedorCtrl")) {
+            listaVendedoresCtrl = ((ListaVendedorCtrl) this.args.get("listaVendedorCtrl"));
         }
         checkPermisos();
-        showDetalleClientes();
+        showDetalleVendedores();
     }
 
-    public void showDetalleClientes() {
+    public void showDetalleVendedores() {
         try {
             if (clienteSelected != null) {
                 doReadOnly(Boolean.TRUE);
@@ -128,7 +128,7 @@ public class DetalleClienteCtrl extends BaseController {
             } else {
                 doNew();
             }
-            detalleClienteWindow.doModal();
+            detalleVendedorWindow.doModal();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,8 +141,8 @@ public class DetalleClienteCtrl extends BaseController {
 
 //    protected ComboBox cmbEstadoCivil;
     
-        txtIdClientes.setValue(clienteSelected.getIdpersona());
-        txtNombreClientes.setText(clienteSelected.getNombre());
+        txtIdVendedor.setValue(clienteSelected.getIdpersona());
+        txtNombreVendedor.setText(clienteSelected.getNombre());
         txtCallePasaje.setValue(clienteSelected.getCalleOPasaje());
         txtColonia.setValue(clienteSelected.getColonia());
         txtNIT.setValue(clienteSelected.getNit());
@@ -173,8 +173,8 @@ public class DetalleClienteCtrl extends BaseController {
             clienteSelected = new Personas();
             //validamos los campos
 
-            if (StringUtils.isEmpty(txtNombreClientes.getValue())) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar  Nombre Cliente");
+            if (StringUtils.isEmpty(txtNombreVendedor.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar  Nombre Vendedor");
             }
 
             if (StringUtils.isEmpty(txtTelefono1.getValue())) {
@@ -189,8 +189,8 @@ public class DetalleClienteCtrl extends BaseController {
             {
                clienteSelected.setCreditoActivo("N");
             }
-            clienteSelected.setIdpersona(txtIdClientes.getValue());
-            clienteSelected.setNombre(txtNombreClientes.getValue());
+            clienteSelected.setIdpersona(txtIdVendedor.getValue());
+            clienteSelected.setNombre(txtNombreVendedor.getValue());
             clienteSelected.setCalleOPasaje(txtCallePasaje.getValue());
             clienteSelected.setColonia(txtColonia.getValue());
             clienteSelected.setNit(txtNIT.getValue());
@@ -207,11 +207,11 @@ public class DetalleClienteCtrl extends BaseController {
             clienteSelected.setFechaUltSaldo(new Date(txtfechaUltSaldo.getValue()));
 //            clienteSelected.setEstadoCivil(cmbEstadoCivil.toString());
             
-            clienteSelected.setIdtipopersona(new TiposPersona(1));
+            clienteSelected.setIdtipopersona(new TiposPersona(2));
             clienteSelected.setIdempresa(new Empresas(1));
             clienteSelected.setIdsucursal(new Sucursales(1));
             clienteSelected.setIdusuariocrea(1);
-            clienteSelected.setIdpersona(1);
+            clienteSelected.setIdpersona(3);
                     
             
         } catch (DiservWebException ex) {
@@ -231,7 +231,7 @@ public class DetalleClienteCtrl extends BaseController {
                     loadDataFromEntity();
                     doReadOnly(Boolean.TRUE);
                     doEditButton();
-                    listaClientesCtrl.refreshModel(0);
+                    listaVendedoresCtrl.refreshModel(0);
                 } else {
                     MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }
@@ -264,7 +264,7 @@ public class DetalleClienteCtrl extends BaseController {
         this.btnActualizar.setVisible(false);
     }
 
-    public void onBlur$txtNombreClientes(Event event) throws DiservWebException, DiservBusinessException {
+    public void onBlur$txtNombreVendedores(Event event) throws DiservWebException, DiservBusinessException {
 //        try {
 //            if (StringUtils.isEmpty(txtNombreClientes.getValue())) {
 //                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar nombre cliente");
@@ -281,7 +281,7 @@ public class DetalleClienteCtrl extends BaseController {
     }
 
     private void doClose() {
-        this.detalleClienteWindow.onClose();
+        this.detalleVendedorWindow.onClose();
     }
 
     public void onDoubleClicked(Event event) throws Exception {
@@ -359,7 +359,7 @@ public class DetalleClienteCtrl extends BaseController {
                 loadDataFromEntity();
                 doReadOnly(Boolean.TRUE);
                 doEditButton();
-                listaClientesCtrl.refreshModel(Constants.PAGINA_INICIO_DEFAULT);
+                listaVendedoresCtrl.refreshModel(Constants.PAGINA_INICIO_DEFAULT);
             } else {
                 MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
             }
@@ -398,27 +398,27 @@ public class DetalleClienteCtrl extends BaseController {
         this.token = token;
     }
 
-    public Personas getClienteSelected() {
+    public Personas getVendedorSelected() {
         return clienteSelected;
     }
 
-    public void setClienteSelected(Personas clienteSelected) {
+    public void setVendedorSelected(Personas clienteSelected) {
         this.clienteSelected = clienteSelected;
     }
 
-    public ListaClienteCtrl getListaClientesCtrl() {
-        return listaClientesCtrl;
+    public ListaVendedorCtrl getListaVendedoresCtrl() {
+        return listaVendedoresCtrl;
     }
 
-    public void setListaClientesCtrl(ListaClienteCtrl listaClientesCtrl) {
-        this.listaClientesCtrl = listaClientesCtrl;
+    public void setListaVendedoresCtrl(ListaVendedorCtrl listaVendedoresCtrl) {
+        this.listaVendedoresCtrl = listaVendedoresCtrl;
     }
 
-    public List<Personas> getListaClientesLike() {
-        return listaClientesLike;
+    public List<Personas> getListaVendedoresLike() {
+        return listaVendedoresLike;
     }
 
-    public void setListaClientesLike(List<Personas> listaClientesLike) {
-        this.listaClientesLike = listaClientesLike;
+    public void setListaVendedoresLike(List<Personas> listaVendedoresLike) {
+        this.listaVendedoresLike = listaVendedoresLike;
     }
 }

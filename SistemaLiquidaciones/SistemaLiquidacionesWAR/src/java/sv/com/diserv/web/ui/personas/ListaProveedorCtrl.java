@@ -122,7 +122,7 @@ public class ListaProveedorCtrl extends BaseController {
         }
     }
 
-    public void onDoubleClickedProveedor(Event event) throws Exception {
+    public void onDoubleClickedPersona(Event event) throws Exception {
         logger.log(Level.INFO, "[onDoubleClickedProveedor]Event:{0}", event.toString());
         Listitem item = this.listBoxProveedor.getSelectedItem();
         if (item != null) {
@@ -152,15 +152,15 @@ public class ListaProveedorCtrl extends BaseController {
     }
 
     public void onClick$btnBusquedaProveedor(Event event) throws Exception {
-        logger.log(Level.INFO, "[onClick$btnBusquedaPerona]Event:{0}", event.toString());
+        logger.log(Level.INFO, "[onClick$btnBusquedaPersona]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
         map.put("listaProveedorCtrl", this);
-        Executions.createComponents("/WEB-INF/xhtml/perona/busquedaProveedor.zul", null, map);
+        Executions.createComponents("/WEB-INF/xhtml/persona/busquedaProveedor.zul", null, map);
 
     }
 
-    public void onClickedProveedor(Event event) throws Exception {
+    public void onClickedPersona(Event event) throws Exception {
         logger.log(Level.INFO, "[onClickedProveedor]Event:{0}", event.toString());
         Listitem item = this.listBoxProveedor.getSelectedItem();
         if (item != null) {

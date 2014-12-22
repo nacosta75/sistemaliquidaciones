@@ -29,13 +29,13 @@ import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
-public class DetalleClienteCtrl extends BaseController {
+public class DetalleProveedorCtrl extends BaseController {
 
-    private static final Logger logger = Logger.getLogger(DetalleClienteCtrl.class.getName());
+    private static final Logger logger = Logger.getLogger(DetalleProveedorCtrl.class.getName());
     private static final long serialVersionUID = -546886879998950467L;
-    protected Window detalleClienteWindow;
-    protected Intbox txtIdClientes;
-    protected Textbox txtNombreClientes;
+    protected Window detalleProveedorWindow;
+    protected Intbox txtIdProveedor;
+    protected Textbox txtNombreProveedor;
     protected Textbox txtCallePasaje;
     protected Textbox txtColonia;
     protected Textbox txtNIT;
@@ -59,12 +59,12 @@ public class DetalleClienteCtrl extends BaseController {
     protected Button btnGuardar;
     protected Button btnCerrar;
     private Personas clienteSelected;
-    private ListaClienteCtrl listaClientesCtrl;
+    private ListaProveedorCtrl listaProveedoresCtrl;
     private transient Integer token;
     private PersonasBeanLocal personaBean;
     private ServiceLocator serviceLocator;
     private OperacionesPersonaDTO responseOperacion;
-    private List<Personas> listaClientesLike;
+    private List<Personas> listaProveedoresLike;
 
     private static List<String> colors = new ArrayList<String>();
      
@@ -79,7 +79,7 @@ public class DetalleClienteCtrl extends BaseController {
         return new ArrayList<String>(colors);
     }
 
-    public DetalleClienteCtrl() {
+    public DetalleProveedorCtrl() {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
@@ -90,12 +90,12 @@ public class DetalleClienteCtrl extends BaseController {
         }
     }
 
-    public void onCreate$detalleClienteWindow(Event event) throws Exception {
-        doOnCreateCommon(this.detalleClienteWindow, event);
+    public void onCreate$detalleProveedorWindow(Event event) throws Exception {
+        doOnCreateCommon(this.detalleProveedorWindow, event);
         MensajeMultilinea.doSetTemplate();
         if (this.args.containsKey("clienteSelected")) {
             clienteSelected = ((Personas) this.args.get("clienteSelected"));
-            setClienteSelected(clienteSelected);
+            setProveedorSelected(clienteSelected);
         }
         if (this.args.containsKey("token")) {
             this.token = ((Integer) this.args.get("token"));
@@ -103,14 +103,14 @@ public class DetalleClienteCtrl extends BaseController {
         } else {
             setToken(Integer.valueOf(0));
         }
-        if (this.args.containsKey("listaClienteCtrl")) {
-            listaClientesCtrl = ((ListaClienteCtrl) this.args.get("listaClienteCtrl"));
+        if (this.args.containsKey("listaProveedorCtrl")) {
+            listaProveedoresCtrl = ((ListaProveedorCtrl) this.args.get("listaProveedorCtrl"));
         }
         checkPermisos();
-        showDetalleClientes();
+        showDetalleProveedores();
     }
 
-    public void showDetalleClientes() {
+    public void showDetalleProveedores() {
         try {
             if (clienteSelected != null) {
                 doReadOnly(Boolean.TRUE);
@@ -128,7 +128,7 @@ public class DetalleClienteCtrl extends BaseController {
             } else {
                 doNew();
             }
-            detalleClienteWindow.doModal();
+            detalleProveedorWindow.doModal();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,8 +141,8 @@ public class DetalleClienteCtrl extends BaseController {
 
 //    protected ComboBox cmbEstadoCivil;
     
-        txtIdClientes.setValue(clienteSelected.getIdpersona());
-        txtNombreClientes.setText(clienteSelected.getNombre());
+        txtIdProveedor.setValue(clienteSelected.getIdpersona());
+        txtNombreProveedor.setText(clienteSelected.getNombre());
         txtCallePasaje.setValue(clienteSelected.getCalleOPasaje());
         txtColonia.setValue(clienteSelected.getColonia());
         txtNIT.setValue(clienteSelected.getNit());
@@ -173,8 +173,8 @@ public class DetalleClienteCtrl extends BaseController {
             clienteSelected = new Personas();
             //validamos los campos
 
-            if (StringUtils.isEmpty(txtNombreClientes.getValue())) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar  Nombre Cliente");
+            if (StringUtils.isEmpty(txtNombreProveedor.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar  Nombre Proveedor");
             }
 
             if (StringUtils.isEmpty(txtTelefono1.getValue())) {
@@ -189,8 +189,8 @@ public class DetalleClienteCtrl extends BaseController {
             {
                clienteSelected.setCreditoActivo("N");
             }
-            clienteSelected.setIdpersona(txtIdClientes.getValue());
-            clienteSelected.setNombre(txtNombreClientes.getValue());
+            clienteSelected.setIdpersona(txtIdProveedor.getValue());
+            clienteSelected.setNombre(txtNombreProveedor.getValue());
             clienteSelected.setCalleOPasaje(txtCallePasaje.getValue());
             clienteSelected.setColonia(txtColonia.getValue());
             clienteSelected.setNit(txtNIT.getValue());
@@ -207,11 +207,11 @@ public class DetalleClienteCtrl extends BaseController {
             clienteSelected.setFechaUltSaldo(new Date(txtfechaUltSaldo.getValue()));
 //            clienteSelected.setEstadoCivil(cmbEstadoCivil.toString());
             
-            clienteSelected.setIdtipopersona(new TiposPersona(1));
+            clienteSelected.setIdtipopersona(new TiposPersona(3));
             clienteSelected.setIdempresa(new Empresas(1));
             clienteSelected.setIdsucursal(new Sucursales(1));
             clienteSelected.setIdusuariocrea(1);
-            clienteSelected.setIdpersona(1);
+            clienteSelected.setIdpersona(4);
                     
             
         } catch (DiservWebException ex) {
@@ -231,7 +231,7 @@ public class DetalleClienteCtrl extends BaseController {
                     loadDataFromEntity();
                     doReadOnly(Boolean.TRUE);
                     doEditButton();
-                    listaClientesCtrl.refreshModel(0);
+                    listaProveedoresCtrl.refreshModel(0);
                 } else {
                     MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }
@@ -264,7 +264,7 @@ public class DetalleClienteCtrl extends BaseController {
         this.btnActualizar.setVisible(false);
     }
 
-    public void onBlur$txtNombreClientes(Event event) throws DiservWebException, DiservBusinessException {
+    public void onBlur$txtNombreProveedores(Event event) throws DiservWebException, DiservBusinessException {
 //        try {
 //            if (StringUtils.isEmpty(txtNombreClientes.getValue())) {
 //                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar nombre cliente");
@@ -281,7 +281,7 @@ public class DetalleClienteCtrl extends BaseController {
     }
 
     private void doClose() {
-        this.detalleClienteWindow.onClose();
+        this.detalleProveedorWindow.onClose();
     }
 
     public void onDoubleClicked(Event event) throws Exception {
@@ -359,7 +359,7 @@ public class DetalleClienteCtrl extends BaseController {
                 loadDataFromEntity();
                 doReadOnly(Boolean.TRUE);
                 doEditButton();
-                listaClientesCtrl.refreshModel(Constants.PAGINA_INICIO_DEFAULT);
+                listaProveedoresCtrl.refreshModel(Constants.PAGINA_INICIO_DEFAULT);
             } else {
                 MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
             }
@@ -398,27 +398,27 @@ public class DetalleClienteCtrl extends BaseController {
         this.token = token;
     }
 
-    public Personas getClienteSelected() {
+    public Personas getProveedorSelected() {
         return clienteSelected;
     }
 
-    public void setClienteSelected(Personas clienteSelected) {
+    public void setProveedorSelected(Personas clienteSelected) {
         this.clienteSelected = clienteSelected;
     }
 
-    public ListaClienteCtrl getListaClientesCtrl() {
-        return listaClientesCtrl;
+    public ListaProveedorCtrl getListaProveedoresCtrl() {
+        return listaProveedoresCtrl;
     }
 
-    public void setListaClientesCtrl(ListaClienteCtrl listaClientesCtrl) {
-        this.listaClientesCtrl = listaClientesCtrl;
+    public void setListaProveedoresCtrl(ListaProveedorCtrl listaProveedoresCtrl) {
+        this.listaProveedoresCtrl = listaProveedoresCtrl;
     }
 
-    public List<Personas> getListaClientesLike() {
-        return listaClientesLike;
+    public List<Personas> getListaProveedoresLike() {
+        return listaProveedoresLike;
     }
 
-    public void setListaClientesLike(List<Personas> listaClientesLike) {
-        this.listaClientesLike = listaClientesLike;
+    public void setListaProveedoresLike(List<Personas> listaProveedoresLike) {
+        this.listaProveedoresLike = listaProveedoresLike;
     }
 }
