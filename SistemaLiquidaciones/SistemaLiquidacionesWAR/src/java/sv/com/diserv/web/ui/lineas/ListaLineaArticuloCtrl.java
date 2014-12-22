@@ -146,7 +146,7 @@ public class ListaLineaArticuloCtrl extends BaseController {
     }
 
     public void onDoubleClickedLinea(Event event) throws Exception {
-        logger.log(Level.INFO, "[onDoubleClickedLinea]Event:{0}", event.toString());
+        logger.log(Level.INFO, "[**onDoubleClickedLinea]Event:{0}", event.toString());
         Listitem item = this.listBoxLinea.getSelectedItem();
         if (item != null) {
             LineaArticulo linea = (LineaArticulo) item.getAttribute("data");

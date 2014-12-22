@@ -92,7 +92,31 @@ public class DetalleLineaCtrl extends BaseController {
             listaLineasCtrl = ((ListaLineaArticuloCtrl) this.args.get("listaLineasCtrl"));
         }
       //  checkPermisos();
-        // showDetalleBodegas();
+      showDetalleLineas();
+    }
+    
+    public void showDetalleLineas() {
+        try {
+            if (lineaSelected != null) {
+                doReadOnly(Boolean.TRUE);
+                doEditButton();
+                loadDataFromEntity();
+//            if (bodega.getIdBodegas().intValue() >= 1) {
+//                this.listBoxOrdentrabajoBodegas.setModel(new ListModelList(
+//                        this.ordentrabajoDao.buscarOrdenesPorbodega(
+//                        bodega.getIdBodegas())));
+//                this.listBoxOrdentrabajoBodegas.setItemRenderer(new BodegasOrdentrabajoListModelItemRenderer());
+//                this.panel_tramites_bodega.setTitle(
+//                        "Ultimos tramites del bodega :"
+//                        + bodega.getNombreBodegas());
+//            }
+            } else {
+                doNew();
+            }
+            detalleLineaWindow.doModal();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadDataFromEntity() {
@@ -169,9 +193,10 @@ public class DetalleLineaCtrl extends BaseController {
 
     public void onClick$btnGuardar(Event event) {
         try {
+            
             if (getToken().intValue() > 0) {
                 loadDataFromTextboxs();
-                Empresas empresa=empresasBean.loadEmpresaByID(1);
+                Empresas empresa= new Empresas(1,"1","DISERV, S.A. ");//empresasBean.loadEmpresaByID(1);
                 
                 lineaSelected.setIdempresa(empresa);
                 
@@ -198,7 +223,8 @@ public class DetalleLineaCtrl extends BaseController {
     
       public void onClick$btnEditar(Event event) {
         doReadOnly(Boolean.FALSE);
-        this.btnActualizar.setVisible(true);
+        //this.btnActualizar.setVisible(true);
+        this.btnGuardar.setVisible(true);
         this.btnEditar.setVisible(false);
     }
       
