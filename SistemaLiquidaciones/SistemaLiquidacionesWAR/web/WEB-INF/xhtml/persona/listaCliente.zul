@@ -38,7 +38,6 @@
                      width="100%"
                      height="100%"
                      mold="paging"
-
                      pagingPosition="top"
                      multiple="false">
                 <listhead sizable="true">
@@ -52,53 +51,9 @@
                                 sort="auto"
                                 width="50%"
                                 label="Nombre Cliente" />
-<!--                    <listheader id="listheaderBodegaDireccion"
-                                sclass="FDListBoxHeader1"
-                                sort="auto"
-                                width="20%"
-                                label="Direccion" />-->
-                  
                 </listhead>
             </listbox>
         </groupbox>
         <separator />
-<!--        <groupbox mold="3d" width="100%" height="250px">
-            <caption label="Lista ultimos tramites asociados a cliente" />
-            <listbox id="listBoxListaTramiteBodega"
-                     style="border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; border-bottom-width: 1px;"
-                     vflex="true"
-                     height="100%"
-                     width="100%"
-                     mold="paging"
-                     pageSize="10"
-                     multiple="false">
-                <listhead sizable="true">
-                    <listheader
-                        id="listheaderIdOrdentrabajo"
-                        sclass="FDListBoxHeader1"
-                        sort="auto"
-                        width="20%"
-                        label="Id Ordentrabajo" />
-                    <listheader
-                        id="listheaderFechaOrdentrabajo"
-                        sclass="FDListBoxHeader1"
-                        sort="auto"
-                        width="20%"
-                        label="Fecha ingreso Sistema" />
-                    <listheader
-                        id="listheaderEstadoTramite"
-                        sclass="FDListBoxHeader1"
-                        sort="auto"
-                        width="40%"
-                        label="Estado tramite" />
-                    <listheader
-                        id="listheaderAduanaTramite"
-                        sclass="FDListBoxHeader1"
-                        sort="auto"
-                        width="20%"
-                        label="Aduana tramite" /> 
-                </listhead>
-            </listbox>
-        </groupbox>-->
     </window>
 </zk>

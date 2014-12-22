@@ -5,10 +5,10 @@
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-    <window id="detalleClienteWindow"
-            title="Mantenimiento de clientes"
+    <window id="detalleProveedorWindow"
+            title="Mantenimiento de proveedores"
             border="normal"
-            use="sv.com.diserv.web.ui.personas.DetalleClienteCtrl"
+            use="sv.com.diserv.web.ui.personas.DetalleProveedorCtrl"
             closable="true"
             width="650px" 
             height="580px"
@@ -23,11 +23,11 @@
                 <button id="btnNuevo"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnnew.gif"
-                        tooltiptext="Agregar nuevo cliente"  />
+                        tooltiptext="Agregar nuevo proveedor"  />
                 <button id="btnEditar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnedit.gif"
-                        tooltiptext="Buscar cliente por criterios"/>
+                        tooltiptext="Buscar proveedor por criterios"/>
                 <button id="btnGuardar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsave.gif"
@@ -61,13 +61,13 @@
                                   width="100%" 
                                   style="padding: 3px;">
                                 <div>
-                                    <panel id="panelInformacionCliente" border="none">
+                                    <panel id="panelInformacionProveedor" border="none">
                                         <panelchildren>
                                             <groupbox id="gb_address"
                                                       mold="3d" 
                                                       closable="false">
                                                 <caption image="/images/person.gif"
-                                                         label="Información Cliente" />
+                                                         label="Información Proveedor" />
                                                 <grid sclass="GridPlain">
                                                     <columns>
                                                         <column align="left" width="150px" />
@@ -76,11 +76,11 @@
                                                     <rows>
                                                         <row>
                                                             <hbox>
-                                                                <label value="Id Cliente" />
+                                                                <label value="Id Proveedor" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
                                                             <intbox
-                                                                id="txtIdClientes"
+                                                                id="txtIdProveedor"
                                                                 hflex="1"
                                                                 maxlength="10"
                                                                 tooltiptext="Identificador unico de cliente"
@@ -92,10 +92,10 @@
                                                         <row>
                                                             <hbox>
                                                                 <label
-                                                                    value="Nombre Cliente : " />
+                                                                    value="Nombre Proveedor : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <textbox   id="txtNombreClientes"   hflex="1" />
+                                                            <textbox   id="txtNombreProveedor"   hflex="1" />
                                                         </row>
                                                                     
                                                         <row>
