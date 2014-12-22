@@ -43,13 +43,8 @@ public class ListaClienteCtrl extends BaseController {
     protected Listbox listBoxCliente;
     protected Listheader listheaderIdCliente;
     protected Listheader listheaderNombreCliente;
-    protected Listheader listheaderBodegaTelefono;
-    protected Listheader listheaderBodegaDireccion;
-    protected Listbox listBoxListaTramiteBodega;
-    protected Listheader listheaderIdOrdentrabajo;
-    protected Listheader listheaderFechaOrdentrabajo;
-    protected Listheader listheaderEstadoTramite;
-    protected Listheader listheaderAduanaTramite;
+    protected Listheader listheaderTelefonoCliente;
+    protected Listheader listheaderRegistroCliente;
     //contadores pagina
     private Integer totalClientes;
     private Integer numeroPaginInicio = 1;
@@ -58,8 +53,6 @@ public class ListaClienteCtrl extends BaseController {
     private PersonasBeanLocal personaBean;
     private List<Personas> listaClientes;
     private Personas clienteSelected;
-    //private OrdenTrabajoBeanLocal ordentrabajoBean;
-    //private List<Ordentrabajo> listaOrdenesBodega;
 
     /**
      * default constructor.<br>
@@ -91,7 +84,7 @@ public class ListaClienteCtrl extends BaseController {
         pagingCliente.setDetailed(true);
         refreshModel(numeroPaginInicio);
         setOrderListHeaderClientes();
-        setOrderListHeaderOrdentrabajo();
+        
     }
 
     public void doRefreshModel(int activePage) {
@@ -165,17 +158,7 @@ public class ListaClienteCtrl extends BaseController {
         Listitem item = this.listBoxCliente.getSelectedItem();
         if (item != null) {
             clienteSelected = (Personas) item.getAttribute("data");
-           // System.out.println("tramites:" + personaSelected.getOrdentrabajoList().size());
             if (clienteSelected != null) {
-              //  listaOrdenesBodega = ordentrabajoBean.loadOrdenesTrabajoByBodega(personaSelected.getIdBodega(), Constants.PAGINA_INICIO_CERO, Constants.REGISTROS_A_MOSTRAR_LISTA);
-//                if (listaOrdenesBodega.size() > 0) {
-//                    listBoxListaTramiteBodega.setModel(new ListModelList(listaOrdenesBodega));
-//                    listBoxListaTramiteBodega.setItemRenderer(new OrdentrabajoResumenItemRenderer());
-//                } else {
-//                    listBoxListaTramiteBodega.setModel(new ListModelList(listaOrdenesBodega));
-//                    listBoxListaTramiteBodega.setEmptyMessage("Bodega no Tiene Tramites Asociados en Sistema");
-//                    logger.info("No se cargaron registros");
-//                }
             }
         }
     }
@@ -196,22 +179,10 @@ public class ListaClienteCtrl extends BaseController {
         listheaderIdCliente.setSortDescending(new FieldComparator("idpersona", false));
         listheaderNombreCliente.setSortAscending(new FieldComparator("nombre", true));
         listheaderNombreCliente.setSortDescending(new FieldComparator("nombre", false));
-//        listheaderBodegaTelefono.setSortAscending(new FieldComparator("direccion", true));
-//        listheaderBodegaTelefono.setSortDescending(new FieldComparator("direccion", false));
-//        listheaderBodegaDireccion.setSortAscending(new FieldComparator("encargado", true));
-//        listheaderBodegaDireccion.setSortDescending(new FieldComparator("encargado", false));
-    }
-
-    private void setOrderListHeaderOrdentrabajo() {
-//        listheaderIdOrdentrabajo.setSortAscending(new FieldComparator("idOrdenTrabajo", true));
-//        listheaderIdOrdentrabajo.setSortDescending(new FieldComparator("idOrdenTrabajo", false));
-//        listheaderFechaOrdentrabajo.setSortAscending(new FieldComparator("fechaIngreso", true));
-//        listheaderFechaOrdentrabajo.setSortDescending(new FieldComparator("fechaIngreso", false));
-//        listheaderEstadoTramite.setSortAscending(new FieldComparator("idEstado.descripcionEstado", true));
-//        listheaderEstadoTramite.setSortDescending(new FieldComparator("idEstado.descripcionEstado", false));
-//        listheaderAduanaTramite.setSortAscending(new FieldComparator("aduana", true));
-//        listheaderAduanaTramite.setSortDescending(new FieldComparator("aduana", false));
-
+        listheaderTelefonoCliente.setSortAscending(new FieldComparator("telefono1", true));
+        listheaderTelefonoCliente.setSortDescending(new FieldComparator("telefono1", false));
+        listheaderRegistroCliente.setSortAscending(new FieldComparator("noRegistroFiscal", true));
+        listheaderRegistroCliente.setSortDescending(new FieldComparator("noRegistroFiscal", false));
     }
 
     public Integer getTotalClientes() {
@@ -246,15 +217,7 @@ public class ListaClienteCtrl extends BaseController {
         this.clienteSelected = personaSelected;
     }
 
-//    public List<Ordentrabajo> getListaOrdenesBodega() {
-//        return listaOrdenesBodega;
-//    }
-//
-//    public void setListaOrdenesBodega(List<Ordentrabajo> listaOrdenesBodega) {
-//        this.listaOrdenesBodega = listaOrdenesBodega;
-//    }
-
-    public Listbox getListCliente() {
+    public Listbox getListBoxCliente() {
         return listBoxCliente;
     }
 

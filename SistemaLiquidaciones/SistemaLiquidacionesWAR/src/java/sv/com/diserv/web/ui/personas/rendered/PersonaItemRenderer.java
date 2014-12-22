@@ -20,12 +20,13 @@ public class PersonaItemRenderer implements ListitemRenderer {
 
         lb = new Listcell(String.valueOf(persona.getNombre()));
         lb.setParent(item);
+        
+        lb = new Listcell(String.valueOf(persona.getTelefono1()));
+        lb.setParent(item);
+        
+        lb = new Listcell(String.valueOf(persona.getNoRegistroFiscal()));
+        lb.setParent(item);
 
-//        lb = new Listcell(bodega.getIvaBodega());
-//        lb.setParent(item);
-//
-//        lb = new Listcell(bodega.getNitBodega());
-//        lb.setParent(item);
 
         item.setAttribute("data", data);
 

@@ -43,13 +43,8 @@ public class ListaVendedorCtrl extends BaseController {
     protected Listbox listBoxVendedor;
     protected Listheader listheaderIdVendedor;
     protected Listheader listheaderNombreVendedor;
-    protected Listheader listheaderBodegaTelefono;
-    protected Listheader listheaderBodegaDireccion;
-    protected Listbox listBoxListaTramiteBodega;
-    protected Listheader listheaderIdOrdentrabajo;
-    protected Listheader listheaderFechaOrdentrabajo;
-    protected Listheader listheaderEstadoTramite;
-    protected Listheader listheaderAduanaTramite;
+    protected Listheader listheaderTelefonoVendedor;
+    
     //contadores pagina
     private Integer totalVendedores;
     private Integer numeroPaginInicio = 1;
@@ -58,8 +53,7 @@ public class ListaVendedorCtrl extends BaseController {
     private PersonasBeanLocal personaBean;
     private List<Personas> listaVendedores;
     private Personas clienteSelected;
-    //private OrdenTrabajoBeanLocal ordentrabajoBean;
-    //private List<Ordentrabajo> listaOrdenesBodega;
+ 
 
     /**
      * default constructor.<br>
@@ -91,7 +85,6 @@ public class ListaVendedorCtrl extends BaseController {
         pagingVendedor.setDetailed(true);
         refreshModel(numeroPaginInicio);
         setOrderListHeaderVendedores();
-        setOrderListHeaderOrdentrabajo();
     }
 
     public void doRefreshModel(int activePage) {
@@ -196,23 +189,11 @@ public class ListaVendedorCtrl extends BaseController {
         listheaderIdVendedor.setSortDescending(new FieldComparator("idpersona", false));
         listheaderNombreVendedor.setSortAscending(new FieldComparator("nombre", true));
         listheaderNombreVendedor.setSortDescending(new FieldComparator("nombre", false));
-//        listheaderBodegaTelefono.setSortAscending(new FieldComparator("direccion", true));
-//        listheaderBodegaTelefono.setSortDescending(new FieldComparator("direccion", false));
-//        listheaderBodegaDireccion.setSortAscending(new FieldComparator("encargado", true));
-//        listheaderBodegaDireccion.setSortDescending(new FieldComparator("encargado", false));
-    }
-
-    private void setOrderListHeaderOrdentrabajo() {
-//        listheaderIdOrdentrabajo.setSortAscending(new FieldComparator("idOrdenTrabajo", true));
-//        listheaderIdOrdentrabajo.setSortDescending(new FieldComparator("idOrdenTrabajo", false));
-//        listheaderFechaOrdentrabajo.setSortAscending(new FieldComparator("fechaIngreso", true));
-//        listheaderFechaOrdentrabajo.setSortDescending(new FieldComparator("fechaIngreso", false));
-//        listheaderEstadoTramite.setSortAscending(new FieldComparator("idEstado.descripcionEstado", true));
-//        listheaderEstadoTramite.setSortDescending(new FieldComparator("idEstado.descripcionEstado", false));
-//        listheaderAduanaTramite.setSortAscending(new FieldComparator("aduana", true));
-//        listheaderAduanaTramite.setSortDescending(new FieldComparator("aduana", false));
+        listheaderTelefonoVendedor.setSortAscending(new FieldComparator("telefono1", true));
+        listheaderTelefonoVendedor.setSortDescending(new FieldComparator("telefono1", false));
 
     }
+
 
     public Integer getTotalVendedores() {
         return totalVendedores;

@@ -57,6 +57,7 @@ public class DetalleClienteCtrl extends BaseController {
     protected Button btnNuevo;
     protected Button btnEditar;
     protected Button btnGuardar;
+     protected Button btnEliminar;
     protected Button btnCerrar;
     private Personas clienteSelected;
     private ListaClienteCtrl listaClientesCtrl;
@@ -251,6 +252,10 @@ public class DetalleClienteCtrl extends BaseController {
         this.btnEditar.setVisible(false);
     }
 
+    public void onClick$btnEliminar(Event event) {
+      System.out.println("Esta tratando de eliminar......");
+    }
+    
     public void onClick$btnNuevo(Event event) {
         doNew();
     }

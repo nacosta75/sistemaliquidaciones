@@ -43,13 +43,8 @@ public class ListaProveedorCtrl extends BaseController {
     protected Listbox listBoxProveedor;
     protected Listheader listheaderIdProveedor;
     protected Listheader listheaderNombreProveedor;
-    protected Listheader listheaderBodegaTelefono;
-    protected Listheader listheaderBodegaDireccion;
-    protected Listbox listBoxListaTramiteBodega;
-    protected Listheader listheaderIdOrdentrabajo;
-    protected Listheader listheaderFechaOrdentrabajo;
-    protected Listheader listheaderEstadoTramite;
-    protected Listheader listheaderAduanaTramite;
+    protected Listheader listheaderTelefonoProveedor;
+    protected Listheader listheaderRegistroProveedor;
     //contadores pagina
     private Integer totalProveedores;
     private Integer numeroPaginInicio = 1;
@@ -58,8 +53,6 @@ public class ListaProveedorCtrl extends BaseController {
     private PersonasBeanLocal personaBean;
     private List<Personas> listaProveedores;
     private Personas proveedorSelected;
-    //private OrdenTrabajoBeanLocal ordentrabajoBean;
-    //private List<Ordentrabajo> listaOrdenesBodega;
 
     /**
      * default constructor.<br>
@@ -91,7 +84,6 @@ public class ListaProveedorCtrl extends BaseController {
         pagingProveedor.setDetailed(true);
         refreshModel(numeroPaginInicio);
         setOrderListHeaderProveedores();
-        setOrderListHeaderOrdentrabajo();
     }
 
     public void doRefreshModel(int activePage) {
@@ -196,23 +188,12 @@ public class ListaProveedorCtrl extends BaseController {
         listheaderIdProveedor.setSortDescending(new FieldComparator("idpersona", false));
         listheaderNombreProveedor.setSortAscending(new FieldComparator("nombre", true));
         listheaderNombreProveedor.setSortDescending(new FieldComparator("nombre", false));
-//        listheaderBodegaTelefono.setSortAscending(new FieldComparator("direccion", true));
-//        listheaderBodegaTelefono.setSortDescending(new FieldComparator("direccion", false));
-//        listheaderBodegaDireccion.setSortAscending(new FieldComparator("encargado", true));
-//        listheaderBodegaDireccion.setSortDescending(new FieldComparator("encargado", false));
+        listheaderTelefonoProveedor.setSortAscending(new FieldComparator("telefono1", true));
+        listheaderTelefonoProveedor.setSortDescending(new FieldComparator("telefono1", false));
+        listheaderRegistroProveedor.setSortAscending(new FieldComparator("noRegistroFiscal", true));
+        listheaderRegistroProveedor.setSortDescending(new FieldComparator("noRegistroFiscal", false));
     }
 
-    private void setOrderListHeaderOrdentrabajo() {
-//        listheaderIdOrdentrabajo.setSortAscending(new FieldComparator("idOrdenTrabajo", true));
-//        listheaderIdOrdentrabajo.setSortDescending(new FieldComparator("idOrdenTrabajo", false));
-//        listheaderFechaOrdentrabajo.setSortAscending(new FieldComparator("fechaIngreso", true));
-//        listheaderFechaOrdentrabajo.setSortDescending(new FieldComparator("fechaIngreso", false));
-//        listheaderEstadoTramite.setSortAscending(new FieldComparator("idEstado.descripcionEstado", true));
-//        listheaderEstadoTramite.setSortDescending(new FieldComparator("idEstado.descripcionEstado", false));
-//        listheaderAduanaTramite.setSortAscending(new FieldComparator("aduana", true));
-//        listheaderAduanaTramite.setSortDescending(new FieldComparator("aduana", false));
-
-    }
 
     public Integer getTotalProveedores() {
         return totalProveedores;
@@ -245,14 +226,6 @@ public class ListaProveedorCtrl extends BaseController {
     public void setProveedorSelected(Personas proveedorSelected) {
         this.proveedorSelected = proveedorSelected;
     }
-
-//    public List<Ordentrabajo> getListaOrdenesBodega() {
-//        return listaOrdenesBodega;
-//    }
-//
-//    public void setListaOrdenesBodega(List<Ordentrabajo> listaOrdenesBodega) {
-//        this.listaOrdenesBodega = listaOrdenesBodega;
-//    }
 
     public Listbox getListProveedor() {
         return listBoxProveedor;
