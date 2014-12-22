@@ -104,7 +104,7 @@ public class ListaClienteCtrl extends BaseController {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Recargar clientes,Pagina activa:{0}", activePage);
         try {
             if (totalClientes > 0) {
-                listaClientes = personaBean.loadAllPersona(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista());
+                listaClientes = personaBean.loadAllPersona(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),1);
                 if (listaClientes.size() > 0) {
                     logger.log(Level.INFO, "Registros cargados=={0}", listaClientes.size());
                     pagingCliente.setTotalSize(getTotalClientes());

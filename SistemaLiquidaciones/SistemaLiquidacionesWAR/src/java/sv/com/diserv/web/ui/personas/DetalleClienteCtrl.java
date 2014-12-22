@@ -211,7 +211,7 @@ public class DetalleClienteCtrl extends BaseController {
             clienteSelected.setIdempresa(new Empresas(1));
             clienteSelected.setIdsucursal(new Sucursales(1));
             clienteSelected.setIdusuariocrea(1);
-            clienteSelected.setIdpersona(1);
+//            clienteSelected.setIdpersona(1);
                     
             
         } catch (DiservWebException ex) {

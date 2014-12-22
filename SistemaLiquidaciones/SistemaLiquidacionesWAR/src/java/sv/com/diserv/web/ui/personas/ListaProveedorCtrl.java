@@ -104,7 +104,7 @@ public class ListaProveedorCtrl extends BaseController {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Recargar personas,Pagina activa:{0}", activePage);
         try {
             if (totalProveedores > 0) {
-                listaProveedores = personaBean.loadAllPersona(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista());
+                listaProveedores = personaBean.loadAllPersona(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),3);
                 if (listaProveedores.size() > 0) {
                     logger.log(Level.INFO, "Registros cargados=={0}", listaProveedores.size());
                     pagingProveedor.setTotalSize(getTotalProveedores());
