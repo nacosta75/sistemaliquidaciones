@@ -69,12 +69,13 @@ public class PersonasBean implements PersonasBeanLocal {
      */
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public List<Personas> loadAllPersona(int inicio, int fin) throws DiservBusinessException {
+    public List<Personas> loadAllPersona(int inicio, int fin, int tipo) throws DiservBusinessException {
         logger.log(Level.INFO, "[loadAllPersona] desde:" + inicio + " hasta:" + fin);
         List<Personas> personaList = null;
         Query query;
         try {
-            query = em.createNamedQuery("Personas.findAll");
+            query = em.createNamedQuery("Personas.findAllByTipo");
+            query.setParameter("idtipopersona", tipo);
             query.setFirstResult(inicio);
             query.setMaxResults(fin);
             personaList = query.getResultList();

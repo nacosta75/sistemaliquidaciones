@@ -28,7 +28,7 @@ public interface PersonasBeanLocal {
      * @return
      * @throws DiservBusinessException
      */
-    public List<Personas> loadAllPersona(int inicio, int fin) throws DiservBusinessException;
+    public List<Personas> loadAllPersona(int inicio, int fin, int tipo) throws DiservBusinessException;
 
     /**
      * *
