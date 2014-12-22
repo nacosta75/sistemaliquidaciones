@@ -11,12 +11,15 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,11 +43,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Bodegas.findByActiva", query = "SELECT b FROM Bodegas b WHERE b.activa = :activa")})
 public class Bodegas implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
+   
+     
+     
+    @Id 
     @Basic(optional = false)
     @NotNull
     @Column(name = "IDBODEGA")
+    @SequenceGenerator(name = "SEQ_BODEGAS", sequenceName = "SEQ_BODEGAS")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BODEGAS")
     private Integer idbodega;
+    
     @Size(max = 60)
     @Column(name = "NOMBRE")
     private String nombre;
@@ -76,6 +85,7 @@ public class Bodegas implements Serializable {
         this.idbodega = idbodega;
     }
 
+    
     public Integer getIdbodega() {
         return idbodega;
     }
