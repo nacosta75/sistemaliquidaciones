@@ -51,16 +51,27 @@
                                 sort="auto"
                                 width="50%"
                                 label="Nombre Cliente" />
+                    <listheader id="listheaderRegistroCliente"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="50%"
+                                label="Numero de Registro Fiscal del Cliente" />
                      <listheader id="listheaderTelefonoCliente"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="50%"
                                 label="Telefono Cliente" />
-                      <listheader id="listheaderRegistroCliente"
+                     <listheader id="listheaderFaxCliente"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="50%"
-                                label="Numero de Registro Fiscal del Cliente" />
+                                label="Fax Cliente" />
+                     <listheader id="listheaderNitCliente"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="50%"
+                                label="Nit Cliente" />
+                      
                 </listhead>
             </listbox>
         </groupbox>

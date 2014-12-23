@@ -36,6 +36,10 @@
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsave.gif"
                         tooltiptext="Refrescar registros"/>
+                 <button id="btnEliminar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btndelete.gif"
+                        tooltiptext="Eliminar registro"/>
                 <button id="btnCerrar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/close.jpg"
@@ -203,7 +207,7 @@
                                                                 <label value="Limite de Credito:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox  
+                                                            <doublebox  
                                                                 id="txtLimiteCredito" 
                                                                 hflex="1" />
                                                         </row>
@@ -221,7 +225,7 @@
                                                                 <label value="Ultimo Saldo:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox  
+                                                            <doublebox  
                                                                 id="txtUltSaldo" 
                                                                 hflex="1" />
                                                         </row>
@@ -230,8 +234,10 @@
                                                                 <label value="Fecha Ultimo Saldo:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox  
+                                                            <datebox  
                                                                 id="txtfechaUltSaldo" 
+                                                                format="dd/MM/yyyy" 
+                                                                onCreate="self.value = new Date()"
                                                                 hflex="1" />
                                                         </row>
                                                         <row>

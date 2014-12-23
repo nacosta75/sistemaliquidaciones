@@ -32,14 +32,14 @@
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsave.gif"
                         tooltiptext="Guardar registro"/>
-                <button id="btnEliminar"
-                        sclass="oT_ButtonWithIcon"
-                        image="/images/btndelete.gif"
-                        tooltiptext="Eliminar registro"/>
                 <button id="btnActualizar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsave.gif"
                         tooltiptext="Refrescar registros"/>
+                 <button id="btnEliminar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btndelete.gif"
+                        tooltiptext="Eliminar registro"/>
                 <button id="btnCerrar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/close.jpg"
@@ -129,6 +129,15 @@
                                                             <textbox id="txtNIT"
                                                                      />
                                                         </row>
+                                                         <row>
+                                                            <hbox>
+                                                                <label
+                                                                    value="Numero de Registro Fiscal : " />
+                                                                <label value="*" style="color:red; font-size:10px" />
+                                                            </hbox>
+                                                            <textbox id="txtRegistro"
+                                                                     />
+                                                        </row>
                                                         <row>
                                                             <hbox>
                                                                 <label
@@ -207,7 +216,7 @@
                                                                 <label value="Limite de Credito:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox  
+                                                            <doublebox  
                                                                 id="txtLimiteCredito" 
                                                                 hflex="1" />
                                                         </row>
@@ -216,16 +225,15 @@
                                                                 <label value="Correo Electronico:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox  
-                                                                id="txtCorreo" 
-                                                                hflex="1" />
-                                                        </row>
+                                                             <textbox width="150px" id="txtCorreo" hflex="1"
+                                                                 />
+                                                       </row>
                                                         <row>
                                                             <hbox>
                                                                 <label value="Ultimo Saldo:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox  
+                                                            <doublebox  
                                                                 id="txtUltSaldo" 
                                                                 hflex="1" />
                                                         </row>
@@ -234,8 +242,10 @@
                                                                 <label value="Fecha Ultimo Saldo:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox  
-                                                                id="txtfechaUltSaldo" 
+                                                            <datebox  
+                                                                id="txtfechaUltSaldo"
+                                                                format="dd/MM/yyyy" 
+                                                                onCreate="self.value = new Date()"
                                                                 hflex="1" />
                                                         </row>
                                                         <row>
