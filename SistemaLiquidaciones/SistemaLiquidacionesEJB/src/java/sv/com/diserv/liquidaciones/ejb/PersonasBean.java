@@ -149,6 +149,19 @@ public class PersonasBean implements PersonasBeanLocal {
         }
         return response;
     }
+    
+    @Override
+    public OperacionesPersonaDTO eliminarPersona(Personas persona) throws DiservBusinessException {
+        OperacionesPersonaDTO response = new OperacionesPersonaDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo eliminar persona");
+        try {
+             Boolean respuesta =genericDaoBean.delete(persona);
+            response = new OperacionesPersonaDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Persona eliminada satisfactoriamente");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setMensajeRespuesta(e.toString());
+        }
+        return response;
+    }
 
     @Override
     public List<Personas> buscarPersonaByCriteria(BusquedaPersonaDTO re) throws DiservBusinessException {

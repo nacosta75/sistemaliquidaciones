@@ -65,6 +65,8 @@ public interface PersonasBeanLocal {
      */
     public OperacionesPersonaDTO actualizarPersona(Personas persona) throws DiservBusinessException;
 
+    
+    public OperacionesPersonaDTO eliminarPersona(Personas persona) throws DiservBusinessException;
     /**
      * *
      *
