@@ -21,13 +21,18 @@ public class PersonaItemRenderer implements ListitemRenderer {
         lb = new Listcell(String.valueOf(persona.getNombre()));
         lb.setParent(item);
         
-        lb = new Listcell(String.valueOf(persona.getTelefono1()));
-        lb.setParent(item);
-        
         lb = new Listcell(String.valueOf(persona.getNoRegistroFiscal()));
         lb.setParent(item);
+        
+        lb = new Listcell(String.valueOf(persona.getTelefono1()));
+        lb.setParent(item);
 
+        lb = new Listcell(String.valueOf(persona.getFax()));
+        lb.setParent(item);
 
+        lb = new Listcell(String.valueOf(persona.getNit()));
+        lb.setParent(item);
+        
         item.setAttribute("data", data);
 
         ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedPersona");
