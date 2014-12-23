@@ -5,7 +5,11 @@
  */
 package sv.com.diserv.liquidaciones.ejb;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -21,7 +25,10 @@ import sv.com.diserv.liquidaciones.dto.BusquedaBodegaDTO;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
 import sv.com.diserv.liquidaciones.entity.Bodegas;
+import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.entity.Personas;
+import sv.com.diserv.liquidaciones.entity.Sucursales;
+import sv.com.diserv.liquidaciones.entity.TiposPersona;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.util.Constants;
 
@@ -185,10 +192,42 @@ public class PersonasBean implements PersonasBeanLocal {
                 for (Object[] item : lista) {
                     personas = new Personas();
                     personas.setIdpersona(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                    personas.setIdtipopersona(new TiposPersona(Integer.parseInt(item[1] != null ? item[1].toString() : "0")));
+                    personas.setIdempresa(new Empresas(Integer.parseInt(item[2] != null ? item[2].toString() : "0")));
+                    personas.setIdsucursal(new Sucursales(Integer.parseInt(item[3] != null ? item[3].toString() : "0")));
                     personas.setNombre(item[4] != null ? item[4].toString() : "N/D");
+                    personas.setRazonSocial(item[5] != null ? item[5].toString() : "N/D");
+                    personas.setCalleOPasaje(item[6] != null ? item[6].toString() : "N/D");
+                    personas.setColonia(item[7] != null ? item[7].toString() : "N/D");
                     personas.setNit(item[8] != null ? item[8].toString() : "N/D");
                     personas.setNoRegistroFiscal(item[9] != null ? item[9].toString() : "N/D");
-                  
+                    personas.setTelefono1(item[10] != null ? item[10].toString() : "N/D");
+                    personas.setExt1(Integer.parseInt(item[11] != null ? item[11].toString() : "0"));
+                    personas.setTelefono2(item[12] != null ? item[12].toString() : "N/D");
+                    personas.setExt2(Integer.parseInt(item[13] != null ? item[13].toString() : "0"));
+                    personas.setTelefono3(item[14] != null ? item[14].toString() : "N/D");
+                    personas.setExt3(Integer.parseInt(item[15] != null ? item[15].toString() : "0"));
+                    personas.setFax(item[16] != null ? item[16].toString() : "N/D");
+                    personas.setCreditoActivo(item[17] != null ? item[17].toString() : "N/D");
+                    personas.setLimiteCredito(new BigDecimal(item[18] != null ? item[18].toString() : "0"));
+                    personas.setCorreo(item[19] != null ? item[19].toString() : "N/D");
+                    personas.setUltSaldo(new BigDecimal(item[20] != null ? item[20].toString() : "0"));
+                    SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+                    String strFecha = item[21] != null ? item[21].toString() : "";
+                    Date fecha = null;
+                    try {
+
+                        fecha = formatoDelTexto.parse(strFecha);
+
+                    } catch (ParseException ex) {
+
+                        ex.printStackTrace();
+
+                    }
+                    personas.setFechaUltSaldo(fecha);
+                    personas.setEstadoCivil(item[22] != null ? item[22].toString() : "N/D");
+                    personas.setIdusuariocrea(Integer.parseInt(item[23] != null ? item[23].toString() : "0"));
+                    
                     response.add(personas);
                 }
             }
