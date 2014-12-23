@@ -97,7 +97,7 @@ public class BuscarPersonaCtrl extends BaseController {
     public void doBuscar() {
         try {
             request = new BusquedaPersonaDTO();
-            if (StringUtils.isEmpty(txtIdCliente.getText())) {
+            if (StringUtils.isNotEmpty(txtIdCliente.getText())) {
                 request.setIdPersona(txtIdCliente.getValue());
             }
             if (StringUtils.isNotEmpty(txtNombreCliente.getValue())) {
@@ -116,6 +116,7 @@ public class BuscarPersonaCtrl extends BaseController {
             if (!listaClientes.isEmpty()) {
                 listaClienteCtrl.setTotalClientes(listaClientes.size());
                 listaClienteCtrl.getListBoxCliente().setModel(new ListModelList(listaClientes));
+                 doClose();
             } else {
                 listaClienteCtrl.getListBoxCliente().setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
                 MensajeMultilinea.show("No se encontraron clientes con los criterios ingresados", Constants.MENSAJE_TIPO_ALERTA);
