@@ -7,11 +7,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import jxl.biff.drawing.ComboBox;
 import org.apache.commons.lang.StringUtils;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Checkbox;
+import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
@@ -39,6 +43,7 @@ public class DetalleProveedorCtrl extends BaseController {
     protected Textbox txtCallePasaje;
     protected Textbox txtColonia;
     protected Textbox txtNIT;
+    protected Textbox txtRegistro;
     protected Textbox txtTelefono1;
     protected Textbox txtExt1;
     protected Textbox txtTelefono2;
@@ -47,16 +52,17 @@ public class DetalleProveedorCtrl extends BaseController {
     protected Textbox txtExt3;
     protected Textbox txtFax;
     protected Checkbox checkCreditoActivo;
-    protected Textbox txtLimiteCredito;
+    protected Doublebox txtLimiteCredito;
     protected Textbox txtCorreo;
-    protected Textbox txtUltSaldo;
-    protected Textbox txtfechaUltSaldo;
+    protected Doublebox txtUltSaldo;
+    protected Datebox txtfechaUltSaldo;
     protected ComboBox cmbEstadoCivil;
 
     protected Button btnActualizar;
     protected Button btnNuevo;
     protected Button btnEditar;
     protected Button btnGuardar;
+     protected Button btnEliminar;
     protected Button btnCerrar;
     private Personas clienteSelected;
     private ListaProveedorCtrl listaProveedoresCtrl;
@@ -146,6 +152,7 @@ public class DetalleProveedorCtrl extends BaseController {
         txtCallePasaje.setValue(clienteSelected.getCalleOPasaje());
         txtColonia.setValue(clienteSelected.getColonia());
         txtNIT.setValue(clienteSelected.getNit());
+        txtRegistro.setValue(clienteSelected.getNoRegistroFiscal());
         txtTelefono1.setValue(clienteSelected.getTelefono1());
         txtExt1.setValue(clienteSelected.getExt1()+"");
         txtTelefono2.setValue(clienteSelected.getTelefono2());
@@ -159,17 +166,16 @@ public class DetalleProveedorCtrl extends BaseController {
           checkCreditoActivo.setChecked(true);
         } else { checkCreditoActivo.setChecked(false);}
         
-        txtLimiteCredito.setValue(clienteSelected.getLimiteCredito()+"");
+        txtLimiteCredito.setValue(clienteSelected.getLimiteCredito().doubleValue());
         txtCorreo.setValue(clienteSelected.getCorreo());
-        txtUltSaldo.setValue(clienteSelected.getUltSaldo()+"");
-        txtfechaUltSaldo.setValue(clienteSelected.getFechaUltSaldo()+"");
+        txtUltSaldo.setValue(clienteSelected.getUltSaldo().doubleValue());
+        txtfechaUltSaldo.setValue(clienteSelected.getFechaUltSaldo());
         
            
     }
 
     private void loadDataFromTextboxs() {
         try {
-            Personas clienteSelected2 = clienteSelected;
             clienteSelected = new Personas();
             //validamos los campos
 
@@ -177,11 +183,51 @@ public class DetalleProveedorCtrl extends BaseController {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar  Nombre Proveedor");
             }
 
+            if (StringUtils.isEmpty(txtCallePasaje.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Calle o Pasaje");
+            }
+
+            if (StringUtils.isEmpty(txtColonia.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Colonia");
+            }
+            
+            if (StringUtils.isEmpty(txtNIT.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar NIT");
+            }
+            
+             if (StringUtils.isEmpty(txtRegistro.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Numero de Registro");
+            }
+            
             if (StringUtils.isEmpty(txtTelefono1.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   Numero Telefono para cliente");
             }
             
+            if (txtLimiteCredito.getValue() == 0) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Limite de Credito");
+            }
             
+            if (txtfechaUltSaldo.getValue() == null) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Fecha Ultimo Saldo");
+            }
+            else {
+                
+                Pattern pat = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+                Matcher mat = pat.matcher(txtCorreo.getValue());
+                if (!mat.find()) {
+                    throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Correo Electronico Valido");
+                } 
+     
+            }
+            
+            if (txtUltSaldo.getValue() == 0) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Ultimo Saldo");
+            }
+            
+            if (StringUtils.isEmpty(txtCorreo.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Correo Electronico");
+            }
+
             if (checkCreditoActivo.isChecked()) {
                clienteSelected.setCreditoActivo("S");
             }
@@ -194,6 +240,7 @@ public class DetalleProveedorCtrl extends BaseController {
             clienteSelected.setCalleOPasaje(txtCallePasaje.getValue());
             clienteSelected.setColonia(txtColonia.getValue());
             clienteSelected.setNit(txtNIT.getValue());
+            clienteSelected.setNoRegistroFiscal(txtRegistro.getValue());
             clienteSelected.setTelefono1(txtTelefono1.getValue());
             clienteSelected.setExt1(Integer.parseInt(txtExt1.getValue()));
             clienteSelected.setTelefono2(txtTelefono2.getValue());
@@ -204,16 +251,14 @@ public class DetalleProveedorCtrl extends BaseController {
             clienteSelected.setLimiteCredito(new BigDecimal(txtLimiteCredito.getValue()));
             clienteSelected.setCorreo(txtCorreo.getValue());
             clienteSelected.setUltSaldo(new BigDecimal(txtUltSaldo.getValue()));
-            clienteSelected.setFechaUltSaldo(new Date(txtfechaUltSaldo.getValue()));
+            clienteSelected.setFechaUltSaldo(txtfechaUltSaldo.getValue());
 //            clienteSelected.setEstadoCivil(cmbEstadoCivil.toString());
             
             clienteSelected.setIdtipopersona(new TiposPersona(3));
             clienteSelected.setIdempresa(new Empresas(1));
             clienteSelected.setIdsucursal(new Sucursales(1));
             clienteSelected.setIdusuariocrea(1);
-            clienteSelected.setIdpersona(4);
                     
-            
         } catch (DiservWebException ex) {
             MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
         }
@@ -233,7 +278,7 @@ public class DetalleProveedorCtrl extends BaseController {
                     doEditButton();
                     listaProveedoresCtrl.refreshModel(0);
                 } else {
-                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+                //    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }
                 setToken(0);
             } else if (getToken().intValue() == 0) {
@@ -248,9 +293,35 @@ public class DetalleProveedorCtrl extends BaseController {
     public void onClick$btnEditar(Event event) {
         doReadOnly(Boolean.FALSE);
         this.btnActualizar.setVisible(true);
+        this.btnEliminar.setVisible(true);
         this.btnEditar.setVisible(false);
     }
 
+    public void onClick$btnEliminar(Event event) {
+       loadDataFromTextboxs();
+            
+     try {
+            
+           responseOperacion = personaBean.eliminarPersona(clienteSelected);
+            if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+                MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_INFO);
+//                clienteSelected = responseOperacion.getPersona();
+//                loadDataFromEntity();
+                doReadOnly(Boolean.TRUE);
+                doEditButton();
+                doClose();
+                listaProveedoresCtrl.refreshModel(0);
+            } else {
+                MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+            }
+        } catch (Exception bex) {
+            bex.printStackTrace();
+            logger.severe(_zclass);
+            MensajeMultilinea.show(bex.toString(), Constants.MENSAJE_TIPO_ERROR);
+
+        }
+     }
+    
     public void onClick$btnNuevo(Event event) {
         doNew();
     }
@@ -262,6 +333,7 @@ public class DetalleProveedorCtrl extends BaseController {
     public void onClick$btnActualizar(Event event) throws InterruptedException {
         doActualizar();
         this.btnActualizar.setVisible(false);
+        this.btnEliminar.setVisible(false);
     }
 
     public void onBlur$txtNombreProveedores(Event event) throws DiservWebException, DiservBusinessException {
@@ -308,6 +380,7 @@ public class DetalleProveedorCtrl extends BaseController {
         this.btnGuardar.setVisible(true);
         this.btnCerrar.setVisible(true);
         this.btnActualizar.setVisible(false);
+        this.btnEliminar.setVisible(false);
         this.checkCreditoActivo.setChecked(Boolean.FALSE);
         this.btnEditar.setVisible(false);
         this.btnNuevo.setVisible(false);
@@ -319,6 +392,7 @@ public class DetalleProveedorCtrl extends BaseController {
         this.btnNuevo.setVisible(true);
         this.btnGuardar.setVisible(false);
         this.btnActualizar.setVisible(false);
+        this.btnEliminar.setVisible(false);
     }
 
     public void doReadOnly(Boolean opt) {
