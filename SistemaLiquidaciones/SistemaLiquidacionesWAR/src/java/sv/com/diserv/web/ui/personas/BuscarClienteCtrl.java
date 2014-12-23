@@ -23,10 +23,10 @@ import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
-public class BuscarPersonaCtrl extends BaseController {
+public class BuscarClienteCtrl extends BaseController {
 
     private static final long serialVersionUID = -6102616129515843465L;
-    private static final transient Logger logger = Logger.getLogger(BuscarPersonaCtrl.class);
+    private static final transient Logger logger = Logger.getLogger(BuscarClienteCtrl.class);
     protected Window busquedaClienteWindow;
     protected Intbox txtIdCliente;
     protected Textbox txtNombreCliente;
@@ -40,7 +40,7 @@ public class BuscarPersonaCtrl extends BaseController {
     private ListaClienteCtrl listaClienteCtrl;
     private List<Personas> listaClientes;
 
-    public BuscarPersonaCtrl() {
+    public BuscarClienteCtrl() {
 
         logger.info("[BuscarClienteCtrll]");
         try {
