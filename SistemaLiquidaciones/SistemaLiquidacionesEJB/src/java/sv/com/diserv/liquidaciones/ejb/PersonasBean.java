@@ -21,7 +21,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import sv.com.diserv.liquidaciones.dto.BusquedaBodegaDTO;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
 import sv.com.diserv.liquidaciones.entity.Bodegas;
@@ -46,7 +45,7 @@ public class PersonasBean implements PersonasBeanLocal {
     GenericDaoServiceBeanLocal genericDaoBean;
 
     /**
-     * metodo para contar registros ingresados bodega
+     * metodo para contar registros ingresados persona
      *
      * @return Integer con la suma de los registros encontados
      * @throws DiservBusinessException
@@ -113,10 +112,10 @@ public class PersonasBean implements PersonasBeanLocal {
             personaList = query.getResultList();
         } catch (NoResultException ex) {
             logger.log(Level.INFO, "[loadAllBodegaByLike][NoResultException]No se encontraron usuarios");
-            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron bodega");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron persona");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.log(Level.INFO, "[loadAllBodegaByLike][Exception]Se mostro una excepcion al buscar bodega");
+            logger.log(Level.INFO, "[loadAllBodegaByLike][Exception]Se mostro una excepcion al buscar persona");
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
         }
         return personaList;
@@ -275,7 +274,7 @@ public class PersonasBean implements PersonasBeanLocal {
     }
 
     /**
-     * Metodo permite buscar bodega por su numero de id bodega
+     * Metodo permite buscar persona por su numero de id persona
      *
      * @param idBodega
      * @return Bodegas encontrado, null en caso de no encontrar nada
@@ -283,7 +282,7 @@ public class PersonasBean implements PersonasBeanLocal {
      */
     @Override
     public Bodegas loadBodegaByID(Integer idBodega) throws DiservBusinessException {
-        logger.log(Level.INFO, "[loadBodegaByID] Idbodega:" + idBodega);
+        logger.log(Level.INFO, "[loadBodegaByID] Idpersona:" + idBodega);
         Bodegas bodega = null;
         Query query;
         try {
@@ -295,7 +294,7 @@ public class PersonasBean implements PersonasBeanLocal {
 //            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron bodega");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.log(Level.INFO, "[loadBodegaByID][Exception]Se mostro una excepcion al buscar bodega");
+            logger.log(Level.INFO, "[loadBodegaByID][Exception]Se mostro una excepcion al buscar ");
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
         }
         return bodega;

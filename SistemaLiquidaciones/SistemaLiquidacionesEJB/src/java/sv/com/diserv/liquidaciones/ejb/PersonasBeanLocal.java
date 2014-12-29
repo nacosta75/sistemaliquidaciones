@@ -7,7 +7,6 @@ package sv.com.diserv.liquidaciones.ejb;
 
 import java.util.List;
 import javax.ejb.Local;
-import sv.com.diserv.liquidaciones.dto.BusquedaBodegaDTO;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
 import sv.com.diserv.liquidaciones.entity.Bodegas;

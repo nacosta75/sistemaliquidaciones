@@ -30,7 +30,12 @@ public class Constants {
     public static int REGISTROS_A_MOSTRAR_LISTA_CON_CHECKBOX=15;
     public static String JNDI_BODEGA_BEAN= "java:comp/env/ejb/BodegasBean";
     public static String JNDI_PERSONA_BEAN= "java:comp/env/ejb/PersonasBean";
+    public static String JNDI_CATALOGO_BEAN= "java:comp/env/ejb/CatalogosBean";
     public static int PAGINA_INICIO_DEFAULT;
     public static String JNDI_SUCURSAL_BEAN= "java:comp/env/ejb/SucursalesBean";
-    public static String JNDI_LINEAS_BEAN= "java:comp/env/ejb/LineaArticuloBean";;
+    public static String JNDI_LINEAS_BEAN= "java:comp/env/ejb/LineaArticuloBean";
+    public static String[] estadosCiviles = new String[] {"SOLTER@","DIVORCIAD@","VIUD@"};
+    public static int[] idsEstadosCiviles = new int[] {1,2,3};
+    
+    
 }
