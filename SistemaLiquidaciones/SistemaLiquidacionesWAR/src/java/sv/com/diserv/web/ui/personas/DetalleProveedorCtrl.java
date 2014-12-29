@@ -198,19 +198,19 @@ public class DetalleProveedorCtrl extends BaseController {
              if (StringUtils.isEmpty(txtRegistro.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Numero de Registro");
             }
-            
-            if (StringUtils.isEmpty(txtTelefono1.getValue())) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   Numero Telefono para cliente");
-            }
-            
-            if (txtLimiteCredito.getValue() == 0) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Limite de Credito");
-            }
-            
-            if (txtfechaUltSaldo.getValue() == null) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Fecha Ultimo Saldo");
-            }
-            else {
+//            
+//            if (StringUtils.isEmpty(txtTelefono1.getValue())) {
+//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   Numero Telefono para cliente");
+//            }
+//            
+//            if (txtLimiteCredito.getValue() == 0) {
+//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Limite de Credito");
+//            }
+//            
+//            if (txtfechaUltSaldo.getValue() == null) {
+//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Fecha Ultimo Saldo");
+//            }
+             if (!StringUtils.isEmpty(txtCorreo.getValue()))  {
                 
                 Pattern pat = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
                 Matcher mat = pat.matcher(txtCorreo.getValue());
@@ -220,13 +220,13 @@ public class DetalleProveedorCtrl extends BaseController {
      
             }
             
-            if (txtUltSaldo.getValue() == 0) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Ultimo Saldo");
-            }
-            
-            if (StringUtils.isEmpty(txtCorreo.getValue())) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Correo Electronico");
-            }
+//            if (txtUltSaldo.getValue() == 0) {
+//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Ultimo Saldo");
+//            }
+//            
+//            if (StringUtils.isEmpty(txtCorreo.getValue())) {
+//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Correo Electronico");
+//            }
 
             if (checkCreditoActivo.isChecked()) {
                clienteSelected.setCreditoActivo("S");
@@ -241,17 +241,38 @@ public class DetalleProveedorCtrl extends BaseController {
             clienteSelected.setColonia(txtColonia.getValue());
             clienteSelected.setNit(txtNIT.getValue());
             clienteSelected.setNoRegistroFiscal(txtRegistro.getValue());
-            clienteSelected.setTelefono1(txtTelefono1.getValue());
-            clienteSelected.setExt1(Integer.parseInt(txtExt1.getValue()));
-            clienteSelected.setTelefono2(txtTelefono2.getValue());
-            clienteSelected.setExt2(Integer.parseInt(txtExt2.getValue()));
-            clienteSelected.setTelefono3(txtTelefono3.getValue());
-            clienteSelected.setExt3(Integer.parseInt(txtExt3.getValue()));
-            clienteSelected.setFax(txtFax.getValue());
-            clienteSelected.setLimiteCredito(new BigDecimal(txtLimiteCredito.getValue()));
-            clienteSelected.setCorreo(txtCorreo.getValue());
-            clienteSelected.setUltSaldo(new BigDecimal(txtUltSaldo.getValue()));
-            clienteSelected.setFechaUltSaldo(txtfechaUltSaldo.getValue());
+            
+            //Debido a que estos campos no son obligatorios de evalua
+            // que no esten vacios para setearlos en la entidad
+            if(!StringUtils.isEmpty(txtTelefono1.getValue()))
+                clienteSelected.setTelefono1(txtTelefono1.getValue());
+            if(!StringUtils.isEmpty(txtExt1.getValue()))
+                clienteSelected.setExt1(Integer.parseInt(txtExt1.getValue()));
+            
+            if(!StringUtils.isEmpty(txtTelefono2.getValue()))
+                clienteSelected.setTelefono2(txtTelefono2.getValue());
+            if(!StringUtils.isEmpty(txtExt2.getValue()))
+                clienteSelected.setExt2(Integer.parseInt(txtExt2.getValue()));
+            
+            if(!StringUtils.isEmpty(txtTelefono3.getValue()))
+                clienteSelected.setTelefono3(txtTelefono3.getValue());
+            if(!StringUtils.isEmpty(txtExt3.getValue()))
+                clienteSelected.setExt3(Integer.parseInt(txtExt3.getValue()));
+            
+            if(!StringUtils.isEmpty(txtFax.getValue()))
+                clienteSelected.setFax(txtFax.getValue());
+            
+            if(txtLimiteCredito.getValue() > 0)
+                clienteSelected.setLimiteCredito(new BigDecimal(txtLimiteCredito.getValue()));
+            
+            if(!StringUtils.isEmpty(txtCorreo.getValue()))
+                clienteSelected.setCorreo(txtCorreo.getValue());
+            
+            if(txtUltSaldo.getValue() > 0)
+                clienteSelected.setUltSaldo(new BigDecimal(txtUltSaldo.getValue()));
+            
+            if(txtfechaUltSaldo.getValue() != null)
+                clienteSelected.setFechaUltSaldo(txtfechaUltSaldo.getValue());
 //            clienteSelected.setEstadoCivil(cmbEstadoCivil.toString());
             
             clienteSelected.setIdtipopersona(new TiposPersona(3));

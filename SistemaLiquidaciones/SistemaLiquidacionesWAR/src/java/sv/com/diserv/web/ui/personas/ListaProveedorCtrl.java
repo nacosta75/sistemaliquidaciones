@@ -120,7 +120,7 @@ public class ListaProveedorCtrl extends BaseController {
         if (item != null) {
             Personas persona = (Personas) item.getAttribute("data");
             HashMap map = new HashMap();
-            map.put("personaSelected", persona);
+            map.put("clienteSelected", persona);
             map.put("token", UtilFormat.getToken());
             map.put("listaProveedorCtrl", this);
             Executions.createComponents("/WEB-INF/xhtml/persona/detalleProveedor.zul", null, map);
