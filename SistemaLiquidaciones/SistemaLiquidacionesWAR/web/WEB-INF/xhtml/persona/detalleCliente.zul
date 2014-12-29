@@ -253,9 +253,13 @@
                                                                 <label value="Estado Civil" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                           <combobox id="cmbEstadoCivil">
-                                                              <comboitem label="1"/>
-                                                            </combobox> 
+                                                           <combobox id="cmbEstadoCivil" 
+                                                                     autodrop="true"
+                                                                          mold="rounded"
+                                                                          autocomplete="true"
+                                                                          hflex="1"/>
+                                                             
+                                                            
                                                         </row>
                                                      </rows>
                                                 </grid>
