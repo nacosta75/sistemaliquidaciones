@@ -16,6 +16,8 @@ import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.ejb.MarcaArticuloBeanLocal;
 import sv.com.diserv.liquidaciones.entity.MarcaArticulo;
+import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
+import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
 
 /**
@@ -38,9 +40,24 @@ public class ListaMarcaArticuloCtrl extends BaseController {
     private Integer totalMarcas;
     private Integer numeroPaginInicio = 1;
     private ServiceLocator serviceLocator;
-    private MarcaArticuloBeanLocal lineaBean;
+    private MarcaArticuloBeanLocal marcaBean;
     private List<MarcaArticulo> listaMarcas;
     private MarcaArticulo lineaSelected;
+    
+    
+      public ListaMarcaArticuloCtrl()
+    {
+      logger.log(Level.INFO, "[ListaMarcaArticuloCtrl]INIT");
+        try {
+            serviceLocator = ServiceLocator.getInstance();           
+            marcaBean = serviceLocator.getService(Constants.JNDI_MARCAS_BEAN);
+            numeroPaginInicio = 0;
+        } catch (ServiceLocatorException ex) {
+            logger.log(Level.SEVERE, ex.getLocalizedMessage());
+            ex.printStackTrace();
+        }
+    
+    }
 
     public Listbox getListBoxMarca() {
         return listBoxMarca;
