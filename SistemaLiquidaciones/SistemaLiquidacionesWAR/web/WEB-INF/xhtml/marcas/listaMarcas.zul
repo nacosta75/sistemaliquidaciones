@@ -17,7 +17,7 @@
                 <button id="btnNuevaMarca"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnnew.gif"
-                        tooltiptext="Agregar nueva lmarca"  />
+                        tooltiptext="Agregar nueva marca"  />
                 <button id="btnBusquedaLinea"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsearch.gif"
@@ -42,7 +42,7 @@
                      pagingPosition="top"
                      multiple="false">
                 <listhead sizable="true">
-                    <listheader id="listheaderIdLinea"
+                    <listheader id="listheaderIdMarca"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="10%"

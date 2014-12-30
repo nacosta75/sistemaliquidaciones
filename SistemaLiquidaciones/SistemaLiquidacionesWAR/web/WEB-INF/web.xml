@@ -282,10 +282,19 @@
         <local>sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal</local>
         <mapped-name>ejb/PersonasBean</mapped-name>
     </ejb-local-ref>
+    
     <ejb-local-ref>
         <ejb-ref-name>ejb/CatalogosBean</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
         <local>sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal</local>
         <mapped-name>ejb/CatalogosBean</mapped-name>
     </ejb-local-ref>
+    
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/MarcaArticuloBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sv.com.diserv.liquidaciones.ejb.MarcaArticuloBeanLocal</local>
+        <mapped-name>ejb/MarcaArticuloBean</mapped-name>
+    </ejb-local-ref>
+    
 </web-app>
