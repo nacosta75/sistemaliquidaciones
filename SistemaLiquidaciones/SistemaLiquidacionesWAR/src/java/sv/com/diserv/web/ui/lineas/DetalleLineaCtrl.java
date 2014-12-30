@@ -223,8 +223,8 @@ public class DetalleLineaCtrl extends BaseController {
     
       public void onClick$btnEditar(Event event) {
         doReadOnly(Boolean.FALSE);
-        //this.btnActualizar.setVisible(true);
-        this.btnGuardar.setVisible(true);
+        this.btnActualizar.setVisible(true);
+       // this.btnGuardar.setVisible(true);
         this.btnEditar.setVisible(false);
     }
       

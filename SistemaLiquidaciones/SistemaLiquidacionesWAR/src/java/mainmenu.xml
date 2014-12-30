@@ -51,12 +51,12 @@
                   rightName=""/> 
          
         <menuItem id="menu_Item_MantenimientoSucursales"
-                  label="Control de Sucursales"
+                  label="Sucursales"
                   iconName="/images/flag_blue.png"
                   zulNavigation="/WEB-INF/xhtml/sucursal/listaSucursales.zul"
                   rightName=""/>     
         <menuItem id="menu_Item_MantenimientoBodega"
-                  label="Control de Bodegas"
+                  label="Bodegas"
                   iconName="/images/icon_package_get.gif"
                   zulNavigation="/WEB-INF/xhtml/bodega/listaBodega.zul"
                   rightName=""/>      
@@ -68,7 +68,7 @@
             <menuItem id="menu_Item_MantenimientoMarcas"
                   label="Marcas"
                   iconName="/images/medal_silver_3.png"
-                  zulNavigation="/WEB-INF/xhtml/lineas/listaMarcas.zul"
+                  zulNavigation="/WEB-INF/xhtml/marcas/listaMarcas.zul"
                   rightName=""/> 
          <menuItem id="menu_Item_MantenimientoProductos"
                   label="Productos"
