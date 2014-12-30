@@ -14,7 +14,7 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 
 /**
  *
- * @author trompudo
+ * @author abraham.acosta
  */
 @Local
 public interface LineaArticuloBeanLocal {

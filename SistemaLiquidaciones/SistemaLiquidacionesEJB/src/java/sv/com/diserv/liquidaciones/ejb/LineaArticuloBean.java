@@ -23,7 +23,7 @@ import sv.com.diserv.liquidaciones.util.Constants;
 
 /**
  *
- * @author trompudo
+ * @author abraham.acosta
  */
 @Stateless
 public class LineaArticuloBean implements LineaArticuloBeanLocal{
