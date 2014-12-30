@@ -103,8 +103,8 @@ public class LineaArticuloBean implements LineaArticuloBeanLocal{
             query.setMaxResults(Constants.REGISTROS_A_MOSTRAR_LISTA);
             lineaList = query.getResultList();
         } catch (NoResultException ex) {
-            logger.log(Level.INFO, "[loadAllLineaByLike][NoResultException]No se encontraron usuarios");
-            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron linea");
+            logger.log(Level.INFO, "[loadAllLineaByLike][NoResultException]No se encontraron lineas");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron lineas");
         } catch (Exception e) {
             e.printStackTrace();
             logger.log(Level.INFO, "[loadAllLineaByLike][Exception]Se mostro una excepcion al buscar linea");

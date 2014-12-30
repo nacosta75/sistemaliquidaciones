@@ -21,10 +21,10 @@ public interface MarcaArticuloBeanLocal {
     
     public List<MarcaArticulo> loadAllMarcas(int inicio, int fin) throws DiservBusinessException;
     public Integer countAllMarcaArticulo() throws DiservBusinessException;
-    public OperacionesMarcaArticuloDTO guardarLinea(MarcaArticulo linea) throws DiservBusinessException;
+    public OperacionesMarcaArticuloDTO guardarMarca(MarcaArticulo linea) throws DiservBusinessException;
     public List<MarcaArticulo> loadAllMarcaArticuloByLike(String nombreLike) throws DiservBusinessException;
-    public OperacionesMarcaArticuloDTO actualizarLinea(MarcaArticulo linea) throws DiservBusinessException;
-    public List<MarcaArticulo> buscarLineaByCriteria(BusquedaMarcaArticuloDTO request) throws DiservBusinessException;
-    public List<MarcaArticulo> loadLineaByDescripcionLike(String likeNombre) throws DiservBusinessException;
-    public MarcaArticulo loadLineaByID(Integer idLinea) throws DiservBusinessException;
+    public OperacionesMarcaArticuloDTO actualizarMarca(MarcaArticulo linea) throws DiservBusinessException;
+    public List<MarcaArticulo> buscarMarcaByCriteria(BusquedaMarcaArticuloDTO request) throws DiservBusinessException;
+    public List<MarcaArticulo> loadMarcaByDescripcionLike(String likeNombre) throws DiservBusinessException;
+    public MarcaArticulo loadMarcaByID(Integer idMarca) throws DiservBusinessException;
 }
