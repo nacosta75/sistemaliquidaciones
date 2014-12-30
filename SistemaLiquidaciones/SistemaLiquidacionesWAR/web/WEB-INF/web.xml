@@ -268,6 +268,14 @@
         <local>sv.com.diserv.liquidaciones.ejb.LineaArticuloBeanLocal</local>
         <mapped-name>ejb/LineaArticuloBean</mapped-name>
     </ejb-local-ref>
+
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/EmpresasBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sv.com.diserv.liquidaciones.ejb.EmpresasBeanLocal</local>
+        <mapped-name>ejb/EmpresasBean</mapped-name>
+    </ejb-local-ref>
+
      <ejb-local-ref>
         <ejb-ref-name>ejb/PersonasBean</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
