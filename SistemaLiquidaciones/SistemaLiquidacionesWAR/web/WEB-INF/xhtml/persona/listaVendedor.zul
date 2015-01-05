@@ -17,11 +17,11 @@
                 <button id="btnNuevoVendedor"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnnew.gif"
-                        tooltiptext="Agregar nuevo cliente"  />
+                        tooltiptext="Agregar nuevo vendedor"  />
                 <button id="btnBusquedaVendedor"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsearch.gif"
-                        tooltiptext="Buscar cliente por criterios"/>
+                        tooltiptext="Buscar vendedor por criterios"/>
                 <button id="btnRefresh"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnrefresh.gif"
@@ -52,11 +52,17 @@
                                 sort="auto"
                                 width="50%"
                                 label="Nombre Vendedor" />
-                    <listheader id="listheaderTelefonoVendedor"
+                    <listheader id="listheaderTelefono"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
-                                width="50%"
+                                width="40%"
+                                label="Telefono Vendedor" visible="false"/>
+                    <listheader id="listheaderPrueba"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="40%"
                                 label="Telefono Vendedor" />
+                    
                 </listhead>
             </listbox>
         </groupbox>

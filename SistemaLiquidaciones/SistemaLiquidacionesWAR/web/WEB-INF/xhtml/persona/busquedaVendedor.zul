@@ -4,13 +4,13 @@
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-    <window id="busquedaClienteWindow"
-            title="Busqueda Clientes"
+    <window id="busquedaVendedorWindow"
+            title="Busqueda Vendedores"
             border="normal"
-            use="sv.com.diserv.web.ui.personas.BuscarClienteCtrl"
+            use="sv.com.diserv.web.ui.personas.BuscarVendedorCtrl"
             closable="true"
             width="550px" 
-            height="330px"
+            height="230px"
             sizable="true" 
             sclass="pageWindowTitle"
             mode="modal">
@@ -22,7 +22,7 @@
                 <button id="btnBuscar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsearch.gif"
-                        tooltiptext="Buscar cliente con criterios seleccionados"  />
+                        tooltiptext="Buscar vendedor con criterios seleccionados"  />
                 <button id="btnCerrar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/close.jpg"
@@ -46,12 +46,12 @@
                                   width="100%" 
                                   style="padding: 3px;">
                                 <div>
-                                    <panel id="panelBuquedaCliente" border="none">
+                                    <panel id="panelBuquedaVendedor" border="none">
                                         <panelchildren>
                                             <groupbox  mold="3d"
                                                        closable="false">
                                                 <caption image="/images/person.gif"
-                                                         label="Criterios de busqueda Cliente" />
+                                                         label="Criterios de busqueda Vendedor" />
                                                 <grid sclass="GridPlain">
                                                     <columns>
                                                         <column align="left" width="160px" />
@@ -60,23 +60,23 @@
                                                     <rows>
                                                         <row>
                                                             <hbox>
-                                                                <label value="Id Cliente" />
+                                                                <label value="Id Vendedor" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
                                                             <intbox
-                                                                id="txtIdCliente"
+                                                                id="txtIdVendedor"
                                                                 hflex="1"
                                                                 maxlength="10"
-                                                                tooltiptext="Identificador unico de cliente"
+                                                                tooltiptext="Identificador unico de vendedor"
                                                             />
                                                         </row>
                                                         <row>
                                                             <hbox>
                                                                 <label
-                                                                    value="Nombre Cliente : " />
+                                                                    value="Nombre Vendedor : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <textbox  id="txtNombreCliente" 
+                                                            <textbox  id="txtNombreVendedor" 
                                                                       hflex="1" />
                                                         </row>                                                              
                                                         
@@ -87,15 +87,6 @@
                                                             </hbox>
                                                             <textbox  
                                                                 id="txtNumeroNit" 
-                                                                hflex="1" />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Numero Registro Fiscal:" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <textbox  
-                                                                id="txtRegistroFiscal"
                                                                 hflex="1" />
                                                         </row>
                                                     </rows>

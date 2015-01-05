@@ -11,7 +11,7 @@
             use="sv.com.diserv.web.ui.personas.DetalleVendedorCtrl"
             closable="true"
             width="650px" 
-            height="580px"
+            height="370px"
             sizable="true" 
             sclass="pageWindowTitle"
             mode="modal" >
@@ -147,70 +147,6 @@
                                                                 id="txtExt1" 
                                                                  />
                                                         </row>
-                                                        
-                                                        <row>
-                                                            <hbox>
-                                                                <label
-                                                                    value="Telefono 2: " />
-                                                                <label value="*" style="color:red; font-size:10px" />
-                                                            </hbox>
-                                                            <textbox id="txtTelefono2"
-                                                                      />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Extension 2:" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <textbox  
-                                                                id="txtExt2" 
-                                                                 />
-                                                        </row>
-                                                        
-                                                        <row>
-                                                            <hbox>
-                                                                <label
-                                                                    value="Telefono 3: " />
-                                                                <label value="*" style="color:red; font-size:10px" />
-                                                            </hbox>
-                                                            <textbox id="txtTelefono3"
-                                                                     />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Extension 3:" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <textbox  
-                                                                id="txtExt3" 
-                                                                 />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label
-                                                                    value="Fax : " />
-                                                                <label value="*" style="color:red; font-size:10px" />
-                                                            </hbox>
-                                                            <textbox id="txtFax"
-                                                                      />
-                                                        </row>
-                                                        <row>  
-                                                            <hbox>
-                                                                <label value="Credito activo:" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-   
-                                                            <checkbox id="checkCreditoActivo" onCheck=""  hflex="1" />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Limite de Credito:" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <doublebox  
-                                                                id="txtLimiteCredito" 
-                                                                hflex="1" />
-                                                        </row>
                                                         <row>
                                                             <hbox>
                                                                 <label value="Correo Electronico:" />
@@ -221,33 +157,15 @@
                                                                 hflex="1" />
                                                         </row>
                                                         <row>
-                                                            <hbox>
-                                                                <label value="Ultimo Saldo:" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <doublebox  
-                                                                id="txtUltSaldo" 
-                                                                hflex="1" />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Fecha Ultimo Saldo:" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <datebox  
-                                                                id="txtfechaUltSaldo" 
-                                                                format="dd/MM/yyyy" 
-                                                                onCreate="self.value = new Date()"
-                                                                hflex="1" />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
+                                                              <hbox>
                                                                 <label value="Estado Civil" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                           <combobox id="cmbEstadoCivil">
-                                                              <comboitem label="1"/>
-                                                            </combobox> 
+                                                           <combobox id="cmbEstadoCivil" 
+                                                                     autodrop="true"
+                                                                          mold="rounded"
+                                                                          autocomplete="true"
+                                                                          hflex="1"/>
                                                         </row>
                                                      </rows>
                                                 </grid>

@@ -249,15 +249,6 @@
                                                                 onCreate="self.value = new Date()"
                                                                 hflex="1" />
                                                         </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Estado Civil" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                           <combobox id="cmbEstadoCivil">
-                                                              <comboitem label="1"/>
-                                                            </combobox> 
-                                                        </row>
                                                      </rows>
                                                 </grid>
                                             </groupbox>
