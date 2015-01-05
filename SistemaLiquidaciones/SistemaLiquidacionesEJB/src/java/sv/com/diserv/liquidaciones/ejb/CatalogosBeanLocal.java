@@ -27,5 +27,5 @@ public interface CatalogosBeanLocal {
      */
      public List<CatalogoDTO> loadAllElementosCatalogo(int[] ids, String[] opciones) throws DiservBusinessException;
 
-   
+     public CatalogoDTO findCatalogoBySelected(List<CatalogoDTO> lista, int idSelected) throws DiservBusinessException ;
 }

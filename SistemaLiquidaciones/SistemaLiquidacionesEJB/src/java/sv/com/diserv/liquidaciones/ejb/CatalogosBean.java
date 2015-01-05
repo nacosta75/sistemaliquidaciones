@@ -8,6 +8,7 @@ package sv.com.diserv.liquidaciones.ejb;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import org.apache.log4j.Category;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
@@ -46,6 +47,24 @@ public class CatalogosBean implements CatalogosBeanLocal {
             }
         
         return catalogoList;
+    }
+    
+     public CatalogoDTO findCatalogoBySelected(List<CatalogoDTO> lista, int idSelected) throws DiservBusinessException {
+        logger.log(Level.INFO, "[findCatalogoBySelected] ");
+        CatalogoDTO catalogo = new CatalogoDTO();
+         for (CatalogoDTO elemento: lista)
+            {
+                if(elemento.getIdCatalogo() == idSelected)
+                    {
+                        catalogo=elemento;
+                    }
+            }
+        
+           if (catalogo != null) {
+                logger.log(Level.INFO, "[findCatalogoBySelected] Se encontro el elemento " + idSelected);
+            }
+        
+        return catalogo;
     }
 
     
