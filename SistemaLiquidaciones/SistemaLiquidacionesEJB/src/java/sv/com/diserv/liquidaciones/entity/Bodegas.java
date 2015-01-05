@@ -51,7 +51,7 @@ public class Bodegas implements Serializable {
     @NotNull
     @Column(name = "IDBODEGA")
     @SequenceGenerator(name = "SEQ_BODEGAS", sequenceName = "SEQ_BODEGAS")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BODEGAS")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_BODEGAS" )
     private Integer idbodega;
     
     @Size(max = 60)
@@ -77,6 +77,18 @@ public class Bodegas implements Serializable {
     @JoinColumn(name = "IDSUCURSAL", referencedColumnName = "IDSUCURSAL")
     @ManyToOne(optional = false)
     private Sucursales idsucursal;
+    
+    @Column(name = "APLICA_VEND")
+    private String aplicaVend;
+
+    public String getAplicaVend() {
+        return aplicaVend;
+    }
+
+    public void setAplicaVend(String aplicaVend) {
+        this.aplicaVend = aplicaVend;
+    }
+
 
     public Bodegas() {
     }
