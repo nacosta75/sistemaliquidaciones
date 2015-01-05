@@ -3,7 +3,6 @@ package sv.com.diserv.web.ui.personas;
 import java.math.BigDecimal;
 import sv.com.diserv.web.ui.personas.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,12 +15,9 @@ import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Intbox;
-import org.zkoss.zul.ListModel;
-import org.zkoss.zul.SimpleListModel;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.Combobox;
-import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.ListModelList;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
@@ -51,13 +47,13 @@ public class DetalleClienteCtrl extends BaseController {
     protected Textbox txtColonia;
     protected Textbox txtNIT;
     protected Textbox txtRegistro;
-    protected Textbox txtTelefono1;
-    protected Textbox txtExt1;
-    protected Textbox txtTelefono2;
-    protected Textbox txtExt2;
-    protected Textbox txtTelefono3;
-    protected Textbox txtExt3;
-    protected Textbox txtFax;
+    protected Intbox txtTelefono1;
+    protected Intbox txtExt1;
+    protected Intbox txtTelefono2;
+    protected Intbox txtExt2;
+    protected Intbox txtTelefono3;
+    protected Intbox txtExt3;
+    protected Intbox txtFax;
     protected Checkbox checkCreditoActivo;
     protected Doublebox txtLimiteCredito;
     protected Textbox txtCorreo;
@@ -164,13 +160,24 @@ public class DetalleClienteCtrl extends BaseController {
         txtColonia.setValue(clienteSelected.getColonia());
         txtNIT.setValue(clienteSelected.getNit());
         txtRegistro.setValue(clienteSelected.getNoRegistroFiscal());
-        txtTelefono1.setValue(clienteSelected.getTelefono1());
-        txtExt1.setValue(clienteSelected.getExt1()+"");
-        txtTelefono2.setValue(clienteSelected.getTelefono2());
-        txtExt2.setValue(clienteSelected.getExt2()+"");
-        txtTelefono3.setValue(clienteSelected.getTelefono3());
-        txtExt3.setValue(clienteSelected.getExt3()+"");
-        txtFax.setValue(clienteSelected.getFax());
+        
+        if(clienteSelected.getTelefono1()!= null)
+            txtTelefono1.setValue(Integer.parseInt(clienteSelected.getTelefono1()));
+        
+        txtExt1.setValue(clienteSelected.getExt1());
+        
+        if(clienteSelected.getTelefono2()!= null)
+            txtTelefono2.setValue(Integer.parseInt(clienteSelected.getTelefono2()));
+        
+        txtExt2.setValue(clienteSelected.getExt2());
+        
+        if(clienteSelected.getTelefono3()!= null)
+            txtTelefono3.setValue(Integer.parseInt(clienteSelected.getTelefono3()));
+        
+        txtExt3.setValue(clienteSelected.getExt3());
+        
+        if(clienteSelected.getFax()!= null)
+            txtFax.setValue(Integer.parseInt(clienteSelected.getFax()));
         
         if (clienteSelected.getCreditoActivo().equals("S"))
         {
@@ -273,23 +280,23 @@ public class DetalleClienteCtrl extends BaseController {
             if(!StringUtils.isEmpty(txtRegistro.getValue()))
                 clienteSelected.setNoRegistroFiscal(txtRegistro.getValue());
             
-            if(!StringUtils.isEmpty(txtTelefono1.getValue()))
-                clienteSelected.setTelefono1(txtTelefono1.getValue());
-            if(!StringUtils.isEmpty(txtExt1.getValue()))
-                clienteSelected.setExt1(Integer.parseInt(txtExt1.getValue()));
+            if(txtTelefono1.getValue() > 0)
+                clienteSelected.setTelefono1(txtTelefono1.getValue()+"");
+            if(txtExt1.getValue()> 0)
+                clienteSelected.setExt1(Integer.parseInt(txtExt1.getValue()+""));
             
-            if(!StringUtils.isEmpty(txtTelefono2.getValue()))
-                clienteSelected.setTelefono2(txtTelefono2.getValue());
-            if(!StringUtils.isEmpty(txtExt2.getValue()))
-                clienteSelected.setExt2(Integer.parseInt(txtExt2.getValue()));
+            if(txtTelefono2.getValue()> 0)
+                clienteSelected.setTelefono2(txtTelefono2.getValue()+"");
+            if(txtExt2.getValue()> 0)
+                clienteSelected.setExt2(txtExt2.getValue());
             
-            if(!StringUtils.isEmpty(txtTelefono3.getValue()))
-                clienteSelected.setTelefono3(txtTelefono3.getValue());
-            if(!StringUtils.isEmpty(txtExt3.getValue()))
-                clienteSelected.setExt3(Integer.parseInt(txtExt3.getValue()));
+            if(txtTelefono3.getValue()> 0)
+                clienteSelected.setTelefono3(txtTelefono3.getValue()+"");
+            if(txtExt3.getValue()> 0)
+                clienteSelected.setExt3(txtExt3.getValue());
             
-            if(!StringUtils.isEmpty(txtFax.getValue()))
-                clienteSelected.setFax(txtFax.getValue());
+            if(txtFax.getValue()> 0)
+                clienteSelected.setFax(txtFax.getValue()+"");
             
             if(txtLimiteCredito.getValue() > 0)
                 clienteSelected.setLimiteCredito(new BigDecimal(txtLimiteCredito.getValue()));
