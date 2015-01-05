@@ -4,10 +4,10 @@
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-    <window id="busquedaClienteWindow"
-            title="Busqueda Clientes"
+    <window id="busquedaProveedorWindow"
+            title="Busqueda Proveedores"
             border="normal"
-            use="sv.com.diserv.web.ui.personas.BuscarClienteCtrl"
+            use="sv.com.diserv.web.ui.personas.BuscarProveedorCtrl"
             closable="true"
             width="550px" 
             height="330px"
@@ -22,7 +22,7 @@
                 <button id="btnBuscar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsearch.gif"
-                        tooltiptext="Buscar cliente con criterios seleccionados"  />
+                        tooltiptext="Buscar Proveedor con criterios seleccionados"  />
                 <button id="btnCerrar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/close.jpg"
@@ -46,12 +46,12 @@
                                   width="100%" 
                                   style="padding: 3px;">
                                 <div>
-                                    <panel id="panelBuquedaCliente" border="none">
+                                    <panel id="panelBuquedaProveedor" border="none">
                                         <panelchildren>
                                             <groupbox  mold="3d"
                                                        closable="false">
                                                 <caption image="/images/person.gif"
-                                                         label="Criterios de busqueda Cliente" />
+                                                         label="Criterios de busqueda Proveedor" />
                                                 <grid sclass="GridPlain">
                                                     <columns>
                                                         <column align="left" width="160px" />
@@ -60,11 +60,11 @@
                                                     <rows>
                                                         <row>
                                                             <hbox>
-                                                                <label value="Id Cliente" />
+                                                                <label value="Id Proveedor" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
                                                             <intbox
-                                                                id="txtIdCliente"
+                                                                id="txtIdProveedor"
                                                                 hflex="1"
                                                                 maxlength="10"
                                                                 tooltiptext="Identificador unico de cliente"
@@ -73,10 +73,10 @@
                                                         <row>
                                                             <hbox>
                                                                 <label
-                                                                    value="Nombre Cliente : " />
+                                                                    value="Nombre Proveedor : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <textbox  id="txtNombreCliente" 
+                                                            <textbox  id="txtNombreProveedor" 
                                                                       hflex="1" />
                                                         </row>                                                              
                                                         
