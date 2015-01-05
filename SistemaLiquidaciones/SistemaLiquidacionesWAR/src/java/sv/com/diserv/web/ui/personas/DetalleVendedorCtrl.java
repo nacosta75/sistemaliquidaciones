@@ -9,17 +9,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import jxl.biff.drawing.ComboBox;
 import org.apache.commons.lang.StringUtils;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Checkbox;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Intbox;
+import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
+import sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.entity.Personas;
@@ -30,6 +33,7 @@ import sv.com.diserv.liquidaciones.exception.DiservWebException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
+import sv.com.diserv.web.ui.personas.rendered.CatalogoItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
@@ -55,7 +59,7 @@ public class DetalleVendedorCtrl extends BaseController {
     protected Textbox txtCorreo;
     protected Doublebox txtUltSaldo;
     protected Datebox txtfechaUltSaldo;
-    protected ComboBox cmbEstadoCivil;
+    protected Combobox cmbEstadoCivil;
 
     protected Button btnActualizar;
     protected Button btnNuevo;
@@ -67,6 +71,7 @@ public class DetalleVendedorCtrl extends BaseController {
     private ListaVendedorCtrl listaVendedoresCtrl;
     private transient Integer token;
     private PersonasBeanLocal personaBean;
+    private CatalogosBeanLocal catalogosBeanLocal;
     private ServiceLocator serviceLocator;
     private OperacionesPersonaDTO responseOperacion;
     private List<Personas> listaVendedoresLike;
@@ -89,6 +94,7 @@ public class DetalleVendedorCtrl extends BaseController {
         try {
             serviceLocator = ServiceLocator.getInstance();
             personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
+            catalogosBeanLocal = serviceLocator.getService(Constants.JNDI_CATALOGO_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
@@ -113,6 +119,7 @@ public class DetalleVendedorCtrl extends BaseController {
         }
         checkPermisos();
         showDetalleVendedores();
+        loadCombobox();
     }
 
     public void showDetalleVendedores() {
@@ -145,7 +152,6 @@ public class DetalleVendedorCtrl extends BaseController {
     private void loadDataFromEntity() {
 
 //    protected ComboBox cmbEstadoCivil;
-    
         txtIdVendedor.setValue(clienteSelected.getIdpersona());
         txtNombreVendedor.setText(clienteSelected.getNombre());
         txtCallePasaje.setValue(clienteSelected.getCalleOPasaje());
@@ -153,25 +159,28 @@ public class DetalleVendedorCtrl extends BaseController {
         txtNIT.setValue(clienteSelected.getNit());
         txtTelefono1.setValue(clienteSelected.getTelefono1());
         txtExt1.setValue(clienteSelected.getExt1()+"");
-        txtTelefono2.setValue(clienteSelected.getTelefono2());
-        txtExt2.setValue(clienteSelected.getExt2()+"");
-        txtTelefono3.setValue(clienteSelected.getTelefono3());
-        txtExt3.setValue(clienteSelected.getExt3()+"");
-        txtFax.setValue(clienteSelected.getFax());
-        
-        if (clienteSelected.getCreditoActivo().equals("S"))
-        {
-          checkCreditoActivo.setChecked(true);
-        } else { checkCreditoActivo.setChecked(false);}
-        
-        txtLimiteCredito.setValue(clienteSelected.getLimiteCredito().doubleValue());
         txtCorreo.setValue(clienteSelected.getCorreo());
-        txtUltSaldo.setValue(clienteSelected.getUltSaldo().doubleValue());
-        txtfechaUltSaldo.setValue(clienteSelected.getFechaUltSaldo());
-        
-           
+       
+        loadCombobox();
     }
 
+    
+    private void loadCombobox(){
+        List<CatalogoDTO> listaCatalogo = new ArrayList<CatalogoDTO>();
+            try {
+                listaCatalogo = catalogosBeanLocal.loadAllElementosCatalogo(Constants.idsEstadosCiviles,Constants.estadosCiviles);
+                ListModelList modelo = new ListModelList(listaCatalogo);
+                if(clienteSelected !=null && clienteSelected.getEstadoCivil() != null){
+                    modelo.addSelection(catalogosBeanLocal.findCatalogoBySelected(listaCatalogo,Integer.parseInt(clienteSelected.getEstadoCivil())));
+                }
+                cmbEstadoCivil.setModel(modelo);
+                cmbEstadoCivil.setItemRenderer(new CatalogoItemRenderer());
+                
+            } catch (DiservBusinessException ex) {
+                Logger.getLogger(DetalleClienteCtrl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
     private void loadDataFromTextboxs() {
         try {
             clienteSelected = new Personas();
@@ -222,13 +231,7 @@ public class DetalleVendedorCtrl extends BaseController {
 //                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Correo Electronico");
 //            }
 
-            if (checkCreditoActivo.isChecked()) {
-               clienteSelected.setCreditoActivo("S");
-            }
-            else
-            {
-               clienteSelected.setCreditoActivo("N");
-            }
+           
             clienteSelected.setIdpersona(txtIdVendedor.getValue());
             clienteSelected.setNombre(txtNombreVendedor.getValue());
             clienteSelected.setTelefono1(txtTelefono1.getValue());
@@ -244,33 +247,11 @@ public class DetalleVendedorCtrl extends BaseController {
             
             if(!StringUtils.isEmpty(txtExt1.getValue()))
                 clienteSelected.setExt1(Integer.parseInt(txtExt1.getValue()));
-            
-            if(!StringUtils.isEmpty(txtTelefono2.getValue()))
-                clienteSelected.setTelefono2(txtTelefono2.getValue());
-            if(!StringUtils.isEmpty(txtExt2.getValue()))
-                clienteSelected.setExt2(Integer.parseInt(txtExt2.getValue()));
-            
-            if(!StringUtils.isEmpty(txtTelefono3.getValue()))
-                clienteSelected.setTelefono3(txtTelefono3.getValue());
-            if(!StringUtils.isEmpty(txtExt3.getValue()))
-                clienteSelected.setExt3(Integer.parseInt(txtExt3.getValue()));
-            
-            if(!StringUtils.isEmpty(txtFax.getValue()))
-                clienteSelected.setFax(txtFax.getValue());
-            
-            if(txtLimiteCredito.getValue() > 0)
-                clienteSelected.setLimiteCredito(new BigDecimal(txtLimiteCredito.getValue()));
-            
             if(!StringUtils.isEmpty(txtCorreo.getValue()))
                 clienteSelected.setCorreo(txtCorreo.getValue());
             
-            if(txtUltSaldo.getValue() > 0)
-                clienteSelected.setUltSaldo(new BigDecimal(txtUltSaldo.getValue()));
             
-            if(txtfechaUltSaldo.getValue() != null)
-                clienteSelected.setFechaUltSaldo(txtfechaUltSaldo.getValue());     
-//            clienteSelected.setEstadoCivil(cmbEstadoCivil.toString());
-            
+            clienteSelected.setEstadoCivil(cmbEstadoCivil.getSelectedItem().getValue()+"");            
             clienteSelected.setIdtipopersona(new TiposPersona(2));
             clienteSelected.setIdempresa(new Empresas(1));
             clienteSelected.setIdsucursal(new Sucursales(1));

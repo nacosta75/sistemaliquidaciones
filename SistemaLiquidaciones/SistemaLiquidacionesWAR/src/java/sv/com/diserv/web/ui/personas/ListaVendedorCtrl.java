@@ -43,7 +43,8 @@ public class ListaVendedorCtrl extends BaseController {
     protected Listbox listBoxVendedor;
     protected Listheader listheaderIdVendedor;
     protected Listheader listheaderNombreVendedor;
-    protected Listheader listheaderTelefonoVendedor;
+    protected Listheader listheaderTelefono;
+    protected Listheader listheaderPrueba;
     
     //contadores pagina
     private Integer totalVendedores;
@@ -156,21 +157,6 @@ public class ListaVendedorCtrl extends BaseController {
     public void onClickedPersona(Event event) throws Exception {
         logger.log(Level.INFO, "[onClickedVendedor]Event:{0}", event.toString());
         Listitem item = this.listBoxVendedor.getSelectedItem();
-        if (item != null) {
-            clienteSelected = (Personas) item.getAttribute("data");
-           // System.out.println("tramites:" + personaSelected.getOrdentrabajoList().size());
-            if (clienteSelected != null) {
-              //  listaOrdenesBodega = ordentrabajoBean.loadOrdenesTrabajoByBodega(personaSelected.getIdBodega(), Constants.PAGINA_INICIO_CERO, Constants.REGISTROS_A_MOSTRAR_LISTA);
-//                if (listaOrdenesBodega.size() > 0) {
-//                    listBoxListaTramiteBodega.setModel(new ListModelList(listaOrdenesBodega));
-//                    listBoxListaTramiteBodega.setItemRenderer(new OrdentrabajoResumenItemRenderer());
-//                } else {
-//                    listBoxListaTramiteBodega.setModel(new ListModelList(listaOrdenesBodega));
-//                    listBoxListaTramiteBodega.setEmptyMessage("Bodega no Tiene Tramites Asociados en Sistema");
-//                    logger.info("No se cargaron registros");
-//                }
-            }
-        }
     }
 
     public void onDoubleClickedEvaluacionAuditoria(ForwardEvent event) {
@@ -189,9 +175,8 @@ public class ListaVendedorCtrl extends BaseController {
         listheaderIdVendedor.setSortDescending(new FieldComparator("idpersona", false));
         listheaderNombreVendedor.setSortAscending(new FieldComparator("nombre", true));
         listheaderNombreVendedor.setSortDescending(new FieldComparator("nombre", false));
-        listheaderTelefonoVendedor.setSortAscending(new FieldComparator("telefono1", true));
-        listheaderTelefonoVendedor.setSortDescending(new FieldComparator("telefono1", false));
-
+        listheaderPrueba.setSortAscending(new FieldComparator("telefono1", true));
+        listheaderPrueba.setSortDescending(new FieldComparator("telefono1", false));
     }
 
 
@@ -219,23 +204,15 @@ public class ListaVendedorCtrl extends BaseController {
         this.listaVendedores = listaVendedores;
     }
 
-    public Personas getVendedorSelected() {
+    public Personas getClienteSelected() {
         return clienteSelected;
     }
 
-    public void setVendedorSelected(Personas personaSelected) {
+    public void setClienteSelected(Personas personaSelected) {
         this.clienteSelected = personaSelected;
     }
 
-//    public List<Ordentrabajo> getListaOrdenesBodega() {
-//        return listaOrdenesBodega;
-//    }
-//
-//    public void setListaOrdenesBodega(List<Ordentrabajo> listaOrdenesBodega) {
-//        this.listaOrdenesBodega = listaOrdenesBodega;
-//    }
-
-    public Listbox getListVendedor() {
+    public Listbox getListBoxVendedor() {
         return listBoxVendedor;
     }
 
