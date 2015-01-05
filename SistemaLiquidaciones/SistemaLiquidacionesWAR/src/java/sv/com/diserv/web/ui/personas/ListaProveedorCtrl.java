@@ -227,7 +227,7 @@ public class ListaProveedorCtrl extends BaseController {
         this.proveedorSelected = proveedorSelected;
     }
 
-    public Listbox getListProveedor() {
+    public Listbox getListBoxProveedor() {
         return listBoxProveedor;
     }
 
