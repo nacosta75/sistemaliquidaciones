@@ -11,7 +11,7 @@
             use="sv.com.diserv.web.ui.personas.DetalleVendedorCtrl"
             closable="true"
             width="650px" 
-            height="370px"
+            height="500px"
             sizable="true" 
             sclass="pageWindowTitle"
             mode="modal" >
@@ -170,6 +170,32 @@
                                                      </rows>
                                                 </grid>
                                             </groupbox>
+                                        </panelchildren>   
+                                    </panel>
+                                </div>
+                                <div>
+                                    <panel>
+                                    <panelchildren>
+                                            <groupbox id="gb_address1"
+                                                      mold="3d" 
+                                                      closable="false">
+                                                <caption image="/images/icon_package_get.gif"
+                                                         label="Información Bodega - Vendedor" />
+                                                <grid sclass="GridPlain">
+                                                    <columns>
+                                                        <column align="left" width="150px" />
+                                                        <column width="100%" />
+                                                    </columns>
+                                                    <rows>
+                                                        <row>
+                                                            <hbox>
+                                                                <label value="Id Bodega" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                            </row>
+                                                    </rows>
+                                                </grid>   
+                                                 </groupbox>        
                                         </panelchildren>
                                     </panel>
                                 </div>
