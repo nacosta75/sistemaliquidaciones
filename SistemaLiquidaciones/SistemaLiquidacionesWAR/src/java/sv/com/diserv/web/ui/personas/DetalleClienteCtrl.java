@@ -123,6 +123,8 @@ public class DetalleClienteCtrl extends BaseController {
         }
         checkPermisos();
         showDetalleClientes();
+        loadCombobox();
+
     }
 
     public void showDetalleClientes() {
@@ -179,31 +181,26 @@ public class DetalleClienteCtrl extends BaseController {
         txtCorreo.setValue(clienteSelected.getCorreo());
         txtUltSaldo.setValue(clienteSelected.getUltSaldo().doubleValue());
         txtfechaUltSaldo.setValue(clienteSelected.getFechaUltSaldo());
-        
-         List<CatalogoDTO> listaCatalogo = new ArrayList<CatalogoDTO>();
+        loadCombobox();
+                    
+    }
+
+    private void loadCombobox(){
+        List<CatalogoDTO> listaCatalogo = new ArrayList<CatalogoDTO>();
             try {
                 listaCatalogo = catalogosBeanLocal.loadAllElementosCatalogo(Constants.idsEstadosCiviles,Constants.estadosCiviles);
                 ListModelList modelo = new ListModelList(listaCatalogo);
-//                modelo.addSelection("1");
-                
+                if(clienteSelected !=null && clienteSelected.getEstadoCivil() != null){
+                    modelo.addSelection(catalogosBeanLocal.findCatalogoBySelected(listaCatalogo,Integer.parseInt(clienteSelected.getEstadoCivil())));
+                }
                 cmbEstadoCivil.setModel(modelo);
-                 cmbEstadoCivil.setItemRenderer(new CatalogoItemRenderer());
-//                 if(!StringUtils.isEmpty(clienteSelected.getEstadoCivil())){
-//                     Comboitem item = new Comboitem("VIUD@"));
-//                     item.setValue(clienteSelected.getEstadoCivil());
-//                     item.setDescription("VIUD@");
-//                     cmbEstadoCivil.setSelectedIndex(0);
-//                 }
-                    
-                
+                cmbEstadoCivil.setItemRenderer(new CatalogoItemRenderer());
                 
             } catch (DiservBusinessException ex) {
                 Logger.getLogger(DetalleClienteCtrl.class.getName()).log(Level.SEVERE, null, ex);
             }
-        
-           
     }
-
+    
     private void loadDataFromTextboxs() {
         try {
             clienteSelected = new Personas();
