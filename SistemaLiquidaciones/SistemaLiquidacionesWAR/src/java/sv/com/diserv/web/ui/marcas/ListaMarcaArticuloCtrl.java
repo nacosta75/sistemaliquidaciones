@@ -5,15 +5,18 @@
  */
 package sv.com.diserv.web.ui.marcas;
 
+import java.util.HashMap;
 import java.util.List;
 import sv.com.diserv.web.ui.util.BaseController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.ejb.MarcaArticuloBeanLocal;
@@ -21,6 +24,7 @@ import sv.com.diserv.liquidaciones.entity.MarcaArticulo;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
+import sv.com.diserv.liquidaciones.util.UtilFormat;
 import sv.com.diserv.web.ui.marcas.rendered.MarcaItemRenderer;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
@@ -143,7 +147,19 @@ public class ListaMarcaArticuloCtrl extends BaseController {
     public void setListaMarcas(List<MarcaArticulo> listaMarcas) {
         this.listaMarcas = listaMarcas;
     }
-    
+   
+    public void onDoubleClickedMarca(Event event) throws Exception {
+        logger.log(Level.INFO, "[**onDoubleClickedMarca]Event:{0}", event.toString());
+        Listitem item = this.listBoxMarca.getSelectedItem();
+        if (item != null) {
+            MarcaArticulo linea = (MarcaArticulo) item.getAttribute("data");
+            HashMap map = new HashMap();
+            map.put("marcaSelected", linea);
+            map.put("token", UtilFormat.getToken());
+            map.put("ListaMarcaArticuloCtrl", this);
+            Executions.createComponents("/WEB-INF/xhtml/marcas/detalleMarca.zul", null, map);
+        }
+    }
     
     
 }

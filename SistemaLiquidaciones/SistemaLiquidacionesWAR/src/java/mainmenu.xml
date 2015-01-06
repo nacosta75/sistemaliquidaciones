@@ -70,10 +70,10 @@
                   iconName="/images/medal_silver_3.png"
                   zulNavigation="/WEB-INF/xhtml/marcas/listaMarcas.zul"
                   rightName=""/> 
-         <menuItem id="menu_Item_MantenimientoProductos"
-                  label="Productos"
+         <menuItem id="menu_Item_MantenimientoArticulos"
+                  label="Articulos"
                   iconName="/images/icon_component.gif"
-                  zulNavigation="/WEB-INF/xhtml/producto/listaProducto.zul"
+                  zulNavigation="/WEB-INF/xhtml/articulos/listaArticulos.zul"
                   rightName=""/>  
         <menuItem id="menu_Item_MantenimientoVendedores"
                   label="Vendedores"
