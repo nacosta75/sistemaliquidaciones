@@ -22,8 +22,10 @@ import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
+import sv.com.diserv.liquidaciones.ejb.BodegaVendedorBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
+import sv.com.diserv.liquidaciones.entity.Bodegas;
 import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.entity.Sucursales;
@@ -72,10 +74,11 @@ public class DetalleVendedorCtrl extends BaseController {
     private transient Integer token;
     private PersonasBeanLocal personaBean;
     private CatalogosBeanLocal catalogosBeanLocal;
+    private BodegaVendedorBeanLocal bodegaVendedorBean;
     private ServiceLocator serviceLocator;
     private OperacionesPersonaDTO responseOperacion;
     private List<Personas> listaVendedoresLike;
-
+    
     private static List<String> colors = new ArrayList<String>();
      
      static{
@@ -95,6 +98,7 @@ public class DetalleVendedorCtrl extends BaseController {
             serviceLocator = ServiceLocator.getInstance();
             personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
             catalogosBeanLocal = serviceLocator.getService(Constants.JNDI_CATALOGO_BEAN);
+            bodegaVendedorBean = serviceLocator.getService(Constants.JNDI_BODEGAVENDEDOR_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
@@ -167,7 +171,10 @@ public class DetalleVendedorCtrl extends BaseController {
     
     private void loadCombobox(){
         List<CatalogoDTO> listaCatalogo = new ArrayList<CatalogoDTO>();
+        List<CatalogoDTO> listaCatalogoBodegas = new ArrayList<CatalogoDTO>();
+        List<Bodegas> listaBodegas;
             try {
+                
                 listaCatalogo = catalogosBeanLocal.loadAllElementosCatalogo(Constants.idsEstadosCiviles,Constants.estadosCiviles);
                 ListModelList modelo = new ListModelList(listaCatalogo);
                 if(clienteSelected !=null && clienteSelected.getEstadoCivil() != null){
@@ -175,6 +182,12 @@ public class DetalleVendedorCtrl extends BaseController {
                 }
                 cmbEstadoCivil.setModel(modelo);
                 cmbEstadoCivil.setItemRenderer(new CatalogoItemRenderer());
+                
+                listaBodegas = bodegaVendedorBean.loadAllBodegasAsignables();
+                List<Object> objectList = new ArrayList<Object>(listaBodegas);
+                listaCatalogoBodegas = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idpersona", "nombre");
+               
+               
                 
             } catch (DiservBusinessException ex) {
                 Logger.getLogger(DetalleClienteCtrl.class.getName()).log(Level.SEVERE, null, ex);
