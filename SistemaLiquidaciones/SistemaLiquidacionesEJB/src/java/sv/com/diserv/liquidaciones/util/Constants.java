@@ -37,6 +37,7 @@ public class Constants {
     public static String[] estadosCiviles = new String[] {"SOLTER@","DIVORCIAD@","VIUD@"};
     public static int[] idsEstadosCiviles = new int[] {1,2,3};
     public static String JNDI_MARCAS_BEAN="java:comp/env/ejb/MarcaArticuloBean";
+    public static String JNDI_ARTICULOS_BEAN="java:comp/env/ejb/ArticulosBean";
     
     
 }
