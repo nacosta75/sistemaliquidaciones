@@ -11,7 +11,7 @@
             use="sv.com.diserv.web.ui.marcas.DetalleMarcaCtrl"
             closable="true"
             width="650px" 
-            height="420px"
+            height="220px"
             sizable="true" 
             sclass="pageWindowTitle"
             mode="modal">
@@ -34,8 +34,8 @@
                         tooltiptext="Guardar registro"/>
                 <button id="btnActualizar"
                         sclass="oT_ButtonWithIcon"
-                        image="/images/btnrefresh.gif"
-                        tooltiptext="Refrescar registros"/>
+                        image="/images/btnsave.gif"
+                        tooltiptext="Actualizar registros"/>
                 <button id="btnCerrar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/close.jpg"
@@ -74,6 +74,14 @@
                                                         <column width="100%" />
                                                     </columns>
                                                     <rows>
+                                                         <row>
+                                                            <hbox>
+                                                                <label value="Activa:" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+   
+                                                            <checkbox id="checkEstadoMarcas" onCheck=""  hflex="1" />
+                                                        </row>
                                                         <row>
                                                             <hbox>
                                                                 <label value="Id Marca" />
@@ -87,14 +95,7 @@
                                                                 readonly="true" />
                                                         </row>
                                                         
-                                                         <row>
-                                                            <hbox>
-                                                                <label value="Activa:" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-   
-                                                            <checkbox id="checkEstadoMarcas" onCheck=""  hflex="1" />
-                                                        </row>
+                                                        
                                                                                                                                       
                                                         <row>
                                                             <hbox>

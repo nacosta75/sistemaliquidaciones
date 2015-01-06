@@ -297,4 +297,11 @@
         <mapped-name>ejb/MarcaArticuloBean</mapped-name>
     </ejb-local-ref>
     
+     <ejb-local-ref>
+        <ejb-ref-name>ejb/ArticulosBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal</local>
+        <mapped-name>ejb/ArticulosBean</mapped-name>
+    </ejb-local-ref>
+    
 </web-app>
