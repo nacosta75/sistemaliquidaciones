@@ -3,33 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.com.diserv.web.ui.lineas.lineas.rendered;
+package sv.com.diserv.web.ui.articulos.rendered;
 
 import org.zkoss.zk.ui.sys.ComponentsCtrl;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
-import sv.com.diserv.liquidaciones.entity.LineaArticulo;
+import sv.com.diserv.liquidaciones.entity.Articulos;
 
 /**
  *
  * @author abraham.acosta
  */
-public class LineaItemRenderer implements ListitemRenderer{
+public class ArticuloItemRenderer implements ListitemRenderer{
 
-    LineaArticulo linea;
+     Articulos articulos;
     
     @Override
     public void render(Listitem item, Object data) throws Exception {
-        linea = (LineaArticulo) data;
-        Listcell lb = new Listcell(String.valueOf(linea.getIdlinea()));
+        articulos = (Articulos) data;
+        Listcell lb = new Listcell(String.valueOf(articulos.getIdarticulo()));
         lb.setParent(item);
 
-        lb = new Listcell(String.valueOf(linea.getDesclinea()));
+        lb = new Listcell(String.valueOf(articulos.getCodarticulo()));
         lb.setParent(item);
 
-//        lb = new Listcell(bodega.getIvaBodega());
-//        lb.setParent(item);
+        lb = new Listcell(String.valueOf(articulos.getDescarticulo()));
+        lb.setParent(item);
 //
 //        lb = new Listcell(bodega.getNitBodega());
 //        lb.setParent(item);
