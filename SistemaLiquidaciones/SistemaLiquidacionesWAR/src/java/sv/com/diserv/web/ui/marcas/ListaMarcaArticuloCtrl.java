@@ -27,7 +27,7 @@ import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
 /**
  *
- * @author abraham.acosta
+ * @author  abraham.acosta
  */
 public class ListaMarcaArticuloCtrl extends BaseController {
     
