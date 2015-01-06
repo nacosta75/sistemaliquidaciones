@@ -189,11 +189,42 @@
                                                     <rows>
                                                         <row>
                                                             <hbox>
-                                                                <label value="Id Bodega" />
+                                                                <label value="Seleccione la bodega a asignar:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
                                                             </row>
-                                                    </rows>
+                                                            <row>
+                                                             <combobox id="cmbBodegasAsignables" 
+                                                                     autodrop="true"
+                                                                          mold="rounded"
+                                                                          autocomplete="true"
+                                                                          hflex="1"/>
+                                                             
+                                                             <button id="btnAsignarBodega"
+                                                                sclass="oT_ButtonWithIcon"
+                                                                image="/images/btnnew.gif"
+                                                                tooltiptext="Asignar bodega a vendedor"  />
+                                                             
+                                                              <button id="btnDesasignarBodega"
+                                                                sclass="oT_ButtonWithIcon"
+                                                                image="/images/btnnew.gif"
+                                                                tooltiptext="Desasignar bodega a vendedor"  />
+                                                        </row>
+                                                        <row>
+                                                            <hbox>
+                                                                <label value="Bodega Asignada:" />
+                                                            </hbox>
+                                                            <intbox
+                                                                id="txtIdBodega"
+                                                                hflex="1"
+                                                                maxlength="10"
+                                                                tooltiptext="Identificador unico de la bodega"
+                                                                readonly="true" />
+                                                            
+                                                             <textbox id="txtBodega"
+                                                                     hflex="1" />
+                                                        </row>
+                                                                                                            </rows>
                                                 </grid>   
                                                  </groupbox>        
                                         </panelchildren>
