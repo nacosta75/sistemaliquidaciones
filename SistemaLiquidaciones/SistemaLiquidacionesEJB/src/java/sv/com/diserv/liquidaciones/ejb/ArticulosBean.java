@@ -20,43 +20,44 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 public class ArticulosBean implements ArticulosBeanLocal {
 
     @Override
-    public List<Articulos> loadAllMarcas(int inicio, int fin) throws DiservBusinessException {
+    public List<Articulos> loadAllArticulos(int inicio, int fin) throws DiservBusinessException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Integer countAllMarcaArticulo() throws DiservBusinessException {
+    public Integer countAllArticulos() throws DiservBusinessException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public OperacionesArticuloDTO guardarMarca(Articulos articulo) throws DiservBusinessException {
+    public OperacionesArticuloDTO guardarArticulo(Articulos articulo) throws DiservBusinessException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Articulos> loadAllMarcaArticuloByLike(String nombreLike) throws DiservBusinessException {
+    public List<Articulos> loadAllArticuloByLike(String nombreLike) throws DiservBusinessException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public OperacionesArticuloDTO actualizarMarca(Articulos articulo) throws DiservBusinessException {
+    public OperacionesArticuloDTO actualizarArticulo(Articulos articulo) throws DiservBusinessException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Articulos> buscarMarcaByCriteria(BusquedaArticuloDTO request) throws DiservBusinessException {
+    public List<Articulos> buscarArticuloByCriteria(BusquedaArticuloDTO request) throws DiservBusinessException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Articulos> loadMarcaByDescripcionLike(String likeNombre) throws DiservBusinessException {
+    public List<Articulos> loadArticuloByDescripcionLike(String likeNombre) throws DiservBusinessException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Articulos loadMarcaByID(Integer idArticulo) throws DiservBusinessException {
+    public Articulos loadArticuloByID(Integer idArticulo) throws DiservBusinessException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     
 }
