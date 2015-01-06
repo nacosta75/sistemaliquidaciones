@@ -5,6 +5,7 @@
  */
 package sv.com.diserv.liquidaciones.ejb;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -40,6 +41,45 @@ public class CatalogosBean implements CatalogosBeanLocal {
                 catalogo.setIdCatalogo(ids[i]);
                 catalogo.setDescripcionCatalogo(opciones[i]);
                 catalogoList.add(catalogo);
+            }
+        
+           if (catalogoList != null) {
+                logger.log(Level.INFO, "[loadAllElementosCatalogo] Se encontraron " + catalogoList.size() + " elementos");
+            }
+        
+        return catalogoList;
+    }
+    
+    public List<CatalogoDTO> loadAllElementosCatalogo(List<Object> lista,String nombreId, String nombreValor) throws DiservBusinessException {
+        logger.log(Level.INFO, "[loadAllElementosCatalogo] ");
+        List<CatalogoDTO> catalogoList = new ArrayList<CatalogoDTO>();
+        
+         for (Object objeto:lista)
+            {
+                 CatalogoDTO catalogo = new CatalogoDTO();
+                 Class clase = objeto.getClass();
+                 
+            try {
+                Field valor = clase.getDeclaredField(nombreId);
+                Field descripcion = clase.getDeclaredField(nombreValor);
+                     try {
+                         valor.setAccessible(true);
+                         descripcion.setAccessible(true);
+                         catalogo.setIdCatalogo((Integer) valor.get(objeto));
+                         catalogo.setDescripcionCatalogo((String) descripcion.get(objeto));
+                         catalogoList.add(catalogo);
+                     } catch (IllegalArgumentException ex) {
+                         java.util.logging.Logger.getLogger(CatalogosBean.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                     } catch (IllegalAccessException ex) {
+                         java.util.logging.Logger.getLogger(CatalogosBean.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                     }
+                
+            } catch (NoSuchFieldException ex) {
+                java.util.logging.Logger.getLogger(CatalogosBean.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (SecurityException ex) {
+                java.util.logging.Logger.getLogger(CatalogosBean.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+                
             }
         
            if (catalogoList != null) {
