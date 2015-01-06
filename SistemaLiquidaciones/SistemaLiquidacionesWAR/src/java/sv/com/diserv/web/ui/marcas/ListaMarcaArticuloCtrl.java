@@ -9,7 +9,9 @@ import java.util.List;
 import sv.com.diserv.web.ui.util.BaseController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Paging;
@@ -19,6 +21,9 @@ import sv.com.diserv.liquidaciones.entity.MarcaArticulo;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
+import sv.com.diserv.web.ui.marcas.rendered.MarcaItemRenderer;
+import sv.com.diserv.web.ui.util.MensajeMultilinea;
+
 
 /**
  *
@@ -42,7 +47,7 @@ public class ListaMarcaArticuloCtrl extends BaseController {
     private ServiceLocator serviceLocator;
     private MarcaArticuloBeanLocal marcaBean;
     private List<MarcaArticulo> listaMarcas;
-    private MarcaArticulo lineaSelected;
+    private MarcaArticulo marcaSelected;
     
     
       public ListaMarcaArticuloCtrl()
@@ -58,6 +63,53 @@ public class ListaMarcaArticuloCtrl extends BaseController {
         }
     
     }
+      
+       public void doRefreshModel(int activePage) {
+        logger.log(Level.INFO, "[ListaMarcaArticuloCtrl ][doRefreshModel]Pagina activa:{0}", activePage);
+        refreshModel(activePage);
+
+    }
+      
+          public void onCreate$listaMarcaWindow(Event event) throws Exception {
+        logger.log(Level.INFO, "[onCreate$listaMarcaWindow]Event:{0}", event.toString());
+        totalMarcas = marcaBean.countAllMarcaArticulo();
+        MensajeMultilinea.doSetTemplate();
+
+
+        if (totalMarcas != null) {
+            setTotalMarcas(totalMarcas);
+        } else {
+            logger.info("[onCreate$listaMarcaWindow]No se pudo obtener total registros");
+        }
+        pagingMarca.setPageSize(getUserLogin().getRegistrosLista());
+        pagingMarca.setDetailed(true);
+        refreshModel(numeroPaginInicio);
+//        doCheckPermisos();
+  
+        
+    }
+          
+       public void refreshModel(int activePage) {
+        logger.log(Level.INFO, "[ListaMarcaArticuloCtrl ][refreshModel]Recargar bodegas,Pagina activa:{0}", activePage);
+        try {
+            if (totalMarcas > 0) {
+                listaMarcas = marcaBean.loadAllMarcas(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista());
+                if (listaMarcas.size() > 0) {
+                    logger.log(Level.INFO, "Registros cargados=={0}", listaMarcas.size());
+                    pagingMarca.setTotalSize(getTotalMarcas());
+                    listBoxMarca.setModel(new ListModelList(listaMarcas));
+                    listBoxMarca.setItemRenderer(new MarcaItemRenderer());
+                } else {
+                    logger.info("No se cargaron registros");
+                }
+            } else {
+                listBoxMarca.setEmptyMessage("No se encontraron registros para mostrar");
+            }
+        } catch (Exception ex) {
+            logger.log(Level.INFO, "[ListaMarcaArticuloCtrl ][refreshModel]Ocurrio Una exception :{0}", ex.getLocalizedMessage());
+            ex.printStackTrace();
+        }
+    }      
 
     public Listbox getListBoxMarca() {
         return listBoxMarca;
