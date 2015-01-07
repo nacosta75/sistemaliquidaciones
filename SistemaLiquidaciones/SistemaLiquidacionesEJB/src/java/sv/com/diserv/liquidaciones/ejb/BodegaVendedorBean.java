@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.OperacionesBodegaVendedorDTO;
 import sv.com.diserv.liquidaciones.entity.BodegaVendedor;
 import sv.com.diserv.liquidaciones.entity.Bodegas;
+import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.util.Constants;
 
@@ -57,14 +58,6 @@ public class BodegaVendedorBean implements BodegaVendedorBeanLocal {
         return count;
     }
 
-    /**
-     * Metodo para extraer todos los usuarios
-     *
-     * @param inicio: Primer registro a mostrar
-     * @param fin: Ultimo registro a mostrar
-     * @return List<Users>: Lista de usuarios desde la base de datos
-     * @throws DesempenoBusinessException
-     */
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public List<Bodegas> loadAllBodegasAsignables() throws DiservBusinessException {
@@ -89,11 +82,14 @@ public class BodegaVendedorBean implements BodegaVendedorBeanLocal {
     }
 
     @Override
-    public OperacionesBodegaVendedorDTO asignarBodega(Bodegas bodega) throws DiservBusinessException {
+    public OperacionesBodegaVendedorDTO asignarBodega(Integer idBodega, Integer idVendedor) throws DiservBusinessException {
         OperacionesBodegaVendedorDTO response = new OperacionesBodegaVendedorDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar bodega");
         try {
-            bodega = genericDaoBean.create(bodega);
-            response = new OperacionesBodegaVendedorDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Bodega creado satisfactoriamente");
+            BodegaVendedor bodegaven = new BodegaVendedor();
+            bodegaven.setIdbodega(new Bodegas(idBodega));
+            bodegaven.setIdpersona(new Personas(idVendedor));
+            bodegaven = genericDaoBean.create(bodegaven);
+            response = new OperacionesBodegaVendedorDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Asigancion de bodega satisfactoria");
 //            response.setBodega(bodega);
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,13 +113,14 @@ public class BodegaVendedorBean implements BodegaVendedorBeanLocal {
 
     
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public Bodegas findBodegaByID(Integer idBodega) throws DiservBusinessException {
         logger.log(Level.INFO, "[loadBodegaByID] Idbodega:" + idBodega);
         Bodegas bodega = null;
         Query query;
         try {
-            query = em.createNamedQuery("Bodegas.findByIdBodega");
-            query.setParameter("idBodega", idBodega);
+            query = em.createNamedQuery("Bodegas.findByIdbodega");
+            query.setParameter("idbodega", idBodega);
             bodega = (Bodegas) query.getSingleResult();
         } catch (NoResultException ex) {
             logger.log(Level.INFO, "[loadBodegaByID][NoResultException]No se encontraron usuarios");
