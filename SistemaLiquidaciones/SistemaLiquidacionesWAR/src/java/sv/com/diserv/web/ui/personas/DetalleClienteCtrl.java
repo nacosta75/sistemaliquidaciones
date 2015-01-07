@@ -155,7 +155,7 @@ public class DetalleClienteCtrl extends BaseController {
 //    protected ComboBox cmbEstadoCivil;
     
         txtIdClientes.setValue(clienteSelected.getIdpersona());
-        txtNombreClientes.setText(clienteSelected.getNombre());
+        txtNombreClientes.setValue(clienteSelected.getNombre());
         txtCallePasaje.setValue(clienteSelected.getCalleOPasaje());
         txtColonia.setValue(clienteSelected.getColonia());
         txtNIT.setValue(clienteSelected.getNit());
