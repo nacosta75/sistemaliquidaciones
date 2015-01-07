@@ -22,7 +22,7 @@ public interface BodegaVendedorBeanLocal {
     
     public List<Bodegas> loadAllBodegasAsignables() throws DiservBusinessException;
     public Integer countAllBodegasAsignables() throws DiservBusinessException;
-    public OperacionesBodegaVendedorDTO asignarBodega(Bodegas bodega) throws DiservBusinessException;
+    public OperacionesBodegaVendedorDTO asignarBodega(Integer idBodega, Integer idVendedor) throws DiservBusinessException;
     public OperacionesBodegaVendedorDTO desasignarBodega(BodegaVendedor bodegaVendedor) throws DiservBusinessException ;
     public Bodegas findBodegaByID(Integer idBodega) throws DiservBusinessException;
     public Bodegas findBodegaAsignada(Integer idVendedor) throws DiservBusinessException;
