@@ -224,7 +224,7 @@
                                                                 <label value="Correo Electronico:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                             <textbox width="150px" id="txtCorreo" hflex="1"  constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" 
+                                                             <textbox width="150px" id="txtCorreo" hflex="1"  constraint="/.+@.+\.[a-z]+/: Por favor ingrese un Email valido" 
                                                                  />
                                                        </row>
                                                         <row>
