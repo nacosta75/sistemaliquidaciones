@@ -73,6 +73,7 @@ public class DetalleVendedorCtrl extends BaseController {
     protected Button btnEliminar;
     protected Button btnCerrar;
     protected Button btnAsignarBodega;
+    protected Button btnDesasignarBodega;
     private Personas clienteSelected;
     private ListaVendedorCtrl listaVendedoresCtrl;
     private transient Integer token;
@@ -167,7 +168,15 @@ public class DetalleVendedorCtrl extends BaseController {
                 if(bodega != null && bodega.getIdbodega() != null){
                     txtBodega.setValue(bodega.getNombre());
                     txtIdBodega.setValue(bodega.getIdbodega());
+                    btnAsignarBodega.setDisabled(true);
+                    cmbBodegasAsignables.setDisabled(true);
+                    btnDesasignarBodega.setDisabled(false);
                  }
+                else{
+                    btnAsignarBodega.setDisabled(false);
+                    cmbBodegasAsignables.setDisabled(false);
+                    btnDesasignarBodega.setDisabled(true);
+                }
             }
             
             loadCombobox();
@@ -194,15 +203,19 @@ public class DetalleVendedorCtrl extends BaseController {
                 
                 listaBodegas = bodegaVendedorBean.loadAllBodegasAsignables();
                 List<Object> objectList = new ArrayList<Object>(listaBodegas);
-                listaCatalogoBodegas = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idpersona", "nombre");
+                listaCatalogoBodegas = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idbodega", "nombre");
                
-                ListModelList modelobodegas = new ListModelList(listaCatalogoBodegas);
-//                if(clienteSelected !=null && clienteSelected.getEstadoCivil() != null){
-//                    modelo.addSelection(catalogosBeanLocal.findCatalogoBySelected(listaCatalogo,Integer.parseInt(clienteSelected.getEstadoCivil())));
-//                }
-                cmbBodegasAsignables.setModel(modelobodegas);
-                cmbBodegasAsignables.setItemRenderer(new CatalogoItemRenderer());
-               
+                if(listaCatalogoBodegas != null && listaCatalogoBodegas.size()>0){
+                    ListModelList modelobodegas = new ListModelList(listaCatalogoBodegas);
+                    cmbBodegasAsignables.setModel(modelobodegas);
+                    cmbBodegasAsignables.setItemRenderer(new CatalogoItemRenderer());
+                }
+                else{
+                     cmbBodegasAsignables.setValue("No existen bodegas asignables!!");
+                     cmbBodegasAsignables.setReadonly(true);
+                     cmbBodegasAsignables.setButtonVisible(false);
+                     btnAsignarBodega.setDisabled(true);
+                    }
                 
             } catch (DiservBusinessException ex) {
                 Logger.getLogger(DetalleClienteCtrl.class.getName()).log(Level.SEVERE, null, ex);
@@ -254,7 +267,7 @@ public class DetalleVendedorCtrl extends BaseController {
             clienteSelected.setIdtipopersona(new TiposPersona(2));
             clienteSelected.setIdempresa(new Empresas(1));
             clienteSelected.setIdsucursal(new Sucursales(1));
-            clienteSelected.setIdusuariocrea(1);
+            clienteSelected.setIdusuariocrea(userLogin.getUsuario().getIdusuario());
                     
         } catch (DiservWebException ex) {
             MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
@@ -336,7 +349,7 @@ public class DetalleVendedorCtrl extends BaseController {
             if (getToken().intValue() > 0) {
                 
                 Bodegas bodega = bodegaVendedorBean.findBodegaByID((Integer) cmbBodegasAsignables.getSelectedItem().getValue());
-                responseOperacionBodega = bodegaVendedorBean.asignarBodega(bodega);
+                responseOperacionBodega = bodegaVendedorBean.asignarBodega((Integer) cmbBodegasAsignables.getSelectedItem().getValue(),txtIdVendedor.getValue());
                 if (responseOperacionBodega.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                     MensajeMultilinea.show(responseOperacionBodega.getMensajeRespuesta() + " Id Bodega:" + responseOperacionBodega.getBodegaVendedor().getIdbodega(), Constants.MENSAJE_TIPO_INFO);
                      txtBodega.setValue(bodega.getNombre());
