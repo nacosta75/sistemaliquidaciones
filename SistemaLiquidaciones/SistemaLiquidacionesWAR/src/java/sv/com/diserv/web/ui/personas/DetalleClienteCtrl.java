@@ -65,7 +65,7 @@ public class DetalleClienteCtrl extends BaseController {
     protected Button btnNuevo;
     protected Button btnEditar;
     protected Button btnGuardar;
-     protected Button btnEliminar;
+    protected Button btnEliminar;
     protected Button btnCerrar;
     private Personas clienteSelected;
     private ListaClienteCtrl listaClientesCtrl;
@@ -117,7 +117,6 @@ public class DetalleClienteCtrl extends BaseController {
         if (this.args.containsKey("listaClienteCtrl")) {
             listaClientesCtrl = ((ListaClienteCtrl) this.args.get("listaClienteCtrl"));
         }
-        checkPermisos();
         showDetalleClientes();
         loadCombobox();
 
@@ -126,18 +125,8 @@ public class DetalleClienteCtrl extends BaseController {
     public void showDetalleClientes() {
         try {
             if (clienteSelected != null) {
-                doReadOnly(Boolean.TRUE);
                 doEditButton();
                 loadDataFromEntity();
-//            if (bodega.getIdBodegas().intValue() >= 1) {
-//                this.listBoxOrdentrabajoBodegas.setModel(new ListModelList(
-//                        this.ordentrabajoDao.buscarOrdenesPorbodega(
-//                        bodega.getIdBodegas())));
-//                this.listBoxOrdentrabajoBodegas.setItemRenderer(new BodegasOrdentrabajoListModelItemRenderer());
-//                this.panel_tramites_bodega.setTitle(
-//                        "Ultimos tramites del bodega :"
-//                        + bodega.getNombreBodegas());
-//            }
             } else {
                 doNew();
             }
@@ -229,21 +218,6 @@ public class DetalleClienteCtrl extends BaseController {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar NIT");
             }
             
-//            if (StringUtils.isEmpty(txtRegistro.getValue())) {
-//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Numero de Registro");
-//            }
-//            
-//            if (StringUtils.isEmpty(txtTelefono1.getValue())) {
-//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Numero Telefono para cliente");
-//            }
-//            
-//            if (txtLimiteCredito.getValue() == 0) {
-//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Limite de Credito");
-//            }
-//            
-//            if (txtfechaUltSaldo.getValue() == null) {
-//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Fecha Ultimo Saldo");
-//            }
             if(!StringUtils.isEmpty(txtCorreo.getValue())) {
                 
                 Pattern pat = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
@@ -254,14 +228,6 @@ public class DetalleClienteCtrl extends BaseController {
      
             }
             
-//            if (txtUltSaldo.getValue() == 0) {
-//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Ultimo Saldo");
-//            }
-//            
-//            if (StringUtils.isEmpty(txtCorreo.getValue())) {
-//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Correo Electronico");
-//            }
-
             if (checkCreditoActivo.isChecked()) {
                clienteSelected.setCreditoActivo("S");
             }
@@ -315,7 +281,7 @@ public class DetalleClienteCtrl extends BaseController {
             clienteSelected.setIdtipopersona(new TiposPersona(1));
             clienteSelected.setIdempresa(new Empresas(1));
             clienteSelected.setIdsucursal(new Sucursales(1));
-            clienteSelected.setIdusuariocrea(1);
+            clienteSelected.setIdusuariocrea(userLogin.getUsuario().getIdusuario());
             
         } catch (DiservWebException ex) {
             MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
@@ -332,7 +298,6 @@ public class DetalleClienteCtrl extends BaseController {
                     MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id persona:" + responseOperacion.getPersona().getIdpersona(), Constants.MENSAJE_TIPO_INFO);
                     clienteSelected = responseOperacion.getPersona();
                     loadDataFromEntity();
-                    doReadOnly(Boolean.TRUE);
                     doEditButton();
                     listaClientesCtrl.refreshModel(0);
                 } else {
@@ -349,7 +314,6 @@ public class DetalleClienteCtrl extends BaseController {
     }
 
     public void onClick$btnEditar(Event event) {
-        doReadOnly(Boolean.FALSE);
         this.btnActualizar.setVisible(true);
         this.btnEliminar.setVisible(true);
         this.btnEditar.setVisible(false);
@@ -363,9 +327,6 @@ public class DetalleClienteCtrl extends BaseController {
            responseOperacion = personaBean.eliminarPersona(clienteSelected);
             if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                 MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_INFO);
-//                clienteSelected = responseOperacion.getPersona();
-//                loadDataFromEntity();
-                doReadOnly(Boolean.TRUE);
                 doEditButton();
                 doClose();
                 listaClientesCtrl.refreshModel(0);
@@ -394,47 +355,11 @@ public class DetalleClienteCtrl extends BaseController {
         this.btnEliminar.setVisible(false);
     }
 
-    public void onBlur$txtNombreClientes(Event event) throws DiservWebException, DiservBusinessException {
-//        try {
-//            if (StringUtils.isEmpty(txtNombreClientes.getValue())) {
-//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar nombre cliente");
-//            }
-//            listaClientesLike = personaBean.loadAllPersonasByLike(txtNombreClientes.getValue());
-//            if (listaClientesLike.size() > 0) {
-//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Ya existe un cliente con un nombre similar:\n" + listaClientesLike.get(0).getIdpersona()+ "\nId Persona:" + listaClientesLike.get(0).getIdpersona());
-//            }
-//        } catch (DiservWebException web) {
-//            MensajeMultilinea.show(web.getMensaje(), Constants.MENSAJE_TIPO_ALERTA);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-    }
-
     private void doClose() {
         this.detalleClienteWindow.onClose();
     }
 
-    public void onDoubleClicked(Event event) throws Exception {
-    logger.info("[onDoubleClicked]");
-//        Listitem item = this.listBoxOrdentrabajoBodegas.getSelectedItem();
-//
-//        if (item != null) {
-//            Ordentrabajo ordentrabajo = (Ordentrabajo) item.getAttribute("data");
-//
-//            HashMap map = new HashMap();
-//            map.put("ordentrabajo", ordentrabajo);
-//
-//            map.put("lbOrdentabajo", this.listBoxOrdentrabajoBodegas);
-//            map.put("ordentrabajoCtrl", getOrdencontroller());
-//
-//            Executions.createComponents("/html/ordentrabajo/detalleordentrabajo.zul",
-//                    null, map);
-//        }
-    }
-
     private void doNew() {
-        doClear();
-        doReadOnly(Boolean.FALSE);
         this.btnGuardar.setVisible(true);
         this.btnCerrar.setVisible(true);
         this.btnActualizar.setVisible(false);
@@ -453,33 +378,6 @@ public class DetalleClienteCtrl extends BaseController {
         this.btnEliminar.setVisible(false);
     }
 
-    public void doReadOnly(Boolean opt) {
-
-//       // txtCorreoElectronico.setReadonly(opt);
-//        txtEncargado.setReadonly(opt);
-//        txtDireccion.setReadonly(opt);
-//        //txtMunicipio.setReadonly(opt);
-//        txtNombreBodegas.setReadonly(opt);
-//
-//       // txtTelefono2.setReadonly(opt);
-//        txtTelefono.setReadonly(opt);
-    }
-
-    public void doClear() {
-
-       // txtCorreoElectronico.setValue(null);
-//        txtEncargado.setValue(null);
-//        txtDireccion.setValue(null);
-//        txtIdBodegas.setValue(null);
-//
-//       // txtMunicipio.setValue(null);
-//        txtNombreBodegas.setValue(null);
-//
-//       // txtTelefono2.setValue(null);
-//        txtTelefono.setValue(null);
-//        txtNombreBodegas.setFocus(true);
-    }
-
     public void doActualizar() {
         loadDataFromTextboxs();
         try {
@@ -489,7 +387,6 @@ public class DetalleClienteCtrl extends BaseController {
                 MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id persona:" + responseOperacion.getPersona().getIdpersona(), Constants.MENSAJE_TIPO_INFO);
                 clienteSelected = responseOperacion.getPersona();
                 loadDataFromEntity();
-                doReadOnly(Boolean.TRUE);
                 doEditButton();
                 listaClientesCtrl.refreshModel(Constants.PAGINA_INICIO_DEFAULT);
             } else {
@@ -501,25 +398,7 @@ public class DetalleClienteCtrl extends BaseController {
             MensajeMultilinea.show(bex.toString(), Constants.MENSAJE_TIPO_ERROR);
 
         }
-//        ListModelList lml = (ListModelList) getLbBodegas().getListModel();
-//        if (lml.indexOf(bodega) == -1) {
-//            lml.add(bodega);
-//        } else {
-//            lml.set(lml.indexOf(bodega), bodega);
-//        }
-        doReadOnly(Boolean.TRUE);
         doEditButton();
-    }
-
-    private void checkPermisos() {
-//        this.btnEliminar.setVisible(SecurityUtil.isAnyGranted(
-//                "ROLE_ADMINISTRADOR"));
-//        this.btnActualizar.setVisible(SecurityUtil.isAnyGranted(
-//                "ROLE_ADMINISTRADOR"));
-//        this.btnEditar.setVisible(SecurityUtil.isAnyGranted(
-//                "ROLE_ADMINISTRADOR,VERIFICAR_FACTURA_COBRO"));
-//        this.btnNuevo.setVisible(SecurityUtil.isAnyGranted(
-//                "ROLE_ADMINISTRADOR,AGREGAR_CLIENTE"));
     }
 
     public Integer getToken() {
