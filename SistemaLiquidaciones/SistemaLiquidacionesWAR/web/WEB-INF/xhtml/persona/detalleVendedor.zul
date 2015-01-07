@@ -11,7 +11,7 @@
             use="sv.com.diserv.web.ui.personas.DetalleVendedorCtrl"
             closable="true"
             width="650px" 
-            height="500px"
+            height="530px"
             sizable="true" 
             sclass="pageWindowTitle"
             mode="modal" >
@@ -83,12 +83,16 @@
                                                                 <label value="Id Vendedor" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">    
                                                             <intbox
                                                                 id="txtIdVendedor"
                                                                 hflex="1"
                                                                 maxlength="10"
                                                                 tooltiptext="Identificador unico de cliente"
                                                                 readonly="true" />
+                                                            </groupbox>
                                                         </row>
                                                         
                 
@@ -99,7 +103,11 @@
                                                                     value="Nombre Vendedor : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">    
                                                             <textbox   id="txtNombreVendedor"   hflex="1" />
+                                                            </groupbox>
                                                         </row>
                                                                     
                                                         <row>
@@ -108,8 +116,12 @@
                                                                     value="Calle o Pasaje : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">    
                                                             <textbox id="txtCallePasaje"
                                                                      hflex="1" />
+                                                            </groupbox>
                                                         </row>
                                                         <row>
                                                             <hbox>
@@ -117,8 +129,12 @@
                                                                     value="Colonia : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">    
                                                             <textbox id="txtColonia"
                                                                      hflex="1" />
+                                                            </groupbox>
                                                         </row>
                                                         <row>
                                                             <hbox>
@@ -126,8 +142,12 @@
                                                                     value="NIT : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">    
                                                             <textbox id="txtNIT"
                                                                      />
+                                                            </groupbox>
                                                         </row>
                                                         <row>
                                                             <hbox>
@@ -135,37 +155,51 @@
                                                                     value="Telefono : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <textbox id="txtTelefono1"
+                                                            
+                                                                <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">    
+                                                                     <textbox id="txtTelefono1" style="margin-right: 30px;margin-left: 0px;"
                                                                       />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
+                                                                     
                                                                 <label value="Extension:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
+                                                            
                                                             <textbox  
                                                                 id="txtExt1" 
                                                                  />
+                                                             </groupbox>
+                                                            
+                                                            
+                                                        
+                                                            
                                                         </row>
                                                         <row>
+                                                             
                                                             <hbox>
                                                                 <label value="Correo Electronico:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
+                                                            <groupbox mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">    
                                                             <textbox  
                                                                 id="txtCorreo" 
                                                                 hflex="1" />
+                                                             </groupbox>
                                                         </row>
                                                         <row>
                                                               <hbox>
                                                                 <label value="Estado Civil" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
+                                                            <groupbox mold="3d"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 "> 
                                                            <combobox id="cmbEstadoCivil" 
                                                                      autodrop="true"
                                                                           mold="rounded"
                                                                           autocomplete="true"
                                                                           hflex="1"/>
+                                                           </groupbox>
                                                         </row>
                                                      </rows>
                                                 </grid>
@@ -183,7 +217,7 @@
                                                          label="Información Bodega - Vendedor" />
                                                 <grid sclass="GridPlain">
                                                     <columns>
-                                                        <column align="left" width="150px" />
+                                                        <column align="left" width="200px" />
                                                         <column width="100%" />
                                                     </columns>
                                                     <rows>
@@ -195,34 +229,41 @@
                                                             </row>
                                                             <row>
                                                              <combobox id="cmbBodegasAsignables" 
-                                                                     autodrop="true"
-                                                                          mold="rounded"
-                                                                          autocomplete="true"
-                                                                          hflex="1"/>
+                                                                       autodrop="true"
+                                                                       mold="rounded"
+                                                                       autocomplete="true" width="175px"
+                                                                           />
                                                              
-                                                             <button id="btnAsignarBodega"
-                                                                sclass="oT_ButtonWithIcon"
-                                                                image="/images/btnnew.gif"
-                                                                tooltiptext="Asignar bodega a vendedor"  />
                                                              
-                                                              <button id="btnDesasignarBodega"
-                                                                sclass="oT_ButtonWithIcon"
-                                                                image="/images/btnnew.gif"
-                                                                tooltiptext="Desasignar bodega a vendedor"  />
-                                                        </row>
-                                                        <row>
+                                                                <groupbox height="45px"
+                                                                       mold="3d" 
+                                                                       closable="false" contentStyle="border:0">    
+                                                                     <button id="btnAsignarBodega"
+                                                                             sclass="oT_ButtonWithIcon"
+                                                                             image="/images/icon-enable.png"
+                                                                             tooltiptext="Asignar bodega a vendedor" label="Asignar Bodega" 
+                                                                             width="100px"  style="margin-right: 30px;margin-left: 10px;"              />
+                                                                     <button id="btnDesasignarBodega"
+                                                                             sclass="oT_ButtonWithIcon"
+                                                                             image="/images/icon-trash-red.png"
+                                                                             tooltiptext="Desasignar bodega a vendedor" label="Designar Bodega"
+                                                                             width="100px"                />
+                                                             </groupbox>
+                                                             
+                                                             
+                                                            
+                                                            </row>
+                                                            <row>
                                                             <hbox>
                                                                 <label value="Bodega Asignada:" />
                                                             </hbox>
+                                                            <textbox id="txtBodega"
+                                                                     hflex="1" readonly="true" />
                                                             <intbox
                                                                 id="txtIdBodega"
-                                                                hflex="1"
-                                                                maxlength="10"
-                                                                tooltiptext="Identificador unico de la bodega"
-                                                                readonly="true" />
+                                                                visible="false"/>
                                                             
-                                                             <textbox id="txtBodega"
-                                                                     hflex="1" />
+                                                            
                                                         </row>
                                                                                                             </rows>
                                                 </grid>   
