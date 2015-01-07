@@ -8,7 +8,7 @@
     <window id="detalleArticuloWindow"
             title="Mantenimiento de articulos"
             border="normal"
-            use="sv.com.diserv.web.ui.articulos.DetalleArticulosCtrl"
+            use="sv.com.diserv.web.ui.articulos.DetalleArticuloCtrl"
             closable="true"
             width="650px" 
             height="220px"
