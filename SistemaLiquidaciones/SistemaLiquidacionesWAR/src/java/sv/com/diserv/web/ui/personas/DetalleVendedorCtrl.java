@@ -196,8 +196,6 @@ public class DetalleVendedorCtrl extends BaseController {
     
     private void loadCombobox(){
         List<CatalogoDTO> listaCatalogo = new ArrayList<CatalogoDTO>();
-        List<CatalogoDTO> listaCatalogoBodegas = new ArrayList<CatalogoDTO>();
-        List<Bodegas> listaBodegas;
             try {
                 
                 listaCatalogo = catalogosBeanLocal.loadAllElementosCatalogo(Constants.idsEstadosCiviles,Constants.estadosCiviles);
@@ -208,6 +206,19 @@ public class DetalleVendedorCtrl extends BaseController {
                 cmbEstadoCivil.setModel(modelo);
                 cmbEstadoCivil.setItemRenderer(new CatalogoItemRenderer());
                 
+            } catch (DiservBusinessException ex) {
+                Logger.getLogger(DetalleClienteCtrl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            loadComboboxBodegas();
+    }
+    
+    private void loadComboboxBodegas(){
+         List<Bodegas> listaBodegas;
+         List<CatalogoDTO> listaCatalogoBodegas = new ArrayList<CatalogoDTO>();
+
+      try {
+                
                 listaBodegas = bodegaVendedorBean.loadAllBodegasAsignables();
                 List<Object> objectList = new ArrayList<Object>(listaBodegas);
                 listaCatalogoBodegas = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idbodega", "nombre");
@@ -216,15 +227,18 @@ public class DetalleVendedorCtrl extends BaseController {
                     ListModelList modelobodegas = new ListModelList(listaCatalogoBodegas);
                     cmbBodegasAsignables.setModel(modelobodegas);
                     cmbBodegasAsignables.setItemRenderer(new CatalogoItemRenderer());
+                    btnAsignarBodega.setDisabled(false);
+                    cmbBodegasAsignables.setText("Seleccione una bodega!!");
+                    cmbBodegasAsignables.setReadonly(false);
+                    cmbBodegasAsignables.setButtonVisible(true);
                 }
                 else{
-                     cmbBodegasAsignables.setValue("No existen bodegas asignables!!");
+                     cmbBodegasAsignables.setText("No existen bodegas asignables!!");
                      cmbBodegasAsignables.setReadonly(true);
                      cmbBodegasAsignables.setButtonVisible(false);
                      btnAsignarBodega.setDisabled(true);
                     }
-                
-            } catch (DiservBusinessException ex) {
+                } catch (DiservBusinessException ex) {
                 Logger.getLogger(DetalleClienteCtrl.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
@@ -360,13 +374,20 @@ public class DetalleVendedorCtrl extends BaseController {
                 Bodegas bodega = bodegaVendedorBean.findBodegaByID((Integer) cmbBodegasAsignables.getSelectedItem().getValue());
                 responseOperacionBodega = bodegaVendedorBean.asignarBodega((Integer) cmbBodegasAsignables.getSelectedItem().getValue(),txtIdVendedor.getValue());
                 if (responseOperacionBodega.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                    MensajeMultilinea.show(responseOperacionBodega.getMensajeRespuesta() + " Id Bodega:" + responseOperacionBodega.getBodegaVendedor().getIdbodega(), Constants.MENSAJE_TIPO_INFO);
+                    MensajeMultilinea.show(responseOperacionBodega.getMensajeRespuesta() + " Id Asociacion:" + responseOperacionBodega.getBodegaVendedor().getId(), Constants.MENSAJE_TIPO_INFO);
                      txtBodega.setValue(bodega.getNombre());
                      txtIdBodega.setValue(bodega.getIdbodega());
+                     btnAsignarBodega.setDisabled(true);
+                     cmbBodegasAsignables.setDisabled(true);
+                     btnDesasignarBodega.setDisabled(false);
+                     loadComboboxBodegas();
                 } else {
+                        btnAsignarBodega.setDisabled(false);
+                        cmbBodegasAsignables.setDisabled(false);
+                        btnDesasignarBodega.setDisabled(true);
                    // MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }
-                setToken(0);
+                setToken(1);
             } else if (getToken().intValue() == 0) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar la misma persona dos veces, por seguridad solo se proceso una vez ");
             }
@@ -384,10 +405,17 @@ public class DetalleVendedorCtrl extends BaseController {
                     MensajeMultilinea.show(responseOperacionBodega.getMensajeRespuesta(), Constants.MENSAJE_TIPO_INFO);
                      txtBodega.setValue("No hay bodega Asignada");
                      txtIdBodega.setValue(0);
+                     btnAsignarBodega.setDisabled(false);
+                     cmbBodegasAsignables.setDisabled(false);
+                     btnDesasignarBodega.setDisabled(true);
+                     loadComboboxBodegas();
                 } else {
+                        btnAsignarBodega.setDisabled(true);
+                        cmbBodegasAsignables.setDisabled(true);
+                        btnDesasignarBodega.setDisabled(false);
                    // MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }
-               
+               setToken(1);
         } catch (Exception e) {
             e.printStackTrace();
             MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
