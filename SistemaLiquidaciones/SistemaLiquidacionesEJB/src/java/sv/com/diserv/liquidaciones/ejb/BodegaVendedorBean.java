@@ -90,7 +90,7 @@ public class BodegaVendedorBean implements BodegaVendedorBeanLocal {
             bodegaven.setIdpersona(new Personas(idVendedor));
             bodegaven = genericDaoBean.create(bodegaven);
             response = new OperacionesBodegaVendedorDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Asigancion de bodega satisfactoria");
-//            response.setBodega(bodega);
+            response.setBodegaVendedor(bodegaven);
         } catch (Exception e) {
             e.printStackTrace();
             response.setMensajeRespuesta(e.toString());
