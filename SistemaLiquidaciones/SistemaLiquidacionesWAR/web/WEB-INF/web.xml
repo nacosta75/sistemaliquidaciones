@@ -318,4 +318,11 @@
         <mapped-name>ejb/TipoArticuloBean</mapped-name>
     </ejb-local-ref>
     
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/UmedidaArticuloBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sv.com.diserv.liquidaciones.ejb.UmedidaArticuloBeanLocal</local>
+        <mapped-name>ejb/TiUmedidaArticuloBean</mapped-name>
+    </ejb-local-ref>
+    
 </web-app>

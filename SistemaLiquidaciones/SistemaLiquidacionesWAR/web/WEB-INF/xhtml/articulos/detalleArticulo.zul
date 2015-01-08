@@ -11,7 +11,7 @@
             use="sv.com.diserv.web.ui.articulos.DetalleArticuloCtrl"
             closable="true"
             width="650px" 
-            height="220px"
+            height="420px"
             sizable="true" 
             sclass="pageWindowTitle"
             mode="modal">
@@ -61,13 +61,14 @@
                                   width="100%" 
                                   style="padding: 3px;">
                                 <div>
-                                    <panel id="panelInformacionArticulo" border="none">
+                                                                     
+                                      <panel id="panelInformacionArticulo" border="none">                                                               
                                         <panelchildren>
                                             <groupbox id="gb_address"
                                                       mold="3d" 
                                                       closable="false">
-                                                <caption image="/images/person.gif"
-                                                         label="Información Articulo" />
+                                                <caption image="/images/icon_package_get.gif"
+                                                         label="Datos Generales" />
                                                 <grid sclass="GridPlain">
                                                     <columns>
                                                         <column align="left" width="150px" />
@@ -76,7 +77,7 @@
                                                     <rows>
                                                           <row>
                                                             <hbox>
-                                                                <label value="Tipo Ariculo" />
+                                                                <label value="Tipo" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
                                                            <combobox id="cmbTipoArticulo" 
@@ -89,15 +90,33 @@
                                                         </row>
                                                          <row>
                                                             <hbox>
-                                                                <label value="Activo:" />
+                                                                <label value="Linea" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-   
-                                                            <checkbox id="checkEstadoArticulo" onCheck=""  hflex="1" />
+                                                           <combobox id="cmbLineaArticulo" 
+                                                                     autodrop="true"
+                                                                          mold="rounded"
+                                                                          autocomplete="true"
+                                                                          hflex="1"/>
+                                                             
+                                                            
+                                                        </row>
+                                                         <row>
+                                                            <hbox>
+                                                                <label value="Marca" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                           <combobox id="cmbMarcaArticulo" 
+                                                                     autodrop="true"
+                                                                          mold="rounded"
+                                                                          autocomplete="true"
+                                                                          hflex="1"/>
+                                                             
+                                                            
                                                         </row>
                                                         <row>
                                                             <hbox>
-                                                                <label value="Id Articulo" />
+                                                                <label value="Id" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
                                                             <intbox
@@ -126,12 +145,38 @@
                                                             </hbox>
                                                             <textbox   id="txtDescripcion"   hflex="1" />
                                                         </row>
+                                                         <row>
+                                                            <hbox>
+                                                                <label value="Unidad Medida" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                           <combobox id="cmbMedidaArticulo" 
+                                                                     autodrop="true"
+                                                                          mold="rounded"
+                                                                          autocomplete="true"
+                                                                          hflex="1"/>
+                                                             
+                                                            
+                                                        </row>
                                                       
                                                      </rows>
                                                 </grid>
                                             </groupbox>
                                         </panelchildren>
                                     </panel>
+<!--                                    
+                                      <panel id="panelGeneralesArticulo" border="none">
+                                        <panelchildren>
+                                             <groupbox id="gb_Generales"
+                                                      mold="3d" 
+                                                      closable="false">
+                                                 <caption image="/images/flag_green.gif"
+                                                         label="Información General" />
+                                                 
+                                             </groupbox>
+                                        </panelchildren>                                                                                                    
+                                    </panel>-->
+                                    
                                 </div>
                             </vbox>
                         </cell>                                 
