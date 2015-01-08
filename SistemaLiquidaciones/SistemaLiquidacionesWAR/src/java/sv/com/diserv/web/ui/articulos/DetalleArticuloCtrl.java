@@ -21,12 +21,20 @@ import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesArticuloDTO;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
+
 import sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.EmpresasBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.LineaArticuloBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.MarcaArticuloBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.TipoArticuloBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.UmedidaArticuloBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Articulos;
 import sv.com.diserv.liquidaciones.entity.Empresas;
+import sv.com.diserv.liquidaciones.entity.LineaArticulo;
+import sv.com.diserv.liquidaciones.entity.MarcaArticulo;
 import sv.com.diserv.liquidaciones.entity.Tipoarticulo;
+import sv.com.diserv.liquidaciones.entity.UnidadesMed;
+
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.exception.DiservWebException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
@@ -56,7 +64,7 @@ public class DetalleArticuloCtrl extends BaseController {
     protected Intbox txtIdArticulo;
     protected Textbox txtDescripcion;
     protected Textbox txtCodigo;
-    protected Checkbox checkEstadoArticulo;
+    //protected Checkbox checkEstadoArticulo;
     private OperacionesArticuloDTO responseOperacion;
     protected Button btnActualizar;
     protected Button btnNuevo;
@@ -64,9 +72,15 @@ public class DetalleArticuloCtrl extends BaseController {
     protected Button btnGuardar;
     protected Button btnCerrar;
     protected Combobox cmbTipoArticulo;
+    protected Combobox cmbLineaArticulo;
+    protected Combobox cmbMarcaArticulo;
+    protected Combobox cmbMedidaArticulo;
     private List<Articulos> listaArticulosLike;
     private CatalogosBeanLocal catalogosBeanLocal;
     private TipoArticuloBeanLocal tipoArticuloBean;
+    private LineaArticuloBeanLocal lineasBean;
+    private MarcaArticuloBeanLocal marcasBean;
+    private UmedidaArticuloBeanLocal umedidaBean;
 
     public Integer getToken() {
         return token;
@@ -93,12 +107,26 @@ public class DetalleArticuloCtrl extends BaseController {
     }
 
     private void loadCombobox() {
+        
+        
         List<CatalogoDTO> listaCatalogo = new ArrayList<CatalogoDTO>();
         List<CatalogoDTO> listaCatalogoTipoArticulo = new ArrayList<CatalogoDTO>();
         List<Tipoarticulo> listaTipoArticulo;
+        
+        // lineas
+        List<CatalogoDTO> listaCatalogoLineas = new ArrayList<CatalogoDTO>();
+        List<LineaArticulo> listaLineas;
+        
+        //marcas
+        List<CatalogoDTO> listaCatalogoMarcas = new ArrayList<CatalogoDTO>();
+        List<MarcaArticulo> listaMarcas;
+        
+        //umedida
+        List<CatalogoDTO> listaCatalogoUmedida = new ArrayList<CatalogoDTO>();
+        List<UnidadesMed> listaUmedida;
+        
         try {
 
-            
             listaTipoArticulo = tipoArticuloBean.loadAllTiposArticulos();
             List<Object> objectList = new ArrayList<Object>(listaTipoArticulo);
             listaCatalogoTipoArticulo = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idtipoarticulo", "descripcion");
@@ -113,6 +141,57 @@ public class DetalleArticuloCtrl extends BaseController {
                 cmbTipoArticulo.setButtonVisible(false);
                 cmbTipoArticulo.setDisabled(true);
             }
+            
+           //****************************** lineas de articulos *********************/ 
+            listaLineas = lineasBean.loadAllLineas();
+            List<Object> objectListLinea = new ArrayList<Object>(listaLineas);
+            listaCatalogoLineas = catalogosBeanLocal.loadAllElementosCatalogo(objectListLinea, "idlinea", "desclinea");
+
+            if (listaCatalogoLineas != null && listaCatalogoLineas.size() > 0) {
+                ListModelList modelotipo = new ListModelList(listaCatalogoLineas);
+                cmbLineaArticulo.setModel(modelotipo);
+                cmbLineaArticulo.setItemRenderer(new CatalogoItemRenderer());
+            } else {
+                cmbLineaArticulo.setValue("No existen Lineas!!");
+                cmbLineaArticulo.setReadonly(true);
+                cmbLineaArticulo.setButtonVisible(false);
+                cmbLineaArticulo.setDisabled(true);
+            }
+            
+            
+            
+            //****************************** marcas de articulos *********************/ 
+            listaMarcas = marcasBean.loadAllMarcas();
+            List<Object> objectListMarca = new ArrayList<Object>(listaMarcas);
+            listaCatalogoMarcas = catalogosBeanLocal.loadAllElementosCatalogo(objectListMarca, "idmarca", "descmarca");
+
+            if (listaCatalogoMarcas != null && listaCatalogoMarcas.size() > 0) {
+                ListModelList modelotipo = new ListModelList(listaCatalogoMarcas);
+                cmbMarcaArticulo.setModel(modelotipo);
+                cmbMarcaArticulo.setItemRenderer(new CatalogoItemRenderer());
+            } else {
+                cmbMarcaArticulo.setValue("No existen Marcas!!");
+                cmbMarcaArticulo.setReadonly(true);
+                cmbMarcaArticulo.setButtonVisible(false);
+                cmbMarcaArticulo.setDisabled(true);
+            }
+            
+             //****************************** unidades de medida *********************/ 
+            listaUmedida = umedidaBean.loadAllUmedidaArticulos();
+            List<Object> objectListMedida = new ArrayList<Object>(listaUmedida);
+            listaCatalogoUmedida = catalogosBeanLocal.loadAllElementosCatalogo(objectListMedida, "idumedida", "descumedida");
+
+            if (listaCatalogoUmedida != null && listaCatalogoUmedida.size() > 0) {
+                ListModelList modelotipo = new ListModelList(listaCatalogoUmedida);
+                cmbMedidaArticulo.setModel(modelotipo);
+                cmbMedidaArticulo.setItemRenderer(new CatalogoItemRenderer());
+            } else {
+                cmbMedidaArticulo.setValue("No existen Umedida!!");
+                cmbMedidaArticulo.setReadonly(true);
+                cmbMedidaArticulo.setButtonVisible(false);
+                cmbMedidaArticulo.setDisabled(true);
+            }
+            
 
         } catch (DiservBusinessException ex) {
             Logger.getLogger(DetalleArticuloCtrl.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,6 +203,11 @@ public class DetalleArticuloCtrl extends BaseController {
         try {
             serviceLocator = ServiceLocator.getInstance();
             articulosBean = serviceLocator.getService(Constants.JNDI_ARTICULOS_BEAN);
+            catalogosBeanLocal = serviceLocator.getService(Constants.JNDI_CATALOGO_BEAN);
+            tipoArticuloBean = serviceLocator.getService(Constants.JNDI_TIPOARTICULOS_BEAN);
+            lineasBean = serviceLocator.getService(Constants.JNDI_LINEAS_BEAN);
+            marcasBean = serviceLocator.getService(Constants.JNDI_MARCAS_BEAN);
+            umedidaBean = serviceLocator.getService(Constants.JNDI_UMEDIDA_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
@@ -199,30 +283,22 @@ public class DetalleArticuloCtrl extends BaseController {
     private void loadDataFromTextboxs() {
         try {
             Articulos articuloSelected2 = articuloSelected;
-            articuloSelected = new Articulos();
+            articuloSelected = new Articulos();        
+
             //validamos los campos
+             if (StringUtils.isEmpty(txtCodigo.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar codigo para Articulos");
+            }
 
             if (StringUtils.isEmpty(txtDescripcion.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar descripción para Articulos");
             }
-
-//            if (checkEstadoArticulos.isChecked()) {
-//                articuloSelected.setActiva("S");
-//            } else {
-//                articuloSelected.setActiva("N");
-//            }
-            //bodegaSelected.setDepartamento(txtDepartamento.getValue());
-            articuloSelected.setCodarticulo(txtCodigo.getValue());
+            
+            articuloSelected.setIdtipoarticulo(new Tipoarticulo((Integer) cmbTipoArticulo.getSelectedItem().getValue()));
             articuloSelected.setDescarticulo(txtDescripcion.getValue());
+            articuloSelected.setCodarticulo(txtCodigo.getValue());            
             articuloSelected.setIdarticulo(txtIdArticulo.getValue());
 
-            //bodegaSelected.setEncargado(txtEncargado.getValue());
-            // sucursal
-            //Sucursales obj =
-          //  articuloSelected.setIdempresa(articuloSelected2.getIdempresa());
-            //bodegaSelected.setIvaBodegas(txtRegistroIva.getValue());
-            //bodegaSelected.setEmailBodegas(txtCorreoElectronico.getValue());
-            //bodegaSelected.setTelefono(checkEstadoBodegas.isChecked());
         } catch (DiservWebException ex) {
             MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
         }
@@ -298,7 +374,7 @@ public class DetalleArticuloCtrl extends BaseController {
         txtCodigo.setValue(null);
         txtDescripcion.setValue(null);
         txtIdArticulo.setValue(null);
-        checkEstadoArticulo.setChecked(false);
+       // checkEstadoArticulo.setChecked(false);
 
        // txtMunicipio.setValue(null);
         // txtNombreBodegas.setValue(null);
@@ -316,6 +392,7 @@ public class DetalleArticuloCtrl extends BaseController {
         //this.checkEstadoArticulos.setChecked(Boolean.FALSE);
         this.btnEditar.setVisible(false);
         this.btnNuevo.setVisible(false);
+        loadCombobox();
     }
 
     public void onClick$btnNuevo(Event event) {

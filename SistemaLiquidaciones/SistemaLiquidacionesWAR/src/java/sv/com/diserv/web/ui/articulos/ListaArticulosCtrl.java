@@ -38,7 +38,7 @@ public class ListaArticulosCtrl extends BaseController{
     
     static final Logger logger = Logger.getLogger(ListaArticulosCtrl.class.getCanonicalName());
     protected Window listaArticuloWindow;
-    protected Button btnNuevaArticulo;
+    protected Button btnNuevoArticulo;
     protected Button btnBusquedaArticulo;
     protected Button btnRefresh;
     protected Paging pagingArticulo;
