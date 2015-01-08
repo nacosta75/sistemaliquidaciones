@@ -11,7 +11,7 @@
             use="sv.com.diserv.web.ui.personas.DetalleProveedorCtrl"
             closable="true"
             width="650px" 
-            height="580px"
+            height="560px"
             sizable="true" 
             sclass="pageWindowTitle"
             mode="modal" >
@@ -83,12 +83,16 @@
                                                                 <label value="Id Proveedor" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">  
                                                             <intbox
                                                                 id="txtIdProveedor"
                                                                 hflex="1"
                                                                 maxlength="10"
                                                                 tooltiptext="Identificador unico de cliente"
                                                                 readonly="true" />
+                                                            </groupbox>
                                                         </row>
                                                         
                 
@@ -99,7 +103,11 @@
                                                                     value="Nombre Proveedor : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">  
                                                             <textbox   id="txtNombreProveedor"   hflex="1" />
+                                                            </groupbox>
                                                         </row>
                                                                     
                                                         <row>
@@ -108,8 +116,12 @@
                                                                     value="Calle o Pasaje : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">  
                                                             <textbox id="txtCallePasaje"
                                                                      hflex="1" />
+                                                            </groupbox>
                                                         </row>
                                                         <row>
                                                             <hbox>
@@ -117,8 +129,12 @@
                                                                     value="Colonia : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">  
                                                             <textbox id="txtColonia"
                                                                      hflex="1" />
+                                                             </groupbox>
                                                         </row>
                                                         <row>
                                                             <hbox>
@@ -126,8 +142,12 @@
                                                                     value="NIT : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">  
                                                             <textbox id="txtNIT" maxlength="14"
                                                                      />
+                                                            </groupbox>
                                                         </row>
                                                         <row>
                                                             <hbox>
@@ -135,27 +155,39 @@
                                                                     value="Numero de Registro Fiscal : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">  
                                                             <textbox id="txtRegistro"
                                                                      />
+                                                            </groupbox>
                                                         </row>
                                                         <row>
                                                             <hbox>
                                                                 <label
-                                                                    value="Telefono : " />
+                                                                    value="Telefono 1: " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                            
+                                                                <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">    
                                                             <intbox id="txtTelefono1" maxlength="8" constraint="no negative,no zero" 
                                                                       />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Extension:" />
+                                                                     
+                                                                <label value="Extension 1:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
+                                                            
                                                             <intbox  
                                                                 id="txtExt1" maxlength="8" constraint="no negative,no zero"
                                                                  />
+                                                             </groupbox>
+                                                            
+                                                            
+                                                        
+                                                            
                                                         </row>
+                                                        
                                                         
                                                         <row>
                                                             <hbox>
@@ -163,17 +195,23 @@
                                                                     value="Telefono 2: " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <intbox id="txtTelefono2" maxlength="8" constraint="no negative,no zero"/>
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
+                                                            
+                                                                <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">    
+                                                                      <intbox id="txtTelefono2" maxlength="8" constraint="no negative,no zero" 
+                                                                      />
+                                                                     
                                                                 <label value="Extension 2:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
+                                                            
                                                             <intbox  
                                                                 id="txtExt2" maxlength="8" constraint="no negative,no zero"
                                                                  />
+                                                             </groupbox>
+                                                           
                                                         </row>
+                                                        
                                                         
                                                         <row>
                                                             <hbox>
@@ -181,71 +219,85 @@
                                                                     value="Telefono 3: " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                            
+                                                                <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">    
                                                             <intbox id="txtTelefono3" maxlength="8" constraint="no negative,no zero"
                                                                      />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
+                                                                     
                                                                 <label value="Extension 3:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
+                                                            
                                                             <intbox  
                                                                 id="txtExt3" maxlength="8" constraint="no negative,no zero"
                                                                  />
+                                                             </groupbox>
+                                                           
                                                         </row>
+                                                       
                                                         <row>
                                                             <hbox>
                                                                 <label
                                                                     value="Fax : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
+                                                             <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 "> 
                                                             <intbox id="txtFax" maxlength="8" constraint="no negative,no zero"
                                                                       />
+                                                             </groupbox>
                                                         </row>
                                                         <row>  
                                                             <hbox>
                                                                 <label value="Credito activo:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
+                                                            <groupbox
+                                                                       mold="3d" 
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 "> 
+                                                            <checkbox id="checkCreditoActivo" onCheck="" />
    
-                                                            <checkbox id="checkCreditoActivo" onCheck=""  hflex="1" />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Limite de Credito:" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
+                                                                <label value="Limite de Credito:" style="margin-left:61px"/>
+                                                                <label value="*" style="color:red;font-size:10px;" />
                                                             <doublebox  
                                                                 id="txtLimiteCredito" 
-                                                                hflex="1" />
+                                                                />
+                                                             </groupbox>
                                                         </row>
                                                         <row>
                                                             <hbox>
                                                                 <label value="Correo Electronico:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
+                                                             <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 "> 
                                                              <textbox width="150px" id="txtCorreo" hflex="1"  constraint="/.+@.+\.[a-z]+/: Por favor ingrese un Email valido" 
                                                                  />
+                                                             </groupbox>
                                                         </row>
                                                         <row>
                                                             <hbox>
                                                                 <label value="Ultimo Saldo:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
+                                                             <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 "> 
                                                             <doublebox  
                                                                 id="txtUltSaldo" 
-                                                                hflex="1" />
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Fecha Ultimo Saldo:" />
+                                                                 />
+                                                            
+                                                                <label value="Fecha Ultimo Saldo:" style="margin-left:10px"/>
                                                                 <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
                                                             <datebox  
                                                                 id="txtfechaUltSaldo" 
                                                                 format="dd/MM/yyyy" 
                                                                 onCreate="self.value = new Date()"
-                                                                hflex="1" />
+                                                                />
+                                                             </groupbox>
                                                         </row>
                                                      </rows>
                                                 </grid>
