@@ -317,7 +317,8 @@ public class DetalleVendedorCtrl extends BaseController {
             } else if (getToken().intValue() == 0) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar la misma persona dos veces, por seguridad solo se proceso una vez ");
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
         }
@@ -369,29 +370,48 @@ public class DetalleVendedorCtrl extends BaseController {
 
       public void onClick$btnAsignarBodega(Event event) {
         try {
-            if (getToken().intValue() > 0) {
+//            if (getToken().intValue() > 0) {
+                int idBodega =0;
+                int idVendedor = 0;
+                if(cmbBodegasAsignables != null && cmbBodegasAsignables.getSelectedItem() != null)
+                   idBodega = (Integer) cmbBodegasAsignables.getSelectedItem().getValue();
                 
-                Bodegas bodega = bodegaVendedorBean.findBodegaByID((Integer) cmbBodegasAsignables.getSelectedItem().getValue());
-                responseOperacionBodega = bodegaVendedorBean.asignarBodega((Integer) cmbBodegasAsignables.getSelectedItem().getValue(),txtIdVendedor.getValue());
-                if (responseOperacionBodega.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                    MensajeMultilinea.show(responseOperacionBodega.getMensajeRespuesta() + " Id Asociacion:" + responseOperacionBodega.getBodegaVendedor().getId(), Constants.MENSAJE_TIPO_INFO);
-                     txtBodega.setValue(bodega.getNombre());
-                     txtIdBodega.setValue(bodega.getIdbodega());
-                     btnAsignarBodega.setDisabled(true);
-                     cmbBodegasAsignables.setDisabled(true);
-                     btnDesasignarBodega.setDisabled(false);
-                     loadComboboxBodegas();
-                } else {
-                        btnAsignarBodega.setDisabled(false);
-                        cmbBodegasAsignables.setDisabled(false);
-                        btnDesasignarBodega.setDisabled(true);
-                   // MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+                if (txtIdVendedor !=null && txtIdVendedor.getValue() != null && txtIdVendedor.getValue() != 0) {
+                    idVendedor = txtIdVendedor.getValue();
                 }
-                setToken(1);
-            } else if (getToken().intValue() == 0) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar la misma persona dos veces, por seguridad solo se proceso una vez ");
-            }
-        } catch (Exception e) {
+                
+                if (idBodega == 0) {
+                    throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe seleccionar una bodega a asignar");
+                    }
+                if (idVendedor == 0) {
+                    throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe existir un vendedor al cual asignar la bodega");
+                    }
+                
+                if(idBodega >0 && idVendedor>0){
+                        Bodegas bodega = bodegaVendedorBean.findBodegaByID(idBodega);
+                        responseOperacionBodega = bodegaVendedorBean.asignarBodega(idBodega,txtIdVendedor.getValue());
+                        if (responseOperacionBodega.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+                            MensajeMultilinea.show(responseOperacionBodega.getMensajeRespuesta() + " Id Asociacion:" + responseOperacionBodega.getBodegaVendedor().getId(), Constants.MENSAJE_TIPO_INFO);
+                             txtBodega.setValue(bodega.getNombre());
+                             txtIdBodega.setValue(bodega.getIdbodega());
+                             btnAsignarBodega.setDisabled(true);
+                             cmbBodegasAsignables.setDisabled(true);
+                             btnDesasignarBodega.setDisabled(false);
+                             loadComboboxBodegas();
+                        } else {
+                                btnAsignarBodega.setDisabled(false);
+                                cmbBodegasAsignables.setDisabled(false);
+                                btnDesasignarBodega.setDisabled(true);
+                           // MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+                        }
+                        setToken(1);
+                }
+//            } else if (getToken().intValue() == 0) {
+//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar la misma persona dos veces, por seguridad solo se proceso una vez ");
+//            }
+        }catch (DiservWebException ex) {
+            MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
+        }catch (Exception e) {
             e.printStackTrace();
             MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
         }
