@@ -75,10 +75,10 @@ public class Articulos implements Serializable {
     @Size(min = 1, max = 80)
     @Column(name = "DESCARTICULO")
     private String descarticulo;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "IDTIPOARTICULO")
-    private int idtipoarticulo;
+    
+    @JoinColumn(name = "IDTIPOARTICULO", referencedColumnName = "IDTIPOARTICULO")
+    @ManyToOne(optional = false)
+    private Tipoarticulo idtipoarticulo;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -146,7 +146,6 @@ public class Articulos implements Serializable {
         this.idarticulo = idarticulo;
         this.codarticulo = codarticulo;
         this.descarticulo = descarticulo;
-        this.idtipoarticulo = idtipoarticulo;
         this.costocompact = costocompact;
         this.costocompant = costocompant;
         this.idusuariocrea = idusuariocrea;
@@ -174,14 +173,6 @@ public class Articulos implements Serializable {
 
     public void setDescarticulo(String descarticulo) {
         this.descarticulo = descarticulo;
-    }
-
-    public int getIdtipoarticulo() {
-        return idtipoarticulo;
-    }
-
-    public void setIdtipoarticulo(int idtipoarticulo) {
-        this.idtipoarticulo = idtipoarticulo;
     }
 
     public BigDecimal getCostocompact() {
