@@ -61,7 +61,15 @@
                                   width="100%" 
                                   style="padding: 3px;">
                                 <div>
-                                                                     
+                                    
+                                    <tabbox width="600px" height="300px">
+                                        
+                                          <tabs>
+                                                <tab label="Datos Generales" />
+                                                <tab label="Otros Datos" />
+                                          </tabs>
+                                          <tabpanels>
+                                              <tabpanel style="color:#336699;">    
                                       <panel id="panelInformacionArticulo" border="none">                                                               
                                         <panelchildren>
                                             <groupbox id="gb_address"
@@ -164,19 +172,11 @@
                                             </groupbox>
                                         </panelchildren>
                                     </panel>
-<!--                                    
-                                      <panel id="panelGeneralesArticulo" border="none">
-                                        <panelchildren>
-                                             <groupbox id="gb_Generales"
-                                                      mold="3d" 
-                                                      closable="false">
-                                                 <caption image="/images/flag_green.gif"
-                                                         label="Información General" />
-                                                 
-                                             </groupbox>
-                                        </panelchildren>                                                                                                    
-                                    </panel>-->
-                                    
+                                    </tabpanel>
+                                     <tabpanel style="color:#333399;">Panel 2</tabpanel>
+                                    </tabpanels>                                 
+                                  </tabbox>                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                   
                                 </div>
                             </vbox>
                         </cell>                                 
