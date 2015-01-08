@@ -19,6 +19,7 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 @Local
 public interface MarcaArticuloBeanLocal {
     
+    public List<MarcaArticulo> loadAllMarcas() throws DiservBusinessException;
     public List<MarcaArticulo> loadAllMarcas(int inicio, int fin) throws DiservBusinessException;
     public Integer countAllMarcaArticulo() throws DiservBusinessException;
     public OperacionesMarcaArticuloDTO guardarMarca(MarcaArticulo linea) throws DiservBusinessException;
@@ -27,4 +28,6 @@ public interface MarcaArticuloBeanLocal {
     public List<MarcaArticulo> buscarMarcaByCriteria(BusquedaMarcaArticuloDTO request) throws DiservBusinessException;
     public List<MarcaArticulo> loadMarcaByDescripcionLike(String likeNombre) throws DiservBusinessException;
     public MarcaArticulo loadMarcaByID(Integer idMarca) throws DiservBusinessException;
+
+    
 }

@@ -35,6 +35,27 @@ public class MarcaArticuloBean implements MarcaArticuloBeanLocal{
     GenericDaoServiceBeanLocal genericDaoBean;
     
     
+     @Override
+    public List<MarcaArticulo> loadAllMarcas() throws DiservBusinessException {
+          logger.log(Level.INFO, "[loadAllMarcaArticulo]");
+        List<MarcaArticulo> marcasList = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("MarcaArticulo.findAll");
+            marcasList = query.getResultList();
+            if (marcasList != null) {
+                logger.log(Level.INFO, "[loadAllMarcaArticulo] Se encontraron " + marcasList.size() + " marcas");
+            }
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[loadAllMarcaArticulo][NoResultException]No se encontraron Marcas");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron marcas");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[loadAllMarcaArticulo][Exception]Se mostro una excepcion al buscar marcas");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return marcasList;
+    }
 
     @Override
     public List<MarcaArticulo> loadAllMarcas(int inicio, int fin) throws DiservBusinessException {
@@ -217,5 +238,7 @@ public class MarcaArticuloBean implements MarcaArticuloBeanLocal{
         }
         return marca;
     }
+
+   
     
 }

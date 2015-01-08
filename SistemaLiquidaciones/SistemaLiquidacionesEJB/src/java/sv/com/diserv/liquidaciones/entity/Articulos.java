@@ -363,5 +363,15 @@ public class Articulos implements Serializable {
     public String toString() {
         return "entity.Articulos[ idarticulo=" + idarticulo + " ]";
     }
+
+    public Tipoarticulo getIdtipoarticulo() {
+        return idtipoarticulo;
+    }
+
+    public void setIdtipoarticulo(Tipoarticulo idtipoarticulo) {
+        this.idtipoarticulo = idtipoarticulo;
+    }
+   
+    
     
 }

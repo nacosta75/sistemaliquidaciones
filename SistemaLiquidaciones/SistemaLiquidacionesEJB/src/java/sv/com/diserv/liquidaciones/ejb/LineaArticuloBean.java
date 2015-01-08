@@ -19,6 +19,7 @@ import sv.com.diserv.liquidaciones.entity.LineaArticulo;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
 import sv.com.diserv.liquidaciones.util.Constants;
 
 /**
@@ -59,7 +60,31 @@ public class LineaArticuloBean implements LineaArticuloBeanLocal{
         }
         return lineasList;
     }
+    
+    
+        @Override
+    public List<LineaArticulo> loadAllLineas() throws DiservBusinessException {
+         logger.log(Level.INFO, "[loadAllLineaArticulo] ");
+        List<LineaArticulo> lineasList = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("LineaArticulo.findAll");
+            lineasList = query.getResultList();
+            if (lineasList != null) {
+                logger.log(Level.INFO, "[loadAllLineaArticulo] Se encontraron " + lineasList.size() + " lineas");
+            }
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[loadAllLineaArticulo][NoResultException]No se encontraron Lineas");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron lineas");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[loadAllLineaArticulo][Exception]Se mostro una excepcion al buscar lineas");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return lineasList;
+    }
 
+    
     @Override
     public Integer countAllLineaArticulo() throws DiservBusinessException {
         logger.log(Level.INFO, "[countAllLinea]INIT");
@@ -217,6 +242,7 @@ public class LineaArticuloBean implements LineaArticuloBeanLocal{
         }
         return linea;
     }
+
 
     
 }
