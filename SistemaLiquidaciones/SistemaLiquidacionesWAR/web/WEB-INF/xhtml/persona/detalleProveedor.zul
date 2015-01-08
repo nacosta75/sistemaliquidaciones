@@ -126,7 +126,7 @@
                                                                     value="NIT : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <textbox id="txtNIT"
+                                                            <textbox id="txtNIT" maxlength="14"
                                                                      />
                                                         </row>
                                                         <row>
@@ -144,7 +144,7 @@
                                                                     value="Telefono : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <textbox id="txtTelefono1"
+                                                            <intbox id="txtTelefono1" maxlength="8" constraint="no negative,no zero" 
                                                                       />
                                                         </row>
                                                         <row>
@@ -152,8 +152,8 @@
                                                                 <label value="Extension:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox  
-                                                                id="txtExt1" 
+                                                            <intbox  
+                                                                id="txtExt1" maxlength="8" constraint="no negative,no zero"
                                                                  />
                                                         </row>
                                                         
@@ -163,16 +163,15 @@
                                                                     value="Telefono 2: " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <textbox id="txtTelefono2"
-                                                                      />
+                                                            <intbox id="txtTelefono2" maxlength="8" constraint="no negative,no zero"/>
                                                         </row>
                                                         <row>
                                                             <hbox>
                                                                 <label value="Extension 2:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox  
-                                                                id="txtExt2" 
+                                                            <intbox  
+                                                                id="txtExt2" maxlength="8" constraint="no negative,no zero"
                                                                  />
                                                         </row>
                                                         
@@ -182,7 +181,7 @@
                                                                     value="Telefono 3: " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <textbox id="txtTelefono3"
+                                                            <intbox id="txtTelefono3" maxlength="8" constraint="no negative,no zero"
                                                                      />
                                                         </row>
                                                         <row>
@@ -190,8 +189,8 @@
                                                                 <label value="Extension 3:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox  
-                                                                id="txtExt3" 
+                                                            <intbox  
+                                                                id="txtExt3" maxlength="8" constraint="no negative,no zero"
                                                                  />
                                                         </row>
                                                         <row>
@@ -200,7 +199,7 @@
                                                                     value="Fax : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <textbox id="txtFax"
+                                                            <intbox id="txtFax" maxlength="8" constraint="no negative,no zero"
                                                                       />
                                                         </row>
                                                         <row>  
@@ -225,9 +224,8 @@
                                                                 <label value="Correo Electronico:" />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                                                            <textbox  
-                                                                id="txtCorreo" 
-                                                                hflex="1" />
+                                                             <textbox width="150px" id="txtCorreo" hflex="1"  constraint="/.+@.+\.[a-z]+/: Por favor ingrese un Email valido" 
+                                                                 />
                                                         </row>
                                                         <row>
                                                             <hbox>
