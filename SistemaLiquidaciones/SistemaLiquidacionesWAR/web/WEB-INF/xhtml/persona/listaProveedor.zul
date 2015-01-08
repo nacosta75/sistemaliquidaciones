@@ -52,16 +52,17 @@
                                 sort="auto"
                                 width="50%"
                                 label="Nombre Proveedor" />
+                    <listheader id="listheaderRegistroProveedor"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="50%"
+                                label="Numero de Registro Fiscal del Proveedor" />      
                     <listheader id="listheaderTelefonoProveedor"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="50%"
                                 label="Telefono Proveedor" />
-                     <listheader id="listheaderRegistroProveedor"
-                                sclass="FDListBoxHeader1"
-                                sort="auto"
-                                width="50%"
-                                label="Numero de Registro Fiscal del Proveedor" />            
+                           
                   
                 </listhead>
             </listbox>
