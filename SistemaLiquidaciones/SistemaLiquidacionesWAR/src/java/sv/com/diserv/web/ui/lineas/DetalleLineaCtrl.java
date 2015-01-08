@@ -93,6 +93,8 @@ public class DetalleLineaCtrl extends BaseController {
         }
       //  checkPermisos();
       showDetalleLineas();
+      
+         //userLogin.getUsuario().getIdusuario();
     }
     
     public void showDetalleLineas() {
@@ -155,6 +157,7 @@ public class DetalleLineaCtrl extends BaseController {
             //bodegaSelected.setDepartamento(txtDepartamento.getValue());
             lineaSelected.setDesclinea(txtDescripcion.getValue());
             lineaSelected.setIdlinea(txtIdLinea.getValue());
+            
 
             //bodegaSelected.setEncargado(txtEncargado.getValue());
             // sucursal
@@ -275,6 +278,7 @@ public class DetalleLineaCtrl extends BaseController {
       public void doActualizar() {
         loadDataFromTextboxs();
         try {
+            
             
             responseOperacion = lineasBean.actualizarLinea(lineaSelected);
             if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {

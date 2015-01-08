@@ -5,6 +5,7 @@
  */
 package sv.com.diserv.web.ui.articulos;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,18 +13,26 @@ import org.apache.commons.lang.StringUtils;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Checkbox;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Intbox;
+import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesArticuloDTO;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.EmpresasBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.TipoArticuloBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Articulos;
 import sv.com.diserv.liquidaciones.entity.Empresas;
+import sv.com.diserv.liquidaciones.entity.Tipoarticulo;
+import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.exception.DiservWebException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
+import sv.com.diserv.web.ui.personas.rendered.CatalogoItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
@@ -43,7 +52,7 @@ public class DetalleArticuloCtrl extends BaseController {
     private transient Integer token;
     private ListaArticulosCtrl listaArticulosCtrl;
 
-    protected Window detalleArticuloWindow ;
+    protected Window detalleArticuloWindow;
     protected Intbox txtIdArticulo;
     protected Textbox txtDescripcion;
     protected Textbox txtCodigo;
@@ -54,7 +63,10 @@ public class DetalleArticuloCtrl extends BaseController {
     protected Button btnEditar;
     protected Button btnGuardar;
     protected Button btnCerrar;
+    protected Combobox cmbTipoArticulo;
     private List<Articulos> listaArticulosLike;
+    private CatalogosBeanLocal catalogosBeanLocal;
+    private TipoArticuloBeanLocal tipoArticuloBean;
 
     public Integer getToken() {
         return token;
@@ -80,8 +92,34 @@ public class DetalleArticuloCtrl extends BaseController {
         this.articuloSelected = articuloSelected;
     }
 
+    private void loadCombobox() {
+        List<CatalogoDTO> listaCatalogo = new ArrayList<CatalogoDTO>();
+        List<CatalogoDTO> listaCatalogoTipoArticulo = new ArrayList<CatalogoDTO>();
+        List<Tipoarticulo> listaTipoArticulo;
+        try {
 
-      public DetalleArticuloCtrl() {
+            
+            listaTipoArticulo = tipoArticuloBean.loadAllTiposArticulos();
+            List<Object> objectList = new ArrayList<Object>(listaTipoArticulo);
+            listaCatalogoTipoArticulo = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idtipoarticulo", "descripcion");
+
+            if (listaCatalogoTipoArticulo != null && listaCatalogoTipoArticulo.size() > 0) {
+                ListModelList modelotipo = new ListModelList(listaCatalogoTipoArticulo);
+                cmbTipoArticulo.setModel(modelotipo);
+                cmbTipoArticulo.setItemRenderer(new CatalogoItemRenderer());
+            } else {
+                cmbTipoArticulo.setValue("No existen tipos articulos!!");
+                cmbTipoArticulo.setReadonly(true);
+                cmbTipoArticulo.setButtonVisible(false);
+                cmbTipoArticulo.setDisabled(true);
+            }
+
+        } catch (DiservBusinessException ex) {
+            Logger.getLogger(DetalleArticuloCtrl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public DetalleArticuloCtrl() {
         logger.log(Level.INFO, "[DetalleArticuloCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
@@ -109,10 +147,11 @@ public class DetalleArticuloCtrl extends BaseController {
         if (this.args.containsKey("listaArticulosCtrl")) {
             listaArticulosCtrl = ((ListaArticulosCtrl) this.args.get("listaArticulosCtrl"));
         }
-      //  checkPermisos();
-      showDetalleArticulos();
+        //  checkPermisos();
+        showDetalleArticulos();
+        //this.userLogin.getUsuario().getIdusuario();
     }
-    
+
     public void showDetalleArticulos() {
         try {
             if (articuloSelected != null) {
@@ -142,7 +181,9 @@ public class DetalleArticuloCtrl extends BaseController {
         txtIdArticulo.setValue(articuloSelected.getIdarticulo());
         txtCodigo.setValue(articuloSelected.getCodarticulo());
         txtDescripcion.setValue(articuloSelected.getDescarticulo());
-            // txtIdBodegas.setValue(bodegaSelected.getIdbodega());
+        
+        loadCombobox();
+        // txtIdBodegas.setValue(bodegaSelected.getIdbodega());
         // txtNombreBodegas.setText(bodegaSelected.getNombre());
         // txtTelefono.setValue(bodegaSelected.getTelefono());
         //cmbSucursal.
@@ -170,7 +211,6 @@ public class DetalleArticuloCtrl extends BaseController {
 //            } else {
 //                articuloSelected.setActiva("N");
 //            }
-
             //bodegaSelected.setDepartamento(txtDepartamento.getValue());
             articuloSelected.setCodarticulo(txtCodigo.getValue());
             articuloSelected.setDescarticulo(txtDescripcion.getValue());
@@ -179,9 +219,7 @@ public class DetalleArticuloCtrl extends BaseController {
             //bodegaSelected.setEncargado(txtEncargado.getValue());
             // sucursal
             //Sucursales obj =
-     
           //  articuloSelected.setIdempresa(articuloSelected2.getIdempresa());
-
             //bodegaSelected.setIvaBodegas(txtRegistroIva.getValue());
             //bodegaSelected.setEmailBodegas(txtCorreoElectronico.getValue());
             //bodegaSelected.setTelefono(checkEstadoBodegas.isChecked());
@@ -214,13 +252,13 @@ public class DetalleArticuloCtrl extends BaseController {
 
     public void onClick$btnGuardar(Event event) {
         try {
-            
+
             if (getToken().intValue() > 0) {
                 loadDataFromTextboxs();
-                Empresas empresa= new Empresas(1,"1","DISERV, S.A. ");//empresasBean.loadEmpresaByID(1);
-                
+                Empresas empresa = new Empresas(1, "1", "DISERV, S.A. ");//empresasBean.loadEmpresaByID(1);
+
                 articuloSelected.setIdempresa(empresa);
-                
+
                 responseOperacion = articulosBean.guardarArticulo(articuloSelected);
                 if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                     MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id Articulo:" + responseOperacion.getArticulo().getIdarticulo(), Constants.MENSAJE_TIPO_INFO);
@@ -241,21 +279,21 @@ public class DetalleArticuloCtrl extends BaseController {
             MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
         }
     }
-    
-      public void onClick$btnEditar(Event event) {
+
+    public void onClick$btnEditar(Event event) {
         doReadOnly(Boolean.FALSE);
         this.btnActualizar.setVisible(true);
-       // this.btnGuardar.setVisible(true);
+        // this.btnGuardar.setVisible(true);
         this.btnEditar.setVisible(false);
     }
-      
+
     private void doClose() {
         this.detalleArticuloWindow.onClose();
     }
-      
+
     public void doClear() {
 
-       // txtCorreoElectronico.setValue(null);
+        // txtCorreoElectronico.setValue(null);
         //txtEncargado.setValue(null);
         txtCodigo.setValue(null);
         txtDescripcion.setValue(null);
@@ -263,13 +301,12 @@ public class DetalleArticuloCtrl extends BaseController {
         checkEstadoArticulo.setChecked(false);
 
        // txtMunicipio.setValue(null);
-       // txtNombreBodegas.setValue(null);
-
+        // txtNombreBodegas.setValue(null);
        // txtTelefono2.setValue(null);
-       // txtTelefono.setValue(null);
-       // txtNombreBodegas.setFocus(true);
+        // txtTelefono.setValue(null);
+        // txtNombreBodegas.setFocus(true);
     }
-  
+
     private void doNew() {
         doClear();
         doReadOnly(Boolean.FALSE);
@@ -280,7 +317,7 @@ public class DetalleArticuloCtrl extends BaseController {
         this.btnEditar.setVisible(false);
         this.btnNuevo.setVisible(false);
     }
-    
+
     public void onClick$btnNuevo(Event event) {
         doNew();
     }
@@ -292,12 +329,12 @@ public class DetalleArticuloCtrl extends BaseController {
     public void onClick$btnActualizar(Event event) throws InterruptedException {
         doActualizar();
         this.btnActualizar.setVisible(false);
-    }  
-    
-      public void doActualizar() {
+    }
+
+    public void doActualizar() {
         loadDataFromTextboxs();
         try {
-            
+
             responseOperacion = articulosBean.actualizarArticulo(articuloSelected);
             if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                 MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id articulo:" + responseOperacion.getArticulo().getIdarticulo(), Constants.MENSAJE_TIPO_INFO);
@@ -324,5 +361,5 @@ public class DetalleArticuloCtrl extends BaseController {
         doReadOnly(Boolean.TRUE);
         doEditButton();
     }
-    
+
 }
