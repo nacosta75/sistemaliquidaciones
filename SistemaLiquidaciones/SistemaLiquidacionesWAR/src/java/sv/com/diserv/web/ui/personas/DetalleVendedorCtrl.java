@@ -50,13 +50,13 @@ public class DetalleVendedorCtrl extends BaseController {
     protected Textbox txtCallePasaje;
     protected Textbox txtColonia;
     protected Textbox txtNIT;
-    protected Textbox txtTelefono1;
-    protected Textbox txtExt1;
-    protected Textbox txtTelefono2;
-    protected Textbox txtExt2;
-    protected Textbox txtTelefono3;
-    protected Textbox txtExt3;
-    protected Textbox txtFax;
+    protected Intbox txtTelefono1;
+    protected Intbox txtExt1;
+    protected Intbox txtTelefono2;
+    protected Intbox txtExt2;
+    protected Intbox txtTelefono3;
+    protected Intbox txtExt3;
+    protected Intbox txtFax;
     protected Checkbox checkCreditoActivo;
     protected Doublebox txtLimiteCredito;
     protected Textbox txtCorreo;
@@ -159,9 +159,16 @@ public class DetalleVendedorCtrl extends BaseController {
             txtCallePasaje.setValue(clienteSelected.getCalleOPasaje());
             txtColonia.setValue(clienteSelected.getColonia());
             txtNIT.setValue(clienteSelected.getNit());
-            txtTelefono1.setValue(clienteSelected.getTelefono1());
-            txtExt1.setValue(clienteSelected.getExt1()+"");
-            txtCorreo.setValue(clienteSelected.getCorreo());
+            
+            if(clienteSelected.getTelefono1()!= null)
+            txtTelefono1.setValue(Integer.parseInt(clienteSelected.getTelefono1()));
+            
+            if(clienteSelected.getExt1()!= null)
+                txtExt1.setValue(clienteSelected.getExt1());   
+            
+            if(clienteSelected.getCorreo() != null)
+                txtCorreo.setValue(clienteSelected.getCorreo());
+            
             
             if(clienteSelected != null &&  clienteSelected.getIdpersona()!= null){
                 Bodegas bodega = bodegaVendedorBean.findBodegaAsignada(clienteSelected.getIdpersona());
@@ -231,7 +238,7 @@ public class DetalleVendedorCtrl extends BaseController {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar  Nombre Vendedor");
             }
             
-            if (StringUtils.isEmpty(txtTelefono1.getValue())) {
+            if (txtTelefono1.getValue() == null || txtTelefono1.getValue()==0) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   Numero Telefono para cliente");
             }
              if (!StringUtils.isEmpty(txtCorreo.getValue())) {
@@ -246,8 +253,12 @@ public class DetalleVendedorCtrl extends BaseController {
             
             clienteSelected.setIdpersona(txtIdVendedor.getValue());
             clienteSelected.setNombre(txtNombreVendedor.getValue());
-            clienteSelected.setTelefono1(txtTelefono1.getValue());
             
+            if(txtTelefono1.getValue() > 0)
+                clienteSelected.setTelefono1(txtTelefono1.getValue()+"");
+            if(txtExt1.getValue()> 0)
+                clienteSelected.setExt1(Integer.parseInt(txtExt1.getValue()+""));
+
             //Debido a que estos campos no son obligatorios de evalua
             // que no esten vacios para setearlos en la entidad
             if(!StringUtils.isEmpty(txtCallePasaje.getValue()))
@@ -257,8 +268,6 @@ public class DetalleVendedorCtrl extends BaseController {
             if(!StringUtils.isEmpty(txtNIT.getValue()))
                 clienteSelected.setNit(txtNIT.getValue());     
             
-            if(!StringUtils.isEmpty(txtExt1.getValue()))
-                clienteSelected.setExt1(Integer.parseInt(txtExt1.getValue()));
             if(!StringUtils.isEmpty(txtCorreo.getValue()))
                 clienteSelected.setCorreo(txtCorreo.getValue());
             
