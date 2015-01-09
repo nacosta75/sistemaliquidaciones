@@ -3,27 +3,38 @@ package sv.com.diserv.web.ui.asignaciones;
 import sv.com.diserv.web.ui.asignaciones.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Intbox;
+import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
+import sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
-import sv.com.diserv.liquidaciones.entity.Empresas;
+import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
-import sv.com.diserv.liquidaciones.entity.Sucursales;
+import sv.com.diserv.liquidaciones.entity.Personas;
+import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.exception.DiservWebException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
+import sv.com.diserv.liquidaciones.util.UtilFormat;
+import sv.com.diserv.web.ui.personas.DetalleClienteCtrl;
+import sv.com.diserv.web.ui.personas.rendered.CatalogoItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
@@ -33,8 +44,9 @@ public class DetalleAsignacionCtrl extends BaseController {
     private static final long serialVersionUID = -546886879998950467L;
     protected Window detalleAsignacionWindow;
     protected Intbox txtIdAsignacion;
-    protected Textbox txtNombreVendedor;
+    protected Intbox txtNumDoc;
     protected Datebox txtfechaAsignacion;
+    protected Combobox cmbVendedor;
 
     protected Button btnActualizar;
     protected Button btnNuevo;
@@ -46,6 +58,8 @@ public class DetalleAsignacionCtrl extends BaseController {
     private ListaAsignacionesCtrl listaAsignacionCtrl;
     private transient Integer token;
     private MovimientosBeanLocal movimientoBean;
+    private PersonasBeanLocal personaBean;
+    private CatalogosBeanLocal catalogosBeanLocal;
     private ServiceLocator serviceLocator;
     private OperacionesMovimientoDTO responseOperacion;
     private List<Movimientos> listaAsignacionesLike;
@@ -67,6 +81,8 @@ public class DetalleAsignacionCtrl extends BaseController {
         logger.log(Level.INFO, "[DetalleAsignacionCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
+            personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
+            catalogosBeanLocal = serviceLocator.getService(Constants.JNDI_CATALOGO_BEAN);
             movimientoBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOS_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
@@ -115,23 +131,51 @@ public class DetalleAsignacionCtrl extends BaseController {
 //    protected ComboBox cmbEstadoCivil;
     
         txtIdAsignacion.setValue(asignacionSelected.getIdmov());
-        txtNombreVendedor.setValue(asignacionSelected.getNombre());
         txtfechaAsignacion.setValue(asignacionSelected.getFechamov());
+        loadComboboxVendedor();
     }
 
+    private void loadComboboxVendedor(){
+         List<Personas> listaVendedores;
+         List<CatalogoDTO> listaCatalogoVendedores = new ArrayList<CatalogoDTO>();
+
+      try {
+                
+                listaVendedores = personaBean.loadAllPersonaByTipoAndSucursal(2,1);
+                List<Object> objectList = new ArrayList<Object>(listaVendedores);
+                listaCatalogoVendedores = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idpersona", "nombre");
+               
+                if(listaCatalogoVendedores != null && listaCatalogoVendedores.size()>0){
+                    ListModelList modelovendedor = new ListModelList(listaCatalogoVendedores);
+                    cmbVendedor.setModel(modelovendedor);
+                    cmbVendedor.setItemRenderer(new CatalogoItemRenderer());
+                    cmbVendedor.setText("Seleccione un vendedor!!");
+                    cmbVendedor.setReadonly(false);
+                    cmbVendedor.setButtonVisible(true);
+                }
+                else{
+                     cmbVendedor.setText("No existen vendedores registrados!!");
+                     cmbVendedor.setReadonly(true);
+                     cmbVendedor.setButtonVisible(false);
+                     cmbVendedor.setDisabled(true);
+                    }
+                } catch (DiservBusinessException ex) {
+                Logger.getLogger(DetalleClienteCtrl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
     
     private void loadDataFromTextboxs() {
-        try {
+//        try {
             asignacionSelected = new Movimientos();
             //validamos los campos
 
-            if (StringUtils.isEmpty(txtNombreVendedor.getValue())) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe seleccionar un vendedor");
-            }
+//            if (StringUtils.isEmpty(txtNombreVendedor.getValue())) {
+//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe seleccionar un vendedor");
+//            }
 
            
             asignacionSelected.setIdmov(txtIdAsignacion.getValue());
-            asignacionSelected.setNombre(txtNombreVendedor.getValue());
+//            asignacionSelected.setNombre(txtNombreVendedor.getValue());
             
             if(txtfechaAsignacion.getValue() != null)
                 asignacionSelected.setFechamov(txtfechaAsignacion.getValue());
@@ -143,9 +187,9 @@ public class DetalleAsignacionCtrl extends BaseController {
 //            asignacionSelected.setIdsucursal(new Sucursales(1));
 //            asignacionSelected.setIdusuariocrea(userLogin.getUsuario().getIdusuario());
             
-        } catch (DiservWebException ex) {
-            MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
-        }
+//        } catch (DiservWebException ex) {
+//            MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
+//        }
 
     }
 
@@ -258,6 +302,12 @@ public class DetalleAsignacionCtrl extends BaseController {
 
         }
         doEditButton();
+    }
+    
+     public void onChange$cmbVendedor(Event event) throws Exception {
+        logger.log(Level.INFO, "[onChangeCombo]Event:{0}", event.toString());
+        int numeroDoc = movimientoBean.maxNumDocByVendedorAndTipoMov(Integer.parseInt(cmbVendedor.getSelectedItem().getValue().toString()), 2);
+        txtNumDoc.setValue(numeroDoc+1);
     }
 
     public Integer getToken() {
