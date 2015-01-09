@@ -22,8 +22,8 @@ import javax.persistence.Query;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
+import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
-import sv.com.diserv.liquidaciones.entity.Bodegas;
 import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.Personas;
@@ -45,40 +45,27 @@ public class MovimientosBean implements MovimientosBeanLocal {
     @EJB
     GenericDaoServiceBeanLocal genericDaoBean;
 
-    /**
-     * metodo para contar registros ingresados persona
-     *
-     * @return Integer con la suma de los registros encontados
-     * @throws DiservBusinessException
-     */
+    
     @Override
-    public Integer countAllPersonas(int tipoPersona) throws DiservBusinessException {
-        logger.log(Level.INFO, "[countAllPersona]INIT");
+    public Integer countAllMovimientos(int tipoMovimiento) throws DiservBusinessException {
+        logger.log(Level.INFO, "[countAllMovimientos]INIT");
         int count = 0;
         Query query;
         try {
-            query = em.createQuery("SELECT count(s) FROM Personas s where s.idtipopersona.idtipopersona="+tipoPersona);
+            query = em.createQuery("SELECT count(m) FROM Movimientos m where m.idtipomov.idtipomov="+tipoMovimiento);
             count = ((Long) query.getSingleResult()).intValue();
             logger.log(Level.INFO, "[Total de registros encontrados]" + count);
         } catch (Exception e) {
-            logger.log(Level.INFO, "[Excepcion en countAllPersona]" + e.toString());
+            logger.log(Level.INFO, "[Excepcion en countAllMovimientos]" + e.toString());
             e.printStackTrace();
         }
         return count;
     }
 
-    /**
-     * Metodo para extraer todos los usuarios
-     *
-     * @param inicio: Primer registro a mostrar
-     * @param fin: Ultimo registro a mostrar
-     * @return List<Users>: Lista de usuarios desde la base de datos
-     * @throws DesempenoBusinessException
-     */
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public List<Movimientos> loadAllMovimientos(int inicio, int fin, int tipo) throws DiservBusinessException {
-        logger.log(Level.INFO, "[loadAllAsignaciones] desde:" + inicio + " hasta:" + fin);
+        logger.log(Level.INFO, "[loadAllMovimientos] desde:" + inicio + " hasta:" + fin);
         List<Movimientos> movimientosList = null;
         Query query;
         try {
@@ -123,12 +110,12 @@ public class MovimientosBean implements MovimientosBeanLocal {
     }
 
     @Override
-    public OperacionesPersonaDTO guardarPersona(Personas persona) throws DiservBusinessException {
-        OperacionesPersonaDTO response = new OperacionesPersonaDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar persona");
+    public OperacionesMovimientoDTO guardarMovimiento(Movimientos movimiento) throws DiservBusinessException {
+        OperacionesMovimientoDTO response = new OperacionesMovimientoDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar persona");
         try {
-            persona = genericDaoBean.create(persona);
-            response = new OperacionesPersonaDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Persona creada satisfactoriamente");
-            response.setPersona(persona);
+            movimiento = genericDaoBean.create(movimiento);
+            response = new OperacionesMovimientoDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Persona creada satisfactoriamente");
+            response.setMovimiento(movimiento);
         } catch (Exception e) {
             e.printStackTrace();
             response.setMensajeRespuesta(e.toString());
@@ -137,12 +124,12 @@ public class MovimientosBean implements MovimientosBeanLocal {
     }
 
     @Override
-    public OperacionesPersonaDTO actualizarPersona(Personas persona) throws DiservBusinessException {
-        OperacionesPersonaDTO response = new OperacionesPersonaDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar persona");
+    public OperacionesMovimientoDTO actualizarMovimiento(Movimientos movimiento) throws DiservBusinessException {
+        OperacionesMovimientoDTO response = new OperacionesMovimientoDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar persona");
         try {
-            persona = genericDaoBean.update(persona);
-            response = new OperacionesPersonaDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Persona actualizada satisfactoriamente");
-            response.setPersona(persona);
+            movimiento = genericDaoBean.update(movimiento);
+            response = new OperacionesMovimientoDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Persona actualizada satisfactoriamente");
+            response.setMovimiento(movimiento);
         } catch (Exception e) {
             e.printStackTrace();
             response.setMensajeRespuesta(e.toString());
@@ -151,11 +138,11 @@ public class MovimientosBean implements MovimientosBeanLocal {
     }
     
     @Override
-    public OperacionesPersonaDTO eliminarPersona(Personas persona) throws DiservBusinessException {
-        OperacionesPersonaDTO response = new OperacionesPersonaDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo eliminar persona");
+    public OperacionesMovimientoDTO eliminarMovimiento(Movimientos movimiento) throws DiservBusinessException {
+        OperacionesMovimientoDTO response = new OperacionesMovimientoDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo eliminar persona");
         try {
-             Boolean respuesta =genericDaoBean.delete(persona);
-            response = new OperacionesPersonaDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Persona eliminada satisfactoriamente");
+             Boolean respuesta =genericDaoBean.delete(movimiento);
+            response = new OperacionesMovimientoDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Persona eliminada satisfactoriamente");
         } catch (Exception e) {
             e.printStackTrace();
             response.setMensajeRespuesta(e.toString());
@@ -252,53 +239,4 @@ public class MovimientosBean implements MovimientosBeanLocal {
         }
         return response;
     }
-
-    /**
-     *
-     * @param likeNombre
-     * @return
-     * @throws DiservBusinessException
-     */
-    @Override
-    public List<Bodegas> loadBodegaByNombreLike(String likeNombre) throws DiservBusinessException {
-        logger.log(Level.INFO, "[loadBodegaByNombreLike]Buscando:" + likeNombre);
-        Query query;
-        try {
-            query = em.createQuery("Bodegas.findBySomeCriteria");
-            query.setParameter("nombreBodega", "%" + likeNombre + "%");
-            return query.getResultList();
-        } catch (Exception e) {
-            logger.log(Level.ERROR, "[getDelito]Exception={0}", e);
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Metodo permite buscar persona por su numero de id persona
-     *
-     * @param idBodega
-     * @return Bodegas encontrado, null en caso de no encontrar nada
-     * @throws DiservBusinessException
-     */
-    @Override
-    public Bodegas loadBodegaByID(Integer idBodega) throws DiservBusinessException {
-        logger.log(Level.INFO, "[loadBodegaByID] Idpersona:" + idBodega);
-        Bodegas bodega = null;
-        Query query;
-        try {
-            query = em.createNamedQuery("Bodegas.findByIdBodega");
-            query.setParameter("idBodega", idBodega);
-            bodega = (Bodegas) query.getSingleResult();
-        } catch (NoResultException ex) {
-            logger.log(Level.INFO, "[loadBodegaByID][NoResultException]No se encontraron usuarios");
-//            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron bodega");
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.log(Level.INFO, "[loadBodegaByID][Exception]Se mostro una excepcion al buscar ");
-            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
-        }
-        return bodega;
-    }
-
 }

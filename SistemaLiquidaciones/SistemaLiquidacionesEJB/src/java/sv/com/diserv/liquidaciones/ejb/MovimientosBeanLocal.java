@@ -8,8 +8,7 @@ package sv.com.diserv.liquidaciones.ejb;
 import java.util.List;
 import javax.ejb.Local;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
-import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
-import sv.com.diserv.liquidaciones.entity.Bodegas;
+import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
@@ -23,12 +22,10 @@ public interface MovimientosBeanLocal {
 
    
     public List<Movimientos> loadAllMovimientos(int inicio, int fin, int tipo) throws DiservBusinessException;
-    public Integer countAllPersonas(int tipoPersona) throws DiservBusinessException;
-    public OperacionesPersonaDTO guardarPersona(Personas persona) throws DiservBusinessException;
+    public Integer countAllMovimientos(int tipoMovimiento) throws DiservBusinessException;
+    public OperacionesMovimientoDTO guardarMovimiento(Movimientos movimiento) throws DiservBusinessException;
     public List<Personas> loadAllPersonasByLike(String nombreLike) throws DiservBusinessException;
-    public OperacionesPersonaDTO actualizarPersona(Personas persona) throws DiservBusinessException;
-    public OperacionesPersonaDTO eliminarPersona(Personas persona) throws DiservBusinessException;
+    public OperacionesMovimientoDTO actualizarMovimiento(Movimientos movimiento) throws DiservBusinessException;
+    public OperacionesMovimientoDTO eliminarMovimiento(Movimientos movimiento) throws DiservBusinessException;
     public List<Personas> buscarPersonaByCriteria(BusquedaPersonaDTO request) throws DiservBusinessException;
-    public List<Bodegas> loadBodegaByNombreLike(String likeNombre) throws DiservBusinessException;
-    public Bodegas loadBodegaByID(Integer idBodega) throws DiservBusinessException;
 }
