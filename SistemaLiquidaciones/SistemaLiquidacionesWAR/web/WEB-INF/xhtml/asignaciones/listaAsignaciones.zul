@@ -4,7 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul
 	http://www.zkoss.org/2005/zul/zul.xsd">
-    <window id="listaClienteWindow"
+    <window id="listaAsignacionWindow"
             border="normal"
             width="100%"
             height="100%"
@@ -14,11 +14,11 @@
                   closable="false">
             <toolbar align="end"
                      style="float:right; border-style:none;">
-                <button id="btnNuevoCliente"
+                <button id="btnNuevoAsignacion"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnnew.gif"
                         tooltiptext="Agregar nuevo cliente"  />
-                <button id="btnBusquedaCliente"
+                <button id="btnBusquedaAsignacion"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsearch.gif"
                         tooltiptext="Buscar cliente por criterios"/>
@@ -31,8 +31,8 @@
         </groupbox>
         <groupbox mold="3d" width="100%" height="300px">
             <caption label="Lista de asignaciones Registradas" />
-            <paging id="pagingCliente" />
-            <listbox id="listBoxCliente"
+            <paging id="pagingAsignacion" />
+            <listbox id="listBoxAsignacion"
                      style="border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; border-bottom-width: 1px;"
                      tooltiptext="Para ver detalle click sobre registro, para asignar registros click en boton a lado derecho"
                      width="100%"
@@ -41,37 +41,26 @@
                      pagingPosition="top"
                      multiple="false">
                 <listhead sizable="true">
-                    <listheader id="listheaderIdCliente"
+                    <listheader id="listheaderIdAsignacion"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="15%"
-                                label="Id Cliente" />
-                    <listheader id="listheaderNombreCliente"
+                                label="Id Asignacion" />
+                    <listheader id="listheaderFechaAsignacion"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
                                 width="25%"
-                                label="Nombre Cliente" />
-                    <listheader id="listheaderRegistroCliente"
+                                label="Fecha" />
+                    <listheader id="listheaderNoDocAsignacion"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
-                                width="20%"
-                                label="Numero de Registro Fiscal" />
-                     <listheader id="listheaderTelefonoCliente"
+                                width="30%"
+                                label="Numero de Documento" />
+                     <listheader id="listheaderVendedorAsignacion"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
-                                width="15%"
-                                label="Telefono Cliente" />
-                     <listheader id="listheaderFaxCliente"
-                                sclass="FDListBoxHeader1"
-                                sort="auto"
-                                width="10%"
-                                label="Fax Cliente" />
-                     <listheader id="listheaderNitCliente"
-                                sclass="FDListBoxHeader1"
-                                sort="auto"
-                                width="15%"
-                                label="Nit Cliente" />
-                      
+                                width="30%"
+                                label="Nombre del vendedor" />
                 </listhead>
             </listbox>
         </groupbox>

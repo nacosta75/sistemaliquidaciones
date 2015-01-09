@@ -325,4 +325,11 @@
         <mapped-name>ejb/TiUmedidaArticuloBean</mapped-name>
     </ejb-local-ref>
     
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/MovimientosBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal</local>
+        <mapped-name>ejb/MovimientosBean</mapped-name>
+    </ejb-local-ref>
+    
 </web-app>
