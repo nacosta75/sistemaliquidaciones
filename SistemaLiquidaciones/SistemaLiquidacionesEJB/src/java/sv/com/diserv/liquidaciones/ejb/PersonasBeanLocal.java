@@ -21,6 +21,7 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 public interface PersonasBeanLocal {
 
     public List<Personas> loadAllPersona(int inicio, int fin, int tipo) throws DiservBusinessException;
+    public List<Personas> loadAllPersonaByTipoAndSucursal(int tipo,int sucursal) throws DiservBusinessException;
     public Integer countAllPersonas(int tipoPersona) throws DiservBusinessException;
     public OperacionesPersonaDTO guardarPersona(Personas persona) throws DiservBusinessException;
     public List<Personas> loadAllPersonasByLike(String nombreLike) throws DiservBusinessException;

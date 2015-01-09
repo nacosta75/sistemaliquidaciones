@@ -239,4 +239,21 @@ public class MovimientosBean implements MovimientosBeanLocal {
         }
         return response;
     }
+
+    @Override
+    public Integer maxNumDocByVendedorAndTipoMov(int idVendedor, int tipoMov) throws DiservBusinessException {
+        logger.log(Level.INFO, "[maxNumDocByVendedorAndTipoMov]INIT");
+        int count = 0;
+        Query query;
+        try {
+            query = em.createQuery("SELECT max(m.nodoc) FROM Movimientos m where m.idtipomov.idtipomov="+tipoMov+" AND m.idpersona.idpersona ="+idVendedor);
+            count =  (int) query.getSingleResult();
+            logger.log(Level.INFO, "[Total de registros encontrados]" + count);
+        } catch (Exception e) {
+            logger.log(Level.INFO, "[Excepcion en maxNumDocByVendedorAndTipoMov]" + e.toString());
+            e.printStackTrace();
+        }
+        return count;
+    }
+
 }

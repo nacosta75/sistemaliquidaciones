@@ -66,14 +66,6 @@ public class PersonasBean implements PersonasBeanLocal {
         return count;
     }
 
-    /**
-     * Metodo para extraer todos los usuarios
-     *
-     * @param inicio: Primer registro a mostrar
-     * @param fin: Ultimo registro a mostrar
-     * @return List<Users>: Lista de usuarios desde la base de datos
-     * @throws DesempenoBusinessException
-     */
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public List<Personas> loadAllPersona(int inicio, int fin, int tipo) throws DiservBusinessException {
@@ -251,4 +243,30 @@ public class PersonasBean implements PersonasBeanLocal {
         }
         return response;
     }
+    
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public List<Personas> loadAllPersonaByTipoAndSucursal(int tipo,int sucursal) throws DiservBusinessException {
+        logger.log(Level.INFO, "[loadAllPersonaByTipo]");
+        List<Personas> personaList = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("Personas.findAllByTipoSuc");
+            query.setParameter("idtipopersona", tipo);
+            query.setParameter("idsucursal", sucursal);
+            personaList = query.getResultList();
+            if (personaList != null) {
+                logger.log(Level.INFO, "[loadAllPersonaByTipo] Se encontraron " + personaList.size() + " personas");
+            }
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[loadAllPersonaByTipo][NoResultException]No se encontraron personas");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron persona");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[loadAllPersona][Exception]Se mostro una excepcion al buscar persona");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return personaList;
+    }
+
 }
