@@ -10,6 +10,7 @@ import javax.ejb.Local;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
 import sv.com.diserv.liquidaciones.entity.Bodegas;
+import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 
@@ -20,76 +21,14 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 @Local
 public interface MovimientosBeanLocal {
 
-    /**
-     * *
-     *
-     * @param inicio
-     * @param fin
-     * @return
-     * @throws DiservBusinessException
-     */
-    public List<Personas> loadAllPersona(int inicio, int fin, int tipo) throws DiservBusinessException;
-
-    /**
-     * *
-     *
-     * @return @throws DiservBusinessException
-     */
+   
+    public List<Movimientos> loadAllMovimientos(int inicio, int fin, int tipo) throws DiservBusinessException;
     public Integer countAllPersonas(int tipoPersona) throws DiservBusinessException;
-
-    /**
-     * *
-     *
-     * @param bodega
-     * @return
-     * @throws DiservBusinessException
-     */
     public OperacionesPersonaDTO guardarPersona(Personas persona) throws DiservBusinessException;
-
-    /**
-     * *
-     *
-     * @param nombreLike
-     * @return
-     * @throws DiservBusinessException
-     */
     public List<Personas> loadAllPersonasByLike(String nombreLike) throws DiservBusinessException;
-
-    /**
-     * *
-     *
-     * @param cliente
-     * @return
-     * @throws DiservBusinessException
-     */
     public OperacionesPersonaDTO actualizarPersona(Personas persona) throws DiservBusinessException;
-
-    
     public OperacionesPersonaDTO eliminarPersona(Personas persona) throws DiservBusinessException;
-    /**
-     * *
-     *
-     * @param request
-     * @return
-     * @throws DiservBusinessException
-     */
     public List<Personas> buscarPersonaByCriteria(BusquedaPersonaDTO request) throws DiservBusinessException;
-
-    /**
-     * *
-     *
-     * @param likeNombre
-     * @return
-     * @throws DiservBusinessException
-     */
     public List<Bodegas> loadBodegaByNombreLike(String likeNombre) throws DiservBusinessException;
-
-    /**
-     * **
-     *
-     * @param idBodega
-     * @return
-     * @throws DiservBusinessException
-     */
     public Bodegas loadBodegaByID(Integer idBodega) throws DiservBusinessException;
 }

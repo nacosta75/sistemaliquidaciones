@@ -41,6 +41,7 @@ public class Constants {
     public static String JNDI_BODEGAVENDEDOR_BEAN= "java:comp/env/ejb/BodegaVendedorBean";
     public static String JNDI_TIPOARTICULOS_BEAN="java:comp/env/ejb/TipoArticuloBean";
     public static String JNDI_UMEDIDA_BEAN="java:comp/env/ejb/UmedidaArticuloBean";
+    public static String JNDI_MOVIMIENTOS_BEAN="java:comp/env/ejb/MovimientosBean";
     
     
 }

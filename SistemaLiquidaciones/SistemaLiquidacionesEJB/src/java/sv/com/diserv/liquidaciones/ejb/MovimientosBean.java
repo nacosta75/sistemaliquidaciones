@@ -25,6 +25,7 @@ import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
 import sv.com.diserv.liquidaciones.entity.Bodegas;
 import sv.com.diserv.liquidaciones.entity.Empresas;
+import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.entity.Sucursales;
 import sv.com.diserv.liquidaciones.entity.TiposPersona;
@@ -76,28 +77,28 @@ public class MovimientosBean implements MovimientosBeanLocal {
      */
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public List<Personas> loadAllPersona(int inicio, int fin, int tipo) throws DiservBusinessException {
-        logger.log(Level.INFO, "[loadAllPersona] desde:" + inicio + " hasta:" + fin);
-        List<Personas> personaList = null;
+    public List<Movimientos> loadAllMovimientos(int inicio, int fin, int tipo) throws DiservBusinessException {
+        logger.log(Level.INFO, "[loadAllAsignaciones] desde:" + inicio + " hasta:" + fin);
+        List<Movimientos> movimientosList = null;
         Query query;
         try {
-            query = em.createNamedQuery("Personas.findAllByTipo");
-            query.setParameter("idtipopersona", tipo);
+            query = em.createNamedQuery("Movimientos.findAllByTipo");
+            query.setParameter("idtipomov", tipo);
             query.setFirstResult(inicio);
             query.setMaxResults(fin);
-            personaList = query.getResultList();
-            if (personaList != null) {
-                logger.log(Level.INFO, "[loadAllPersona] Se encontraron " + personaList.size() + " personas");
+            movimientosList = query.getResultList();
+            if (movimientosList != null) {
+                logger.log(Level.INFO, "[loadAllAsignaciones] Se encontraron " + movimientosList.size() + " movimientos");
             }
         } catch (NoResultException ex) {
-            logger.log(Level.INFO, "[loadAllPersona][NoResultException]No se encontraron personas");
-            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron persona");
+            logger.log(Level.INFO, "[loadAllAsignaciones][NoResultException]No se encontraron movimientos");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron movimientos");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.log(Level.INFO, "[loadAllPersona][Exception]Se mostro una excepcion al buscar persona");
+            logger.log(Level.INFO, "[loadAllAsignaciones][Exception]Se mostro una excepcion al buscar movimientos");
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
         }
-        return personaList;
+        return movimientosList;
     }
 
     @Override

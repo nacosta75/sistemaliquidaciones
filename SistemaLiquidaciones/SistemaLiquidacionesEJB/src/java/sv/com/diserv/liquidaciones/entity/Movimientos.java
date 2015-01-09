@@ -47,7 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Movimientos.findByNoRegistro", query = "SELECT m FROM Movimientos m WHERE m.noRegistro = :noRegistro"),
     @NamedQuery(name = "Movimientos.findByDireccion", query = "SELECT m FROM Movimientos m WHERE m.direccion = :direccion"),
     @NamedQuery(name = "Movimientos.findByObserva1", query = "SELECT m FROM Movimientos m WHERE m.observa1 = :observa1"),
-    @NamedQuery(name = "Movimientos.findByEstado", query = "SELECT m FROM Movimientos m WHERE m.estado = :estado")})
+    @NamedQuery(name = "Movimientos.findByEstado", query = "SELECT m FROM Movimientos m WHERE m.estado = :estado"),
+    @NamedQuery(name = "Movimientos.findAllByTipo", query = "SELECT m FROM Movimientos m WHERE m.idtipomov.idtipomov = :idtipomov")})
 public class Movimientos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
