@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="detalleAsignacionWindow"
+            title="Mantenimiento de asignaciones"
+            border="normal"
+            use="sv.com.diserv.web.ui.asignaciones.DetalleAsignacionCtrl"
+            closable="true"
+            width="650px" 
+            height="590px"
+            sizable="true" 
+            sclass="pageWindowTitle"
+            mode="modal" >
+        <groupbox height="45px"
+                  mold="3d" 
+                  closable="false">    
+            <toolbar align="end"
+                     style="float:right; border-style:none;">
+                <button id="btnNuevo"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnnew.gif"
+                        tooltiptext="Agregar nueva asignacion"  />
+                <button id="btnEditar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnedit.gif"
+                        tooltiptext="Buscar asignacion por criterios"/>
+                <button id="btnGuardar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnsave.gif"
+                        tooltiptext="Guardar registro"/>
+                <button id="btnActualizar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnsave.gif"
+                        tooltiptext="Refrescar registros"/>
+                 <button id="btnEliminar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btndelete.gif"
+                        tooltiptext="Eliminar registro"/>
+                <button id="btnCerrar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/close.jpg"
+                        tooltiptext="Salir de la pantalla"/>
+                
+            </toolbar>
+        </groupbox>
+        <borderlayout id="borderlayoutCustomer">
+            <north border="none"></north>
+            <center border="none">
+                <div id="divCenterCustomer">
+                    
+                    <hbox align="stretch"
+                          pack="stretch"
+                          sclass="FDCenterNoBorder"
+                          width="100%"
+                          style="padding: 3px;">
+                        <!-- Left CONTENT AREA -->
+                        <!-- simulates a columnLayout -->
+                        <cell width="50%">
+                            <vbox align="stretch"
+                                  pack="stretch"
+                                  width="100%" 
+                                  style="padding: 3px;">
+                                <div>
+                                    <panel id="panelInformacionAsignacion" border="none">
+                                        <panelchildren>
+                                            <groupbox id="gb_address"
+                                                      mold="3d" 
+                                                      closable="false">
+                                                <caption image="/images/person.gif"
+                                                         label="Información Asignacion" />
+                                                <grid sclass="GridPlain">
+                                                    <columns>
+                                                        <column align="left" width="150px" />
+                                                        <column width="100%" />
+                                                    </columns>
+                                                    <rows>
+                                                        <row>
+                                                            <hbox>
+                                                                <label value="Id Asignacion" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                             <groupbox
+                                                                       mold="3d"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">  
+                                                            <intbox
+                                                                id="txtIdAsignacion"
+                                                                hflex="1"
+                                                                maxlength="10"
+                                                                tooltiptext="Identificador unico de asignacion"
+                                                                readonly="true" />
+                                                             </groupbox>
+                                                        </row>
+                                                        
+                                                        <row>
+                                                            <hbox>
+                                                                <label value="Fecha Asignacion:" />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                             <groupbox
+                                                                       mold="3d" height="25px"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 "> 
+                                                            <datebox  
+                                                                id="txtfechaAsignacion"
+                                                                format="dd/MM/yyyy" 
+                                                                onCreate="self.value = new Date()"
+                                                                />
+                                                             </groupbox>
+                                                        </row>
+                                                        <row>
+                                                            <hbox>
+                                                                <label
+                                                                    value="Nombre Vendedor : " />
+                                                                <label value="*" style="color:red; font-size:10px" />
+                                                            </hbox>
+                                                             <groupbox
+                                                                       mold="3d"
+                                                                       closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">  
+                                                            <textbox   id="txtNombreVendedor"   hflex="1" />
+                                                             </groupbox>
+                                                        </row>
+                                                                    
+                                                     </rows>
+                                                </grid>
+                                            </groupbox>
+                                        </panelchildren>
+                                    </panel>
+                                </div>
+                            </vbox>
+                        </cell>                                 
+                    </hbox>                         
+                </div>
+            </center>
+        </borderlayout>
+    </window>
+</zk>

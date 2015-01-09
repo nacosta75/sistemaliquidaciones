@@ -24,7 +24,6 @@ import org.zkoss.zul.Window;
 import org.zkoss.zul.event.PagingEvent;
 import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
-import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
@@ -72,7 +71,7 @@ public class ListaAsignacionesCtrl extends BaseController {
 
     public void onCreate$listaAsignacionWindow(Event event) throws Exception {
         logger.log(Level.INFO, "[onCreate$listaAsignacionWindow]Event:{0}", event.toString());
-        totalAsignaciones = movimientoBean.countAllPersonas(1);
+        totalAsignaciones = movimientoBean.countAllMovimientos(2);
         MensajeMultilinea.doSetTemplate();
 
 
@@ -120,11 +119,11 @@ public class ListaAsignacionesCtrl extends BaseController {
         logger.log(Level.INFO, "[onDoubleClickedAsignacion]Event:{0}", event.toString());
         Listitem item = this.listBoxAsignacion.getSelectedItem();
         if (item != null) {
-            Personas persona = (Personas) item.getAttribute("data");
+            Movimientos movimiento = (Movimientos) item.getAttribute("data");
             HashMap map = new HashMap();
-            map.put("asignacionSelected", persona);
+            map.put("asignacionSelected", movimiento);
             map.put("token", UtilFormat.getToken());
-            map.put("listaClienteCtrl", this);
+            map.put("listaAsignacionCtrl", this);
             Executions.createComponents("/WEB-INF/xhtml/asignaciones/detalleAsignacion.zul", null, map);
         }
     }
@@ -133,7 +132,7 @@ public class ListaAsignacionesCtrl extends BaseController {
         logger.log(Level.INFO, "[onClick$btnNuevoAsignacion]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
-        map.put("listaClienteCtrl", this);
+        map.put("listaAsignacionCtrl", this);
         Executions.createComponents("/WEB-INF/xhtml/asignaciones/detalleAsignacion.zul", null, map);
 
     }
@@ -149,7 +148,7 @@ public class ListaAsignacionesCtrl extends BaseController {
         logger.log(Level.INFO, "[onClick$btnBusquedaPersona]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
-        map.put("listaClienteCtrl", this);
+        map.put("listaAsignacionCtrl", this);
         Executions.createComponents("/WEB-INF/xhtml/asignaciones/busquedaAsignacion.zul", null, map);
 
     }
