@@ -22,46 +22,47 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.event.PagingEvent;
-import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
+import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.liquidaciones.util.UtilFormat;
-import sv.com.diserv.web.ui.personas.rendered.PersonaItemRenderer;
+import sv.com.diserv.web.ui.asignaciones.render.AsignacionItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
 public class ListaAsignacionesCtrl extends BaseController {
 
     static final Logger logger = Logger.getLogger(ListaAsignacionesCtrl.class.getCanonicalName());
-    protected Window listaClienteWindow;
-    protected Button btnNuevoCliente;
-    protected Button btnBusquedaCliente;
+    protected Window listaAsignacionWindow;
+    protected Button btnNuevoAsignacion;
+    protected Button btnBusquedaAsignacion;
     protected Button btnRefresh;
-    protected Paging pagingCliente;
-    protected Listbox listBoxCliente;
-    protected Listheader listheaderIdCliente;
-    protected Listheader listheaderNombreCliente;
-    protected Listheader listheaderTelefonoCliente;
-    protected Listheader listheaderRegistroCliente;
+    protected Paging pagingAsignacion;
+    protected Listbox listBoxAsignacion;
+    protected Listheader listheaderIdAsignacion;
+    protected Listheader listheaderFechaAsignacion;
+    protected Listheader listheaderNoDocAsignacion;
+    protected Listheader listheaderVendedorAsignacion;
     //contadores pagina
-    private Integer totalClientes;
+    private Integer totalAsignaciones;
     private Integer numeroPaginInicio = 1;
     private ServiceLocator serviceLocator;
     //@EJB
-    private PersonasBeanLocal personaBean;
-    private List<Personas> listaClientes;
-    private Personas clienteSelected;
+    private MovimientosBeanLocal movimientoBean;
+    private List<Movimientos> listaAsignaciones;
+    private Movimientos asignacionSelected;
 
     /**
      * default constructor.<br>
      */
     public ListaAsignacionesCtrl() {
-        logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl]INIT");
+        logger.log(Level.INFO, "[ListaAsignacionesCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
-            personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
+            movimientoBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOS_BEAN);
             numeroPaginInicio = 0;
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
@@ -69,71 +70,71 @@ public class ListaAsignacionesCtrl extends BaseController {
         }
     }
 
-    public void onCreate$listaClienteWindow(Event event) throws Exception {
-        logger.log(Level.INFO, "[onCreate$listaClienteWindow]Event:{0}", event.toString());
-        totalClientes = personaBean.countAllPersonas(1);
+    public void onCreate$listaAsignacionWindow(Event event) throws Exception {
+        logger.log(Level.INFO, "[onCreate$listaAsignacionWindow]Event:{0}", event.toString());
+        totalAsignaciones = movimientoBean.countAllPersonas(1);
         MensajeMultilinea.doSetTemplate();
 
 
-        if (totalClientes != null) {
-            setTotalClientes(totalClientes);
+        if (totalAsignaciones != null) {
+            setTotalClientes(totalAsignaciones);
         } else {
-            logger.info("[onCreate$listaClienteWindow]No se pudo obtener total registros");
+            logger.info("[onCreate$listaAsignacionWindow]No se pudo obtener total registros");
         }
-        pagingCliente.setPageSize(getUserLogin().getRegistrosLista());
-        pagingCliente.setDetailed(true);
+        pagingAsignacion.setPageSize(getUserLogin().getRegistrosLista());
+        pagingAsignacion.setDetailed(true);
         refreshModel(numeroPaginInicio);
         setOrderListHeaderClientes();
         
     }
 
     public void doRefreshModel(int activePage) {
-        logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][doRefreshModel]Pagina activa:{0}", activePage);
+        logger.log(Level.INFO, "[ListaAsignacionesCtrl][doRefreshModel]Pagina activa:{0}", activePage);
         refreshModel(activePage);
 
     }
 
     public void refreshModel(int activePage) {
-        logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Recargar clientes,Pagina activa:{0}", activePage);
+        logger.log(Level.INFO, "[ListaAsignacionesCtrl][refreshModel]Recargar clientes,Pagina activa:{0}", activePage);
         try {
-            if (totalClientes > 0) {
-                listaClientes = personaBean.loadAllPersona(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),1);
-                if (listaClientes.size() > 0) {
-                    logger.log(Level.INFO, "Registros cargados=={0}", listaClientes.size());
-                    pagingCliente.setTotalSize(getTotalClientes());
-                    listBoxCliente.setModel(new ListModelList(listaClientes));
-                    listBoxCliente.setItemRenderer(new PersonaItemRenderer());
+            if (totalAsignaciones > 0) {
+                listaAsignaciones = movimientoBean.loadAllMovimientos(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),2);
+                if (listaAsignaciones.size() > 0) {
+                    logger.log(Level.INFO, "Registros cargados=={0}", listaAsignaciones.size());
+                    pagingAsignacion.setTotalSize(getTotalClientes());
+                    listBoxAsignacion.setModel(new ListModelList(listaAsignaciones));
+                    listBoxAsignacion.setItemRenderer(new AsignacionItemRenderer());
                 } else {
                     logger.info("No se cargaron registros");
                 }
             } else {
-                listBoxCliente.setEmptyMessage("No se encontraron registros para mostrar");
+                listBoxAsignacion.setEmptyMessage("No se encontraron registros para mostrar");
             }
         } catch (Exception ex) {
-            logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Ocurrio Una exception :{0}", ex.getLocalizedMessage());
+            logger.log(Level.INFO, "[ListaAsignacionesCtrl][refreshModel]Ocurrio Una exception :{0}", ex.getLocalizedMessage());
             ex.printStackTrace();
         }
     }
 
-    public void onDoubleClickedPersona(Event event) throws Exception {
-        logger.log(Level.INFO, "[onDoubleClickedCliente]Event:{0}", event.toString());
-        Listitem item = this.listBoxCliente.getSelectedItem();
+    public void onDoubleClickedAsignacion(Event event) throws Exception {
+        logger.log(Level.INFO, "[onDoubleClickedAsignacion]Event:{0}", event.toString());
+        Listitem item = this.listBoxAsignacion.getSelectedItem();
         if (item != null) {
             Personas persona = (Personas) item.getAttribute("data");
             HashMap map = new HashMap();
-            map.put("clienteSelected", persona);
+            map.put("asignacionSelected", persona);
             map.put("token", UtilFormat.getToken());
             map.put("listaClienteCtrl", this);
-            Executions.createComponents("/WEB-INF/xhtml/persona/detalleCliente.zul", null, map);
+            Executions.createComponents("/WEB-INF/xhtml/asignaciones/detalleAsignacion.zul", null, map);
         }
     }
 
-    public void onClick$btnNuevoCliente(Event event) throws Exception {
-        logger.log(Level.INFO, "[onClick$btnNuevoCliente]Event:{0}", event.toString());
+    public void onClick$btnNuevoAsignacion(Event event) throws Exception {
+        logger.log(Level.INFO, "[onClick$btnNuevoAsignacion]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
         map.put("listaClienteCtrl", this);
-        Executions.createComponents("/WEB-INF/xhtml/persona/detalleCliente.zul", null, map);
+        Executions.createComponents("/WEB-INF/xhtml/asignaciones/detalleAsignacion.zul", null, map);
 
     }
 
@@ -144,21 +145,21 @@ public class ListaAsignacionesCtrl extends BaseController {
 
     }
 
-    public void onClick$btnBusquedaCliente(Event event) throws Exception {
+    public void onClick$btnBusquedaAsignacion(Event event) throws Exception {
         logger.log(Level.INFO, "[onClick$btnBusquedaPersona]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
         map.put("listaClienteCtrl", this);
-        Executions.createComponents("/WEB-INF/xhtml/persona/busquedaCliente.zul", null, map);
+        Executions.createComponents("/WEB-INF/xhtml/asignaciones/busquedaAsignacion.zul", null, map);
 
     }
 
-    public void onClickedPersona(Event event) throws Exception {
-        logger.log(Level.INFO, "[onClickedCliente]Event:{0}", event.toString());
-        Listitem item = this.listBoxCliente.getSelectedItem();
+    public void onClickedAsignacion(Event event) throws Exception {
+        logger.log(Level.INFO, "[onClickedAsignacion]Event:{0}", event.toString());
+        Listitem item = this.listBoxAsignacion.getSelectedItem();
         if (item != null) {
-            clienteSelected = (Personas) item.getAttribute("data");
-            if (clienteSelected != null) {
+            asignacionSelected = (Movimientos) item.getAttribute("data");
+            if (asignacionSelected != null) {
             }
         }
     }
@@ -167,30 +168,30 @@ public class ListaAsignacionesCtrl extends BaseController {
         logger.log(Level.INFO, "[onDoubleClickedEvaluacionAuditoria]Event:{0}", event.toString());
     }
 
-    public void onPaging$pagingCliente(ForwardEvent event) {
-        logger.log(Level.INFO, "[onPaging$pagingCliente]Event:", event.getName());
+    public void onPaging$pagingAsignacion(ForwardEvent event) {
+        logger.log(Level.INFO, "[onPaging$pagingAsignacion]Event:", event.getName());
         final PagingEvent pe = (PagingEvent) event.getOrigin();
         numeroPaginInicio = pe.getActivePage();
         refreshModel(numeroPaginInicio);
     }
 
     private void setOrderListHeaderClientes() {
-        listheaderIdCliente.setSortAscending(new FieldComparator("idpersona", true));
-        listheaderIdCliente.setSortDescending(new FieldComparator("idpersona", false));
-        listheaderNombreCliente.setSortAscending(new FieldComparator("nombre", true));
-        listheaderNombreCliente.setSortDescending(new FieldComparator("nombre", false));
-        listheaderTelefonoCliente.setSortAscending(new FieldComparator("telefono1", true));
-        listheaderTelefonoCliente.setSortDescending(new FieldComparator("telefono1", false));
-        listheaderRegistroCliente.setSortAscending(new FieldComparator("noRegistroFiscal", true));
-        listheaderRegistroCliente.setSortDescending(new FieldComparator("noRegistroFiscal", false));
+        listheaderIdAsignacion.setSortAscending(new FieldComparator("idmov", true));
+        listheaderIdAsignacion.setSortDescending(new FieldComparator("idmov", false));
+        listheaderFechaAsignacion.setSortAscending(new FieldComparator("fechamov", true));
+        listheaderFechaAsignacion.setSortDescending(new FieldComparator("fechamov", false));
+        listheaderNoDocAsignacion.setSortAscending(new FieldComparator("nodoc", true));
+        listheaderNoDocAsignacion.setSortDescending(new FieldComparator("nodoc", false));
+        listheaderVendedorAsignacion.setSortAscending(new FieldComparator("nombre", true));
+        listheaderVendedorAsignacion.setSortDescending(new FieldComparator("nombre", false));
     }
 
     public Integer getTotalClientes() {
-        return totalClientes;
+        return totalAsignaciones;
     }
 
-    public void setTotalClientes(Integer totalClientes) {
-        this.totalClientes = totalClientes;
+    public void setTotalClientes(Integer totalAsignaciones) {
+        this.totalAsignaciones = totalAsignaciones;
     }
 
     public Integer getNumeroPaginInicio() {
@@ -201,27 +202,27 @@ public class ListaAsignacionesCtrl extends BaseController {
         this.numeroPaginInicio = numeroPaginInicio;
     }
 
-    public List<Personas> getListaPersonas() {
-        return listaClientes;
+    public List<Movimientos> getListaAsignaciones() {
+        return listaAsignaciones;
     }
 
-    public void setListaClientes(List<Personas> listaClientes) {
-        this.listaClientes = listaClientes;
+    public void setListaAsignaciones(List<Movimientos> listaAsignaciones) {
+        this.listaAsignaciones = listaAsignaciones;
     }
 
-    public Personas getClienteSelected() {
-        return clienteSelected;
+    public Movimientos getAsignacionSelected() {
+        return asignacionSelected;
     }
 
-    public void setClienteSelected(Personas personaSelected) {
-        this.clienteSelected = personaSelected;
+    public void setAsignacionSelected(Movimientos asignacionSelected) {
+        this.asignacionSelected = asignacionSelected;
     }
 
     public Listbox getListBoxCliente() {
-        return listBoxCliente;
+        return listBoxAsignacion;
     }
 
-    public void setListBoxCliente(Listbox listBoxCliente) {
-        this.listBoxCliente = listBoxCliente;
+    public void setListBoxCliente(Listbox listBoxAsignacion) {
+        this.listBoxAsignacion = listBoxAsignacion;
     }
 }
