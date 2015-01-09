@@ -4,11 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul
 	http://www.zkoss.org/2005/zul/zul.xsd">
-    <window id="listaMarcaWindow"
+    <window  id="listaMarcaWindow"
             border="normal"
             width="100%"
             height="100%"
-            use="sv.com.diserv.web.ui.marcas.ListaMarcaArticuloCtrl">
+            use="sv.com.diserv.web.ui.marcas.ListaMarcaArticuloCtrl"
+     
+    >
         <groupbox height="45px"
                   mold="3d"
                   closable="false">
@@ -29,7 +31,7 @@
 
             </toolbar>
         </groupbox>
-        <groupbox mold="3d" width="100%" height="300px">
+        <groupbox mold="3d" width="100%" height="500px">
             <caption label="Lista de Marcas" />
             <paging id="pagingMarca" />
             <listbox id="listBoxMarca"
@@ -57,7 +59,7 @@
                 </listhead>
             </listbox>
         </groupbox>
-        <separator />
+        <!--<separator />-->
 <!--        <groupbox mold="3d" width="100%" height="250px">
             <caption label="Lista ultimos tramites asociados a cliente" />
             <listbox id="listBoxListaTramiteBodega"
