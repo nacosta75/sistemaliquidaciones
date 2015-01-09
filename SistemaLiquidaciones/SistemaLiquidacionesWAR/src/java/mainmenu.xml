@@ -96,7 +96,7 @@
         <menuItem id="menu_Item_Asignaciones"
                   label="Asignaciones"
                   iconName="/images/phone_add.png"
-                  zulNavigation="/WEB-INF/xhtml/inventario/listaAsignaciones.zul"
+                  zulNavigation="/WEB-INF/xhtml/asignaciones/listaAsignaciones.zul"
                   rightName=""/>     
         <menuItem id="menu_Item_Devoluciones"
                   label="Devoluciones"
