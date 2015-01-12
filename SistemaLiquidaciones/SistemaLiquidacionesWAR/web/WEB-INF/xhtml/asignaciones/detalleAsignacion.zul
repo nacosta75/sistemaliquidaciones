@@ -169,16 +169,68 @@
                                                          pagingPosition="top"
                                                          multiple="false">
                                                     <listhead sizable="true">
-                                                        <listheader id="listheaderArticulo"
+                                                        <listheader id="listheaderIdArticulo"
                                                                     sclass="FDListBoxHeader1"
                                                                     sort="auto"
                                                                     width="15%"
-                                                                    label="Articulo" />
+                                                                    label="Id Articulo" />
+                                                        <listheader id="listheaderCodArt"
+                                                                    sclass="FDListBoxHeader1"
+                                                                    sort="auto"
+                                                                    width="15%"
+                                                                    label="Codigo Articulo" />
+                                                        <listheader id="listheaderDescArt"
+                                                                    sclass="FDListBoxHeader1"
+                                                                    sort="auto"
+                                                                    width="15%"
+                                                                    label="Descripcion Articulo" />
                                                         <listheader id="listheaderCantidad"
                                                                     sclass="FDListBoxHeader1"
                                                                     sort="auto"
                                                                     width="25%"
                                                                     label="Cantidad asignada" />
+                                                        <listheader id="listheaderPrecio"
+                                                                    sclass="FDListBoxHeader1"
+                                                                    sort="auto"
+                                                                    width="25%"
+                                                                    label="Precio" />
+                                                       </listhead>
+                                                </listbox>
+                                            </groupbox>
+                                            
+                                            <groupbox mold="3d" width="100%" height="300px" visible="false">
+                                                <caption label="Lista de articulos disponibles" />
+                                                <paging id="pagingArticulos" />
+                                                <listbox id="listBoxAticulos"
+                                                         style="border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; border-bottom-width: 1px;"
+                                                         tooltiptext="Para ver detalle click sobre registro, para asignar registros click en boton a lado derecho"
+                                                         width="100%"
+                                                         height="100%"
+                                                         mold="paging"
+                                                         pagingPosition="top"
+                                                         multiple="true"
+                                                         checkmark="true" >
+                                                    <listhead sizable="true">
+                                                        <listheader id="listheaderArticulo"
+                                                                    sclass="FDListBoxHeader1"
+                                                                    sort="auto"
+                                                                    width="25%"
+                                                                    label="Articulo" />
+                                                        <listheader id="listheaderICC"
+                                                                    sclass="FDListBoxHeader1"
+                                                                    sort="auto"
+                                                                    width="25%"
+                                                                    label="ICC" />
+                                                        <listheader id="listheaderIMEI"
+                                                                    sclass="FDListBoxHeader1"
+                                                                    sort="auto"
+                                                                    width="25%"
+                                                                    label="IMEI" />
+                                                        <listheader id="listheaderTelefono"
+                                                                    sclass="FDListBoxHeader1"
+                                                                    sort="auto"
+                                                                    width="25%"
+                                                                    label="Telefono" />
                                                        </listhead>
                                                 </listbox>
                                             </groupbox>

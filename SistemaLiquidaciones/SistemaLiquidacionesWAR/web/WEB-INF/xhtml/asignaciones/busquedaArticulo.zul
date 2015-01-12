@@ -23,6 +23,10 @@
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsearch.gif"
                         tooltiptext="Buscar articulo con criterios seleccionados"  />
+                 <button id="btnAsignar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/phone_add.png"
+                        tooltiptext="Asignar artìculos"  />
                 <button id="btnCerrar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/close.jpg"
@@ -112,7 +116,7 @@
                                                          mold="paging"
                                                          pagingPosition="top"
                                                          multiple="true"
-                                                         checkmark="true" >
+                                                         checkmark="true">
                                                     <listhead sizable="true">
                                                         <listheader id="listheaderArticulo"
                                                                     sclass="FDListBoxHeader1"
