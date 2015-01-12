@@ -152,7 +152,7 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
         LotesExistencia loteExistencia;
         List<String> condiciones = new ArrayList<>();
         if (re.getIdArticulo()!= null) {
-            condiciones.add(" idarticulo.idarticulo=" + re.getIdArticulo()+ " ");
+            condiciones.add(" idarticulo=" + re.getIdArticulo()+ " ");
         }
         if (re.getIcc() != null) {
             condiciones.add(" UPPER(icc) LIKE UPPER('%" + re.getIcc()+ "%') ");
