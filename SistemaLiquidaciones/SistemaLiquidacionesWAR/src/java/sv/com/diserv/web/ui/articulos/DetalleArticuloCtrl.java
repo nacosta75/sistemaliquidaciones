@@ -5,7 +5,9 @@
  */
 package sv.com.diserv.web.ui.articulos;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +16,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Textbox;
@@ -64,6 +67,8 @@ public class DetalleArticuloCtrl extends BaseController {
     protected Intbox txtIdArticulo;
     protected Textbox txtDescripcion;
     protected Textbox txtCodigo;
+    protected Decimalbox txtCostoProm;
+    protected Decimalbox txtCostoAnt;
     //protected Checkbox checkEstadoArticulo;
     private OperacionesArticuloDTO responseOperacion;
     protected Button btnActualizar;
@@ -267,6 +272,25 @@ public class DetalleArticuloCtrl extends BaseController {
         txtDescripcion.setValue(articuloSelected.getDescarticulo());
         
         loadCombobox();
+       
+        if (articuloSelected.getCostopromact().compareTo(BigDecimal.ZERO)>0)
+        {
+            txtCostoProm.setValue(articuloSelected.getCostocompact());
+        }
+        else
+        {
+          txtCostoProm.setValue(BigDecimal.ZERO);
+        }
+        if (articuloSelected.getCostopromant().compareTo(BigDecimal.ZERO)>0)
+        {
+            txtCostoAnt.setValue(articuloSelected.getCostocompant());
+        }
+        else
+        {
+          txtCostoAnt.setValue(BigDecimal.ZERO);
+        }
+        
+       
         // txtIdBodegas.setValue(bodegaSelected.getIdbodega());
         // txtNombreBodegas.setText(bodegaSelected.getNombre());
         // txtTelefono.setValue(bodegaSelected.getTelefono());
@@ -295,6 +319,13 @@ public class DetalleArticuloCtrl extends BaseController {
             }
             
             articuloSelected.setIdtipoarticulo(new Tipoarticulo((Integer) cmbTipoArticulo.getSelectedItem().getValue()));
+            articuloSelected.setIdlinea(new LineaArticulo((Integer) cmbLineaArticulo.getSelectedItem().getValue()));
+            articuloSelected.setIdmarca(new MarcaArticulo((Integer) cmbMarcaArticulo.getSelectedItem().getValue()));
+            articuloSelected.setIdumedida(new UnidadesMed((Integer) cmbMedidaArticulo.getSelectedItem().getValue()));
+            articuloSelected.setIdempresa(new Empresas(1));
+            articuloSelected.setCostocompact(BigDecimal.ZERO);
+            articuloSelected.setCostopromant(BigDecimal.ZERO);
+            
             articuloSelected.setDescarticulo(txtDescripcion.getValue());
             articuloSelected.setCodarticulo(txtCodigo.getValue());            
             articuloSelected.setIdarticulo(txtIdArticulo.getValue());
@@ -331,10 +362,10 @@ public class DetalleArticuloCtrl extends BaseController {
 
             if (getToken().intValue() > 0) {
                 loadDataFromTextboxs();
-                Empresas empresa = new Empresas(1, "1", "DISERV, S.A. ");//empresasBean.loadEmpresaByID(1);
-
-                articuloSelected.setIdempresa(empresa);
-
+               
+                articuloSelected.setIdusuariocrea(userLogin.getUsuario().getIdusuario());
+                articuloSelected.setFechacrea(new Date());
+                
                 responseOperacion = articulosBean.guardarArticulo(articuloSelected);
                 if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                     MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id Articulo:" + responseOperacion.getArticulo().getIdarticulo(), Constants.MENSAJE_TIPO_INFO);

@@ -44,6 +44,7 @@ public class ListaArticulosCtrl extends BaseController{
     protected Paging pagingArticulo;
     protected Listbox listBoxArticulo;
     protected Listheader listheaderIdArticulo;
+    protected Listheader listheaderCodigo;
     protected Listheader listheaderDescripcion;
     
      //contadores pagina
