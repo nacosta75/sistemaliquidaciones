@@ -111,7 +111,8 @@
                                                          height="100%"
                                                          mold="paging"
                                                          pagingPosition="top"
-                                                         multiple="false">
+                                                         multiple="true"
+                                                         checkmark="true" >
                                                     <listhead sizable="true">
                                                         <listheader id="listheaderArticulo"
                                                                     sclass="FDListBoxHeader1"
