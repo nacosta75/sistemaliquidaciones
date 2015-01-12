@@ -202,7 +202,7 @@
                                                                                 value="Costo Anterior " />
                                                                 
                                                                         </hbox>
-                                                                        <textbox   id="txtCostoAnterior"   hflex="1" />
+                                                                        <textbox   id="txtCostoAnt"   hflex="1" />
                                                                     </row>
                                                                                                                                       
                                                       

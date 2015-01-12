@@ -47,6 +47,11 @@
                                 sort="auto"
                                 width="10%"
                                 label="Id Articulo" />
+                     <listheader id="listheaderCodigo"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="50%"
+                                label="Codigo" />
                     <listheader id="listheaderDescripcion"
                                 sclass="FDListBoxHeader1"
                                 sort="auto"
