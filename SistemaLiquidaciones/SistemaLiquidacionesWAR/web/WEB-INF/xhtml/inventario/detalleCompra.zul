@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="detalleFacturaWindow"
+            title="Detalle Documento Cliente"
+            border="normal"
+            use="sv.com.ats.ui.facturacion.DetalleFacturaCtrl"
+            closable="true"
+            width="600px" 
+            height="380px"
+            sizable="true" 
+            sclass="pageWindowTitle"
+            mode="modal">
+        <groupbox height="45px"
+                  mold="3d" 
+                  closable="false">    
+            <toolbar align="end"
+                     style="float:right; border-style:none;">
+                <button id="btnNuevo"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnnew.gif"
+                        tooltiptext="Agregar nuevo Documento"  />                
+                <button id="btnEditar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnedit.gif"
+                        tooltiptext="Editar Registro"/>
+                <button id="btnGuardar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnsave.gif"
+                        tooltiptext="Guardar registro"/>
+                <button id="btnActualizar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnsave.gif"
+                        tooltiptext="Actualizar Registro"/>
+                <button id="btnEliminarItem"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btndelete.gif"
+                        tooltiptext="Eliminar Item Seleccionado"/>
+                <button id="btnCerrar"
+                        height="20"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/close.jpg"
+                        tooltiptext="Cerrar esta Ventana"/>
+            </toolbar>
+        </groupbox>
+        <borderlayout>
+            <north border="none"></north>
+            <center border="none">
+                <div id="divCenterOrdenTrabajo">
+                    <hbox align="stretch"
+                          pack="stretch"
+                          sclass="FDCenterNoBorder"
+                          width="100%"
+                          style="padding: 3px;">
+                        <!-- Left CONTENT AREA -->
+                        <!-- simulates a columnLayout -->
+                        <cell width="50%">
+                            <vbox align="stretch"
+                                  pack="stretch"
+                                  width="100%" 
+                                  style="padding: 3px;">
+                                <div>
+                                    <panel  border="none">
+                                        <panelchildren>
+                                            <groupbox  
+                                                mold="3d" 
+                                                closable="false">
+                                                <caption image="/images/btnEditar.gif"
+                                                         label="Detalle Cobro Cliente" />
+                                                <grid sclass="GridPlain">
+                                                    <columns>
+                                                        <column align="left" width="160px" />
+                                                        <column width="100%" />
+                                                    </columns>
+                                                    <rows>                                                        
+                                                        <row>   
+                                                            <hbox>                                                                                                                     
+                                                                <label value="Id Ordentrabajo : " />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                            <hbox>  
+                                                                <combobox id="comboIdOrdentrabajo" 
+                                                                          autodrop="true"
+                                                                          mold="rounded"
+                                                                          autocomplete="true"
+                                                                          hflex="1"/>
+                                                                <checkbox id="checkCambiarEstado" 
+                                                                          label="Cambiar estado tramite"/>
+                                                            </hbox>
+                                                        </row>
+                                                        <row>   
+                                                            <hbox>                                                                                                                     
+                                                                <label value="Referencia Aduana : " />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                            <textbox id="txtReferenciaAduana" 
+                                                                     hflex="1"/>
+                                                        </row>
+                                                        <row>   
+                                                            <hbox>                                                                                                                     
+                                                                <label value="Número Declaración : " />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                            <textbox id="txtNumeroDeclaracion" 
+                                                                     hflex="1"/>
+                                                        </row>
+                                                        <row>
+                                                            <label value="Nombre Cliente" />
+                                                            <textbox
+                                                                id="txtNombreCliente"
+                                                                hflex="1"                                                              
+                                                                tooltiptext="Nombre de cliente ingreso de tramite"
+                                                                readonly="true" />
+                                                        </row>
+                                                        <row>
+                                                            <label value="Detalle Gastos" />
+                                                            <button id="btnVerGastos"
+                                                                    visible="false"
+                                                                    label="Detalle Gastos"/>
+                                                        </row>
+                                                        <row>   
+                                                            <hbox>                                                                                                                     
+                                                                <label value="Tipo Servicio: " />
+                                                                <label value="*" style="color:red;font-size:10px" />
+                                                            </hbox>
+                                                           
+                                                            <combobox id="comboTipoServicio" 
+                                                                      autodrop="true"
+                                                                      mold="rounded"
+                                                                         
+                                                                      hflex="1"/>
+                                                            
+                                                            
+                                                            
+                                                            
+                                                        </row>                                                           
+                                                        <row>                                                           
+                                                            <label value="Cantidad : " />
+                                                            <intbox id="txtCantidad" 
+                                                                      
+                                                                    hflex="1" />
+                                                        </row>
+                                                        <row>                                                           
+                                                            <label value="Precio Unitario : " />
+                                                            <doublebox id="txtPrecioUnitario" 
+                                                                       format="#,###.00" 
+                                                                       locale="us"                                                             
+                                                                       hflex="1" />
+                                                        </row>
+                                                        
+                                                        <row>                                                           
+                                                            <label value="Precio Total : " />
+                                                            <doublebox id="txtPrecioTotal" 
+                                                                       readonly="true"
+                                                                       format="#,###.00" 
+                                                                       locale="us"
+                                                                       hflex="1" />
+                                                        </row>
+                                                    </rows>
+                                                </grid>
+                                            </groupbox>
+                                             
+                                            
+                                        </panelchildren>
+                                    </panel>
+                                </div>
+                            </vbox>
+                        </cell>                                 
+                    </hbox>                         
+                </div>
+            </center>
+        </borderlayout>
+    </window>
+</zk>

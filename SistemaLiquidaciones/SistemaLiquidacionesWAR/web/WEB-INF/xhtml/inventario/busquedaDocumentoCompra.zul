@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="busquedaDocumentoClienteWindow"
+            title="Búsqueda Documentos Cliente"
+            border="normal"
+            use="sv.com.ats.ui.facturacion.BuscarDocumentoClienteCtrl"
+            closable="true"
+            width="600px" 
+            height="260px"
+            sizable="true" 
+            sclass="pageWindowTitle"
+            mode="modal">
+        <groupbox height="45px"
+                  mold="3d" 
+                  closable="false">    
+            <toolbar align="end"
+                     style="float:right; border-style:none;">
+                <button id="btnBuscar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnsearch.gif"
+                        tooltiptext="Buscar docuemento cliente con"  />
+                <button id="btnCerrar"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/close.jpg"
+                        tooltiptext="Cerrar ventana"/>
+            </toolbar>
+        </groupbox>
+        <borderlayout id="borderlayoutCustomer">
+            <north border="none"></north>
+            <center border="none">
+                <div id="divCenterCustomer">
+                    <hbox align="stretch"
+                          pack="stretch"
+                          sclass="FDCenterNoBorder"
+                          width="100%"
+                          style="padding: 3px;">
+                        <!-- Left CONTENT AREA -->
+                        <!-- simulates a columnLayout -->
+                        <cell width="50%">
+                            <vbox align="stretch"
+                                  pack="stretch"
+                                  width="100%" 
+                                  style="padding: 3px;">
+                                <div>
+                                    <panel  border="none">
+                                        <panelchildren>
+                                            <groupbox  mold="3d"
+                                                       closable="false">
+                                                <caption image="/images/btnEditar.gif"
+                                                         label="Criterios Busqueda Documento Cliente" />
+                                                <grid sclass="GridPlain">
+                                                    <columns>
+                                                        <column align="left" width="160px" />
+                                                        <column width="100%" />
+                                                    </columns>
+                                                    <rows>
+                                                        <row>                                                            
+                                                            <label value="Nombre Cliente: " />
+                                                            <combobox id="comboNombreCliente" 
+                                                                      autodrop="true"
+                                                                      mold="rounded"
+                                                                      autocomplete="true"
+                                                                      hflex="1"/>
+                                                        </row>
+                                                        <row>
+                                                            <label value="Id Cliente: " />
+                                                            <textbox  id="txtIdCliente" 
+                                                                      readonly="true"
+                                                                      hflex="1" />
+                                                        </row>                                                              
+                                                        
+                                                        <row>
+                                                            <label value="Id Documento" />
+                                                            <intbox  
+                                                                id="txtIdDocumento" 
+                                                                hflex="1" />
+                                                        </row>
+                                                        <row>
+                                                            <label value="Rango Fechas:"/>
+                                                            <hbox>
+                                                                <hbox>
+                                                                    <label
+                                                                        value="Fecha Inicio :" />
+                                                                    <datebox   id="txtFechaInicio" 
+                                                                               width="115px" 
+                                                                               format="dd/MM/yyyy"
+                                                                    />
+                                                                </hbox>
+                                                            
+                                                                <hbox>
+                                                                    <label
+                                                                        value="Fecha Final  :" />
+                                                                    <datebox   id="txtFechaFinal"
+                                                                               width="115px" 
+                                                                               format="dd/MM/yyyy"
+                                                                    />
+                                                                </hbox>
+                                                            </hbox>
+                                                        </row>
+                                                         
+                                                    </rows>
+                                                </grid>
+                                            </groupbox>
+                                        </panelchildren>
+                                    </panel>
+                                </div>
+                            </vbox>
+                        </cell>                                 
+                    </hbox>                         
+                </div>
+            </center>
+        </borderlayout>
+    </window>
+</zk>
