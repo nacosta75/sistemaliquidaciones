@@ -332,4 +332,11 @@
         <mapped-name>ejb/MovimientosBean</mapped-name>
     </ejb-local-ref>
     
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/LotesExistenciaBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sv.com.diserv.liquidaciones.ejb.LotesExistenciasBeanLocal</local>
+        <mapped-name>ejb/LotesExistenciaBean</mapped-name>
+    </ejb-local-ref>
+    
 </web-app>
