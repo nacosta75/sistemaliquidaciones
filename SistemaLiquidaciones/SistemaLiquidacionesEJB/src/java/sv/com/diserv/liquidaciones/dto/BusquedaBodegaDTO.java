@@ -1,10 +1,10 @@
 /*
  * ESTE COMPONENTE FUE REALIZADO BAJO LA METODOLOGÍA DE DESARROLLO
- * DE FISCALIA GENERAL DE LA REPUBLICA  Y SE ENCUENTRA PROTEGIDO
+ * DE noe acosta  Y SE ENCUENTRA PROTEGIDO
  * POR LAS LEYES DE DERECHOS DE AUTOR.
- * @author edwin.alvarenga@fgr.gob.sv
+ * 
  * @author edwin alvarenga
- * Fiscalía General de la República 2014
+ *  2014
  */
 package sv.com.diserv.liquidaciones.dto;
 
