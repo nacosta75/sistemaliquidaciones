@@ -280,14 +280,7 @@ public class Articulos implements Serializable {
         this.saldoExistenciaList = saldoExistenciaList;
     }
 
-    public UnidadesMed getIdumedida() {
-        return idumedida;
-    }
-
-    public void setIdumedida(UnidadesMed idumedida) {
-        this.idumedida = idumedida;
-    }
-
+   
     public MarcaArticulo getIdmarca() {
         return idmarca;
     }
@@ -371,6 +364,16 @@ public class Articulos implements Serializable {
     public void setIdtipoarticulo(Tipoarticulo idtipoarticulo) {
         this.idtipoarticulo = idtipoarticulo;
     }
+
+    public UnidadesMed getIdumedida() {
+        return idumedida;
+    }
+
+    public void setIdumedida(UnidadesMed idumedida) {
+        this.idumedida = idumedida;
+    }
+    
+    
    
     
     
