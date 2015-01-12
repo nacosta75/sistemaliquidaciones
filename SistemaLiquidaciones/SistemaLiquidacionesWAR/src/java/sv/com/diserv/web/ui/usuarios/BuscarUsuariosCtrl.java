@@ -4,7 +4,7 @@
  * POR LAS LEYES DE DERECHOS DE AUTOR.
  * @author programador@fgr.gob.sv
  * @author Carlos Godoy
- * Fiscalía General de la República 2013
+ *  2013
  */
 package sv.com.diserv.web.ui.usuarios;
 

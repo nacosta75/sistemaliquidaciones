@@ -84,16 +84,16 @@ public class DetalleVendedorCtrl extends BaseController {
     private OperacionesPersonaDTO responseOperacion;
     private OperacionesBodegaVendedorDTO responseOperacionBodega;
     private List<Personas> listaVendedoresLike;
-    
+
     private static List<String> colors = new ArrayList<String>();
-     
-     static{
+
+    static {
         colors.add("blue");
         colors.add("black");
         colors.add("white");
-                
+
     }
-     
+
     public static final List<String> getColors() {
         return new ArrayList<String>(colors);
     }
@@ -159,90 +159,89 @@ public class DetalleVendedorCtrl extends BaseController {
             txtCallePasaje.setValue(clienteSelected.getCalleOPasaje());
             txtColonia.setValue(clienteSelected.getColonia());
             txtNIT.setValue(clienteSelected.getNit());
-            
-            if(clienteSelected.getTelefono1()!= null)
-            txtTelefono1.setValue(Integer.parseInt(clienteSelected.getTelefono1()));
-            
-            if(clienteSelected.getExt1()!= null)
-                txtExt1.setValue(clienteSelected.getExt1());   
-            
-            if(clienteSelected.getCorreo() != null)
+
+            if (clienteSelected.getTelefono1() != null) {
+                txtTelefono1.setValue(Integer.parseInt(clienteSelected.getTelefono1()));
+            }
+
+            if (clienteSelected.getExt1() != null) {
+                txtExt1.setValue(clienteSelected.getExt1());
+            }
+
+            if (clienteSelected.getCorreo() != null) {
                 txtCorreo.setValue(clienteSelected.getCorreo());
-            
-            
-            if(clienteSelected != null &&  clienteSelected.getIdpersona()!= null){
+            }
+
+            if (clienteSelected != null && clienteSelected.getIdpersona() != null) {
                 Bodegas bodega = bodegaVendedorBean.findBodegaAsignada(clienteSelected.getIdpersona());
-                if(bodega != null && bodega.getIdbodega() != null){
+                if (bodega != null && bodega.getIdbodega() != null) {
                     txtBodega.setValue(bodega.getNombre());
                     txtIdBodega.setValue(bodega.getIdbodega());
                     btnAsignarBodega.setDisabled(true);
                     cmbBodegasAsignables.setDisabled(true);
                     btnDesasignarBodega.setDisabled(false);
-                 }
-                else{
+                } else {
                     btnAsignarBodega.setDisabled(false);
                     cmbBodegasAsignables.setDisabled(false);
                     btnDesasignarBodega.setDisabled(true);
                 }
             }
-            
+
             loadCombobox();
-            
+
         } catch (DiservBusinessException ex) {
             Logger.getLogger(DetalleVendedorCtrl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    
-    private void loadCombobox(){
+    private void loadCombobox() {
         List<CatalogoDTO> listaCatalogo = new ArrayList<CatalogoDTO>();
-            try {
-                
-                listaCatalogo = catalogosBeanLocal.loadAllElementosCatalogo(Constants.idsEstadosCiviles,Constants.estadosCiviles);
-                ListModelList modelo = new ListModelList(listaCatalogo);
-                if(clienteSelected !=null && clienteSelected.getEstadoCivil() != null){
-                    modelo.addSelection(catalogosBeanLocal.findCatalogoBySelected(listaCatalogo,Integer.parseInt(clienteSelected.getEstadoCivil())));
-                }
-                cmbEstadoCivil.setModel(modelo);
-                cmbEstadoCivil.setItemRenderer(new CatalogoItemRenderer());
-                
-            } catch (DiservBusinessException ex) {
-                Logger.getLogger(DetalleClienteCtrl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            loadComboboxBodegas();
-    }
-    
-    private void loadComboboxBodegas(){
-         List<Bodegas> listaBodegas;
-         List<CatalogoDTO> listaCatalogoBodegas = new ArrayList<CatalogoDTO>();
+        try {
 
-      try {
-                
-                listaBodegas = bodegaVendedorBean.loadAllBodegasAsignables();
-                List<Object> objectList = new ArrayList<Object>(listaBodegas);
-                listaCatalogoBodegas = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idbodega", "nombre");
-               
-                if(listaCatalogoBodegas != null && listaCatalogoBodegas.size()>0){
-                    ListModelList modelobodegas = new ListModelList(listaCatalogoBodegas);
-                    cmbBodegasAsignables.setModel(modelobodegas);
-                    cmbBodegasAsignables.setItemRenderer(new CatalogoItemRenderer());
-                    btnAsignarBodega.setDisabled(false);
-                    cmbBodegasAsignables.setText("Seleccione una bodega!!");
-                    cmbBodegasAsignables.setReadonly(false);
-                    cmbBodegasAsignables.setButtonVisible(true);
-                }
-                else{
-                     cmbBodegasAsignables.setText("No existen bodegas asignables!!");
-                     cmbBodegasAsignables.setReadonly(true);
-                     cmbBodegasAsignables.setButtonVisible(false);
-                     btnAsignarBodega.setDisabled(true);
-                    }
-                } catch (DiservBusinessException ex) {
-                Logger.getLogger(DetalleClienteCtrl.class.getName()).log(Level.SEVERE, null, ex);
+            listaCatalogo = catalogosBeanLocal.loadAllElementosCatalogo(Constants.idsEstadosCiviles, Constants.estadosCiviles);
+            ListModelList modelo = new ListModelList(listaCatalogo);
+            if (clienteSelected != null && clienteSelected.getEstadoCivil() != null) {
+                modelo.addSelection(catalogosBeanLocal.findCatalogoBySelected(listaCatalogo, Integer.parseInt(clienteSelected.getEstadoCivil())));
             }
+            cmbEstadoCivil.setModel(modelo);
+            cmbEstadoCivil.setItemRenderer(new CatalogoItemRenderer());
+
+        } catch (DiservBusinessException ex) {
+            Logger.getLogger(DetalleClienteCtrl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        loadComboboxBodegas();
     }
-    
+
+    private void loadComboboxBodegas() {
+        List<Bodegas> listaBodegas;
+        List<CatalogoDTO> listaCatalogoBodegas = new ArrayList<CatalogoDTO>();
+
+        try {
+
+            listaBodegas = bodegaVendedorBean.loadAllBodegasAsignables();
+            List<Object> objectList = new ArrayList<Object>(listaBodegas);
+            listaCatalogoBodegas = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idbodega", "nombre");
+
+            if (listaCatalogoBodegas != null && listaCatalogoBodegas.size() > 0) {
+                ListModelList modelobodegas = new ListModelList(listaCatalogoBodegas);
+                cmbBodegasAsignables.setModel(modelobodegas);
+                cmbBodegasAsignables.setItemRenderer(new CatalogoItemRenderer());
+                btnAsignarBodega.setDisabled(false);
+                cmbBodegasAsignables.setText("Seleccione una bodega!!");
+                cmbBodegasAsignables.setReadonly(false);
+                cmbBodegasAsignables.setButtonVisible(true);
+            } else {
+                cmbBodegasAsignables.setText("No existen bodegas asignables!!");
+                cmbBodegasAsignables.setReadonly(true);
+                cmbBodegasAsignables.setButtonVisible(false);
+                btnAsignarBodega.setDisabled(true);
+            }
+        } catch (DiservBusinessException ex) {
+            Logger.getLogger(DetalleClienteCtrl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void loadDataFromTextboxs() {
         try {
             clienteSelected = new Personas();
@@ -251,47 +250,52 @@ public class DetalleVendedorCtrl extends BaseController {
             if (StringUtils.isEmpty(txtNombreVendedor.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar  Nombre Vendedor");
             }
-            
-            if (txtTelefono1.getValue() == null || txtTelefono1.getValue()==0) {
+
+            if (txtTelefono1.getValue() == null || txtTelefono1.getValue() == 0) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar   Numero Telefono para cliente");
             }
-             if (!StringUtils.isEmpty(txtCorreo.getValue())) {
-                
+            if (!StringUtils.isEmpty(txtCorreo.getValue())) {
+
                 Pattern pat = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
                 Matcher mat = pat.matcher(txtCorreo.getValue());
                 if (!mat.find()) {
                     throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Correo Electronico Valido");
-                } 
-     
+                }
+
             }
-            
+
             clienteSelected.setIdpersona(txtIdVendedor.getValue());
             clienteSelected.setNombre(txtNombreVendedor.getValue());
-            
-            if(txtTelefono1.getValue() > 0)
-                clienteSelected.setTelefono1(txtTelefono1.getValue()+"");
-            if(txtExt1.getValue()> 0)
-                clienteSelected.setExt1(Integer.parseInt(txtExt1.getValue()+""));
+
+            if (txtTelefono1.getValue() > 0) {
+                clienteSelected.setTelefono1(txtTelefono1.getValue() + "");
+            }
+            if (txtExt1.getValue() > 0) {
+                clienteSelected.setExt1(Integer.parseInt(txtExt1.getValue() + ""));
+            }
 
             //Debido a que estos campos no son obligatorios de evalua
             // que no esten vacios para setearlos en la entidad
-            if(!StringUtils.isEmpty(txtCallePasaje.getValue()))
+            if (!StringUtils.isEmpty(txtCallePasaje.getValue())) {
                 clienteSelected.setCalleOPasaje(txtCallePasaje.getValue());
-            if(!StringUtils.isEmpty(txtColonia.getValue()))
+            }
+            if (!StringUtils.isEmpty(txtColonia.getValue())) {
                 clienteSelected.setColonia(txtColonia.getValue());
-            if(!StringUtils.isEmpty(txtNIT.getValue()))
-                clienteSelected.setNit(txtNIT.getValue());     
-            
-            if(!StringUtils.isEmpty(txtCorreo.getValue()))
+            }
+            if (!StringUtils.isEmpty(txtNIT.getValue())) {
+                clienteSelected.setNit(txtNIT.getValue());
+            }
+
+            if (!StringUtils.isEmpty(txtCorreo.getValue())) {
                 clienteSelected.setCorreo(txtCorreo.getValue());
-            
-            
-            clienteSelected.setEstadoCivil(cmbEstadoCivil.getSelectedItem().getValue()+"");            
+            }
+
+            clienteSelected.setEstadoCivil(cmbEstadoCivil.getSelectedItem().getValue() + "");
             clienteSelected.setIdtipopersona(new TiposPersona(2));
             clienteSelected.setIdempresa(new Empresas(1));
             clienteSelected.setIdsucursal(new Sucursales(1));
             clienteSelected.setIdusuariocrea(userLogin.getUsuario().getIdusuario());
-                    
+
         } catch (DiservWebException ex) {
             MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
         }
@@ -311,14 +315,13 @@ public class DetalleVendedorCtrl extends BaseController {
                     doEditButton();
                     listaVendedoresCtrl.refreshModel(0);
                 } else {
-                   // MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+                    // MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }
                 setToken(0);
             } else if (getToken().intValue() == 0) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar la misma persona dos veces, por seguridad solo se proceso una vez ");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
         }
@@ -332,11 +335,11 @@ public class DetalleVendedorCtrl extends BaseController {
     }
 
     public void onClick$btnEliminar(Event event) {
-       loadDataFromTextboxs();
-            
-     try {
-            
-           responseOperacion = personaBean.eliminarPersona(clienteSelected);
+        loadDataFromTextboxs();
+
+        try {
+
+            responseOperacion = personaBean.eliminarPersona(clienteSelected);
             if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                 MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_INFO);
                 doReadOnly(Boolean.TRUE);
@@ -352,8 +355,8 @@ public class DetalleVendedorCtrl extends BaseController {
             MensajeMultilinea.show(bex.toString(), Constants.MENSAJE_TIPO_ERROR);
 
         }
-     }
-    
+    }
+
     public void onClick$btnNuevo(Event event) {
         doNew();
     }
@@ -368,87 +371,87 @@ public class DetalleVendedorCtrl extends BaseController {
         this.btnEliminar.setVisible(false);
     }
 
-      public void onClick$btnAsignarBodega(Event event) {
+    public void onClick$btnAsignarBodega(Event event) {
         try {
 //            if (getToken().intValue() > 0) {
-                int idBodega =0;
-                int idVendedor = 0;
-                if(cmbBodegasAsignables != null && cmbBodegasAsignables.getSelectedItem() != null)
-                   idBodega = (Integer) cmbBodegasAsignables.getSelectedItem().getValue();
-                
-                if (txtIdVendedor !=null && txtIdVendedor.getValue() != null && txtIdVendedor.getValue() != 0) {
-                    idVendedor = txtIdVendedor.getValue();
+            int idBodega = 0;
+            int idVendedor = 0;
+            if (cmbBodegasAsignables != null && cmbBodegasAsignables.getSelectedItem() != null) {
+                idBodega = (Integer) cmbBodegasAsignables.getSelectedItem().getValue();
+            }
+
+            if (txtIdVendedor != null && txtIdVendedor.getValue() != null && txtIdVendedor.getValue() != 0) {
+                idVendedor = txtIdVendedor.getValue();
+            }
+
+            if (idBodega == 0) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe seleccionar una bodega a asignar");
+            }
+            if (idVendedor == 0) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe existir un vendedor al cual asignar la bodega");
+            }
+
+            if (idBodega > 0 && idVendedor > 0) {
+                Bodegas bodega = bodegaVendedorBean.findBodegaByID(idBodega);
+                responseOperacionBodega = bodegaVendedorBean.asignarBodega(idBodega, txtIdVendedor.getValue());
+                if (responseOperacionBodega.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+                    MensajeMultilinea.show(responseOperacionBodega.getMensajeRespuesta() + " Id Asociacion:" + responseOperacionBodega.getBodegaVendedor().getId(), Constants.MENSAJE_TIPO_INFO);
+                    txtBodega.setValue(bodega.getNombre());
+                    txtIdBodega.setValue(bodega.getIdbodega());
+                    btnAsignarBodega.setDisabled(true);
+                    cmbBodegasAsignables.setDisabled(true);
+                    btnDesasignarBodega.setDisabled(false);
+                    loadComboboxBodegas();
+                } else {
+                    btnAsignarBodega.setDisabled(false);
+                    cmbBodegasAsignables.setDisabled(false);
+                    btnDesasignarBodega.setDisabled(true);
+                    // MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }
-                
-                if (idBodega == 0) {
-                    throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe seleccionar una bodega a asignar");
-                    }
-                if (idVendedor == 0) {
-                    throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe existir un vendedor al cual asignar la bodega");
-                    }
-                
-                if(idBodega >0 && idVendedor>0){
-                        Bodegas bodega = bodegaVendedorBean.findBodegaByID(idBodega);
-                        responseOperacionBodega = bodegaVendedorBean.asignarBodega(idBodega,txtIdVendedor.getValue());
-                        if (responseOperacionBodega.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                            MensajeMultilinea.show(responseOperacionBodega.getMensajeRespuesta() + " Id Asociacion:" + responseOperacionBodega.getBodegaVendedor().getId(), Constants.MENSAJE_TIPO_INFO);
-                             txtBodega.setValue(bodega.getNombre());
-                             txtIdBodega.setValue(bodega.getIdbodega());
-                             btnAsignarBodega.setDisabled(true);
-                             cmbBodegasAsignables.setDisabled(true);
-                             btnDesasignarBodega.setDisabled(false);
-                             loadComboboxBodegas();
-                        } else {
-                                btnAsignarBodega.setDisabled(false);
-                                cmbBodegasAsignables.setDisabled(false);
-                                btnDesasignarBodega.setDisabled(true);
-                           // MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
-                        }
-                        setToken(1);
-                }
+                setToken(1);
+            }
 //            } else if (getToken().intValue() == 0) {
 //                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar la misma persona dos veces, por seguridad solo se proceso una vez ");
 //            }
-        }catch (DiservWebException ex) {
+        } catch (DiservWebException ex) {
             MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
-        }catch (Exception e) {
-            e.printStackTrace();
-            MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
-        }
-    }
-      
-    public void onClick$btnDesasignarBodega(Event event) {
-        try {
-              BodegaVendedor bodegaVendedor = bodegaVendedorBean.findBodegaVendedorByIdVendedorBodega(txtIdVendedor.getValue(), txtIdBodega.getValue());
-                responseOperacionBodega = bodegaVendedorBean.desasignarBodega(bodegaVendedor);
-                if (responseOperacionBodega.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                    MensajeMultilinea.show(responseOperacionBodega.getMensajeRespuesta(), Constants.MENSAJE_TIPO_INFO);
-                     txtBodega.setValue("No hay bodega Asignada");
-                     txtIdBodega.setValue(0);
-                     btnAsignarBodega.setDisabled(false);
-                     cmbBodegasAsignables.setDisabled(false);
-                     btnDesasignarBodega.setDisabled(true);
-                     loadComboboxBodegas();
-                } else {
-                        btnAsignarBodega.setDisabled(true);
-                        cmbBodegasAsignables.setDisabled(true);
-                        btnDesasignarBodega.setDisabled(false);
-                   // MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
-                }
-               setToken(1);
         } catch (Exception e) {
             e.printStackTrace();
             MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
         }
     }
-    
-   
+
+    public void onClick$btnDesasignarBodega(Event event) {
+        try {
+            BodegaVendedor bodegaVendedor = bodegaVendedorBean.findBodegaVendedorByIdVendedorBodega(txtIdVendedor.getValue(), txtIdBodega.getValue());
+            responseOperacionBodega = bodegaVendedorBean.desasignarBodega(bodegaVendedor);
+            if (responseOperacionBodega.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+                MensajeMultilinea.show(responseOperacionBodega.getMensajeRespuesta(), Constants.MENSAJE_TIPO_INFO);
+                txtBodega.setValue("No hay bodega Asignada");
+                txtIdBodega.setValue(0);
+                btnAsignarBodega.setDisabled(false);
+                cmbBodegasAsignables.setDisabled(false);
+                btnDesasignarBodega.setDisabled(true);
+                loadComboboxBodegas();
+            } else {
+                btnAsignarBodega.setDisabled(true);
+                cmbBodegasAsignables.setDisabled(true);
+                btnDesasignarBodega.setDisabled(false);
+                // MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+            }
+            setToken(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
+        }
+    }
+
     private void doClose() {
         this.detalleVendedorWindow.onClose();
     }
 
     public void onDoubleClicked(Event event) throws Exception {
-    logger.info("[onDoubleClicked]");
+        logger.info("[onDoubleClicked]");
     }
 
     private void doNew() {
@@ -482,7 +485,7 @@ public class DetalleVendedorCtrl extends BaseController {
     public void doActualizar() {
         loadDataFromTextboxs();
         try {
-            
+
             responseOperacion = personaBean.actualizarPersona(clienteSelected);
             if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                 MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id persona:" + responseOperacion.getPersona().getIdpersona(), Constants.MENSAJE_TIPO_INFO);

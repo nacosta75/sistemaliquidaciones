@@ -2,7 +2,7 @@
  * ESTE COMPONENTE FUE REALIZADO BAJO LA METODOLOGÍA DE DESARROLLO
  * DE DISERV,SA DE CV  Y SE ENCUENTRA PROTEGIDO
  * POR LAS LEYES DE DERECHOS DE AUTOR.
- * Fiscalía General de la República 2013
+ *  2013
  */
 package sv.com.diserv.web.ui.usuarios;
 

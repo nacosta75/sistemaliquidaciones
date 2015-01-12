@@ -21,7 +21,6 @@ import sv.com.diserv.liquidaciones.entity.Sucursales;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
-import sv.com.diserv.web.ui.sucursales.ListaSucursalCtrl;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
