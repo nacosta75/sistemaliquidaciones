@@ -33,6 +33,7 @@ import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.liquidaciones.util.UtilFormat;
+import static sv.com.diserv.web.ui.asignaciones.ListaAsignacionesCtrl.logger;
 import sv.com.diserv.web.ui.personas.DetalleClienteCtrl;
 import sv.com.diserv.web.ui.personas.rendered.CatalogoItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
@@ -310,6 +311,15 @@ public class DetalleAsignacionCtrl extends BaseController {
         txtNumDoc.setValue(numeroDoc+1);
     }
 
+    public void onClick$btnNuevoArticulo(Event event) throws Exception {
+        logger.log(Level.INFO, "[btnNuevoArticulo]Event:{0}", event.toString());
+        HashMap map = new HashMap();
+        map.put("token", UtilFormat.getToken());
+        map.put("listaArticulosCtrl", this);
+        Executions.createComponents("/WEB-INF/xhtml/asignaciones/busquedaArticulo.zul", null, map);
+
+    }
+    
     public Integer getToken() {
         return this.token;
     }
