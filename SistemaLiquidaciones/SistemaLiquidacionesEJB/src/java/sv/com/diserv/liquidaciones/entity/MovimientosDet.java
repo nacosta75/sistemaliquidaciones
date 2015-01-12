@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package sv.com.diserv.liquidaciones.entity;
 
 import java.io.Serializable;
@@ -34,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "MovimientosDet.findAll", query = "SELECT m FROM MovimientosDet m"),
     @NamedQuery(name = "MovimientosDet.findByIdmovd", query = "SELECT m FROM MovimientosDet m WHERE m.idmovd = :idmovd"),
+     @NamedQuery(name = "MovimientosDet.findByIdMovimiento", query = "SELECT m FROM MovimientosDet m WHERE m.idmov.idmov = :idMovimiento"),
     @NamedQuery(name = "MovimientosDet.findByCantidad", query = "SELECT m FROM MovimientosDet m WHERE m.cantidad = :cantidad"),
     @NamedQuery(name = "MovimientosDet.findByPrecio", query = "SELECT m FROM MovimientosDet m WHERE m.precio = :precio"),
     @NamedQuery(name = "MovimientosDet.findByValorImpuesto", query = "SELECT m FROM MovimientosDet m WHERE m.valorImpuesto = :valorImpuesto"),
@@ -43,13 +43,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MovimientosDet.findByUltCosto", query = "SELECT m FROM MovimientosDet m WHERE m.ultCosto = :ultCosto"),
     @NamedQuery(name = "MovimientosDet.findByCostoProm", query = "SELECT m FROM MovimientosDet m WHERE m.costoProm = :costoProm")})
 public class MovimientosDet implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "IDMOVD")
     private Integer idmovd;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "CANTIDAD")
@@ -233,5 +233,5 @@ public class MovimientosDet implements Serializable {
     public String toString() {
         return "entity.MovimientosDet[ idmovd=" + idmovd + " ]";
     }
-    
+
 }

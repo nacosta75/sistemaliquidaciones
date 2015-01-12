@@ -4,7 +4,7 @@
  * POR LAS LEYES DE DERECHOS DE AUTOR.
  * @author alvarenga.miranda@gmail.com
  */
-package sv.com.diserv.web.ui.util;
+package sv.com.diserv.liquidaciones.util;
 
 /**
  *

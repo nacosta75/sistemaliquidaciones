@@ -56,7 +56,7 @@ public class PersonasBean implements PersonasBeanLocal {
         int count = 0;
         Query query;
         try {
-            query = em.createQuery("SELECT count(s) FROM Personas s where s.idtipopersona.idtipopersona="+tipoPersona);
+            query = em.createQuery("SELECT count(s) FROM Personas s where s.idtipopersona.idtipopersona=" + tipoPersona);
             count = ((Long) query.getSingleResult()).intValue();
             logger.log(Level.INFO, "[Total de registros encontrados]" + count);
         } catch (Exception e) {
@@ -140,12 +140,12 @@ public class PersonasBean implements PersonasBeanLocal {
         }
         return response;
     }
-    
+
     @Override
     public OperacionesPersonaDTO eliminarPersona(Personas persona) throws DiservBusinessException {
         OperacionesPersonaDTO response = new OperacionesPersonaDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo eliminar persona");
         try {
-             Boolean respuesta =genericDaoBean.delete(persona);
+            Boolean respuesta = genericDaoBean.delete(persona);
             response = new OperacionesPersonaDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Persona eliminada satisfactoriamente");
         } catch (Exception e) {
             e.printStackTrace();
@@ -160,22 +160,22 @@ public class PersonasBean implements PersonasBeanLocal {
         List<Personas> response = new ArrayList<>();
         Personas personas;
         List<String> condiciones = new ArrayList<>();
-        if (re.getIdPersona()!= null) {
-            condiciones.add(" idPersona=" + re.getIdPersona()+ " ");
+        if (re.getIdPersona() != null) {
+            condiciones.add(" idPersona=" + re.getIdPersona() + " ");
         }
         if (re.getNombre() != null) {
             condiciones.add(" UPPER(nombre) LIKE UPPER('%" + re.getNombre() + "%') ");
         }
-        if (re.getNit()!= null) {
-            condiciones.add(" UPPER(nit) LIKE UPPER('%" + re.getNit()+ "%') ");
+        if (re.getNit() != null) {
+            condiciones.add(" UPPER(nit) LIKE UPPER('%" + re.getNit() + "%') ");
         }
-        if (re.getNumeroRegistro()!= null) {
+        if (re.getNumeroRegistro() != null) {
             condiciones.add(" UPPER(noRegistroFiscal) LIKE UPPER('%" + re.getNumeroRegistro() + "%') ");
         }
-        if (re.getTipoPersona()!= 0) {
-            condiciones.add(" idtipopersona = " + re.getTipoPersona()+ " ");
+        if (re.getTipoPersona() != 0) {
+            condiciones.add(" idtipopersona = " + re.getTipoPersona() + " ");
         }
-        
+
         try {
             StringBuilder sb = new StringBuilder();
             sb.append(" SELECT * FROM personas ");
@@ -231,7 +231,7 @@ public class PersonasBean implements PersonasBeanLocal {
                     personas.setFechaUltSaldo(fecha);
                     personas.setEstadoCivil(item[22] != null ? item[22].toString() : "N/D");
                     personas.setIdusuariocrea(Integer.parseInt(item[23] != null ? item[23].toString() : "0"));
-                    
+
                     response.add(personas);
                 }
             }

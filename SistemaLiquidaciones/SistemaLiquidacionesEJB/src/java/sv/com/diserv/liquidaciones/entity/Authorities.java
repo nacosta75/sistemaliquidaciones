@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package sv.com.diserv.liquidaciones.entity;
 
 import java.io.Serializable;
@@ -36,8 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Authorities.findByIdauthority", query = "SELECT a FROM Authorities a WHERE a.idauthority = :idauthority"),
     @NamedQuery(name = "Authorities.findByNombre", query = "SELECT a FROM Authorities a WHERE a.nombre = :nombre"),
     @NamedQuery(name = "Authorities.findByDescripcion", query = "SELECT a FROM Authorities a WHERE a.descripcion = :descripcion"),
+    @NamedQuery(name = "Authorities.findByIdNombreUsuario", query = "SELECT distinct r FROM Authorities r join r.groupauthoritiesList as gr JOIN gr.groupid as rg JOIN rg.groupmembersList as ur JOIN ur.idusuario as user where user.nombreusuario = :idUsuario"),
     @NamedQuery(name = "Authorities.findByEnabled", query = "SELECT a FROM Authorities a WHERE a.enabled = :enabled")})
 public class Authorities implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -129,5 +130,5 @@ public class Authorities implements Serializable {
     public String toString() {
         return "entity.Authorities[ idauthority=" + idauthority + " ]";
     }
-    
+
 }

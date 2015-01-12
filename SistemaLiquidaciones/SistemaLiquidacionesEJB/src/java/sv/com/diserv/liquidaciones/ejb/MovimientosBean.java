@@ -23,9 +23,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
-import sv.com.diserv.liquidaciones.dto.OperacionesPersonaDTO;
 import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
+import sv.com.diserv.liquidaciones.entity.MovimientosDet;
 import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.entity.Sucursales;
 import sv.com.diserv.liquidaciones.entity.TiposPersona;
@@ -45,14 +45,13 @@ public class MovimientosBean implements MovimientosBeanLocal {
     @EJB
     GenericDaoServiceBeanLocal genericDaoBean;
 
-    
     @Override
     public Integer countAllMovimientos(int tipoMovimiento) throws DiservBusinessException {
         logger.log(Level.INFO, "[countAllMovimientos]INIT");
         int count = 0;
         Query query;
         try {
-            query = em.createQuery("SELECT count(m) FROM Movimientos m where m.idtipomov.idtipomov="+tipoMovimiento);
+            query = em.createQuery("SELECT count(m.idmov) FROM Movimientos m where m.idtipomov.idtipomov=" + tipoMovimiento);
             count = ((Long) query.getSingleResult()).intValue();
             logger.log(Level.INFO, "[Total de registros encontrados]" + count);
         } catch (Exception e) {
@@ -136,12 +135,12 @@ public class MovimientosBean implements MovimientosBeanLocal {
         }
         return response;
     }
-    
+
     @Override
     public OperacionesMovimientoDTO eliminarMovimiento(Movimientos movimiento) throws DiservBusinessException {
         OperacionesMovimientoDTO response = new OperacionesMovimientoDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo eliminar persona");
         try {
-             Boolean respuesta =genericDaoBean.delete(movimiento);
+            Boolean respuesta = genericDaoBean.delete(movimiento);
             response = new OperacionesMovimientoDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Persona eliminada satisfactoriamente");
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,22 +155,22 @@ public class MovimientosBean implements MovimientosBeanLocal {
         List<Personas> response = new ArrayList<>();
         Personas personas;
         List<String> condiciones = new ArrayList<>();
-        if (re.getIdPersona()!= null) {
-            condiciones.add(" idPersona=" + re.getIdPersona()+ " ");
+        if (re.getIdPersona() != null) {
+            condiciones.add(" idPersona=" + re.getIdPersona() + " ");
         }
         if (re.getNombre() != null) {
             condiciones.add(" UPPER(nombre) LIKE UPPER('%" + re.getNombre() + "%') ");
         }
-        if (re.getNit()!= null) {
-            condiciones.add(" UPPER(nit) LIKE UPPER('%" + re.getNit()+ "%') ");
+        if (re.getNit() != null) {
+            condiciones.add(" UPPER(nit) LIKE UPPER('%" + re.getNit() + "%') ");
         }
-        if (re.getNumeroRegistro()!= null) {
+        if (re.getNumeroRegistro() != null) {
             condiciones.add(" UPPER(noRegistroFiscal) LIKE UPPER('%" + re.getNumeroRegistro() + "%') ");
         }
-        if (re.getTipoPersona()!= 0) {
-            condiciones.add(" idtipopersona = " + re.getTipoPersona()+ " ");
+        if (re.getTipoPersona() != 0) {
+            condiciones.add(" idtipopersona = " + re.getTipoPersona() + " ");
         }
-        
+
         try {
             StringBuilder sb = new StringBuilder();
             sb.append(" SELECT * FROM personas ");
@@ -227,7 +226,7 @@ public class MovimientosBean implements MovimientosBeanLocal {
                     personas.setFechaUltSaldo(fecha);
                     personas.setEstadoCivil(item[22] != null ? item[22].toString() : "N/D");
                     personas.setIdusuariocrea(Integer.parseInt(item[23] != null ? item[23].toString() : "0"));
-                    
+
                     response.add(personas);
                 }
             }
@@ -246,8 +245,8 @@ public class MovimientosBean implements MovimientosBeanLocal {
         int count = 0;
         Query query;
         try {
-            query = em.createQuery("SELECT max(m.nodoc) FROM Movimientos m where m.idtipomov.idtipomov="+tipoMov+" AND m.idpersona.idpersona ="+idVendedor);
-            count =  (int) query.getSingleResult();
+            query = em.createQuery("SELECT max(m.nodoc) FROM Movimientos m where m.idtipomov.idtipomov=" + tipoMov + " AND m.idpersona.idpersona =" + idVendedor);
+            count = (int) query.getSingleResult();
             logger.log(Level.INFO, "[Total de registros encontrados]" + count);
         } catch (Exception e) {
             logger.log(Level.INFO, "[Excepcion en maxNumDocByVendedorAndTipoMov]" + e.toString());
@@ -256,4 +255,31 @@ public class MovimientosBean implements MovimientosBeanLocal {
         return count;
     }
 
+    /**
+     * *
+     *
+     * @param codigoMovimiento
+     * @return
+     * @throws DiservBusinessException
+     */
+    @Override
+    public List<MovimientosDet> loadDetalleMovimientoByIdMovimento(Integer codigoMovimiento) throws DiservBusinessException {
+        logger.log(Level.INFO, "[loadDetalleMovimientoByIdMovimento] codigoMovimiento:" + codigoMovimiento);
+        List<MovimientosDet> personaList = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("MovimientosDet.findByIdMovimiento");
+            query.setParameter("idMovimiento", codigoMovimiento);
+            query.setMaxResults(Constants.REGISTROS_A_MOSTRAR_LISTA);
+            personaList = query.getResultList();
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[loadDetalleMovimientoByIdMovimento][NoResultException]No se encontraron movimientos");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron persona");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[loadDetalleMovimientoByIdMovimento][Exception]Se mostro una excepcion al buscar movimientos");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return personaList;
+    }
 }
