@@ -4,6 +4,8 @@ package sv.com.diserv.web.ui.asignaciones;
  *
  * @author sonia.garcia
  */
+import java.util.ArrayList;
+import java.util.HashMap;
 import sv.com.diserv.web.ui.asignaciones.*;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,22 +16,22 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.BusquedaArticuloDTO;
 import sv.com.diserv.liquidaciones.dto.BusquedaLoteExistenciaDTO;
-import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
+import sv.com.diserv.liquidaciones.dto.ConsolidadoAsignacionesDTO;
+import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.LotesExistenciasBeanLocal;
-import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
+import sv.com.diserv.liquidaciones.entity.Articulos;
 import sv.com.diserv.liquidaciones.entity.LotesExistencia;
-import sv.com.diserv.liquidaciones.entity.Personas;
+import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
-import sv.com.diserv.web.ui.articulos.ListaArticulosCtrl;
-import static sv.com.diserv.web.ui.asignaciones.ListaAsignacionesCtrl.logger;
-import sv.com.diserv.web.ui.asignaciones.render.AsignacionItemRenderer;
+import sv.com.diserv.web.ui.asignaciones.render.ConsolidadoItemRenderer;
 import sv.com.diserv.web.ui.asignaciones.render.LotesItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
@@ -47,10 +49,12 @@ public class BuscarArticuloCtrl extends BaseController {
     protected Button btnCerrar;
     private BusquedaLoteExistenciaDTO request;
     private LotesExistenciasBeanLocal loteExistenciaBean;
+    private ArticulosBeanLocal articulosBean;
     private ServiceLocator serviceLocator;
     private List<LotesExistencia> listaExistencias;
     private Paging pagingArticulos;
     private Listbox listBoxAticulos;
+    private DetalleAsignacionCtrl listaSeleccionados;
     
      //contadores pagina
     private Integer totalArticulos;
@@ -62,6 +66,7 @@ public class BuscarArticuloCtrl extends BaseController {
         try {
             serviceLocator = ServiceLocator.getInstance();
             loteExistenciaBean = serviceLocator.getService(Constants.JNDI_LOTESEXISTENCIAS_BEAN);
+            articulosBean = serviceLocator.getService(Constants.JNDI_ARTICULOS_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.error(ex.getLocalizedMessage());
             ex.printStackTrace();
@@ -75,7 +80,7 @@ public class BuscarArticuloCtrl extends BaseController {
         }
         doOnCreateCommon(this.busquedaArticuloWindow, event);
         if (this.args.containsKey("listaArticulosCtrl")) {
-//            listaArticulosCtrl = ((ListaArticulosCtrl) this.args.get("listaArticulosCtrl"));
+            listaSeleccionados = ((DetalleAsignacionCtrl) this.args.get("listaArticulosCtrl"));
         }
         MensajeMultilinea.doSetTemplate();
         showBuscarClienteWindow();
@@ -149,6 +154,66 @@ public class BuscarArticuloCtrl extends BaseController {
 
     }
 
+    public void onClick$btnAsignar(Event event) throws InterruptedException {
+        List<Listitem> items =listBoxAticulos.getItems(); 
+        List<LotesExistencia> lotes = new ArrayList<LotesExistencia>();
+        List<LotesExistencia> suma = new ArrayList<LotesExistencia>();
+        List<ConsolidadoAsignacionesDTO> consolidado = new ArrayList<ConsolidadoAsignacionesDTO>();
+        HashMap<Integer,Integer> elementos = new HashMap<Integer, Integer>();
+    for(Listitem item :items){
+        if(item.isSelected()){
+            LotesExistencia lote = (LotesExistencia) item.getAttribute("data"); 
+            lotes.add(lote);
+            if(!elementos.containsKey(lote.getIdarticulo().getIdarticulo())){
+                elementos.put(lote.getIdarticulo().getIdarticulo(), 1);
+                suma.add(lote);
+            }
+            else {
+               Integer cantidad=  elementos.get(lote.getIdarticulo().getIdarticulo()).intValue();
+               cantidad = cantidad+1;
+               elementos.remove(lote.getIdarticulo().getIdarticulo());
+               elementos.put(lote.getIdarticulo().getIdarticulo(), cantidad);
+            }
+                
+        }
+    }
+    
+    for(LotesExistencia lote: suma){
+        ConsolidadoAsignacionesDTO consol = new ConsolidadoAsignacionesDTO();
+            try {
+                Articulos articulo = articulosBean.loadArticuloByID(lote.getIdarticulo().getIdarticulo());
+                consol.setIdArticulo(lote.getIdarticulo().getIdarticulo());
+                consol.setCodigoArticulo(articulo.getCodarticulo());
+                consol.setDescripcion(articulo.getDescarticulo());
+                Integer cantidad=  elementos.get(lote.getIdarticulo().getIdarticulo()).intValue();
+                consol.setCantidad(cantidad);
+        //        consol.setPrecio(lote.getIdarticulo().getCostopromact().toString());
+                consolidado.add(consol);
+            } catch (DiservBusinessException ex) {
+                java.util.logging.Logger.getLogger(BuscarArticuloCtrl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+       
+    }
+    
+    
+    
+    if (!lotes.isEmpty()) {
+                getListaSeleccionados().setTotalArticulos(lotes.size());
+                getListaSeleccionados().getListBoxAticulos().setModel(new ListModelList(lotes));
+                
+                getListaSeleccionados().setTotalAsignaciones(lotes.size());
+                getListaSeleccionados().getListBoxAsignacion().setModel(new ListModelList(consolidado));
+                getListaSeleccionados().getListBoxAsignacion().setItemRenderer(new ConsolidadoItemRenderer());
+                doClose();
+            } else {
+                getListaSeleccionados().getListBoxAticulos().setEmptyMessage("No se han asignado articulos");
+                MensajeMultilinea.show("No se han asignado articulos", Constants.MENSAJE_TIPO_ALERTA);
+            }
+         
+        
+    }
+    
+    
     public BusquedaLoteExistenciaDTO getRequest() {
         return request;
     }
@@ -192,5 +257,48 @@ public class BuscarArticuloCtrl extends BaseController {
     public void setListBoxAticulos(Listbox listBoxAticulos) {
         this.listBoxAticulos = listBoxAticulos;
     }
+
+    /**
+     * @return the listaSeleccionados
+     */
+    public DetalleAsignacionCtrl getListaSeleccionados() {
+        return listaSeleccionados;
+    }
+
+    /**
+     * @param listaSeleccionados the listaSeleccionados to set
+     */
+    public void setListaSeleccionados(DetalleAsignacionCtrl listaSeleccionados) {
+        this.listaSeleccionados = listaSeleccionados;
+    }
+
+    /**
+     * @return the totalArticulos
+     */
+    public Integer getTotalArticulos() {
+        return totalArticulos;
+    }
+
+    /**
+     * @param totalArticulos the totalArticulos to set
+     */
+    public void setTotalArticulos(Integer totalArticulos) {
+        this.totalArticulos = totalArticulos;
+    }
+
+    /**
+     * @return the numeroPaginInicio
+     */
+    public Integer getNumeroPaginInicio() {
+        return numeroPaginInicio;
+    }
+
+    /**
+     * @param numeroPaginInicio the numeroPaginInicio to set
+     */
+    public void setNumeroPaginInicio(Integer numeroPaginInicio) {
+        this.numeroPaginInicio = numeroPaginInicio;
+    }
+    
     
 }

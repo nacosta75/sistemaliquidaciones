@@ -17,7 +17,9 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Paging;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
@@ -64,6 +66,16 @@ public class DetalleAsignacionCtrl extends BaseController {
     private ServiceLocator serviceLocator;
     private OperacionesMovimientoDTO responseOperacion;
     private List<Movimientos> listaAsignacionesLike;
+    
+    private Paging pagingArticulos;
+    private Listbox listBoxAticulos;
+    private Paging pagingAsignacion;
+    private Listbox listBoxAsignacion;
+    
+     //contadores pagina
+    private Integer totalArticulos;
+    private Integer totalAsignaciones;
+    private Integer numeroPaginInicio = 1;
 
     private static List<String> colors = new ArrayList<String>();
      
@@ -351,4 +363,83 @@ public class DetalleAsignacionCtrl extends BaseController {
     public void setListaClientesLike(List<Movimientos> listaAsignacionesLike) {
         this.listaAsignacionesLike = listaAsignacionesLike;
     }
+
+    /**
+     * @return the pagingArticulos
+     */
+    public Paging getPagingArticulos() {
+        return pagingArticulos;
+    }
+
+    /**
+     * @param pagingArticulos the pagingArticulos to set
+     */
+    public void setPagingArticulos(Paging pagingArticulos) {
+        this.pagingArticulos = pagingArticulos;
+    }
+
+    /**
+     * @return the listBoxAticulos
+     */
+    public Listbox getListBoxAticulos() {
+        return listBoxAticulos;
+    }
+
+    /**
+     * @param listBoxAticulos the listBoxAticulos to set
+     */
+    public void setListBoxAticulos(Listbox listBoxAticulos) {
+        this.listBoxAticulos = listBoxAticulos;
+    }
+
+    /**
+     * @return the totalArticulos
+     */
+    public Integer getTotalArticulos() {
+        return totalArticulos;
+    }
+
+    /**
+     * @param totalArticulos the totalArticulos to set
+     */
+    public void setTotalArticulos(Integer totalArticulos) {
+        this.totalArticulos = totalArticulos;
+    }
+
+    /**
+     * @return the listBoxAsignacion
+     */
+    public Listbox getListBoxAsignacion() {
+        return listBoxAsignacion;
+    }
+
+    /**
+     * @param listBoxAsignacion the listBoxAsignacion to set
+     */
+    public void setListBoxAsignacion(Listbox listBoxAsignacion) {
+        this.listBoxAsignacion = listBoxAsignacion;
+    }
+
+    /**
+     * @return the totalAsignaciones
+     */
+    public Integer getTotalAsignaciones() {
+        return totalAsignaciones;
+    }
+
+    /**
+     * @param totalAsignaciones the totalAsignaciones to set
+     */
+    public void setTotalAsignaciones(Integer totalAsignaciones) {
+        this.totalAsignaciones = totalAsignaciones;
+    }
+
+    /**
+     * @return the numeroPaginInicio
+     */
+    public Integer getNumeroPaginInicio() {
+        return numeroPaginInicio;
+    }
+    
+    
 }
