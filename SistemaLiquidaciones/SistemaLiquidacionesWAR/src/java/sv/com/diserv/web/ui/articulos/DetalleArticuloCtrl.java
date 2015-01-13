@@ -316,6 +316,11 @@ public class DetalleArticuloCtrl extends BaseController {
             articuloSelected = new Articulos();        
 
             //validamos los campos
+            
+            if (StringUtils.isEmpty((String) cmbTipoArticulo.getSelectedItem().getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Tipo de Articulo");
+            }
+            
              if (StringUtils.isEmpty(txtCodigo.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar codigo para Articulos");
             }
