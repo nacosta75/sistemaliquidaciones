@@ -307,19 +307,6 @@ public class DetalleArticuloCtrl extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-       
-        //cmbMarcaArticulo.setValue(articuloSelected.getIdmarca().getDescmarca());
-      
-        // txtIdBodegas.setValue(bodegaSelected.getIdbodega());
-        // txtNombreBodegas.setText(bodegaSelected.getNombre());
-        // txtTelefono.setValue(bodegaSelected.getTelefono());
-        //cmbSucursal.
-        //checkEstadoBodegas.setChecked((boolean) (bodegaSelected.getActiva() != null ? bodegaSelected.getActiva() : false));
-//        if (articuloSelected.ge.equals("S")) {
-//            checkEstadoArticulos.setChecked(true);
-//        } else {
-//            checkEstadoArticulos.setChecked(false);
-//        }
 
     }
 
