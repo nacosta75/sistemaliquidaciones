@@ -56,6 +56,9 @@ public class BuscarArticuloCtrl extends BaseController {
     private Listbox listBoxAticulos;
     private DetalleAsignacionCtrl listaSeleccionados;
     
+    private List<LotesExistencia> lotesPaginaAnterior = new ArrayList<LotesExistencia>();
+    private List<ConsolidadoAsignacionesDTO> consolidadoPaginaAnterior = new ArrayList<ConsolidadoAsignacionesDTO>();
+    
      //contadores pagina
     private Integer totalArticulos;
     private Integer numeroPaginInicio = 1;
@@ -81,6 +84,20 @@ public class BuscarArticuloCtrl extends BaseController {
         doOnCreateCommon(this.busquedaArticuloWindow, event);
         if (this.args.containsKey("listaArticulosCtrl")) {
             listaSeleccionados = ((DetalleAsignacionCtrl) this.args.get("listaArticulosCtrl"));
+            
+             List<Listitem> articulos = listaSeleccionados.getListBoxAticulos().getItems(); 
+             List<Listitem> consolidados = listaSeleccionados.getListBoxAsignacion().getItems(); 
+            
+             for(Listitem item:articulos) {
+                 LotesExistencia lote = (LotesExistencia) item.getAttribute("data");
+                 lotesPaginaAnterior.add(lote);
+             }
+             
+             for(Listitem item:consolidados) {
+                 ConsolidadoAsignacionesDTO consol = (ConsolidadoAsignacionesDTO) item.getAttribute("data");
+                 consolidadoPaginaAnterior.add(consol);
+             }
+  
         }
         MensajeMultilinea.doSetTemplate();
         showBuscarClienteWindow();
@@ -131,6 +148,14 @@ public class BuscarArticuloCtrl extends BaseController {
                 request.setTelefono(txtTelefono.getValue());
             }
             
+            String lotesExcluir = StringUtils.EMPTY;
+            for(LotesExistencia lote:lotesPaginaAnterior){
+                lotesExcluir = lotesExcluir+lote.getIdlote()+",";
+            }
+            
+            if(StringUtils.isNotEmpty(lotesExcluir))
+                request.setLotes(lotesExcluir.substring(0,lotesExcluir.length()-1));
+                    
             listaExistencias = loteExistenciaBean.buscarLoteByCriteria(request);
 
             if (!listaExistencias.isEmpty()) {
@@ -178,6 +203,22 @@ public class BuscarArticuloCtrl extends BaseController {
         }
     }
     
+    for(LotesExistencia lote1: lotesPaginaAnterior){
+        
+        if(!elementos.containsKey(lote1.getIdarticulo().getIdarticulo())){
+                elementos.put(lote1.getIdarticulo().getIdarticulo(), 1);
+                suma.add(lote1);
+            }
+            else {
+               Integer cantidad=  elementos.get(lote1.getIdarticulo().getIdarticulo()).intValue();
+               cantidad = cantidad+1;
+               elementos.remove(lote1.getIdarticulo().getIdarticulo());
+               elementos.put(lote1.getIdarticulo().getIdarticulo(), cantidad);
+            }
+        
+         lotes.add(lote1);
+    }
+    
     for(LotesExistencia lote: suma){
         ConsolidadoAsignacionesDTO consol = new ConsolidadoAsignacionesDTO();
             try {
@@ -200,6 +241,7 @@ public class BuscarArticuloCtrl extends BaseController {
     if (!lotes.isEmpty()) {
                 getListaSeleccionados().setTotalArticulos(lotes.size());
                 getListaSeleccionados().getListBoxAticulos().setModel(new ListModelList(lotes));
+                getListaSeleccionados().getListBoxAticulos().setItemRenderer(new LotesItemRenderer());
                 
                 getListaSeleccionados().setTotalAsignaciones(lotes.size());
                 getListaSeleccionados().getListBoxAsignacion().setModel(new ListModelList(consolidado));

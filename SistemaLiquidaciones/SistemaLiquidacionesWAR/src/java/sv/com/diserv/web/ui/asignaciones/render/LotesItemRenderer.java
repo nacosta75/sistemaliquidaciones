@@ -18,7 +18,10 @@ public class LotesItemRenderer implements ListitemRenderer {
         lote = (LotesExistencia) data;
         SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
 
-        Listcell lb= new Listcell(String.valueOf(lote.getIdarticulo().getIdarticulo()));
+        Listcell lb= new Listcell(String.valueOf(lote.getIdlote()));
+        lb.setParent(item);
+        
+        lb= new Listcell(String.valueOf(lote.getIdarticulo().getIdarticulo()));
         lb.setParent(item);
         
         lb = new Listcell(String.valueOf(lote.getIcc()));
