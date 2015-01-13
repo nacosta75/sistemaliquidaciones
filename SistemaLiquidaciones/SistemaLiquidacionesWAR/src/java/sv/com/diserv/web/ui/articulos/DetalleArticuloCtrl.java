@@ -8,6 +8,7 @@ package sv.com.diserv.web.ui.articulos;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,8 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
@@ -43,6 +46,7 @@ import sv.com.diserv.liquidaciones.exception.DiservWebException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
+import sv.com.diserv.liquidaciones.util.UtilFormat;
 import sv.com.diserv.web.ui.personas.rendered.CatalogoItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
@@ -59,6 +63,7 @@ public class DetalleArticuloCtrl extends BaseController {
     private EmpresasBeanLocal empresasBean;
     private ServiceLocator serviceLocator;
     private Articulos articuloSelected;
+    
 
     private transient Integer token;
     private ListaArticulosCtrl listaArticulosCtrl;
@@ -323,8 +328,10 @@ public class DetalleArticuloCtrl extends BaseController {
             articuloSelected.setIdmarca(new MarcaArticulo((Integer) cmbMarcaArticulo.getSelectedItem().getValue()));
             articuloSelected.setIdumedida(new UnidadesMed((Integer) cmbMedidaArticulo.getSelectedItem().getValue()));
             articuloSelected.setIdempresa(new Empresas(1));
-            articuloSelected.setCostocompact(BigDecimal.ZERO);
+            articuloSelected.setCostopromact(BigDecimal.ZERO);
             articuloSelected.setCostopromant(BigDecimal.ZERO);
+            articuloSelected.setCostocompact(BigDecimal.ZERO);
+            articuloSelected.setCostocompant(BigDecimal.ZERO);
             
             articuloSelected.setDescarticulo(txtDescripcion.getValue());
             articuloSelected.setCodarticulo(txtCodigo.getValue());            
@@ -469,5 +476,6 @@ public class DetalleArticuloCtrl extends BaseController {
         doReadOnly(Boolean.TRUE);
         doEditButton();
     }
+
 
 }
