@@ -20,7 +20,6 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
-import sv.com.diserv.liquidaciones.dto.BusquedaArticuloDTO;
 import sv.com.diserv.liquidaciones.dto.BusquedaLoteExistenciaDTO;
 import sv.com.diserv.liquidaciones.dto.ConsolidadoAsignacionesDTO;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
@@ -52,7 +51,6 @@ public class BuscarArticuloCtrl extends BaseController {
     private ArticulosBeanLocal articulosBean;
     private ServiceLocator serviceLocator;
     private List<LotesExistencia> listaExistencias;
-    private Paging pagingArticulos;
     private Listbox listBoxAticulos;
     private DetalleAsignacionCtrl listaSeleccionados;
     
@@ -160,8 +158,7 @@ public class BuscarArticuloCtrl extends BaseController {
 
             if (!listaExistencias.isEmpty()) {
                 if (listaExistencias.size() > 0) {
-//                    logger.log(Level.INFO, "Registros cargados=={0}", listaExistencias.size());
-                    pagingArticulos.setTotalSize(listaExistencias.size());
+                    setTotalArticulos(listaExistencias.size());
                     listBoxAticulos.setModel(new ListModelList(listaExistencias));
                     listBoxAticulos.setItemRenderer(new LotesItemRenderer());
                 } else {
@@ -243,7 +240,7 @@ public class BuscarArticuloCtrl extends BaseController {
                 getListaSeleccionados().getListBoxAticulos().setModel(new ListModelList(lotes));
                 getListaSeleccionados().getListBoxAticulos().setItemRenderer(new LotesItemRenderer());
                 
-                getListaSeleccionados().setTotalAsignaciones(lotes.size());
+                getListaSeleccionados().setTotalAsignaciones(consolidado.size());
                 getListaSeleccionados().getListBoxAsignacion().setModel(new ListModelList(consolidado));
                 getListaSeleccionados().getListBoxAsignacion().setItemRenderer(new ConsolidadoItemRenderer());
                 doClose();
@@ -275,16 +272,16 @@ public class BuscarArticuloCtrl extends BaseController {
     /**
      * @return the pagingArticulos
      */
-    public Paging getPagingArticulos() {
-        return pagingArticulos;
-    }
+//    public Paging getPagingArticulos() {
+//        return pagingArticulos;
+//    }
 
     /**
      * @param pagingArticulos the pagingArticulos to set
      */
-    public void setPagingArticulos(Paging pagingArticulos) {
-        this.pagingArticulos = pagingArticulos;
-    }
+//    public void setPagingArticulos(Paging pagingArticulos) {
+//        this.pagingArticulos = pagingArticulos;
+//    }
 
     /**
      * @return the listBoxAticulos
