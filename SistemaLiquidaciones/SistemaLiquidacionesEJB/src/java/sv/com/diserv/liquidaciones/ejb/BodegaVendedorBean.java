@@ -138,7 +138,7 @@ public class BodegaVendedorBean implements BodegaVendedorBeanLocal {
         logger.log(Level.INFO, "[loadBodegaAsignada] Idvendedor:" + idVendedor);
         Bodegas bodega = null;
         Query query;
-        try {
+        try {//
             query = em.createNamedQuery("BodegaVendedor.findByIdVendedor");
             query.setParameter("idVendedor", idVendedor);
             bodega = (Bodegas) query.getSingleResult();

@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author vitual-lubuntu
+ * @author abraham.acosta
  */
 @Entity
 @Table(name = "BODEGA_VENDEDOR")
@@ -51,7 +51,7 @@ public class BodegaVendedor implements Serializable {
     @JoinColumn(name = "IDPERSONA", referencedColumnName = "IDPERSONA")
     @ManyToOne(optional = false)
     private Personas idpersona;
-
+//
     public BodegaVendedor() {
     }
 
