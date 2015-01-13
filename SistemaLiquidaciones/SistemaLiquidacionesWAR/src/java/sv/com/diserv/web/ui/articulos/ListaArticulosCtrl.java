@@ -153,6 +153,26 @@ public class ListaArticulosCtrl extends BaseController{
         Executions.createComponents("/WEB-INF/xhtml/articulos/busquedaArticulo.zul", null, map);
 
     }
+    
+     public void onClickedArticulo(Event event) throws Exception {
+        logger.log(Level.INFO, "[onClickedArticulo]Event:{0}", event.toString());
+        Listitem item = this.listBoxArticulo.getSelectedItem();
+        if (item != null) {
+            articuloSelected = (Articulos) item.getAttribute("data");
+           // System.out.println("tramites:" + articuloSelected.getOrdentrabajoList().size());
+            if (articuloSelected != null) {
+              //  listaOrdenesArticulo = ordentrabajoBean.loadOrdenesTrabajoByArticulo(articuloSelected.getIdArticulo(), Constants.PAGINA_INICIO_CERO, Constants.REGISTROS_A_MOSTRAR_LISTA);
+//                if (listaOrdenesArticulo.size() > 0) {
+//                    listBoxListaTramiteArticulo.setModel(new ListModelList(listaOrdenesArticulo));
+//                    listBoxListaTramiteArticulo.setItemRenderer(new OrdentrabajoResumenItemRenderer());
+//                } else {
+//                    listBoxListaTramiteArticulo.setModel(new ListModelList(listaOrdenesArticulo));
+//                    listBoxListaTramiteArticulo.setEmptyMessage("Articulo no Tiene Tramites Asociados en Sistema");
+//                    logger.info("No se cargaron registros");
+//                }
+            }
+        }
+    }
 
 
     public Listbox getListBoxArticulo() {
