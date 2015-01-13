@@ -13,6 +13,7 @@ public class BusquedaLoteExistenciaDTO implements Serializable {
     private String icc;
     private String imei;
     private String telefono;
+    private String lotes;
 
     /**
      * @return the idArticulo
@@ -68,6 +69,20 @@ public class BusquedaLoteExistenciaDTO implements Serializable {
      */
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    /**
+     * @return the lotes
+     */
+    public String getLotes() {
+        return lotes;
+    }
+
+    /**
+     * @param lotes the lotes to set
+     */
+    public void setLotes(String lotes) {
+        this.lotes = lotes;
     }
 
     

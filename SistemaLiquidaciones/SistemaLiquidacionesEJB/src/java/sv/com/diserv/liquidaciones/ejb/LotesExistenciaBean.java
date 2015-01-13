@@ -163,7 +163,8 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
         if (re.getTelefono()!= null) {
             condiciones.add(" UPPER(telefono) LIKE UPPER('%" + re.getTelefono()+ "%') ");
         }
-        
+               
+        condiciones.add("estado =1");
         try {
             StringBuilder sb = new StringBuilder();
             sb.append(" SELECT * FROM Lotes_Existencia ");
@@ -175,6 +176,8 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
                     sb.append(condiciones.get(i));
                 }
             }
+            if(re.getLotes()!=null)
+                sb.append(" AND idlote not in ("+re.getLotes()+")");
             sb.append(" ORDER BY idlote DESC ");
             System.out.println("SQL A EJECUTAR:--> " + sb.toString());
             System.out.println("PARAMETROS RECIBIDOS:-->" + re.toString());
