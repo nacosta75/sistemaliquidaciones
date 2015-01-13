@@ -272,30 +272,44 @@ public class DetalleArticuloCtrl extends BaseController {
 
     private void loadDataFromEntity() {
 
-        txtIdArticulo.setValue(articuloSelected.getIdarticulo());
-        txtCodigo.setValue(articuloSelected.getCodarticulo());
-        txtDescripcion.setValue(articuloSelected.getDescarticulo());
         
-        loadCombobox();
+        try
+        {
+            txtIdArticulo.setValue(articuloSelected.getIdarticulo());
+            txtCodigo.setValue(articuloSelected.getCodarticulo());
+            txtDescripcion.setValue(articuloSelected.getDescarticulo());
+
+            loadCombobox();
+
+            cmbMarcaArticulo.setValue(articuloSelected.getIdmarca().getDescmarca());
+            cmbLineaArticulo.setValue(articuloSelected.getIdlinea().getDesclinea());
+            cmbTipoArticulo.setValue(articuloSelected.getIdtipoarticulo().getDescripcion());
+            cmbMedidaArticulo.setValue(articuloSelected.getIdumedida().getDescumedida());
+
+            if (articuloSelected.getCostopromact()!=null)
+            {
+                txtCostoProm.setValue(articuloSelected.getCostopromact());
+            }
+            else
+            {
+              txtCostoProm.setValue(BigDecimal.ZERO);
+            }
+            
+            if (articuloSelected.getCostopromant()!=null)
+            {
+                txtCostoAnt.setValue(articuloSelected.getCostocompant());
+            }
+            else
+            {
+              txtCostoAnt.setValue(BigDecimal.ZERO);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
        
-        if (articuloSelected.getCostopromact().compareTo(BigDecimal.ZERO)>0)
-        {
-            txtCostoProm.setValue(articuloSelected.getCostocompact());
-        }
-        else
-        {
-          txtCostoProm.setValue(BigDecimal.ZERO);
-        }
-        if (articuloSelected.getCostopromant().compareTo(BigDecimal.ZERO)>0)
-        {
-            txtCostoAnt.setValue(articuloSelected.getCostocompant());
-        }
-        else
-        {
-          txtCostoAnt.setValue(BigDecimal.ZERO);
-        }
-        
-       
+        //cmbMarcaArticulo.setValue(articuloSelected.getIdmarca().getDescmarca());
+      
         // txtIdBodegas.setValue(bodegaSelected.getIdbodega());
         // txtNombreBodegas.setText(bodegaSelected.getNombre());
         // txtTelefono.setValue(bodegaSelected.getTelefono());
