@@ -71,7 +71,7 @@ public class Personas implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "IDPERSONA")
-    @SequenceGenerator(name = "SEQ_PERSONAS", sequenceName = "SEQ_PERSONAS")
+    @SequenceGenerator(allocationSize =1,  name = "SEQ_PERSONAS", sequenceName = "SEQ_PERSONAS")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PERSONAS")
     private Integer idpersona;
     @Size(max = 80)
