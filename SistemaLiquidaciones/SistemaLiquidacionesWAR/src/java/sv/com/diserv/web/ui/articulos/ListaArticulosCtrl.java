@@ -19,12 +19,15 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.ExistenciasBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Articulos;
+import sv.com.diserv.liquidaciones.entity.SaldoExistencia;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.liquidaciones.util.UtilFormat;
 import sv.com.diserv.web.ui.articulos.rendered.ArticuloItemRenderer;
+import sv.com.diserv.web.ui.existencia.rendered.ExistenciaItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
@@ -43,6 +46,7 @@ public class ListaArticulosCtrl extends BaseController{
     protected Button btnRefresh;
     protected Paging pagingArticulo;
     protected Listbox listBoxArticulo;
+    protected Listbox listBoxListaExistencia;
     protected Listheader listheaderIdArticulo;
     protected Listheader listheaderCodigo;
     protected Listheader listheaderDescripcion;
@@ -54,6 +58,8 @@ public class ListaArticulosCtrl extends BaseController{
     private ArticulosBeanLocal articulosBean;
     private List<Articulos> listaArticulos;
     private Articulos articuloSelected;
+    private ExistenciasBeanLocal existenciaBean;
+    private List<SaldoExistencia> listaExistencia;
     
     
       public ListaArticulosCtrl()
@@ -62,6 +68,7 @@ public class ListaArticulosCtrl extends BaseController{
         try {
             serviceLocator = ServiceLocator.getInstance();           
             articulosBean = serviceLocator.getService(Constants.JNDI_ARTICULOS_BEAN);
+            existenciaBean = serviceLocator.getService(Constants.JNDI_EXISTENCIA_BEAN);
             numeroPaginInicio = 0;
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
@@ -161,19 +168,32 @@ public class ListaArticulosCtrl extends BaseController{
             articuloSelected = (Articulos) item.getAttribute("data");
            // System.out.println("tramites:" + articuloSelected.getOrdentrabajoList().size());
             if (articuloSelected != null) {
-              //  listaOrdenesArticulo = ordentrabajoBean.loadOrdenesTrabajoByArticulo(articuloSelected.getIdArticulo(), Constants.PAGINA_INICIO_CERO, Constants.REGISTROS_A_MOSTRAR_LISTA);
-//                if (listaOrdenesArticulo.size() > 0) {
-//                    listBoxListaTramiteArticulo.setModel(new ListModelList(listaOrdenesArticulo));
-//                    listBoxListaTramiteArticulo.setItemRenderer(new OrdentrabajoResumenItemRenderer());
-//                } else {
-//                    listBoxListaTramiteArticulo.setModel(new ListModelList(listaOrdenesArticulo));
-//                    listBoxListaTramiteArticulo.setEmptyMessage("Articulo no Tiene Tramites Asociados en Sistema");
-//                    logger.info("No se cargaron registros");
-//                }
+                
+                listaExistencia = existenciaBean.loadExistenciaArticulo(articuloSelected.getIdarticulo(), Constants.PAGINA_INICIO_DEFAULT, Constants.REGISTROS_A_MOSTRAR_LISTA);
+                if (listaExistencia.size() > 0) {
+                    listBoxListaExistencia.setModel(new ListModelList(listaExistencia));
+                    listBoxListaExistencia.setItemRenderer(new ExistenciaItemRenderer());
+                } else {
+                    listBoxListaExistencia.setModel(new ListModelList(listaExistencia));
+                    listBoxListaExistencia.setEmptyMessage("Articulo no Tiene Existencias");
+                    logger.info("No se cargaron registros");
+                }
+                
+                
+               
             }
         }
     }
 
+    public Listbox getListBoxListaExistencia() {
+        return listBoxListaExistencia;
+    }
+
+    public void setListBoxListaExistencia(Listbox listBoxListaExistencia) {
+        this.listBoxListaExistencia = listBoxListaExistencia;
+    }
+
+     
 
     public Listbox getListBoxArticulo() {
         return listBoxArticulo;
@@ -206,6 +226,14 @@ public class ListaArticulosCtrl extends BaseController{
 
     public void setListaArticulos(List<Articulos> listaArticulos) {
         this.listaArticulos = listaArticulos;
+    }
+
+    public List<SaldoExistencia> getListaExistencia() {
+        return listaExistencia;
+    }
+
+    public void setListaExistencia(List<SaldoExistencia> listaExistencia) {
+        this.listaExistencia = listaExistencia;
     }
       
       
