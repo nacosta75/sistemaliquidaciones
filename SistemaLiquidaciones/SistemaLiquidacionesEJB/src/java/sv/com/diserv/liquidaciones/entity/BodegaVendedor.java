@@ -42,7 +42,7 @@ public class BodegaVendedor implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @SequenceGenerator(name = "SEQ_IDBODEGAVEND", sequenceName = "SEQ_IDBODEGAVEND")
+    @SequenceGenerator(allocationSize =1, name = "SEQ_IDBODEGAVEND", sequenceName = "SEQ_IDBODEGAVEND")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_IDBODEGAVEND" )
     private Integer id;
     @JoinColumn(name = "IDBODEGA", referencedColumnName = "IDBODEGA")
