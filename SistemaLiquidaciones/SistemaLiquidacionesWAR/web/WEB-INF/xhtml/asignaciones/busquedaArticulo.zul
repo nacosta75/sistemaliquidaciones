@@ -116,8 +116,13 @@
                                                          mold="paging"
                                                          pagingPosition="top"
                                                          multiple="true"
-                                                         checkmark="true">
+                                                         checkmark="true"                                                >
                                                     <listhead sizable="true">
+                                                        <listheader id="listheaderLote"
+                                                                    sclass="FDListBoxHeader1"
+                                                                    sort="auto"
+                                                                    width="25%"
+                                                                    label="Id Lote" />
                                                         <listheader id="listheaderArticulo"
                                                                     sclass="FDListBoxHeader1"
                                                                     sort="auto"
