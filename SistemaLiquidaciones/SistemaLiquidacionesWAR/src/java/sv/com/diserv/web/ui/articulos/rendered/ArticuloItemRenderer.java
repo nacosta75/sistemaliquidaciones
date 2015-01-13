@@ -36,8 +36,8 @@ public class ArticuloItemRenderer implements ListitemRenderer{
 
         item.setAttribute("data", data);
 
-        ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedLinea");
-        ComponentsCtrl.applyForward(item, "onClick=onClickedLinea");
+        ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedArticulo");
+        ComponentsCtrl.applyForward(item, "onClick=onClickedArticulo");
 
     }
     
