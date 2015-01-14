@@ -32,8 +32,11 @@ public class AsignacionItemRenderer implements ListitemRenderer {
         lb = new Listcell(String.valueOf(asignacion.getNodoc()));
         lb.setParent(item);
         
-        lb = new Listcell(String.valueOf(asignacion.getIdpersona().getNombre()));
-        lb.setParent(item);
+        if(asignacion.getIdpersona().getNombre()!=null){
+            lb = new Listcell(String.valueOf(asignacion.getIdpersona().getNombre()));
+            lb.setParent(item);
+        }
+        
 
         item.setAttribute("data", data);
 
