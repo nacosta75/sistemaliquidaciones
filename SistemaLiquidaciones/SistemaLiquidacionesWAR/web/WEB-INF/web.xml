@@ -339,11 +339,33 @@
         <mapped-name>ejb/LotesExistenciaBean</mapped-name>
     </ejb-local-ref>
     
-    <ejb-local-ref>
+<<<<<<< .mine
+     <ejb-local-ref>
         <ejb-ref-name>ejb/ExistenciasBean</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
         <local>sv.com.diserv.liquidaciones.ejb.ExistenciasBeanLocal</local>
         <mapped-name>ejb/ExistenciasBean</mapped-name>
+    </ejb-local-ref>
+    
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/RelacionAsignacionBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sv.com.diserv.liquidaciones.ejb.RelacionAsignacionBeanLocal</local>
+        <mapped-name>ejb/RelacionAsignacionBean</mapped-name>
+    </ejb-local-ref>
+    
+    <ejb-local-ref>
+        <ejb-ref-name>ejb/MovimientosDetBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sv.com.diserv.liquidaciones.ejb.MovimientosDetBeanLocal</local>
+        <mapped-name>ejb/MovimientosDetBean</mapped-name>
+    </ejb-local-ref>
+    
+     <ejb-local-ref>
+        <ejb-ref-name>ejb/DetListaPrecioBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sv.com.diserv.liquidaciones.ejb.DetListaPrecioBeanLocal</local>
+        <mapped-name>ejb/DetListaPrecioBean</mapped-name>
     </ejb-local-ref>
     
 </web-app>
