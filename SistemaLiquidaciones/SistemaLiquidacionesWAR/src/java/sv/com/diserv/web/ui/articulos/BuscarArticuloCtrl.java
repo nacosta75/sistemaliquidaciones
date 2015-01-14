@@ -116,10 +116,10 @@ public class BuscarArticuloCtrl extends BaseController{
             if (!listaArticulos.isEmpty()) {
                 listaArticuloCtrl.setTotalArticulos(listaArticulos.size());
                 listaArticuloCtrl.getListBoxArticulo().setModel(new ListModelList(listaArticulos));
-                //         listaArticuloCtrl.getListBoxArticulo().setItemRenderer(new ArticuloItemRenderer());
+                doClose();
             } else {
                 listaArticuloCtrl.getListBoxArticulo().setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
-                MensajeMultilinea.show("No se encontraron clientes con los criterios ingresados", Constants.MENSAJE_TIPO_ALERTA);
+                MensajeMultilinea.show("No se encontraron Articulos con los criterios ingresados", Constants.MENSAJE_TIPO_ALERTA);
             }
         } catch (Exception e) {
             e.printStackTrace();
