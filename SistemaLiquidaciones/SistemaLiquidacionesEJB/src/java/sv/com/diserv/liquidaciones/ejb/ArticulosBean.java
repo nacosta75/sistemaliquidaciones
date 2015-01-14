@@ -19,6 +19,7 @@ import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.dto.BusquedaArticuloDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesArticuloDTO;
 import sv.com.diserv.liquidaciones.entity.Articulos;
+import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 
 
@@ -35,6 +36,22 @@ public class ArticulosBean implements ArticulosBeanLocal {
     private EntityManager em;
     @EJB
     GenericDaoServiceBeanLocal genericDaoBean;
+    
+    @EJB
+    TipoArticuloBeanLocal tipoArticuloBean;
+    
+    @EJB
+    UmedidaArticuloBeanLocal uMedidaBean;
+    
+    @EJB
+    MarcaArticuloBeanLocal marcaBean;
+    
+    @EJB
+    LineaArticuloBeanLocal lineaBean;
+    
+    @EJB
+    EmpresasBeanLocal empresaBean;
+    
     
     @Override
     public List<Articulos> loadAllArticulos(int inicio, int fin) throws DiservBusinessException {
@@ -140,12 +157,14 @@ public class ArticulosBean implements ArticulosBeanLocal {
             condiciones.add(" UPPER(descarticulo) LIKE UPPER('%" + request.getDescarticulo() + "%') ");
         }
         if (request.getCodarticulo() != null) {
-            condiciones.add(" UPPER(codigo) LIKE UPPER('%" + request.getCodarticulo() + "%') ");
+            condiciones.add(" UPPER(codarticulo) LIKE UPPER('%" + request.getCodarticulo() + "%') ");
         }
        
         try {
             StringBuilder sb = new StringBuilder();
-            sb.append(" SELECT * FROM Articulos ");
+            sb.append(" SELECT idarticulo,codarticulo,descarticulo,idtipoarticulo, "+
+                    "idumedida,idmarca,idlinea,idempresa "
+                    + " FROM Articulos ");
             if (!condiciones.isEmpty()) {
                 sb.append(" WHERE ");
                 sb.append(condiciones.get(0));
@@ -161,16 +180,18 @@ public class ArticulosBean implements ArticulosBeanLocal {
             List<Object[]> lista = q.getResultList();
             if (lista.size() > 0) {
                 for (Object[] item : lista) {
+                    
                     Articulos = new Articulos();
+                    
                     Articulos.setIdarticulo(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
-                    //Articulos.setCodigo(item[1] != null ? item[1].toString() : "N/D");
                     Articulos.setCodarticulo(item[1] != null ? item[1].toString() : "N/D");
                     Articulos.setDescarticulo(item[2] != null ? item[2].toString() : "N/D");
-                    //Articulos.setTelefono(item[4] != null ? item[4].toString() : "N/D");
-                    //Articulos.setEncargado(item[5] != null ? item[5].toString() : "N/D");
-                   // Articulos.setIdempresa(item[6] != null ? item[6].toString() : "N/D");
-                    //Articulos.setActiva(item[7] != null ? item[7].toString() : "N/D");
-                   // articulo.setEstadoArticulos(item[8] != null ? Boolean.valueOf(item[8].toString()) : false);
+                    Articulos.setIdtipoarticulo(tipoArticuloBean.loadTipoArticuloById(Integer.parseInt(item[3] != null ? item[3].toString() : "0")));//tipoarticulo
+                    Articulos.setIdumedida(uMedidaBean.loadUmedidaById(Integer.parseInt(item[4] != null ? item[4].toString() : "0")));//umedida
+                    Articulos.setIdmarca(marcaBean.loadMarcaByID(Integer.parseInt(item[5] != null ? item[5].toString() : "0")));//MarcaArticulo
+                    Articulos.setIdlinea(lineaBean.loadLineaByID(Integer.parseInt(item[6] != null ? item[6].toString() : "0")));//LineaArticulo
+                    Articulos.setIdempresa(empresaBean.loadEmpresaByID(Integer.parseInt(item[7] != null ? item[7].toString() : "0")));//EmpresasArticulo
+                    
                     response.add(Articulos);
                 }
             }
