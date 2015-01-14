@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import static sv.com.diserv.liquidaciones.ejb.LineaArticuloBean.logger;
 import sv.com.diserv.liquidaciones.entity.Tipoarticulo;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.util.Constants;
@@ -59,6 +60,27 @@ public class TipoArticuloBean implements TipoArticuloBeanLocal{
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
         }
         return tipoArticuloList;
+    }
+
+    @Override
+    public Tipoarticulo loadTipoArticuloById(int id) throws DiservBusinessException  {
+        logger.log(Level.INFO, "[findTipoArticuloById] " );
+        Tipoarticulo tipoArticulo = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("Tipoarticulo.findByIdtipoarticulo");
+            query.setParameter("idtipoarticulo", id);
+            tipoArticulo = (Tipoarticulo) query.getSingleResult();
+            if (tipoArticulo!= null) {
+                logger.log(Level.INFO, "[findTipoArticuloById] Se encontraron " + tipoArticulo.getDescripcion() + " tipoArticulos");
+            }
+            
+        }
+         catch (Exception e) {
+            logger.log(Level.INFO, "[Excepcion en findTipoArticuloById]" + e.toString());
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return tipoArticulo;
     }
     
 }
