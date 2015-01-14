@@ -85,6 +85,18 @@
                                                                 <rows>
                                                                     <row>
                                                                         <hbox>
+                                                                            <label value="Id" />
+                                                                            <label value="*" style="color:red;font-size:10px" />
+                                                                        </hbox>
+                                                                        <intbox
+                                                                            id="txtIdArticulo"
+                                                                            hflex="1"
+                                                                            maxlength="10"
+                                                                            tooltiptext="Identificador unico de articulo"
+                                                                            readonly="true" />
+                                                                    </row>
+                                                                    <row>
+                                                                        <hbox>
                                                                             <label value="Tipo" />
                                                                             <label value="*" style="color:red;font-size:10px" />
                                                                         </hbox>
@@ -122,18 +134,7 @@
                                                              
                                                             
                                                                     </row>
-                                                                    <row>
-                                                                        <hbox>
-                                                                            <label value="Id" />
-                                                                            <label value="*" style="color:red;font-size:10px" />
-                                                                        </hbox>
-                                                                        <intbox
-                                                                            id="txtIdArticulo"
-                                                                            hflex="1"
-                                                                            maxlength="10"
-                                                                            tooltiptext="Identificador unico de articulo"
-                                                                            readonly="true" />
-                                                                    </row>
+                                                                    
                                                         
                                                                     <row>
                                                                         <hbox>
