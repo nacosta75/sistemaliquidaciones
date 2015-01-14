@@ -63,7 +63,6 @@ public class DetalleArticuloCtrl extends BaseController {
     private EmpresasBeanLocal empresasBean;
     private ServiceLocator serviceLocator;
     private Articulos articuloSelected;
-    
 
     private transient Integer token;
     private ListaArticulosCtrl listaArticulosCtrl;
@@ -117,24 +116,23 @@ public class DetalleArticuloCtrl extends BaseController {
     }
 
     private void loadCombobox() {
-        
-        
+
         List<CatalogoDTO> listaCatalogo = new ArrayList<CatalogoDTO>();
         List<CatalogoDTO> listaCatalogoTipoArticulo = new ArrayList<CatalogoDTO>();
         List<Tipoarticulo> listaTipoArticulo;
-        
+
         // lineas
         List<CatalogoDTO> listaCatalogoLineas = new ArrayList<CatalogoDTO>();
         List<LineaArticulo> listaLineas;
-        
+
         //marcas
         List<CatalogoDTO> listaCatalogoMarcas = new ArrayList<CatalogoDTO>();
         List<MarcaArticulo> listaMarcas;
-        
+
         //umedida
         List<CatalogoDTO> listaCatalogoUmedida = new ArrayList<CatalogoDTO>();
         List<UnidadesMed> listaUmedida;
-        
+
         try {
 
             listaTipoArticulo = tipoArticuloBean.loadAllTiposArticulos();
@@ -151,8 +149,8 @@ public class DetalleArticuloCtrl extends BaseController {
                 cmbTipoArticulo.setButtonVisible(false);
                 cmbTipoArticulo.setDisabled(true);
             }
-            
-           //****************************** lineas de articulos *********************/ 
+
+            //****************************** lineas de articulos *********************/ 
             listaLineas = lineasBean.loadAllLineas();
             List<Object> objectListLinea = new ArrayList<Object>(listaLineas);
             listaCatalogoLineas = catalogosBeanLocal.loadAllElementosCatalogo(objectListLinea, "idlinea", "desclinea");
@@ -167,9 +165,7 @@ public class DetalleArticuloCtrl extends BaseController {
                 cmbLineaArticulo.setButtonVisible(false);
                 cmbLineaArticulo.setDisabled(true);
             }
-            
-            
-            
+
             //****************************** marcas de articulos *********************/ 
             listaMarcas = marcasBean.loadAllMarcas();
             List<Object> objectListMarca = new ArrayList<Object>(listaMarcas);
@@ -185,8 +181,8 @@ public class DetalleArticuloCtrl extends BaseController {
                 cmbMarcaArticulo.setButtonVisible(false);
                 cmbMarcaArticulo.setDisabled(true);
             }
-            
-             //****************************** unidades de medida *********************/ 
+
+            //****************************** unidades de medida *********************/ 
             listaUmedida = umedidaBean.loadAllUmedidaArticulos();
             List<Object> objectListMedida = new ArrayList<Object>(listaUmedida);
             listaCatalogoUmedida = catalogosBeanLocal.loadAllElementosCatalogo(objectListMedida, "idumedida", "descumedida");
@@ -201,7 +197,6 @@ public class DetalleArticuloCtrl extends BaseController {
                 cmbMedidaArticulo.setButtonVisible(false);
                 cmbMedidaArticulo.setDisabled(true);
             }
-            
 
         } catch (DiservBusinessException ex) {
             Logger.getLogger(DetalleArticuloCtrl.class.getName()).log(Level.SEVERE, null, ex);
@@ -272,9 +267,7 @@ public class DetalleArticuloCtrl extends BaseController {
 
     private void loadDataFromEntity() {
 
-        
-        try
-        {
+        try {
             txtIdArticulo.setValue(articuloSelected.getIdarticulo());
             txtCodigo.setValue(articuloSelected.getCodarticulo());
             txtDescripcion.setValue(articuloSelected.getDescarticulo());
@@ -286,22 +279,16 @@ public class DetalleArticuloCtrl extends BaseController {
             cmbTipoArticulo.setValue(articuloSelected.getIdtipoarticulo().getDescripcion());
             cmbMedidaArticulo.setValue(articuloSelected.getIdumedida().getDescumedida());
 
-            if (articuloSelected.getCostopromact()!=null)
-            {
+            if (articuloSelected.getCostopromact() != null) {
                 txtCostoProm.setValue(articuloSelected.getCostopromact());
+            } else {
+                txtCostoProm.setValue(BigDecimal.ZERO);
             }
-            else
-            {
-              txtCostoProm.setValue(BigDecimal.ZERO);
-            }
-            
-            if (articuloSelected.getCostopromant()!=null)
-            {
+
+            if (articuloSelected.getCostopromant() != null) {
                 txtCostoAnt.setValue(articuloSelected.getCostocompant());
-            }
-            else
-            {
-              txtCostoAnt.setValue(BigDecimal.ZERO);
+            } else {
+                txtCostoAnt.setValue(BigDecimal.ZERO);
             }
 
         } catch (Exception e) {
@@ -313,34 +300,34 @@ public class DetalleArticuloCtrl extends BaseController {
     private void loadDataFromTextboxs() {
         try {
             Articulos articuloSelected2 = articuloSelected;
-            articuloSelected = new Articulos();        
+            articuloSelected = new Articulos();
 
             //validamos los campos
-            
-            if (cmbTipoArticulo.getSelectedItem()==null){
+            if (cmbTipoArticulo.getSelectedItem() == null) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Tipo de Articulo");
             }
-            
-            if (cmbMarcaArticulo.getSelectedItem()==null){
+
+            if (cmbMarcaArticulo.getSelectedItem() == null) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Marca del Articulo");
             }
-            
-             if (cmbLineaArticulo.getSelectedItem()==null){
+
+            if (cmbLineaArticulo.getSelectedItem() == null) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Linea del Articulo");
             }
-             
-             if (cmbMedidaArticulo.getSelectedItem()==null){
+
+            if (cmbMedidaArticulo.getSelectedItem() == null) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Unidad de Medida del Articulo");
             }
-            
-             if (StringUtils.isEmpty(txtCodigo.getValue())) {
+
+            if (StringUtils.isEmpty(txtCodigo.getValue())) {
+
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar codigo para Articulos");
             }
 
             if (StringUtils.isEmpty(txtDescripcion.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar descripción para Articulos");
             }
-            
+
             articuloSelected.setIdtipoarticulo(new Tipoarticulo((Integer) cmbTipoArticulo.getSelectedItem().getValue()));
             articuloSelected.setIdlinea(new LineaArticulo((Integer) cmbLineaArticulo.getSelectedItem().getValue()));
             articuloSelected.setIdmarca(new MarcaArticulo((Integer) cmbMarcaArticulo.getSelectedItem().getValue()));
@@ -350,9 +337,9 @@ public class DetalleArticuloCtrl extends BaseController {
             articuloSelected.setCostopromant(BigDecimal.ZERO);
             articuloSelected.setCostocompact(BigDecimal.ZERO);
             articuloSelected.setCostocompant(BigDecimal.ZERO);
-            
+
             articuloSelected.setDescarticulo(txtDescripcion.getValue());
-            articuloSelected.setCodarticulo(txtCodigo.getValue());            
+            articuloSelected.setCodarticulo(txtCodigo.getValue());
             articuloSelected.setIdarticulo(txtIdArticulo.getValue());
 
         } catch (DiservWebException ex) {
@@ -375,8 +362,7 @@ public class DetalleArticuloCtrl extends BaseController {
         cmbTipoArticulo.setDisabled(opt);
         cmbMedidaArticulo.setReadonly(opt);
         cmbMedidaArticulo.setDisabled(opt);
-      
-       
+
     }
 
     private void doEditButton() {
@@ -392,10 +378,10 @@ public class DetalleArticuloCtrl extends BaseController {
 
             if (getToken().intValue() > 0) {
                 loadDataFromTextboxs();
-               
+
                 articuloSelected.setIdusuariocrea(userLogin.getUsuario().getIdusuario());
                 articuloSelected.setFechacrea(new Date());
-                
+
                 responseOperacion = articulosBean.guardarArticulo(articuloSelected);
                 if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                     MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id Articulo:" + responseOperacion.getArticulo().getIdarticulo(), Constants.MENSAJE_TIPO_INFO);
@@ -437,9 +423,9 @@ public class DetalleArticuloCtrl extends BaseController {
         txtIdArticulo.setValue(null);
        // checkEstadoArticulo.setChecked(false);
 
-       // txtMunicipio.setValue(null);
+        // txtMunicipio.setValue(null);
         // txtNombreBodegas.setValue(null);
-       // txtTelefono2.setValue(null);
+        // txtTelefono2.setValue(null);
         // txtTelefono.setValue(null);
         // txtNombreBodegas.setFocus(true);
     }
@@ -499,6 +485,5 @@ public class DetalleArticuloCtrl extends BaseController {
         doReadOnly(Boolean.TRUE);
         doEditButton();
     }
-
 
 }

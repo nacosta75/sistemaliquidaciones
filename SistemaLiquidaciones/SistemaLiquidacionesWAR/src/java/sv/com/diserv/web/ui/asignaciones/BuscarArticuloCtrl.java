@@ -152,7 +152,7 @@ public class BuscarArticuloCtrl extends BaseController {
             }
             
             if(StringUtils.isNotEmpty(lotesExcluir))
-                request.setLotes(lotesExcluir.substring(0,lotesExcluir.length()-1));
+//                request.setLotes(lotesExcluir.substring(0,lotesExcluir.length()-1));
                     
             listaExistencias = loteExistenciaBean.buscarLoteByCriteria(request);
 

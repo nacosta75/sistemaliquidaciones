@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.ForwardEvent;
@@ -161,7 +160,7 @@ public class ListaComprasCtrl extends BaseController {
     public void onClickedMovimiento(Event event) throws Exception {
         logger.log(Level.INFO, "[onClickedMovimiento]Event:{0}", event.toString());
         Listitem item = this.listBoxMovimientos.getSelectedItem();
-        if (item != null) {
+        if (item != null) {  
             movimientoSelected = (Movimientos) item.getAttribute("data");
 //            System.out.println("tramites:" + documentoSelected.getIdfactura());
             if (movimientoSelected != null) {
@@ -175,7 +174,7 @@ public class ListaComprasCtrl extends BaseController {
                     listBoxDetalleMovimiento.setEmptyMessage("Factura no tiene items agregados");
                 }
             }
-        }
+        }  
     }
 
     public void onClick$btnNuevoDocumento(Event event) {
