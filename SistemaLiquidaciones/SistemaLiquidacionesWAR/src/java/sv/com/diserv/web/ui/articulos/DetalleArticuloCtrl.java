@@ -317,8 +317,20 @@ public class DetalleArticuloCtrl extends BaseController {
 
             //validamos los campos
             
-            if (StringUtils.isEmpty((String) cmbTipoArticulo.getSelectedItem().getValue())) {
+            if (cmbTipoArticulo.getSelectedItem()==null){
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Tipo de Articulo");
+            }
+            
+            if (cmbMarcaArticulo.getSelectedItem()==null){
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Marca del Articulo");
+            }
+            
+             if (cmbLineaArticulo.getSelectedItem()==null){
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Linea del Articulo");
+            }
+             
+             if (cmbMedidaArticulo.getSelectedItem()==null){
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Unidad de Medida del Articulo");
             }
             
              if (StringUtils.isEmpty(txtCodigo.getValue())) {
@@ -351,15 +363,20 @@ public class DetalleArticuloCtrl extends BaseController {
 
     public void doReadOnly(Boolean opt) {
 
-        // txtCorreoElectronico.setReadonly(opt);
         txtCodigo.setReadonly(opt);
         txtDescripcion.setReadonly(opt);
-       // checkEstadoArticulos.setDisabled(opt);
-        //txtMunicipio.setReadonly(opt);
-        // txtNombreBodegas.setReadonly(opt);
-
-        // txtTelefono2.setReadonly(opt);
-        //txtTelefono.setReadonly(opt);
+        //txtCostoProm.setDisabled(true);
+        //txtCostoAnt.setReadonly(opt);
+        cmbMarcaArticulo.setReadonly(opt);
+        cmbMarcaArticulo.setDisabled(opt);
+        cmbLineaArticulo.setReadonly(opt);
+        cmbLineaArticulo.setDisabled(opt);
+        cmbTipoArticulo.setReadonly(opt);
+        cmbTipoArticulo.setDisabled(opt);
+        cmbMedidaArticulo.setReadonly(opt);
+        cmbMedidaArticulo.setDisabled(opt);
+      
+       
     }
 
     private void doEditButton() {
