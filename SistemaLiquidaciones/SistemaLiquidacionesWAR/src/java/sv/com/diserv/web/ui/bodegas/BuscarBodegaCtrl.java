@@ -30,10 +30,10 @@ import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
-public class BuscarBodegaCtrll extends BaseController {
+public class BuscarBodegaCtrl extends BaseController {
 
     private static final long serialVersionUID = -6102616129515843465L;
-    private static final transient Logger logger = Logger.getLogger(BuscarBodegaCtrll.class);
+    private static final transient Logger logger = Logger.getLogger(BuscarBodegaCtrl.class);
     protected Window busquedaBodegaWindow;
     protected Intbox txtIdBodega;
     protected Textbox txtNombreBodega;
@@ -50,7 +50,7 @@ public class BuscarBodegaCtrll extends BaseController {
     private ListaBodegaCtrl listaBodegaCtrl;
     private List<Bodegas> listaBodegas;
 
-    public BuscarBodegaCtrll() {
+    public BuscarBodegaCtrl() {
 
         logger.info("[BuscarBodegaCtrll]");
         try {
