@@ -73,7 +73,6 @@
                                 sclass="FDListBoxHeader1"
                                 width="9%"
                                 label="Fecha Movimiento" /> 
-
                 </listhead>
             </listbox>
         </groupbox>   

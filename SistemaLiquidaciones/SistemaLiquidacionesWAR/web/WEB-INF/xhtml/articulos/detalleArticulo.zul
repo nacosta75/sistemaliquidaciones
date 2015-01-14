@@ -73,10 +73,10 @@
                                                 <panel id="panelInformacionArticulo" border="none">                                                               
                                                     <panelchildren>
                                                         <groupbox id="gb_address"
-                                                      mold="3d" 
-                                                      closable="false">
+                                                                  mold="3d" 
+                                                                  closable="false">
                                                             <caption image="/images/icon_package_get.gif"
-                                                         label="Datos Generales" />
+                                                                     label="Datos Generales" />
                                                             <grid sclass="GridPlain">
                                                                 <columns>
                                                                     <column align="left" width="150px" />
@@ -101,10 +101,10 @@
                                                                             <label value="*" style="color:red;font-size:10px" />
                                                                         </hbox>
                                                                         <combobox id="cmbTipoArticulo" 
-                                                                     autodrop="true"
-                                                                     mold="rounded"
-                                                                     autocomplete="true"
-                                                                     hflex="1"/>
+                                                                                  autodrop="true"
+                                                                                  mold="rounded"
+                                                                                  autocomplete="true"
+                                                                                  hflex="1"/>
                                                              
                                                             
                                                                     </row>
@@ -114,10 +114,10 @@
                                                                             <label value="*" style="color:red;font-size:10px" />
                                                                         </hbox>
                                                                         <combobox id="cmbLineaArticulo" 
-                                                                     autodrop="true"
-                                                                     mold="rounded"
-                                                                     autocomplete="true"
-                                                                     hflex="1"/>
+                                                                                  autodrop="true"
+                                                                                  mold="rounded"
+                                                                                  autocomplete="true"
+                                                                                  hflex="1"/>
                                                              
                                                             
                                                                     </row>
@@ -127,10 +127,10 @@
                                                                             <label value="*" style="color:red;font-size:10px" />
                                                                         </hbox>
                                                                         <combobox id="cmbMarcaArticulo" 
-                                                                     autodrop="true"
-                                                                     mold="rounded"
-                                                                     autocomplete="true"
-                                                                     hflex="1"/>
+                                                                                  autodrop="true"
+                                                                                  mold="rounded"
+                                                                                  autocomplete="true"
+                                                                                  hflex="1"/>
                                                              
                                                             
                                                                     </row>
@@ -160,10 +160,10 @@
                                                                             <label value="*" style="color:red;font-size:10px" />
                                                                         </hbox>
                                                                         <combobox id="cmbMedidaArticulo" 
-                                                                     autodrop="true"
-                                                                     mold="rounded"
-                                                                     autocomplete="true"
-                                                                     hflex="1"/>
+                                                                                  autodrop="true"
+                                                                                  mold="rounded"
+                                                                                  autocomplete="true"
+                                                                                  hflex="1"/>
                                                              
                                                             
                                                                     </row>
@@ -178,10 +178,10 @@
                                                 <panel id="panelOtrosDatos" border="none">                                                               
                                                     <panelchildren>
                                                         <groupbox id="gb_otrosDatos"
-                                                      mold="3d" 
-                                                      closable="false">
+                                                                  mold="3d" 
+                                                                  closable="false">
                                                             <caption image="/images/page.png"
-                                                         label="Costos" />
+                                                                     label="Costos" />
                                                             <grid sclass="GridPlain">
                                                                 <columns>
                                                                     <column align="left" width="150px" />
@@ -203,6 +203,7 @@
                                                                                 value="Costo Anterior " />
                                                                 
                                                                         </hbox>
+                                                                        <decimalbox  id="txtCostoAnt"   hflex="1" />
                                                                         <textbox   id="txtCostoAnt"   hflex="1" />
                                                                     </row>
                                                                                                                                       
