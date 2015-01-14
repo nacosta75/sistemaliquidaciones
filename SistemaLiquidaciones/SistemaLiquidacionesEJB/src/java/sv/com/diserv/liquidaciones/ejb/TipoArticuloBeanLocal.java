@@ -17,5 +17,6 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 @Local
 public interface TipoArticuloBeanLocal {
     
-     public List<Tipoarticulo> loadAllTiposArticulos() throws DiservBusinessException;
+    public List<Tipoarticulo> loadAllTiposArticulos() throws DiservBusinessException;
+    public Tipoarticulo loadTipoArticuloById(int id) throws DiservBusinessException ;
 }
