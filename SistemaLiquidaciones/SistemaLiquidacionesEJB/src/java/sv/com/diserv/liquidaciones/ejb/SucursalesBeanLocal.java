@@ -29,6 +29,7 @@ public interface SucursalesBeanLocal {
      * @throws DiservBusinessException
      */
     public List<Sucursales> loadAllSucursal(int inicio, int fin) throws DiservBusinessException;
+    public List<Sucursales> loadAllSucursal() throws DiservBusinessException;
 
     /**
      * *
