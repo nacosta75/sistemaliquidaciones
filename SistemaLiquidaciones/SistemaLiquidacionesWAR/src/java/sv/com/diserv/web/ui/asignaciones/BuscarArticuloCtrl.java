@@ -152,7 +152,7 @@ public class BuscarArticuloCtrl extends BaseController {
             }
             
             if(StringUtils.isNotEmpty(lotesExcluir))
-//                request.setLotes(lotesExcluir.substring(0,lotesExcluir.length()-1));
+                request.setLotes(lotesExcluir.substring(0,lotesExcluir.length()-1));
                     
             listaExistencias = loteExistenciaBean.buscarLoteByCriteria(request);
 
@@ -225,7 +225,8 @@ public class BuscarArticuloCtrl extends BaseController {
                 consol.setDescripcion(articulo.getDescarticulo());
                 Integer cantidad=  elementos.get(lote.getIdarticulo().getIdarticulo()).intValue();
                 consol.setCantidad(cantidad);
-        //        consol.setPrecio(lote.getIdarticulo().getCostopromact().toString());
+                if(lote.getIdarticulo().getCostopromact() != null)
+                    consol.setPrecio(lote.getIdarticulo().getCostopromact().toString());
                 consolidado.add(consol);
             } catch (DiservBusinessException ex) {
                 java.util.logging.Logger.getLogger(BuscarArticuloCtrl.class.getName()).log(Level.SEVERE, null, ex);
@@ -268,20 +269,6 @@ public class BuscarArticuloCtrl extends BaseController {
     public void setListaExistencias(List<LotesExistencia> listaExistencias) {
         this.listaExistencias = listaExistencias;
     }
-
-    /**
-     * @return the pagingArticulos
-     */
-//    public Paging getPagingArticulos() {
-//        return pagingArticulos;
-//    }
-
-    /**
-     * @param pagingArticulos the pagingArticulos to set
-     */
-//    public void setPagingArticulos(Paging pagingArticulos) {
-//        this.pagingArticulos = pagingArticulos;
-//    }
 
     /**
      * @return the listBoxAticulos
