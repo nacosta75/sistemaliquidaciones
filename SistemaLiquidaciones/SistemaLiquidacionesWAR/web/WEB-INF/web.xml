@@ -345,7 +345,7 @@
         <local>sv.com.diserv.liquidaciones.ejb.ExistenciasBeanLocal</local>
         <mapped-name>ejb/ExistenciasBean</mapped-name>
     </ejb-local-ref>
-    
+
     <ejb-local-ref>
         <ejb-ref-name>ejb/RelacionAsignacionBean</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
