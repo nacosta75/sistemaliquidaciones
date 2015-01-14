@@ -76,6 +76,8 @@ public class Sucursales implements Serializable {
     private Empresas idempresa;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idsucursal")
     private List<Bodegas> bodegasList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idsucursal")
+    private List<Usuarios> usuariosList;
 
     public Sucursales() {
     }
@@ -190,6 +192,15 @@ public class Sucursales implements Serializable {
     @Override
     public String toString() {
         return "entity.Sucursales[ idsucursal=" + idsucursal + " ]";
+    }
+    
+     @XmlTransient
+    public List<Usuarios> getUsuariosList() {
+        return usuariosList;
+    }
+
+    public void setUsuariosList(List<Usuarios> usuariosList) {
+        this.usuariosList = usuariosList;
     }
     
 }
