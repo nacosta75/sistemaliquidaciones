@@ -7,7 +7,7 @@
     <window id="listaArticuloWindow"
             border="normal"
             width="100%"
-            height="100%"
+            height="150%"
             use="sv.com.diserv.web.ui.articulos.ListaArticulosCtrl">
         <groupbox height="45px"
                   mold="3d"
@@ -29,7 +29,7 @@
 
             </toolbar>
         </groupbox>
-        <groupbox mold="3d" width="100%" height="300px">
+        <groupbox mold="3d" width="100%" height="325px">
             <caption label="Lista de articulos Registrados" />
             <paging id="pagingArticulo" />
             <listbox id="listBoxArticulo"
@@ -63,8 +63,7 @@
             </listbox>
         </groupbox>
         <separator />
-            
-               <groupbox mold="3d" width="100%" height="150px">
+        <groupbox mold="3d" width="100%" height="175px">
             <caption label="Existencia" />
             <listbox id="listBoxListaExistencia"
                      style="border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; border-bottom-width: 1px;"
