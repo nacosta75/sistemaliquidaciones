@@ -22,7 +22,6 @@ import sv.com.diserv.liquidaciones.entity.Articulos;
 import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 
-
 /**
  *
  * @author abraham.acosta
@@ -30,13 +29,12 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 @Stateless
 public class ArticulosBean implements ArticulosBeanLocal {
 
-    
     static final Logger logger = Logger.getLogger(ArticulosBean.class.getName());
     @PersistenceContext(unitName = "SistemaLiquidacionesEJBPU")
     private EntityManager em;
     @EJB
     GenericDaoServiceBeanLocal genericDaoBean;
-    
+
     @EJB
     TipoArticuloBeanLocal tipoArticuloBean;
     
@@ -55,7 +53,7 @@ public class ArticulosBean implements ArticulosBeanLocal {
     
     @Override
     public List<Articulos> loadAllArticulos(int inicio, int fin) throws DiservBusinessException {
-       logger.log(Level.INFO, "[loadAllArticulos] desde:" + inicio + " hasta:" + fin);
+        logger.log(Level.INFO, "[loadAllArticulos] desde:" + inicio + " hasta:" + fin);
         List<Articulos> articulosList = null;
         Query query;
         try {
@@ -79,11 +77,11 @@ public class ArticulosBean implements ArticulosBeanLocal {
 
     @Override
     public Integer countAllArticulos() throws DiservBusinessException {
-         logger.log(Level.INFO, "[countAllArticulos]INIT");
+        logger.log(Level.INFO, "[countAllArticulos]INIT");
         int count = 0;
         Query query;
         try {
-           //query = em.createNamedQuery("Articulos.countAll");
+            //query = em.createNamedQuery("Articulos.countAll");
             query = em.createQuery("SELECT count(s) FROM Articulos s ");
             count = ((Long) query.getSingleResult()).intValue();
             logger.log(Level.INFO, "[Total de registros encontrados]" + count);
@@ -97,7 +95,7 @@ public class ArticulosBean implements ArticulosBeanLocal {
 
     @Override
     public OperacionesArticuloDTO guardarArticulo(Articulos articulo) throws DiservBusinessException {
-         OperacionesArticuloDTO response = new OperacionesArticuloDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar articulo");
+        OperacionesArticuloDTO response = new OperacionesArticuloDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar articulo");
         try {
             articulo = genericDaoBean.create(articulo);
             response = new OperacionesArticuloDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Articulo creado satisfactoriamente");
@@ -111,7 +109,7 @@ public class ArticulosBean implements ArticulosBeanLocal {
 
     @Override
     public List<Articulos> loadAllArticuloByLike(String nombreLike) throws DiservBusinessException {
-         logger.log(Level.INFO, "[loadAllArticuloByLike] nombreLike:" + nombreLike);
+        logger.log(Level.INFO, "[loadAllArticuloByLike] nombreLike:" + nombreLike);
         List<Articulos> articuloList = null;
         Query query;
         try {
@@ -150,16 +148,16 @@ public class ArticulosBean implements ArticulosBeanLocal {
         List<Articulos> response = new ArrayList<>();
         Articulos Articulos;
         List<String> condiciones = new ArrayList<>();
-        if (request.getIdarticulo()!= null) {
+        if (request.getIdarticulo() != null) {
             condiciones.add(" UPPER(idArticulo) LIKE UPPER('%" + request.getIdarticulo() + "%') ");
         }
-        if (request.getDescarticulo()!= null) {
+        if (request.getDescarticulo() != null) {
             condiciones.add(" UPPER(descarticulo) LIKE UPPER('%" + request.getDescarticulo() + "%') ");
         }
         if (request.getCodarticulo() != null) {
             condiciones.add(" UPPER(codarticulo) LIKE UPPER('%" + request.getCodarticulo() + "%') ");
         }
-       
+
         try {
             StringBuilder sb = new StringBuilder();
             sb.append(" SELECT idarticulo,codarticulo,descarticulo,idtipoarticulo, "+
@@ -186,13 +184,13 @@ public class ArticulosBean implements ArticulosBeanLocal {
                     Articulos.setIdarticulo(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
                     Articulos.setCodarticulo(item[1] != null ? item[1].toString() : "N/D");
                     Articulos.setDescarticulo(item[2] != null ? item[2].toString() : "N/D");
-                    Articulos.setIdtipoarticulo(tipoArticuloBean.loadTipoArticuloById(Integer.parseInt(item[3] != null ? item[3].toString() : "0")));//tipoarticulo
+                     Articulos.setIdtipoarticulo(tipoArticuloBean.loadTipoArticuloById(Integer.parseInt(item[3] != null ? item[3].toString() : "0")));//tipoarticulo
                     Articulos.setIdumedida(uMedidaBean.loadUmedidaById(Integer.parseInt(item[4] != null ? item[4].toString() : "0")));//umedida
                     Articulos.setIdmarca(marcaBean.loadMarcaByID(Integer.parseInt(item[5] != null ? item[5].toString() : "0")));//MarcaArticulo
                     Articulos.setIdlinea(lineaBean.loadLineaByID(Integer.parseInt(item[6] != null ? item[6].toString() : "0")));//LineaArticulo
                     Articulos.setIdempresa(empresaBean.loadEmpresaByID(Integer.parseInt(item[7] != null ? item[7].toString() : "0")));//EmpresasArticulo
                     
-                    response.add(Articulos);
+                     response.add(Articulos);
                 }
             }
         } catch (NoResultException e) {
@@ -206,7 +204,7 @@ public class ArticulosBean implements ArticulosBeanLocal {
 
     @Override
     public List<Articulos> loadArticuloByDescripcionLike(String likeNombre) throws DiservBusinessException {
-         logger.log(Level.INFO, "[loadArticuloByNombreLike]Buscando:" + likeNombre);
+        logger.log(Level.INFO, "[loadArticuloByNombreLike]Buscando:" + likeNombre);
         Query query;
         try {
             query = em.createQuery("Articulos.findByDescarticulo");
@@ -221,7 +219,7 @@ public class ArticulosBean implements ArticulosBeanLocal {
 
     @Override
     public Articulos loadArticuloByID(Integer idArticulo) throws DiservBusinessException {
-           logger.log(Level.INFO, "[loadArticuloByID] Idarticulo:" + idArticulo);
+        logger.log(Level.INFO, "[loadArticuloByID] Idarticulo:" + idArticulo);
         Articulos articulo = null;
         Query query;
         try {
@@ -239,5 +237,4 @@ public class ArticulosBean implements ArticulosBeanLocal {
         return articulo;
     }
 
-    
 }

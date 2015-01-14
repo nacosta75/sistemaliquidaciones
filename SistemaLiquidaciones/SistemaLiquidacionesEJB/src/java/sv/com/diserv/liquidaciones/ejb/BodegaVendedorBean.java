@@ -135,20 +135,20 @@ public class BodegaVendedorBean implements BodegaVendedorBeanLocal {
     
     @Override
     public Bodegas findBodegaAsignada(Integer idVendedor) throws DiservBusinessException {
-        logger.log(Level.INFO, "[loadBodegaAsignada] Idvendedor:" + idVendedor);
+//        logger.log(Level.INFO, "[loadBodegaAsignada] Idvendedor:" + idVendedor);
         Bodegas bodega = null;
-        Query query;
-        try {//
-            query = em.createNamedQuery("BodegaVendedor.findByIdVendedor");
-            query.setParameter("idVendedor", idVendedor);
-            bodega = (Bodegas) query.getSingleResult();
-        } catch (NoResultException ex) {
-            logger.log(Level.INFO, "[loadBodegaAsignada][NoResultException]No se encontraron bodegas");
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.log(Level.INFO, "[loadBodegaAsignada][Exception]Se mostro una excepcion al buscar bodega");
-            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
-        }
+//        Query query;
+//        try {//
+//            query = em.createNamedQuery("BodegaVendedor.findByIdVendedor");
+//            query.setParameter("idVendedor", idVendedor);
+//            bodega = (Bodegas) query.getSingleResult();
+//        } catch (NoResultException ex) {
+//            logger.log(Level.INFO, "[loadBodegaAsignada][NoResultException]No se encontraron bodegas");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            logger.log(Level.INFO, "[loadBodegaAsignada][Exception]Se mostro una excepcion al buscar bodega");
+//            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+//        }
         return bodega;
     }
     

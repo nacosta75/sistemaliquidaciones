@@ -1,10 +1,6 @@
 package sv.com.diserv.liquidaciones.ejb;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -17,8 +13,6 @@ import javax.persistence.Query;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.BusquedaLoteExistenciaDTO;
-import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
-import sv.com.diserv.liquidaciones.dto.OperacionesLostesExistenciasDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
 import sv.com.diserv.liquidaciones.entity.Articulos;
 import sv.com.diserv.liquidaciones.entity.LotesExistencia;
@@ -40,14 +34,13 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
     @EJB
     GenericDaoServiceBeanLocal genericDaoBean;
 
-    
     @Override
     public Integer countAllMovimientos(int tipoMovimiento) throws DiservBusinessException {
         logger.log(Level.INFO, "[countAllMovimientos]INIT");
         int count = 0;
         Query query;
         try {
-            query = em.createQuery("SELECT count(m) FROM Movimientos m where m.idtipomov.idtipomov="+tipoMovimiento);
+            query = em.createQuery("SELECT count(m) FROM Movimientos m where m.idtipomov.idtipomov=" + tipoMovimiento);
             count = ((Long) query.getSingleResult()).intValue();
             logger.log(Level.INFO, "[Total de registros encontrados]" + count);
         } catch (Exception e) {
@@ -131,12 +124,12 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
         }
         return response;
     }
-    
+
     @Override
     public OperacionesMovimientoDTO eliminarMovimiento(Movimientos movimiento) throws DiservBusinessException {
         OperacionesMovimientoDTO response = new OperacionesMovimientoDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo eliminar persona");
         try {
-             Boolean respuesta =genericDaoBean.delete(movimiento);
+            Boolean respuesta = genericDaoBean.delete(movimiento);
             response = new OperacionesMovimientoDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Persona eliminada satisfactoriamente");
         } catch (Exception e) {
             e.printStackTrace();
@@ -151,19 +144,19 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
         List<LotesExistencia> response = new ArrayList<>();
         LotesExistencia loteExistencia;
         List<String> condiciones = new ArrayList<>();
-        if (re.getIdArticulo()!= null) {
-            condiciones.add(" idarticulo=" + re.getIdArticulo()+ " ");
+        if (re.getIdArticulo() != null) {
+            condiciones.add(" idarticulo=" + re.getIdArticulo() + " ");
+
         }
         if (re.getIcc() != null) {
-            condiciones.add(" UPPER(icc) LIKE UPPER('%" + re.getIcc()+ "%') ");
+            condiciones.add(" UPPER(icc) LIKE UPPER('%" + re.getIcc() + "%') ");
         }
-        if (re.getImei()!= null) {
-            condiciones.add(" UPPER(imei) LIKE UPPER('%" + re.getImei()+ "%') ");
+        if (re.getImei() != null) {
+            condiciones.add(" UPPER(imei) LIKE UPPER('%" + re.getImei() + "%') ");
         }
-        if (re.getTelefono()!= null) {
-            condiciones.add(" UPPER(telefono) LIKE UPPER('%" + re.getTelefono()+ "%') ");
+        if (re.getTelefono() != null) {
+            condiciones.add(" UPPER(telefono) LIKE UPPER('%" + re.getTelefono() + "%') ");
         }
-               
         condiciones.add("estado =1");
         try {
             StringBuilder sb = new StringBuilder();
@@ -176,8 +169,9 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
                     sb.append(condiciones.get(i));
                 }
             }
-            if(re.getLotes()!=null)
-                sb.append(" AND idlote not in ("+re.getLotes()+")");
+            if (re.getLotes() != null) {
+                sb.append(" AND idlote not in (" + re.getLotes() + ")");
+            }
             sb.append(" ORDER BY idlote DESC ");
             System.out.println("SQL A EJECUTAR:--> " + sb.toString());
             System.out.println("PARAMETROS RECIBIDOS:-->" + re.toString());
@@ -185,15 +179,14 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
             List<Object[]> lista = q.getResultList();
             if (lista.size() > 0) {
                 for (Object[] item : lista) {
-                     loteExistencia  = new LotesExistencia();
-                     loteExistencia.setIdlote(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
-                     loteExistencia.setIdarticulo(new Articulos(Integer.parseInt(item[1] != null ? item[1].toString() : "0")));
-                     loteExistencia.setIdmov(new Movimientos(Integer.parseInt(item[2] != null ? item[2].toString() : "0")));
-                     loteExistencia.setIcc(item[3] != null ? item[3].toString() : "N/D");
-                     loteExistencia.setImei(item[4] != null ? item[4].toString() : "N/D");
-                     loteExistencia.setTelefono(Integer.parseInt(item[5] != null ? item[5].toString() : "0"));
-                     
-                    
+                    loteExistencia = new LotesExistencia();
+                    loteExistencia.setIdlote(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                    loteExistencia.setIdarticulo(new Articulos(Integer.parseInt(item[1] != null ? item[1].toString() : "0")));
+                    loteExistencia.setIdmov(new Movimientos(Integer.parseInt(item[2] != null ? item[2].toString() : "0")));
+                    loteExistencia.setIcc(item[3] != null ? item[3].toString() : "N/D");
+                    loteExistencia.setImei(item[4] != null ? item[4].toString() : "N/D");
+                    loteExistencia.setTelefono(Integer.parseInt(item[5] != null ? item[5].toString() : "0"));
+
 //                    SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
 //                    String strFecha = item[21] != null ? item[21].toString() : "";
 //                    Date fecha = null;
@@ -206,7 +199,6 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
 //                        ex.printStackTrace();
 //
 //                    }
-                    
                     response.add(loteExistencia);
                 }
             }
@@ -225,8 +217,8 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
         int count = 0;
         Query query;
         try {
-            query = em.createQuery("SELECT max(m.nodoc) FROM Movimientos m where m.idtipomov.idtipomov="+tipoMov+" AND m.idpersona.idpersona ="+idVendedor);
-            count =  (int) query.getSingleResult();
+            query = em.createQuery("SELECT max(m.nodoc) FROM Movimientos m where m.idtipomov.idtipomov=" + tipoMov + " AND m.idpersona.idpersona =" + idVendedor);
+            count = (int) query.getSingleResult();
             logger.log(Level.INFO, "[Total de registros encontrados]" + count);
         } catch (Exception e) {
             logger.log(Level.INFO, "[Excepcion en maxNumDocByVendedorAndTipoMov]" + e.toString());

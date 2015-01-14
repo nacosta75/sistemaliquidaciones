@@ -51,7 +51,7 @@ public class MovimientosBean implements MovimientosBeanLocal {
         int count = 0;
         Query query;
         try {
-            query = em.createQuery("SELECT count(m.idmov) FROM Movimientos m where m.idtipomov.idtipomov=" + tipoMovimiento);
+            query = em.createQuery("SELECT count(m.idmov) FROM Movimientos m where m.idtipomov.idtipomov =:" + tipoMovimiento);
             count = ((Long) query.getSingleResult()).intValue();
             logger.log(Level.INFO, "[Total de registros encontrados]" + count);
         } catch (Exception e) {
@@ -74,6 +74,7 @@ public class MovimientosBean implements MovimientosBeanLocal {
             query.setMaxResults(fin);
             movimientosList = query.getResultList();
             if (movimientosList != null) {
+                 
                 logger.log(Level.INFO, "[loadAllAsignaciones] Se encontraron " + movimientosList.size() + " movimientos");
             }
         } catch (NoResultException ex) {
