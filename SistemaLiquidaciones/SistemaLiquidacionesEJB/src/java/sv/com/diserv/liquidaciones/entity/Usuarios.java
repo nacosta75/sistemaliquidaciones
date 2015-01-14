@@ -13,6 +13,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -65,6 +67,10 @@ public class Usuarios implements Serializable {
     private List<LotesExistencia> lotesExistenciaList;
     @OneToMany(mappedBy = "idusuario")
     private List<Groupmembers> groupmembersList;
+    @JoinColumn(name = "IDSUCURSAL", referencedColumnName = "IDSUCURSAL")
+    @ManyToOne(optional = false)
+    private Sucursales idsucursal;
+    
 
     public Usuarios() {
     }
@@ -171,5 +177,14 @@ public class Usuarios implements Serializable {
     public String toString() {
         return "entity.Usuarios[ idusuario=" + idusuario + " ]";
     }
+    
+     public Sucursales getIdsucursal() {
+        return idsucursal;
+    }
+
+    public void setIdsucursal(Sucursales idsucursal) {
+        this.idsucursal = idsucursal;
+    }
+    
     
 }
