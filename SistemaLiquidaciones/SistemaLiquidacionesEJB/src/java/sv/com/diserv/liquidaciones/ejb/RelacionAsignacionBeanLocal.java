@@ -8,6 +8,8 @@ package sv.com.diserv.liquidaciones.ejb;
 import java.util.List;
 import javax.ejb.Local;
 import sv.com.diserv.liquidaciones.dto.OperacionesRelAsignacionDTO;
+import sv.com.diserv.liquidaciones.entity.LotesExistencia;
+import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.RelacionAsignaciones;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 
@@ -22,4 +24,5 @@ public interface RelacionAsignacionBeanLocal {
     public List<RelacionAsignaciones> loadAllRelAsig(int inicio, int fin) throws DiservBusinessException;
     public OperacionesRelAsignacionDTO guardarRelacionAsignacion(RelacionAsignaciones relacionAsignacion) throws DiservBusinessException;
     public OperacionesRelAsignacionDTO eliminarRelacionAsignacion(RelacionAsignaciones relacionAsignacion) throws DiservBusinessException;
+    public OperacionesRelAsignacionDTO guardarRelacionAsignacion(Movimientos movimiento, List<LotesExistencia> lotes) throws DiservBusinessException;
 }
