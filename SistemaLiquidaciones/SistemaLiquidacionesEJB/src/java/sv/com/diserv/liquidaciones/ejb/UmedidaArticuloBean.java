@@ -58,5 +58,24 @@ public class UmedidaArticuloBean implements UmedidaArticuloBeanLocal{
         }
         return tipoUmedidaList;
     }
+
+    @Override
+    public UnidadesMed loadUmedidaById(int id) throws DiservBusinessException {
+        logger.log(Level.INFO, "[finduMedidaById] Idlinea:" + id);
+        UnidadesMed medida = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("UnidadesMed.findByIdumedida");
+            query.setParameter("idumedida", id);
+            medida = (UnidadesMed) query.getSingleResult();
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[finduMedidaById][NoResultException]No se encontraron umedida");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[finduMedidaById][Exception]Se mostro una excepcion al buscar umedida");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return medida;
+    }
     
 }
