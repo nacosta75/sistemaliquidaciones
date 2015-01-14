@@ -365,8 +365,8 @@ public class DetalleArticuloCtrl extends BaseController {
 
         txtCodigo.setReadonly(opt);
         txtDescripcion.setReadonly(opt);
-        //txtCostoProm.setDisabled(true);
-        //txtCostoAnt.setReadonly(opt);
+        txtCostoProm.setReadonly(opt);
+        txtCostoAnt.setReadonly(opt);
         cmbMarcaArticulo.setReadonly(opt);
         cmbMarcaArticulo.setDisabled(opt);
         cmbLineaArticulo.setReadonly(opt);
