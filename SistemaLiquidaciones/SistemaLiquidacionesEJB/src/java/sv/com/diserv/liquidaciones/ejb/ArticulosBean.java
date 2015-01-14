@@ -140,7 +140,7 @@ public class ArticulosBean implements ArticulosBeanLocal {
             condiciones.add(" UPPER(descarticulo) LIKE UPPER('%" + request.getDescarticulo() + "%') ");
         }
         if (request.getCodarticulo() != null) {
-            condiciones.add(" UPPER(activa) LIKE UPPER('%" + request.getCodarticulo() + "%') ");
+            condiciones.add(" UPPER(codigo) LIKE UPPER('%" + request.getCodarticulo() + "%') ");
         }
        
         try {
@@ -154,7 +154,7 @@ public class ArticulosBean implements ArticulosBeanLocal {
                     sb.append(condiciones.get(i));
                 }
             }
-            sb.append(" ORDER BY idarticulo DESC ");
+            sb.append(" ORDER BY idarticulo asc ");
             System.out.println("SQL A EJECUTAR:--> " + sb.toString());
             System.out.println("PARAMETROS RECIBIDOS:-->" + request.toString());
             Query q = em.createNativeQuery(sb.toString());
@@ -164,8 +164,8 @@ public class ArticulosBean implements ArticulosBeanLocal {
                     Articulos = new Articulos();
                     Articulos.setIdarticulo(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
                     //Articulos.setCodigo(item[1] != null ? item[1].toString() : "N/D");
-                    Articulos.setCodarticulo(item[2] != null ? item[2].toString() : "N/D");
-                    Articulos.setDescarticulo(item[3] != null ? item[3].toString() : "N/D");
+                    Articulos.setCodarticulo(item[1] != null ? item[1].toString() : "N/D");
+                    Articulos.setDescarticulo(item[2] != null ? item[2].toString() : "N/D");
                     //Articulos.setTelefono(item[4] != null ? item[4].toString() : "N/D");
                     //Articulos.setEncargado(item[5] != null ? item[5].toString() : "N/D");
                    // Articulos.setIdempresa(item[6] != null ? item[6].toString() : "N/D");
