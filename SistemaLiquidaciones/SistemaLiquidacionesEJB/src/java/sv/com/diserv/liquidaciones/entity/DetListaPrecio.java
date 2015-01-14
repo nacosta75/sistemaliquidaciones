@@ -30,7 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "DetListaPrecio.findAll", query = "SELECT d FROM DetListaPrecio d"),
     @NamedQuery(name = "DetListaPrecio.findByIdlistadet", query = "SELECT d FROM DetListaPrecio d WHERE d.idlistadet = :idlistadet"),
-    @NamedQuery(name = "DetListaPrecio.findByPrecio", query = "SELECT d FROM DetListaPrecio d WHERE d.precio = :precio")})
+    @NamedQuery(name = "DetListaPrecio.findByPrecio", query = "SELECT d FROM DetListaPrecio d WHERE d.precio = :precio"),
+    @NamedQuery(name = "DetListaPrecio.findByIdArticuloIdEnc", query = "SELECT d FROM DetListaPrecio d WHERE d.idlistaenc.idlista = :idlista AND d.idarticulo.idarticulo = :idarticulo")
+     })
 public class DetListaPrecio implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
