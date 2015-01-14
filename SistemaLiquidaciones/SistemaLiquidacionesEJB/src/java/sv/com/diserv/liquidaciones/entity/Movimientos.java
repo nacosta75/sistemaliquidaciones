@@ -55,7 +55,7 @@ public class Movimientos implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "IDMOV")
-    @SequenceGenerator(name = "SEQ_MOVIMIENTOS", sequenceName = "SEQ_MOVIMIENTOS")
+    @SequenceGenerator(allocationSize =1,name = "SEQ_MOVIMIENTOS", sequenceName = "SEQ_MOVIMIENTOS")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MOVIMIENTOS")
     private Integer idmov;
     @Basic(optional = false)
