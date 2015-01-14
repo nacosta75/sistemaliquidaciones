@@ -68,6 +68,30 @@ public class SucursalesBean implements SucursalesBeanLocal {
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public List<Sucursales> loadAllSucursal() throws DiservBusinessException {
+       
+        logger.log(Level.INFO, "[loadAllSucursal] ");
+        List<Sucursales> sucursaleList = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("Sucursales.findAll");       
+            sucursaleList = query.getResultList();
+            if (sucursaleList != null) {
+                logger.log(Level.INFO, "[loadAllSucursal] Se encontraron " + sucursaleList.size() + " sucursales");
+            }
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[loadAllSucursal][NoResultException]No se encontraron usuarios");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron Sucursales");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[loadAllSucursal][Exception]Se mostro una excepcion al buscar Sucursal");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return sucursaleList;
+    }
+
+    @Override
     public Integer countAllSucursal() throws DiservBusinessException {
         
          logger.log(Level.INFO, "[countAllSucursal]INIT");
