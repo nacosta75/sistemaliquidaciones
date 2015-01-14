@@ -17,4 +17,5 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 @Local
 public interface UmedidaArticuloBeanLocal {
     public List<UnidadesMed> loadAllUmedidaArticulos() throws DiservBusinessException;
+    public UnidadesMed loadUmedidaById(int id) throws DiservBusinessException ;
 }
