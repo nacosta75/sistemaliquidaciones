@@ -38,7 +38,7 @@ import sv.com.diserv.web.ui.util.MensajeMultilinea;
  */
 public class ListaArticulosCtrl extends BaseController{
     
-    
+   
     static final Logger logger = Logger.getLogger(ListaArticulosCtrl.class.getCanonicalName());
     protected Window listaArticuloWindow;
     protected Button btnNuevoArticulo;
@@ -235,6 +235,4 @@ public class ListaArticulosCtrl extends BaseController{
     public void setListaExistencia(List<SaldoExistencia> listaExistencia) {
         this.listaExistencia = listaExistencia;
     }
-      
-      
 }
