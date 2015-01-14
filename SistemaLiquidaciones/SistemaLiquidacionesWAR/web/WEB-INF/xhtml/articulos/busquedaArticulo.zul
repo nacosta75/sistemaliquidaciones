@@ -7,7 +7,7 @@
     <window id="busquedaArticuloWindow"
             title="Busqueda Articulos"
             border="normal"
-            use="sv.com.diserv.web.ui.articulos.BuscarArtiucloCtrl"
+            use="sv.com.diserv.web.ui.articulos.BuscarArticuloCtrl"
             closable="true"
             width="550px" 
             height="330px"
