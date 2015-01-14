@@ -17,6 +17,8 @@ import javax.persistence.Query;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.OperacionesRelAsignacionDTO;
+import sv.com.diserv.liquidaciones.entity.LotesExistencia;
+import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.RelacionAsignaciones;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.util.Constants;
@@ -102,5 +104,23 @@ public class RelacionAsignacionBean implements RelacionAsignacionBeanLocal {
         return response;
     }
 
-    
+    @Override
+    public OperacionesRelAsignacionDTO guardarRelacionAsignacion(Movimientos movimiento, List<LotesExistencia> lotes) throws DiservBusinessException {
+        OperacionesRelAsignacionDTO response = new OperacionesRelAsignacionDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar asignacion");
+        try {
+             for(LotesExistencia lote:lotes){
+                 RelacionAsignaciones relacion = new RelacionAsignaciones();
+                 relacion.setIdlote(lote);
+                 relacion.setIdmov(movimiento);
+                 relacion = genericDaoBean.create(relacion);
+                 response = new OperacionesRelAsignacionDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Asignacion creada satisfactoriamente");
+                 response.setRelacion(relacion);
+             }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setMensajeRespuesta(e.toString());
+        }
+        return response;
+    }
 }
