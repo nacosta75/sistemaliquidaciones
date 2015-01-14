@@ -75,7 +75,7 @@
 
             </toolbar>
         </groupbox>
-        <groupbox mold="3d" width="100%" height="150px">
+               <groupbox mold="3d" width="100%" height="150px">
             <caption label="Existencia" />
             <listbox id="listBoxListaExistencia"
                      style="border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; border-bottom-width: 1px;"
@@ -87,18 +87,41 @@
                      multiple="false">
                 <listhead sizable="true">
                     <listheader
-                        id="listheaderIdListaPrecio"
+                        id="listheaderIdExistencia"
+                        sclass="FDListBoxHeader1"
+                        sort="auto"
+                        width="20%"
+                        label="Id" />
+                    <listheader
+                        id="listheaderBodega"
                         sclass="FDListBoxHeader1"
                         sort="auto"
                         width="20%"
                         label="Bodega" />
                     <listheader
-                        id="listheaderDescPrecio"
+                        id="listheaderMes"
                         sclass="FDListBoxHeader1"
                         sort="auto"
                         width="20%"
-                        label="Existencia" />
-                    
+                        label="Periodo" />
+                    <listheader
+                        id="listheaderEntrada"
+                        sclass="FDListBoxHeader1"
+                        sort="auto"
+                        width="20%"
+                        label="Entrada" />
+                    <listheader
+                        id="listheaderSalida"
+                        sclass="FDListBoxHeader1"
+                        sort="auto"
+                        width="20%"
+                        label="Salida" />
+                    <listheader
+                        id="listheaderSaldo"
+                        sclass="FDListBoxHeader1"
+                        sort="auto"
+                        width="20%"
+                        label="Saldo" />
                     </listhead>
             </listbox>
         </groupbox>
