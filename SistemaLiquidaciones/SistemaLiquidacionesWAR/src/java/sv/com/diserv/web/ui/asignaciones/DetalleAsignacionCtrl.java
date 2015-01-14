@@ -263,9 +263,9 @@ public class DetalleAsignacionCtrl extends BaseController {
                          movimientoDet.setIdarticulo(articulo);
                          movimientoDet.setIdlista(bodegaVendedor.getIdlista());
                          movimientoDet.setNoDoc(asignacionSelected.getNodoc());
-                         movimientoDet.setClaseOperacion("E/S");
+                         movimientoDet.setClaseOperacion("E");
                          movimientoDet.setCostoProm(articulo.getCostocompact());
-                         movimientoDet.setPrecio(BigDecimal.ZERO);
+                         movimientoDet.setPrecio(listaPrecio.getPrecio());
                          movimientoDet.setUltCosto(articulo.getCostocompant());
                          movimientoDet.setValorImpuesto(BigDecimal.ZERO);
                          
