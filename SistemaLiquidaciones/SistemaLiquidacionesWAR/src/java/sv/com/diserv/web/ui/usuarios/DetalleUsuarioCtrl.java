@@ -1,5 +1,7 @@
 package sv.com.diserv.web.ui.usuarios;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
@@ -11,12 +13,15 @@ import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
 
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 import sv.com.diserv.web.ui.util.UserWorkspace;
 import sv.com.diserv.liquidaciones.dto.GenericResponse;
 import sv.com.diserv.liquidaciones.ejb.ManejadorUsuarioBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.SucursalesBeanLocal;
+import sv.com.diserv.liquidaciones.entity.Sucursales;
 import sv.com.diserv.liquidaciones.entity.Usuarios;
 import sv.com.diserv.liquidaciones.exception.DiservWebException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
@@ -43,6 +48,7 @@ public class DetalleUsuarioCtrl extends BaseController {
     private ListaUsuariosCtrl listaUsuarioCtrl;
     private transient Integer token;
     private ManejadorUsuarioBeanLocal usuarioBean;
+    private SucursalesBeanLocal sucursalesBean;
     private ServiceLocator serviceLocator;
     private GenericResponse responseOperacion;
     private UserWorkspace workspace;
@@ -52,10 +58,87 @@ public class DetalleUsuarioCtrl extends BaseController {
         try {
             serviceLocator = ServiceLocator.getInstance();
             usuarioBean = serviceLocator.getService(Constants.JNDI_USUARIOS_BEAN);
+            sucursalesBean = serviceLocator.getService(Constants.JNDI_SUCURSAL_BEAN);
             workspace = (UserWorkspace) SpringUtil.getBean("userWorkspace");
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
+        }
+    }
+    
+    private void loadCombobox() {
+
+        //Sucursal
+        List<CatalogoDTO> listaCatalogoUmedida = new ArrayList<CatalogoDTO>();
+        List<Sucursales> listaSucursales;
+
+        try {
+
+            listaSucursales = sucursalesBean.loadAllSucursal(inicio, fin)
+            List<Object> objectList = new ArrayList<Object>(listaTipoArticulo);
+            listaCatalogoTipoArticulo = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idtipoarticulo", "descripcion");
+
+            if (listaCatalogoTipoArticulo != null && listaCatalogoTipoArticulo.size() > 0) {
+                ListModelList modelotipo = new ListModelList(listaCatalogoTipoArticulo);
+                cmbTipoArticulo.setModel(modelotipo);
+                cmbTipoArticulo.setItemRenderer(new CatalogoItemRenderer());
+            } else {
+                cmbTipoArticulo.setValue("No existen tipos articulos!!");
+                cmbTipoArticulo.setReadonly(true);
+                cmbTipoArticulo.setButtonVisible(false);
+                cmbTipoArticulo.setDisabled(true);
+            }
+
+            //****************************** lineas de articulos *********************/ 
+            listaLineas = lineasBean.loadAllLineas();
+            List<Object> objectListLinea = new ArrayList<Object>(listaLineas);
+            listaCatalogoLineas = catalogosBeanLocal.loadAllElementosCatalogo(objectListLinea, "idlinea", "desclinea");
+
+            if (listaCatalogoLineas != null && listaCatalogoLineas.size() > 0) {
+                ListModelList modelotipo = new ListModelList(listaCatalogoLineas);
+                cmbLineaArticulo.setModel(modelotipo);
+                cmbLineaArticulo.setItemRenderer(new CatalogoItemRenderer());
+            } else {
+                cmbLineaArticulo.setValue("No existen Lineas!!");
+                cmbLineaArticulo.setReadonly(true);
+                cmbLineaArticulo.setButtonVisible(false);
+                cmbLineaArticulo.setDisabled(true);
+            }
+
+            //****************************** marcas de articulos *********************/ 
+            listaMarcas = marcasBean.loadAllMarcas();
+            List<Object> objectListMarca = new ArrayList<Object>(listaMarcas);
+            listaCatalogoMarcas = catalogosBeanLocal.loadAllElementosCatalogo(objectListMarca, "idmarca", "descmarca");
+
+            if (listaCatalogoMarcas != null && listaCatalogoMarcas.size() > 0) {
+                ListModelList modelotipo = new ListModelList(listaCatalogoMarcas);
+                cmbMarcaArticulo.setModel(modelotipo);
+                cmbMarcaArticulo.setItemRenderer(new CatalogoItemRenderer());
+            } else {
+                cmbMarcaArticulo.setValue("No existen Marcas!!");
+                cmbMarcaArticulo.setReadonly(true);
+                cmbMarcaArticulo.setButtonVisible(false);
+                cmbMarcaArticulo.setDisabled(true);
+            }
+
+            //****************************** unidades de medida *********************/ 
+            listaUmedida = umedidaBean.loadAllUmedidaArticulos();
+            List<Object> objectListMedida = new ArrayList<Object>(listaUmedida);
+            listaCatalogoUmedida = catalogosBeanLocal.loadAllElementosCatalogo(objectListMedida, "idumedida", "descumedida");
+
+            if (listaCatalogoUmedida != null && listaCatalogoUmedida.size() > 0) {
+                ListModelList modelotipo = new ListModelList(listaCatalogoUmedida);
+                cmbMedidaArticulo.setModel(modelotipo);
+                cmbMedidaArticulo.setItemRenderer(new CatalogoItemRenderer());
+            } else {
+                cmbMedidaArticulo.setValue("No existen Umedida!!");
+                cmbMedidaArticulo.setReadonly(true);
+                cmbMedidaArticulo.setButtonVisible(false);
+                cmbMedidaArticulo.setDisabled(true);
+            }
+
+        } catch (DiservBusinessException ex) {
+            Logger.getLogger(DetalleArticuloCtrl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
