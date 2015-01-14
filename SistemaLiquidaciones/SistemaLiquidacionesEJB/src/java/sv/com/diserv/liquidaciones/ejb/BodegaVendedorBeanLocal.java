@@ -27,5 +27,5 @@ public interface BodegaVendedorBeanLocal {
     public Bodegas findBodegaByID(Integer idBodega) throws DiservBusinessException;
     public Bodegas findBodegaAsignada(Integer idVendedor) throws DiservBusinessException;
     public BodegaVendedor findBodegaVendedorByIdVendedorBodega(Integer idVendedor, Integer idBodega) throws DiservBusinessException;
-
+    public BodegaVendedor findBodegaVendedorByIdVendedor(Integer idVendedor) throws DiservBusinessException;
 }
