@@ -238,7 +238,7 @@ public class DetalleArticuloCtrl extends BaseController {
         }
         //  checkPermisos();
         showDetalleArticulos();
-        //this.userLogin.getUsuario().getIdusuario();
+        //this.userLogin.getUsuario().getIdsucursal().getIdempresa().getIva();
     }
 
     public void showDetalleArticulos() {
