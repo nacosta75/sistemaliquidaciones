@@ -1,7 +1,7 @@
 package sv.com.diserv.web.ui.asignaciones;
 
-import sv.com.diserv.web.ui.asignaciones.*;
 import java.math.BigDecimal;
+import sv.com.diserv.web.ui.asignaciones.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,22 +20,34 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
-import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
+import sv.com.diserv.liquidaciones.dto.ConsolidadoAsignacionesDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
+import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.BodegaVendedorBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.DetListaPrecioBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.LotesExistenciasBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.MovimientosDetBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.RelacionAsignacionBeanLocal;
+import sv.com.diserv.liquidaciones.entity.Articulos;
+import sv.com.diserv.liquidaciones.entity.BodegaVendedor;
+import sv.com.diserv.liquidaciones.entity.DetListaPrecio;
+import sv.com.diserv.liquidaciones.entity.LotesExistencia;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
+import sv.com.diserv.liquidaciones.entity.MovimientosDet;
 import sv.com.diserv.liquidaciones.entity.Personas;
+import sv.com.diserv.liquidaciones.entity.Sucursales;
+import sv.com.diserv.liquidaciones.entity.TiposMov;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.exception.DiservWebException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.liquidaciones.util.UtilFormat;
-import static sv.com.diserv.web.ui.asignaciones.ListaAsignacionesCtrl.logger;
 import sv.com.diserv.web.ui.personas.DetalleClienteCtrl;
 import sv.com.diserv.web.ui.personas.rendered.CatalogoItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
@@ -62,6 +74,12 @@ public class DetalleAsignacionCtrl extends BaseController {
     private transient Integer token;
     private MovimientosBeanLocal movimientoBean;
     private PersonasBeanLocal personaBean;
+    private BodegaVendedorBeanLocal bodegaVendedorBean;
+    private LotesExistenciasBeanLocal lotesExistenciasBean;
+    private RelacionAsignacionBeanLocal relAsignacionBean;
+    private MovimientosDetBeanLocal movimientoDetBean;
+    private ArticulosBeanLocal articuloBean;
+    private DetListaPrecioBeanLocal detListaPrecioBean;
     private CatalogosBeanLocal catalogosBeanLocal;
     private ServiceLocator serviceLocator;
     private OperacionesMovimientoDTO responseOperacion;
@@ -97,6 +115,12 @@ public class DetalleAsignacionCtrl extends BaseController {
             personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
             catalogosBeanLocal = serviceLocator.getService(Constants.JNDI_CATALOGO_BEAN);
             movimientoBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOS_BEAN);
+            relAsignacionBean = serviceLocator.getService(Constants.JNDI_RELASIGNACION_BEAN);
+            bodegaVendedorBean = serviceLocator.getService(Constants.JNDI_BODEGAVENDEDOR_BEAN);
+            lotesExistenciasBean = serviceLocator.getService(Constants.JNDI_LOTESEXISTENCIAS_BEAN);
+            movimientoDetBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOSDET_BEAN);
+            articuloBean = serviceLocator.getService(Constants.JNDI_ARTICULOS_BEAN);
+            detListaPrecioBean = serviceLocator.getService(Constants.JNDI_DETLISTAPRECIO_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
@@ -120,6 +144,7 @@ public class DetalleAsignacionCtrl extends BaseController {
             listaAsignacionCtrl = ((ListaAsignacionesCtrl) this.args.get("listaAsignacionCtrl"));
         }
         showDetalleAsignaciones();
+         loadComboboxVendedor();
     }
 
     public void showDetalleAsignaciones() {
@@ -178,40 +203,76 @@ public class DetalleAsignacionCtrl extends BaseController {
     }
     
     private void loadDataFromTextboxs() {
-//        try {
             asignacionSelected = new Movimientos();
-            //validamos los campos
-
-//            if (StringUtils.isEmpty(txtNombreVendedor.getValue())) {
-//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe seleccionar un vendedor");
-//            }
-
-           
             asignacionSelected.setIdmov(txtIdAsignacion.getValue());
-//            asignacionSelected.setNombre(txtNombreVendedor.getValue());
-            
             if(txtfechaAsignacion.getValue() != null)
                 asignacionSelected.setFechamov(txtfechaAsignacion.getValue());
-
-          
             
-//            asignacionSelected.setIdtipopersona(new TiposPersona(1));
-//            asignacionSelected.setIdempresa(new Empresas(1));
-//            asignacionSelected.setIdsucursal(new Sucursales(1));
-//            asignacionSelected.setIdusuariocrea(userLogin.getUsuario().getIdusuario());
+            if(txtNumDoc.getValue() >0)
+                asignacionSelected.setNodoc(txtNumDoc.getValue());
             
-//        } catch (DiservWebException ex) {
-//            MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
-//        }
-
+            if(cmbVendedor.getSelectedItem().getValue() != null && Integer.parseInt(cmbVendedor.getSelectedItem().getValue().toString()) != 0)
+                asignacionSelected.setIdpersona(new Personas((Integer) cmbVendedor.getSelectedItem().getValue()));
+            
+            
+             asignacionSelected.setIdsucursal(new Sucursales(1));
+             asignacionSelected.setIdtipomov(new TiposMov(2));
+             asignacionSelected.setEstado("2");
+            
     }
 
     public void onClick$btnGuardar(Event event) {
         try {
             if (getToken().intValue() > 0) {
                 loadDataFromTextboxs();
+                List<Listitem> articulos = getListBoxAticulos().getItems(); 
+                List<Listitem> consolidados = getListBoxAsignacion().getItems(); 
+                List<LotesExistencia> lotes = new ArrayList<LotesExistencia>(); 
+                List<ConsolidadoAsignacionesDTO> consolidado = new ArrayList<ConsolidadoAsignacionesDTO>(); 
+            
+             for(Listitem item:articulos) {
+                 LotesExistencia lote = (LotesExistencia) item.getAttribute("data");
+                 lotes.add(lote);
+             }
+             
+             for(Listitem item:consolidados) {
+                 ConsolidadoAsignacionesDTO consol = (ConsolidadoAsignacionesDTO) item.getAttribute("data");
+                 consolidado.add(consol);
+             }
+                
+             
+                LotesExistencia movimientoInicial = lotes.get(0);
+                Movimientos bodegaSalida = movimientoBean.findMovimientoById(movimientoInicial.getIdmov().getIdmov());
+                asignacionSelected.setIdbodegasalida(bodegaSalida.getIdbodegaentrada());
+                
+                BodegaVendedor bodegaVendedor = bodegaVendedorBean.findBodegaVendedorByIdVendedor((Integer) cmbVendedor.getSelectedItem().getValue());
+                asignacionSelected.setIdbodegaentrada(bodegaVendedor.getIdbodega());
+                
+                
                 responseOperacion = movimientoBean.guardarMovimiento(asignacionSelected);
                 if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+                     lotesExistenciasBean.actualizarLotes(lotes);
+                     relAsignacionBean.guardarRelacionAsignacion(responseOperacion.getMovimiento(),lotes);
+                     for(ConsolidadoAsignacionesDTO consolida:consolidado){
+                         Articulos articulo = articuloBean.loadArticuloByID(consolida.getIdArticulo());
+                         DetListaPrecio listaPrecio = detListaPrecioBean.findDetPrecioByIdArticulo(bodegaVendedor.getIdlista().getIdlista(), consolida.getIdArticulo());
+                         MovimientosDet movimientoDet = new MovimientosDet();
+                         movimientoDet.setIdmov(responseOperacion.getMovimiento());
+                         movimientoDet.setCantidad(new BigDecimal(consolida.getCantidad()));
+                         movimientoDet.setFechaMov(asignacionSelected.getFechamov());
+                         movimientoDet.setIdarticulo(articulo);
+                         movimientoDet.setIdlista(bodegaVendedor.getIdlista());
+                         movimientoDet.setNoDoc(asignacionSelected.getNodoc());
+                         movimientoDet.setClaseOperacion("E/S");
+                         movimientoDet.setCostoProm(articulo.getCostocompact());
+                         movimientoDet.setPrecio(BigDecimal.ZERO);
+                         movimientoDet.setUltCosto(articulo.getCostocompant());
+                         movimientoDet.setValorImpuesto(BigDecimal.ZERO);
+                         
+                         movimientoDetBean.guardarMovimientoDet(movimientoDet);
+                     }
+                     
+                      
                     MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id Asignacion:" + responseOperacion.getMovimiento().getIdmov(), Constants.MENSAJE_TIPO_INFO);
                     asignacionSelected = responseOperacion.getMovimiento();
                     loadDataFromEntity();
