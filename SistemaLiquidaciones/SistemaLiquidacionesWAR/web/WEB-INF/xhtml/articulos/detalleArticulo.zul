@@ -194,7 +194,7 @@
                                                                                 value="Costo Promedio " />
                                                                 
                                                                         </hbox>
-                                                                        <textbox   id="txtCostoProm"   hflex="1" />
+                                                                        <decimalbox  id="txtCostoProm"   hflex="1"   />
                                                                     </row>
                                                         
                                                                     <row>
@@ -203,11 +203,12 @@
                                                                                 value="Costo Anterior " />
                                                                 
                                                                         </hbox>
+
                                                                         <decimalbox  id="txtCostoAnt"   hflex="1" />
-                                                                        <textbox   id="txtCostoAnt"   hflex="1" />
+
+
                                                                     </row>
-                                                                                                                                      
-                                                      
+
                                                                 </rows>
                                                             </grid>
                                                         </groupbox>
