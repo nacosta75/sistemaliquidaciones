@@ -64,7 +64,7 @@ public class ListaBodegaCtrl extends BaseController {
      * default constructor.<br>
      */
     public ListaBodegaCtrl() {
-        logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl]INIT");
+        logger.log(Level.INFO, "[ListaBodegaCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
             //ordentrabajoBean = serviceLocator.getService(Constants.JNDI_ORDENTRABAJO_BEAN);
@@ -96,16 +96,16 @@ public class ListaBodegaCtrl extends BaseController {
     }
 
     public void doRefreshModel(int activePage) {
-        logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][doRefreshModel]Pagina activa:{0}", activePage);
+        logger.log(Level.INFO, "[ListaBodegaCtrl][doRefreshModel]Pagina activa:{0}", activePage);
         refreshModel(activePage);
 
     }
 
     public void refreshModel(int activePage) {
-        logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Recargar bodegas,Pagina activa:{0}", activePage);
+        logger.log(Level.INFO, "[ListaBodegaCtrl][refreshModel]Recargar bodegas,Pagina activa:{0}", activePage);
         try {
             if (totalBodegas > 0) {
-                listaBodegas = bodegaBean.loadAllBodega(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista());
+                listaBodegas = bodegaBean.loadAllBodegaByIdSucursal(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),getUserLogin().getUsuario().getIdsucursal().getIdsucursal());
                 if (listaBodegas.size() > 0) {
                     logger.log(Level.INFO, "Registros cargados=={0}", listaBodegas.size());
                     pagingBodega.setTotalSize(getTotalBodegas());
@@ -118,7 +118,7 @@ public class ListaBodegaCtrl extends BaseController {
                 listBoxBodega.setEmptyMessage("No se encontraron registros para mostrar");
             }
         } catch (Exception ex) {
-            logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Ocurrio Una exception :{0}", ex.getLocalizedMessage());
+            logger.log(Level.INFO, "[ListaBodegaCtrl][refreshModel]Ocurrio Una exception :{0}", ex.getLocalizedMessage());
             ex.printStackTrace();
         }
     }
@@ -181,9 +181,6 @@ public class ListaBodegaCtrl extends BaseController {
         }
     }
 
-    public void onDoubleClickedEvaluacionAuditoria(ForwardEvent event) {
-        logger.log(Level.INFO, "[onDoubleClickedEvaluacionAuditoria]Event:{0}", event.toString());
-    }
 
     public void onPaging$pagingBodega(ForwardEvent event) {
         logger.log(Level.INFO, "[onPaging$pagingBodega]Event:", event.getName());
