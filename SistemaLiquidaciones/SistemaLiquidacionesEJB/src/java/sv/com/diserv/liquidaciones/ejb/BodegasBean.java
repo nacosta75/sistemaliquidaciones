@@ -257,4 +257,29 @@ public class BodegasBean implements BodegasBeanLocal {
         return bodega;
     }
 
+    @Override
+    public List<Bodegas> loadAllBodegaByIdSucursal(int inicio, int fin,Integer idSucursal) throws DiservBusinessException {
+        logger.log(Level.INFO, "[loadAllBodegaByIdSucursal] idSucursal:" + idSucursal);
+        List<Bodegas> bodegaList = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("Bodegas.findByIdSucursal");
+            query.setParameter("idSucursal", idSucursal);
+             query.setFirstResult(inicio);
+            query.setMaxResults(fin);
+            bodegaList = query.getResultList();
+            if (bodegaList != null) {
+                logger.log(Level.INFO, "[loadAllBodegaByIdSucursal] Se encontraron " + bodegaList.size() + " bodegas");
+            }
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[loadAllBodegaByIdSucursal][NoResultException]No se encontraron usuarios");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron bodega");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[loadAllBodegaByIdSucursal][Exception]Se mostro una excepcion al buscar bodega");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return bodegaList;
+    }
+
 }
