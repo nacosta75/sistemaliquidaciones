@@ -89,4 +89,7 @@ public interface BodegasBeanLocal {
      * @throws DiservBusinessException
      */
     public Bodegas loadBodegaByID(Integer idBodega) throws DiservBusinessException;
+    
+    public List<Bodegas> loadAllBodegaByIdSucursal(int inicio, int fin,Integer idSucursal) throws DiservBusinessException;
+    
 }
