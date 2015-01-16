@@ -29,12 +29,15 @@ import sv.com.diserv.liquidaciones.dto.OperacionesArticuloDTO;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
 
 import sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal;
+
+import sv.com.diserv.liquidaciones.ejb.DetListaPrecioBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.EmpresasBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.LineaArticuloBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.MarcaArticuloBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.TipoArticuloBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.UmedidaArticuloBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Articulos;
+import sv.com.diserv.liquidaciones.entity.DetListaPrecio;
 import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.entity.LineaArticulo;
 import sv.com.diserv.liquidaciones.entity.MarcaArticulo;
@@ -47,6 +50,7 @@ import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.liquidaciones.util.UtilFormat;
+import sv.com.diserv.web.ui.articulos.rendered.PreciosItemRenderer;
 import sv.com.diserv.web.ui.personas.rendered.CatalogoItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
@@ -73,23 +77,28 @@ public class DetalleArticuloCtrl extends BaseController {
     protected Textbox txtCodigo;
     protected Decimalbox txtCostoProm;
     protected Decimalbox txtCostoAnt;
-    //protected Checkbox checkEstadoArticulo;
+    protected Listbox listBoxListaPrecios;
+    protected Listbox listheaderInicial;
+    protected Listbox listheaderFinal;
     private OperacionesArticuloDTO responseOperacion;
     protected Button btnActualizar;
     protected Button btnNuevo;
     protected Button btnEditar;
     protected Button btnGuardar;
     protected Button btnCerrar;
+    protected Button btnRefreshPrecio;
     protected Combobox cmbTipoArticulo;
     protected Combobox cmbLineaArticulo;
     protected Combobox cmbMarcaArticulo;
     protected Combobox cmbMedidaArticulo;
     private List<Articulos> listaArticulosLike;
+     private List<DetListaPrecio> listaPrecios;
     private CatalogosBeanLocal catalogosBeanLocal;
     private TipoArticuloBeanLocal tipoArticuloBean;
     private LineaArticuloBeanLocal lineasBean;
     private MarcaArticuloBeanLocal marcasBean;
     private UmedidaArticuloBeanLocal umedidaBean;
+    private DetListaPrecioBeanLocal detListaPrecioBean;
 
     public Integer getToken() {
         return token;
@@ -213,6 +222,7 @@ public class DetalleArticuloCtrl extends BaseController {
             lineasBean = serviceLocator.getService(Constants.JNDI_LINEAS_BEAN);
             marcasBean = serviceLocator.getService(Constants.JNDI_MARCAS_BEAN);
             umedidaBean = serviceLocator.getService(Constants.JNDI_UMEDIDA_BEAN);
+            detListaPrecioBean = serviceLocator.getService(Constants.JNDI_DETLISTAPRECIO_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
@@ -372,35 +382,47 @@ public class DetalleArticuloCtrl extends BaseController {
         this.btnGuardar.setVisible(false);
         this.btnActualizar.setVisible(false);
     }
-
+         
     public void onClick$btnGuardar(Event event) {
-        try {
+        
+        
+    }
 
-            if (getToken().intValue() > 0) {
-                loadDataFromTextboxs();
+    public List<DetListaPrecio> getListaPrecios() {
+        return listaPrecios;
+    }
 
-                articuloSelected.setIdusuariocrea(userLogin.getUsuario().getIdusuario());
-                articuloSelected.setFechacrea(new Date());
+    public void setListaPrecios(List<DetListaPrecio> listaPrecios) {
+        this.listaPrecios = listaPrecios;
+    }
 
-                responseOperacion = articulosBean.guardarArticulo(articuloSelected);
-                if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id Articulo:" + responseOperacion.getArticulo().getIdarticulo(), Constants.MENSAJE_TIPO_INFO);
-                    articuloSelected = responseOperacion.getArticulo();
-                    loadDataFromEntity();
-                    doReadOnly(Boolean.TRUE);
-                    doEditButton();
-                    listaArticulosCtrl.refreshModel(0);
+    public Listbox getListBoxListaPrecios() {
+        return listBoxListaPrecios;
+    }
+
+    public void setListBoxListaPrecios(Listbox listBoxListaPrecios) {
+        this.listBoxListaPrecios = listBoxListaPrecios;
+    }
+    
+    
+    
+    
+    public void onClick$btnRefreshPrecio(Event event) throws DiservBusinessException {
+        logger.log(Level.INFO, "[onClick$btnRefreshPrecio]Event:{0}", event.toString());
+            
+        if (articuloSelected != null) {
+                
+                listaPrecios = detListaPrecioBean.listDetPrecioByIdArticulo(articuloSelected.getIdarticulo(), Constants.PAGINA_INICIO_DEFAULT, Constants.REGISTROS_A_MOSTRAR_LISTA);
+                if (listaPrecios.size() > 0) {
+                    listBoxListaPrecios.setModel(new ListModelList(listaPrecios));
+                    listBoxListaPrecios.setItemRenderer(new PreciosItemRenderer());
                 } else {
-                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+                    listBoxListaPrecios.setModel(new ListModelList(listaPrecios));
+                    listBoxListaPrecios.setEmptyMessage("Articulo no Tiene Precios");
+                    logger.info("No se cargaron registros");
                 }
-                setToken(0);
-            } else if (getToken().intValue() == 0) {
-                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar el mismo bodega dos veces, por seguridad solo se proceso una vez ");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
-        }
+        
     }
 
     public void onClick$btnEditar(Event event) {
