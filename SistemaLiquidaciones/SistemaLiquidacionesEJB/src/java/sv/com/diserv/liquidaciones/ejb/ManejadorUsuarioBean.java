@@ -434,7 +434,7 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
         int count = 0;
         Query query;
         try {
-            query = em.createNamedQuery("Authorities.countdAll");
+            query = em.createNamedQuery("Authorities.countAll");
             count = ((Long) query.getSingleResult()).intValue();
             logger.log(Level.INFO, "[Total de registros encontrados]" + count);
         } catch (Exception e) {

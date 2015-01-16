@@ -264,7 +264,7 @@ public class BodegasBean implements BodegasBeanLocal {
         Query query;
         try {
             query = em.createNamedQuery("Bodegas.findByIdSucursal");
-            query.setParameter("idSucursal", idSucursal);
+            query.setParameter("idsucursal", idSucursal);
              query.setFirstResult(inicio);
             query.setMaxResults(fin);
             bodegaList = query.getResultList();
