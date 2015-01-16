@@ -178,9 +178,6 @@ public class ListaArticulosCtrl extends BaseController{
                     listBoxListaExistencia.setEmptyMessage("Articulo no Tiene Existencias");
                     logger.info("No se cargaron registros");
                 }
-                
-                
-               
             }
         }
     }
