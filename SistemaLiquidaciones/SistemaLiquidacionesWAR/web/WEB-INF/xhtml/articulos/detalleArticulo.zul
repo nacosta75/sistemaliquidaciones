@@ -257,6 +257,18 @@
                                                                 sort="auto"
                                                                 width="20%"
                                                                 label="Precio" />
+                                                             <listheader
+                                                                id="listheaderInicial"
+                                                                sclass="FDListBoxHeader1"
+                                                                sort="auto"
+                                                                width="20%"
+                                                                label="Inicial" />
+                                                              <listheader
+                                                                id="listheaderFinal"
+                                                                sclass="FDListBoxHeader1"
+                                                                sort="auto"
+                                                                width="20%"
+                                                                label="Final"  />
                     
                                                         </listhead>
                                                     </listbox>
