@@ -13,7 +13,7 @@ import sv.com.diserv.liquidaciones.entity.DetListaPrecio;
 
 /**
  *
- * @author vitual-lubuntu
+ * @author abraham.acosta
  */
 public class PreciosItemRenderer implements ListitemRenderer{
 
