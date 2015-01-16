@@ -7,7 +7,7 @@
     <window id="buscarUsuariosWindow"
             border="normal"
             title="Búsqueda de usuarios"
-            use="sv.com.diserv.liquidaciones.web.ui.usuarios.BuscarUsuariosCtrl"
+            use="sv.com.diserv.web.ui.usuarios.BuscarUsuariosCtrl"
             closable="true"
             width="500px"
             height="220px"

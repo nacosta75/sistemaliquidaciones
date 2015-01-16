@@ -9,7 +9,7 @@
             border="none"
             height="100%"
             width="100%"
-            use="sv.com.diserv.liquidaciones.web.ui.usuarios.ListaUsuariosCtrl">
+            use="sv.com.diserv.web.ui.usuarios.ListaUsuariosCtrl">
         <div sclass="z-toolbar" style="padding:0">
             <div sclass="z-toolbar" style="padding:0">
                 <hbox pack="stretch"

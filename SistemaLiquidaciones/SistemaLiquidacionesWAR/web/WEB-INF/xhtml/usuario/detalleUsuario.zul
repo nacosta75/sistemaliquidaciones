@@ -7,7 +7,7 @@
     <window id="detalleUsuarioWindow"
             title="Mantenimiento de usuarios"
             border="none"
-            use="sv.com.diserv.liquidaciones.web.ui.usuarios.DetalleUsuarioCtrl"
+            use="sv.com.diserv.web.ui.usuarios.DetalleUsuarioCtrl"
             closable="true"
             width="600px"
             height="350px"
