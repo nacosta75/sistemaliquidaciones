@@ -49,18 +49,7 @@ public class DetalleBodegaCtrl extends BaseController {
     private OperacionesBodegaDTO responseOperacion;
     private List<Bodegas> listaBodegasLike;
 
-    private static List<String> colors = new ArrayList<String>();
-     
-     static{
-        colors.add("blue");
-        colors.add("black");
-        colors.add("white");
-                
-    }
-     
-    public static final List<String> getColors() {
-        return new ArrayList<String>(colors);
-    }
+  
 
     public DetalleBodegaCtrl() {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl]INIT");
@@ -166,21 +155,16 @@ public class DetalleBodegaCtrl extends BaseController {
                bodegaSelected.setActiva("N");
             }
                 
-            //bodegaSelected.setDepartamento(txtDepartamento.getValue());
+           
             bodegaSelected.setDireccion(txtDireccion.getValue());
             bodegaSelected.setIdbodega(txtIdBodegas.getValue());
 
             bodegaSelected.setTelefono(txtTelefono.getValue());
             bodegaSelected.setNombre(txtNombreBodegas.getValue());
             bodegaSelected.setEncargado(txtEncargado.getValue());
-
-            // sucursal
-            //Sucursales obj =
-            bodegaSelected.setIdsucursal( bodegaSelected2.getIdsucursal());
+            bodegaSelected.setIdsucursal(userLogin.getUsuario().getIdsucursal());
             
-            //bodegaSelected.setIvaBodegas(txtRegistroIva.getValue());
-            //bodegaSelected.setEmailBodegas(txtCorreoElectronico.getValue());
-            //bodegaSelected.setTelefono(checkEstadoBodegas.isChecked());
+  
         } catch (DiservWebException ex) {
             MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
         }
