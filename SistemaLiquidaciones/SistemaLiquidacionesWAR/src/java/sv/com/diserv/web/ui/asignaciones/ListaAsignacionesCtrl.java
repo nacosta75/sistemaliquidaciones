@@ -124,7 +124,7 @@ public class ListaAsignacionesCtrl extends BaseController {
             map.put("asignacionSelected", movimiento);
             map.put("token", UtilFormat.getToken());
             map.put("listaAsignacionCtrl", this);
-            Executions.createComponents("/WEB-INF/xhtml/asignaciones/detalleAsignacion.zul", null, map);
+            Executions.createComponents("/WEB-INF/xhtml/asignaciones/detalleAsignacionWizar.zul", null, map);
         }
     }
 
@@ -133,7 +133,7 @@ public class ListaAsignacionesCtrl extends BaseController {
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
         map.put("listaAsignacionCtrl", this);
-        Executions.createComponents("/WEB-INF/xhtml/asignaciones/detalleAsignacion.zul", null, map);
+        Executions.createComponents("/WEB-INF/xhtml/asignaciones/detalleAsignacionWizar.zul", null, map);
 
     }
 
