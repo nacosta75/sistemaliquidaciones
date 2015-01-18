@@ -1,6 +1,7 @@
 package sv.com.diserv.liquidaciones.dto;
 
 import java.io.Serializable;
+import sv.com.diserv.liquidaciones.entity.LotesExistencia;
 
 /**
  *
@@ -14,6 +15,9 @@ public class ConsolidadoAsignacionesDTO implements Serializable {
     private String descripcion;
     private Integer cantidad;
     private String precio;
+    
+    private LotesExistencia lote;
+    private Boolean selected;
 
     /**
      * @return the idArticulo
@@ -83,6 +87,22 @@ public class ConsolidadoAsignacionesDTO implements Serializable {
      */
     public void setPrecio(String precio) {
         this.precio = precio;
+    }
+
+    public LotesExistencia getLote() {
+        return lote;
+    }
+
+    public void setLote(LotesExistencia lote) {
+        this.lote = lote;
+    }
+
+    public Boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
     }
 
     
