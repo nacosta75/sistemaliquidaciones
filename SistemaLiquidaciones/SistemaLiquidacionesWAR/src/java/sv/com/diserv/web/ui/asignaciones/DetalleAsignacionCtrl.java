@@ -1,6 +1,7 @@
 package sv.com.diserv.web.ui.asignaciones;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import sv.com.diserv.web.ui.asignaciones.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +21,13 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
+import org.zkoss.zul.Panel;
+import org.zkoss.zul.Tab;
+import org.zkoss.zul.Tabbox;
+import org.zkoss.zul.Tabpanel;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+import sv.com.diserv.liquidaciones.dto.BusquedaLoteExistenciaDTO;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
 import sv.com.diserv.liquidaciones.dto.ConsolidadoAsignacionesDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
@@ -48,6 +55,8 @@ import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.liquidaciones.util.UtilFormat;
+import sv.com.diserv.web.ui.asignaciones.render.ConsolidadoItemRenderer;
+import sv.com.diserv.web.ui.asignaciones.render.LotesItemRenderer;
 import sv.com.diserv.web.ui.personas.DetalleClienteCtrl;
 import sv.com.diserv.web.ui.personas.rendered.CatalogoItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
@@ -58,10 +67,13 @@ public class DetalleAsignacionCtrl extends BaseController {
     private static final Logger logger = Logger.getLogger(DetalleAsignacionCtrl.class.getName());
     private static final long serialVersionUID = -546886879998950467L;
     protected Window detalleAsignacionWindow;
-    protected Intbox txtIdAsignacion;
+//    protected Intbox txtIdAsignacion;
     protected Intbox txtNumDoc;
+    protected Intbox txtNumDoc1;
     protected Datebox txtfechaAsignacion;
+    protected Datebox txtfechaAsignacion1;
     protected Combobox cmbVendedor;
+    protected Textbox nombreVendedor;
 
     protected Button btnActualizar;
     protected Button btnNuevo;
@@ -69,6 +81,16 @@ public class DetalleAsignacionCtrl extends BaseController {
     protected Button btnGuardar;
     protected Button btnEliminar;
     protected Button btnCerrar;
+    protected Panel panelInformacionAsignacion;
+    protected Panel panelOtrosDatos;
+    protected Panel panelSelArt;
+    protected Tabpanel tabpanel1;
+    protected Tabpanel tabpanel2;
+    protected Tabbox paneles;
+    protected Tab tab1;
+    protected Tab tab2;
+    protected Tab tab3;
+    
     private Movimientos asignacionSelected;
     private ListaAsignacionesCtrl listaAsignacionCtrl;
     private transient Integer token;
@@ -94,7 +116,36 @@ public class DetalleAsignacionCtrl extends BaseController {
     private Integer totalArticulos;
     private Integer totalAsignaciones;
     private Integer numeroPaginInicio = 1;
+    
+    
+    //------Variables tab Busqueda de articulos-----
+    protected Intbox txtIdArticulo;
+    protected Textbox txtIcc;
+    protected Textbox txtImei;
+    protected Textbox txtTelefono;
+    protected Button btnBuscar;
+    private BusquedaLoteExistenciaDTO request;
+    private LotesExistenciasBeanLocal loteExistenciaBean;
+    private ArticulosBeanLocal articulosBean;
+    private List<LotesExistencia> listaExistencias;
+//    private Listbox listBoxAticulos;
+    private DetalleAsignacionCtrl listaSeleccionados;
+    
+    private List<LotesExistencia> lotesPaginaAnterior = new ArrayList<LotesExistencia>();
+    private List<ConsolidadoAsignacionesDTO> consolidadoPaginaAnterior = new ArrayList<ConsolidadoAsignacionesDTO>();
+    
+     //contadores pagina
+//    private Integer totalArticulos;
+//    private Integer numeroPaginInicio = 1;
+    //-------------------------------------
 
+    
+    private List<Listitem> articulos = new ArrayList<Listitem>(); 
+    private List<LotesExistencia> lotes = new ArrayList<LotesExistencia>(); 
+    private List<LotesExistencia> suma = new ArrayList<LotesExistencia>(); ; 
+    private List<ConsolidadoAsignacionesDTO> consolidado = new ArrayList<ConsolidadoAsignacionesDTO>(); 
+    private BodegaVendedor bodegaVendedor = new BodegaVendedor();
+    
     private static List<String> colors = new ArrayList<String>();
      
      static{
@@ -121,6 +172,8 @@ public class DetalleAsignacionCtrl extends BaseController {
             movimientoDetBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOSDET_BEAN);
             articuloBean = serviceLocator.getService(Constants.JNDI_ARTICULOS_BEAN);
             detListaPrecioBean = serviceLocator.getService(Constants.JNDI_DETLISTAPRECIO_BEAN);
+            loteExistenciaBean = serviceLocator.getService(Constants.JNDI_LOTESEXISTENCIAS_BEAN);
+            articulosBean = serviceLocator.getService(Constants.JNDI_ARTICULOS_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
@@ -152,6 +205,7 @@ public class DetalleAsignacionCtrl extends BaseController {
             if (asignacionSelected != null) {
                 doEditButton();
                 loadDataFromEntity();
+                
             } else {
                 doNew();
             }
@@ -159,6 +213,8 @@ public class DetalleAsignacionCtrl extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        btnGuardar.setVisible(false);
+        detalleAsignacionWindow.setHeight("370px");
     }
 
     /**
@@ -168,7 +224,7 @@ public class DetalleAsignacionCtrl extends BaseController {
 
 //    protected ComboBox cmbEstadoCivil;
     
-        txtIdAsignacion.setValue(asignacionSelected.getIdmov());
+//        txtIdAsignacion.setValue(asignacionSelected.getIdmov());
         txtfechaAsignacion.setValue(asignacionSelected.getFechamov());
         loadComboboxVendedor();
     }
@@ -204,7 +260,7 @@ public class DetalleAsignacionCtrl extends BaseController {
     
     private void loadDataFromTextboxs() {
             asignacionSelected = new Movimientos();
-            asignacionSelected.setIdmov(txtIdAsignacion.getValue());
+//            asignacionSelected.setIdmov(txtIdAsignacion.getValue());
             if(txtfechaAsignacion.getValue() != null)
                 asignacionSelected.setFechamov(txtfechaAsignacion.getValue());
             
@@ -225,27 +281,11 @@ public class DetalleAsignacionCtrl extends BaseController {
         try {
             if (getToken().intValue() > 0) {
                 loadDataFromTextboxs();
-                List<Listitem> articulos = getListBoxAticulos().getItems(); 
-                List<Listitem> consolidados = getListBoxAsignacion().getItems(); 
-                List<LotesExistencia> lotes = new ArrayList<LotesExistencia>(); 
-                List<ConsolidadoAsignacionesDTO> consolidado = new ArrayList<ConsolidadoAsignacionesDTO>(); 
-            
-             for(Listitem item:articulos) {
-                 LotesExistencia lote = (LotesExistencia) item.getAttribute("data");
-                 lotes.add(lote);
-             }
-             
-             for(Listitem item:consolidados) {
-                 ConsolidadoAsignacionesDTO consol = (ConsolidadoAsignacionesDTO) item.getAttribute("data");
-                 consolidado.add(consol);
-             }
-                
-             
+               
                 LotesExistencia movimientoInicial = lotes.get(0);
                 Movimientos bodegaSalida = movimientoBean.findMovimientoById(movimientoInicial.getIdmov().getIdmov());
                 asignacionSelected.setIdbodegasalida(bodegaSalida.getIdbodegaentrada());
                 
-                BodegaVendedor bodegaVendedor = bodegaVendedorBean.findBodegaVendedorByIdVendedor((Integer) cmbVendedor.getSelectedItem().getValue());
                 asignacionSelected.setIdbodegaentrada(bodegaVendedor.getIdbodega());
                 
                 
@@ -278,6 +318,7 @@ public class DetalleAsignacionCtrl extends BaseController {
                     loadDataFromEntity();
                     doEditButton();
                     listaAsignacionCtrl.refreshModel(0);
+                    doClose();
                 } else {
 //                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }
@@ -325,6 +366,134 @@ public class DetalleAsignacionCtrl extends BaseController {
 
     public void onClick$btnCerrar(Event event) throws InterruptedException {
         doClose();
+    }
+    
+     public void onClick$btnSiguiente(Event event) throws InterruptedException {
+       try {
+           int idVendedor =0;
+            if (cmbVendedor != null && cmbVendedor.getSelectedItem() != null) {
+                   idVendedor = (Integer) cmbVendedor.getSelectedItem().getValue();
+               }
+
+            if (idVendedor == 0) {
+                   throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe seleccionar un vendedor");
+               }
+            
+            panelInformacionAsignacion.setVisible(false);
+            panelSelArt.setVisible(true);
+            tab3.setSelected(true);
+            btnGuardar.setVisible(false);
+            detalleAsignacionWindow.setHeight("560px");
+            detalleAsignacionWindow.setPosition("center");
+            
+        
+        } catch (DiservWebException ex) {
+            MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
+        }
+    }
+     
+     public void onClick$btnSiguiente1(Event event) throws InterruptedException {
+         
+            lotes = new ArrayList<LotesExistencia>();
+            suma = new ArrayList<LotesExistencia>();
+            articulos = new ArrayList<Listitem>();
+            consolidado = new ArrayList<ConsolidadoAsignacionesDTO>();
+            //Si se selecciono un vendedor correctamente realizamos la asignacion en memoria
+             articulos = getListBoxAticulos().getItems(); 
+             HashMap<Integer,Integer> elementos = new HashMap<Integer, Integer>();
+             
+         try {
+                bodegaVendedor = bodegaVendedorBean.findBodegaVendedorByIdVendedor((Integer) cmbVendedor.getSelectedItem().getValue());
+                
+                for(Listitem item :articulos){
+                    if(item.isSelected()){
+                        LotesExistencia lote = (LotesExistencia) item.getAttribute("data"); 
+                        lotes.add(lote);
+                        if(!elementos.containsKey(lote.getIdarticulo().getIdarticulo())){
+                            elementos.put(lote.getIdarticulo().getIdarticulo(), 1);
+                            suma.add(lote);
+                        }
+                        else {
+                           Integer cantidad=  elementos.get(lote.getIdarticulo().getIdarticulo()).intValue();
+                           cantidad = cantidad+1;
+                           elementos.remove(lote.getIdarticulo().getIdarticulo());
+                           elementos.put(lote.getIdarticulo().getIdarticulo(), cantidad);
+                        }
+
+                    }
+                }
+    
+                if(lotes == null || lotes.size()==0) {
+                   throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe seleccionar al menos un articulo para asignar");
+               }
+                
+                for(LotesExistencia lote: suma){
+                    ConsolidadoAsignacionesDTO consol = new ConsolidadoAsignacionesDTO();
+                        try {
+                            Articulos articulo = articulosBean.loadArticuloByID(lote.getIdarticulo().getIdarticulo());
+                            DetListaPrecio listaPrecio = detListaPrecioBean.findDetPrecioByIdArticulo(bodegaVendedor.getIdlista().getIdlista(), lote.getIdarticulo().getIdarticulo());
+                            consol.setIdArticulo(lote.getIdarticulo().getIdarticulo());
+                            consol.setCodigoArticulo(articulo.getCodarticulo());
+                            consol.setDescripcion(articulo.getDescarticulo());
+                            Integer cantidad=  elementos.get(lote.getIdarticulo().getIdarticulo()).intValue();
+                            consol.setCantidad(cantidad);
+                            if(listaPrecio != null)
+                                consol.setPrecio(listaPrecio.getPrecio().toString());
+                            consolidado.add(consol);
+                        } catch (DiservBusinessException ex) {
+                            java.util.logging.Logger.getLogger(BuscarArticuloCtrl.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                }
+
+    
+    
+                if (!lotes.isEmpty()) {
+//                            setTotalArticulos(lotes.size());
+//                            getListBoxAticulos().setModel(new ListModelList(lotes));
+//                            getListBoxAticulos().setItemRenderer(new LotesItemRenderer());
+
+                            setTotalAsignaciones(consolidado.size());
+                            getListBoxAsignacion().setModel(new ListModelList(consolidado));
+                            getListBoxAsignacion().setItemRenderer(new ConsolidadoItemRenderer());
+                        } else {
+                            getListBoxAticulos().setEmptyMessage("No se han asignado articulos");
+                            MensajeMultilinea.show("No se han asignado articulos", Constants.MENSAJE_TIPO_ALERTA);
+                        }
+        panelSelArt.setVisible(false);
+        panelOtrosDatos.setVisible(true);
+        tab2.setSelected(true);
+        btnGuardar.setVisible(true);
+        detalleAsignacionWindow.setHeight("640px");
+        nombreVendedor.setValue(cmbVendedor.getSelectedItem().getLabel());
+        txtNumDoc1.setValue(txtNumDoc.getValue());
+        txtfechaAsignacion1.setValue(txtfechaAsignacion.getValue());
+        
+         } catch (DiservWebException ex) {
+            MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
+        }
+    }
+     
+    public void onClick$btnAnterior(Event event) throws InterruptedException {
+        panelInformacionAsignacion.setVisible(true);
+        panelOtrosDatos.setVisible(false);
+        tab1.setSelected(true);
+        btnGuardar.setVisible(false);
+        detalleAsignacionWindow.setHeight("370px");
+    }
+    
+    public void onClick$btnAnterior1(Event event) throws InterruptedException {
+        panelSelArt.setVisible(true);
+        panelOtrosDatos.setVisible(false);
+        tab3.setSelected(true);
+        btnGuardar.setVisible(false);
+        detalleAsignacionWindow.setHeight("560px");
     }
 
     public void onClick$btnActualizar(Event event) throws InterruptedException {
@@ -392,6 +561,63 @@ public class DetalleAsignacionCtrl extends BaseController {
         Executions.createComponents("/WEB-INF/xhtml/asignaciones/busquedaArticulo.zul", null, map);
 
     }
+    
+    //---------------------Logica pantalla de busqueda de articulos----------------------
+    
+    public void onClick$btnBuscar(Event event) throws InterruptedException {
+//        if (logger.isDebugEnabled()) {
+//            logger.debug("--> " + event.toString());
+//        }
+        doBuscar();
+    }
+
+    
+    public void doBuscar() {
+        try {
+            request = new BusquedaLoteExistenciaDTO();
+            if (StringUtils.isNotEmpty(txtIdArticulo.getText())) {
+                request.setIdArticulo(txtIdArticulo.getValue());
+            }
+            if (StringUtils.isNotEmpty(txtIcc.getValue())) {
+                request.setIcc(txtIcc.getValue().toUpperCase());
+            }
+            if (StringUtils.isNotEmpty(txtImei.getValue())) {
+                request.setImei(txtImei.getValue());
+            }
+            if (StringUtils.isNotEmpty(txtTelefono.getValue())) {
+                request.setTelefono(txtTelefono.getValue());
+            }
+            
+            String lotesExcluir = StringUtils.EMPTY;
+            for(LotesExistencia lote:lotesPaginaAnterior){
+                lotesExcluir = lotesExcluir+lote.getIdlote()+",";
+            }
+            
+            if(StringUtils.isNotEmpty(lotesExcluir))
+                request.setLotes(lotesExcluir.substring(0,lotesExcluir.length()-1));
+                    
+            listaExistencias = loteExistenciaBean.buscarLoteByCriteria(request);
+
+            if (!listaExistencias.isEmpty()) {
+                if (listaExistencias.size() > 0) {
+                    setTotalArticulos(listaExistencias.size());
+                    listBoxAticulos.setModel(new ListModelList(listaExistencias));
+                    listBoxAticulos.setItemRenderer(new LotesItemRenderer());
+                } else {
+                    logger.info("No se cargaron registros");
+                }
+               
+            } else {
+                getListBoxAticulos().setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
+                MensajeMultilinea.show("No se encontraron clientes con los criterios ingresados", Constants.MENSAJE_TIPO_ALERTA);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajeMultilinea.show(e.toString(), Constants.MENSAJE_TIPO_ERROR);
+        }
+
+    }
+
     
     public Integer getToken() {
         return this.token;
