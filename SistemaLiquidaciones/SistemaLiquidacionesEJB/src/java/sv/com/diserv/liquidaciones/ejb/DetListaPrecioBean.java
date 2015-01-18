@@ -50,4 +50,30 @@ public class DetListaPrecioBean implements DetListaPrecioBeanLocal {
         }
         return listaPrecio;   
     }
+    
+    @Override
+    public List<DetListaPrecio> listDetPrecioByIdArticulo(Integer IdArticulo,Integer inicio,Integer fin) throws DiservBusinessException {
+         logger.log(Level.INFO, "[listDetPrecioByIdArticulo] desde:" + inicio + " hasta:" + fin);
+        List<DetListaPrecio> preciosList = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("DetListaPrecio.findByIdArticulo");
+            query.setParameter("idarticulo", IdArticulo);
+            query.setFirstResult(inicio);
+            query.setMaxResults(fin);
+            preciosList = query.getResultList();
+            if (preciosList != null) {
+                logger.log(Level.INFO, "[listDetPrecioByIdArticulo] Se encontraron " + preciosList.size() + " precios");
+            }
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[listDetPrecioByIdArticulo][NoResultException]No se encontraron precios");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron precios");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[listDetPrecioByIdArticulo][Exception]Se mostro una excepcion al buscar Precios");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return preciosList;
+    }
+    
 }
