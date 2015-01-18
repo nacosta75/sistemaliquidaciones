@@ -369,27 +369,22 @@
                                                                                               <listhead sizable="true">
                                                                                                   <listheader id="listheaderLote"
                                                                                                               sclass="FDListBoxHeader1"
-                                                                                                              sort="auto"
                                                                                                               width="25%"
                                                                                                               label="Id Lote" />
                                                                                                   <listheader id="listheaderArticulo"
                                                                                                               sclass="FDListBoxHeader1"
-                                                                                                              sort="auto"
                                                                                                               width="25%"
                                                                                                               label="Articulo" />
                                                                                                   <listheader id="listheaderICC"
                                                                                                               sclass="FDListBoxHeader1"
-                                                                                                              sort="auto"
                                                                                                               width="25%"
                                                                                                               label="ICC" />
                                                                                                   <listheader id="listheaderIMEI"
                                                                                                               sclass="FDListBoxHeader1"
-                                                                                                              sort="auto"
                                                                                                               width="25%"
                                                                                                               label="IMEI" />
                                                                                                   <listheader id="listheaderTelefono"
                                                                                                               sclass="FDListBoxHeader1"
-                                                                                                              sort="auto"
                                                                                                               width="25%"
                                                                                                               label="Telefono" />
                                                                                                  </listhead>
