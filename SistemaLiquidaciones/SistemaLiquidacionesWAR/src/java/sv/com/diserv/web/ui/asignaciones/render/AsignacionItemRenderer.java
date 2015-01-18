@@ -40,8 +40,8 @@ public class AsignacionItemRenderer implements ListitemRenderer {
 
         item.setAttribute("data", data);
 
-        ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedAsignacion");
-        ComponentsCtrl.applyForward(item, "onClick=onClickedAsignacion");
+//        ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedAsignacion");
+//        ComponentsCtrl.applyForward(item, "onClick=onClickedAsignacion");
 
     }
 }
