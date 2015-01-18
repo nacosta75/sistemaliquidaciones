@@ -127,8 +127,7 @@ public class DetalleAsignacionCtrl extends BaseController {
     private BusquedaLoteExistenciaDTO request;
     private LotesExistenciasBeanLocal loteExistenciaBean;
     private ArticulosBeanLocal articulosBean;
-    private List<LotesExistencia> listaExistencias;
-//    private Listbox listBoxAticulos;
+   //    private Listbox listBoxAticulos;
     private DetalleAsignacionCtrl listaSeleccionados;
     
     private List<LotesExistencia> lotesPaginaAnterior = new ArrayList<LotesExistencia>();
@@ -397,6 +396,8 @@ public class DetalleAsignacionCtrl extends BaseController {
      
      public void onClick$btnSiguiente1(Event event) throws InterruptedException {
          
+         List<LotesExistencia> lotesAnterior = lotes;
+         
             lotes = new ArrayList<LotesExistencia>();
             suma = new ArrayList<LotesExistencia>();
             articulos = new ArrayList<Listitem>();
@@ -404,28 +405,66 @@ public class DetalleAsignacionCtrl extends BaseController {
             //Si se selecciono un vendedor correctamente realizamos la asignacion en memoria
              articulos = getListBoxAticulos().getItems(); 
              HashMap<Integer,Integer> elementos = new HashMap<Integer, Integer>();
+             HashMap<Integer,Integer> lotesIds = new HashMap<Integer, Integer>();
+             List<ConsolidadoAsignacionesDTO> allLotes = new ArrayList<ConsolidadoAsignacionesDTO>();
              
          try {
                 bodegaVendedor = bodegaVendedorBean.findBodegaVendedorByIdVendedor((Integer) cmbVendedor.getSelectedItem().getValue());
                 
                 for(Listitem item :articulos){
+                    ConsolidadoAsignacionesDTO lote = (ConsolidadoAsignacionesDTO) item.getAttribute("data"); 
                     if(item.isSelected()){
-                        LotesExistencia lote = (LotesExistencia) item.getAttribute("data"); 
-                        lotes.add(lote);
-                        if(!elementos.containsKey(lote.getIdarticulo().getIdarticulo())){
-                            elementos.put(lote.getIdarticulo().getIdarticulo(), 1);
-                            suma.add(lote);
+                        lotes.add(lote.getLote());
+                        lote.setSelected(Boolean.TRUE);
+                        lotesIds.put(lote.getLote().getIdlote(),1);
+                        if(!elementos.containsKey(lote.getLote().getIdarticulo().getIdarticulo())){
+                            elementos.put(lote.getLote().getIdarticulo().getIdarticulo(), 1);
+                            suma.add(lote.getLote());
                         }
                         else {
-                           Integer cantidad=  elementos.get(lote.getIdarticulo().getIdarticulo()).intValue();
+                           Integer cantidad=  elementos.get(lote.getLote().getIdarticulo().getIdarticulo()).intValue();
                            cantidad = cantidad+1;
-                           elementos.remove(lote.getIdarticulo().getIdarticulo());
-                           elementos.put(lote.getIdarticulo().getIdarticulo(), cantidad);
+                           elementos.remove(lote.getLote().getIdarticulo().getIdarticulo());
+                           elementos.put(lote.getLote().getIdarticulo().getIdarticulo(), cantidad);
                         }
 
+                    }else{
+                        if(lote != null)
+                            lote.setSelected(Boolean.FALSE);
                     }
+                    allLotes.add(lote);
                 }
     
+                
+                for(LotesExistencia lote1: lotesAnterior){
+                   int agregar=1;
+                    for(ConsolidadoAsignacionesDTO consolAnt:allLotes)
+                        {
+                            if(consolAnt != null && consolAnt.getLote().getIdlote() == lote1.getIdlote() && consolAnt.getSelected()== false)
+                               {
+                                   agregar = 0;
+                                   break;
+                               }
+                    }
+                        
+                    
+                    if(!lotesIds.containsKey(lote1.getIdlote()) && agregar == 1){
+                        if(!elementos.containsKey(lote1.getIdarticulo().getIdarticulo())){
+                                elementos.put(lote1.getIdarticulo().getIdarticulo(), 1);
+                                suma.add(lote1);
+                            }
+                            else {
+                               Integer cantidad=  elementos.get(lote1.getIdarticulo().getIdarticulo()).intValue();
+                               cantidad = cantidad+1;
+                               elementos.remove(lote1.getIdarticulo().getIdarticulo());
+                               elementos.put(lote1.getIdarticulo().getIdarticulo(), cantidad);
+                            }
+
+                         lotes.add(lote1);
+                     }
+                     
+                }
+                
                 if(lotes == null || lotes.size()==0) {
                    throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe seleccionar al menos un articulo para asignar");
                }
@@ -575,6 +614,8 @@ public class DetalleAsignacionCtrl extends BaseController {
     public void doBuscar() {
         try {
             request = new BusquedaLoteExistenciaDTO();
+            List<ConsolidadoAsignacionesDTO> listaExistencias;
+            
             if (StringUtils.isNotEmpty(txtIdArticulo.getText())) {
                 request.setIdArticulo(txtIdArticulo.getValue());
             }
@@ -596,8 +637,24 @@ public class DetalleAsignacionCtrl extends BaseController {
             if(StringUtils.isNotEmpty(lotesExcluir))
                 request.setLotes(lotesExcluir.substring(0,lotesExcluir.length()-1));
                     
-            listaExistencias = loteExistenciaBean.buscarLoteByCriteria(request);
+            listaExistencias = loteExistenciaBean.buscarLoteByCriterias(request);
+            List<ConsolidadoAsignacionesDTO> listaHija = new ArrayList<ConsolidadoAsignacionesDTO>();
+            
+           if(lotes != null && lotes.size()>0){
+                for(ConsolidadoAsignacionesDTO consol: listaExistencias){
+                    for(LotesExistencia lotesSeleccionados:lotes){
+                        if(consol.getLote().getIdlote() == lotesSeleccionados.getIdlote())
+                            consol.setSelected(Boolean.TRUE);
+                        if(!listaHija.contains(consol))
+                        listaHija.add(consol);
 
+                    }
+                }
+                listaExistencias = new ArrayList<ConsolidadoAsignacionesDTO>();
+                listaExistencias= listaHija;
+            }
+
+           
             if (!listaExistencias.isEmpty()) {
                 if (listaExistencias.size() > 0) {
                     setTotalArticulos(listaExistencias.size());
