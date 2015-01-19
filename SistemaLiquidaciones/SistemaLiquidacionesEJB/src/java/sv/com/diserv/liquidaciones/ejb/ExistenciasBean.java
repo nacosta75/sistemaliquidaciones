@@ -27,27 +27,26 @@ import sv.com.diserv.liquidaciones.util.Constants;
 @Stateless
 public class ExistenciasBean implements ExistenciasBeanLocal {
 
-     static final Logger logger = Logger.getLogger(ExistenciasBean.class.getName());
+    static final Logger logger = Logger.getLogger(ExistenciasBean.class.getName());
     @PersistenceContext(unitName = "SistemaLiquidacionesEJBPU")
-    
+
     private EntityManager em;
-    
-    
+
     @EJB
     GenericDaoServiceBeanLocal genericDaoBean;
-    
+
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Override
-    public List<SaldoExistencia> loadExistenciaArticulo(int idArticulo,int inicio, int fin) throws DiservBusinessException {
+    public List<SaldoExistencia> loadExistenciaArticulo(int idArticulo, int inicio, int fin) throws DiservBusinessException {
         logger.log(Level.INFO, "[loadAllExistencia] desde:" + inicio + " hasta:" + fin);
         List<SaldoExistencia> existenciaList = null;
         Query query;
         try {
-            query = em.createNamedQuery("SaldoExistencia.findByIdArticulo");
-            query.setParameter("idarticulo", idArticulo);
-            query.setFirstResult(inicio);
-            query.setMaxResults(fin);
-            existenciaList = query.getResultList();
+//            query = em.createNamedQuery("SaldoExistencia.findByIdArticulo");
+//            query.setParameter("idarticulo", idArticulo);
+//            query.setFirstResult(inicio);
+//            query.setMaxResults(fin);
+//            existenciaList = query.getResultList();
             if (existenciaList != null) {
                 logger.log(Level.INFO, "[loadAllExistencia] Se encontraron " + existenciaList.size() + " existencia");
             }
@@ -61,5 +60,5 @@ public class ExistenciasBean implements ExistenciasBeanLocal {
         }
         return existenciaList;
     }
-    
+
 }

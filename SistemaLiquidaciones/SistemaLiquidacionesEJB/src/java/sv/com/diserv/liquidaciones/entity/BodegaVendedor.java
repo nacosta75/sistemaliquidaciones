@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "BodegaVendedor.findAll", query = "SELECT b FROM BodegaVendedor b"),
     @NamedQuery(name = "BodegaVendedor.findById", query = "SELECT b FROM BodegaVendedor b WHERE b.id = :id"),
     @NamedQuery(name = "BodegaVendedor.findAllBodegasAsignables", query = "SELECT b FROM Bodegas b where b.aplicaVend='S' AND b.idbodega not in (SELECT bv.idbodega.idbodega FROM BodegaVendedor bv)"),
-    @NamedQuery(name = "BodegaVendedor.findByIdVendedor", query = "SELECT b FROM Bodegas b inner join BodegaVendedor bv on bv.idbodega.idbodega=b.idbodega WHERE bv.idpersona.idpersona = :idVendedor"),
+//    @NamedQuery(name = "BodegaVendedor.findByIdVendedor", query = "SELECT b FROM Bodegas b inner join BodegaVendedor bv on bv.idbodega.idbodega=b.idbodega WHERE bv.idpersona.idpersona = :idVendedor"),
     @NamedQuery(name = "BodegaVendedor.findByIdVendedorBodega", query = "SELECT b FROM BodegaVendedor b WHERE b.idpersona.idpersona = :idVendedor AND b.idbodega.idbodega = :idBodega"),
     @NamedQuery(name = "BodegaVendedor.findByIdPersona", query = "SELECT b FROM BodegaVendedor b WHERE b.idpersona.idpersona = :idVendedor")
 

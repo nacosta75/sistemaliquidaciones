@@ -139,9 +139,9 @@ public class BodegaVendedorBean implements BodegaVendedorBeanLocal {
         Bodegas bodega = null;
         Query query;
         try {//
-            query = em.createNamedQuery("BodegaVendedor.findByIdVendedor");
-            query.setParameter("idVendedor", idVendedor);
-            bodega = (Bodegas) query.getSingleResult();
+//            query = em.createNamedQuery("BodegaVendedor.findByIdVendedor");
+//            query.setParameter("idVendedor", idVendedor);
+//            bodega = (Bodegas) query.getSingleResult();
         } catch (NoResultException ex) {
             logger.log(Level.INFO, "[loadBodegaAsignada][NoResultException]No se encontraron bodegas");
         } catch (Exception e) {
