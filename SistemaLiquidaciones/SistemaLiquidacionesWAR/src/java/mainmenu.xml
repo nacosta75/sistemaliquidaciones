@@ -106,7 +106,7 @@
         <menuItem id="menu_Item_Liquidaciones"
                   label="Liquidaciones"
                   iconName="/images/coins.png"
-                  zulNavigation="/WEB-INF/xhtml/inventario/listaLiquidaciones.zul"
+                  zulNavigation="/WEB-INF/xhtml/inventario/listaCompras.zul"
                   rightName=""/>  
 
     </menu>

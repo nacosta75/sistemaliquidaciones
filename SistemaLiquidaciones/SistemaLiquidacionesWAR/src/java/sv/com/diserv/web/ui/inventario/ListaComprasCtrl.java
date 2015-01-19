@@ -105,7 +105,7 @@ public class ListaComprasCtrl extends BaseController {
 
     public void reloadTotal() {
         try {
-            totalMovimiento = movimientoBean.countAllMovimientos(tipoMovimientoSelected);
+            totalMovimiento = movimientoBean.countAllMovimientos(Constants.CODIGO_MOVIMIENTO_TIPO_COMPRA);
             if (totalMovimiento != null) {
                 setTotalMovimiento(totalMovimiento);
             } else {
@@ -125,7 +125,7 @@ public class ListaComprasCtrl extends BaseController {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Recargar clientes,Pagina activa:{0}", activePage);
         try {
             if (totalMovimiento > 0) {
-                listaMovimiento = movimientoBean.loadAllMovimientos(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(), tipoMovimientoSelected);
+                listaMovimiento = movimientoBean.loadAllMovimientos(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),Constants.CODIGO_MOVIMIENTO_TIPO_COMPRA );
                 if (listaMovimiento.size() > 0) {
                     logger.log(Level.INFO, "Registros cargados=={0}", listaMovimiento.size());
                     pagingMovimientosCompra.setTotalSize(getTotalMovimiento());
