@@ -13,8 +13,9 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 public interface DetListaPrecioBeanLocal {
 
     public DetListaPrecio findDetPrecioByIdArticulo(Integer idEncListaPrecio, Integer IdArticulo) throws DiservBusinessException;    
+
     
-     // retorna los precios del articulo
-    public List<DetListaPrecio> listDetPrecioByIdArticulo(Integer IdArticulo,Integer inicio,Integer fin) throws DiservBusinessException;
-    
+    // retorna los precios del articulo
+    public List<DetListaPrecio> listDetPrecioByIdArticulo(Integer IdArticulo,Integer inicio,Integer fin) throws DiservBusinessException;    
+
 }
