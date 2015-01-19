@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDetDTO;
+import sv.com.diserv.liquidaciones.dto.OperacionesPreciosDTO;
 import sv.com.diserv.liquidaciones.entity.DetListaPrecio;
 import sv.com.diserv.liquidaciones.entity.MovimientosDet;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
@@ -75,6 +76,35 @@ public class DetListaPrecioBean implements DetListaPrecioBeanLocal {
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
         }
         return preciosList;
+    }
+
+    @Override
+    public OperacionesPreciosDTO guardarPrecio(DetListaPrecio precio) throws DiservBusinessException {
+        
+        OperacionesPreciosDTO response = new OperacionesPreciosDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar precio");
+        try {
+            precio = genericDaoBean.create(precio);
+            response = new OperacionesPreciosDTO(Constants.CODE_OPERACION_SATISFACTORIA, "precio creado satisfactoriamente");
+            response.setDetListaPrecio(precio);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setMensajeRespuesta(e.toString());
+        }
+        return response;
+    }
+
+    @Override
+    public OperacionesPreciosDTO actualizarPrecio(DetListaPrecio precio) throws DiservBusinessException {
+        OperacionesPreciosDTO response = new OperacionesPreciosDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar precio");
+        try {
+            precio = genericDaoBean.update(precio);
+            response = new OperacionesPreciosDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Precio actualizado satisfactoriamente");
+            response.setDetListaPrecio(precio);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setMensajeRespuesta(e.toString());
+        }
+        return response;
     }
 
 
