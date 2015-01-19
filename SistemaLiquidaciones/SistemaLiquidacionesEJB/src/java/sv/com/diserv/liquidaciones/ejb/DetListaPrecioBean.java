@@ -50,7 +50,8 @@ public class DetListaPrecioBean implements DetListaPrecioBeanLocal {
         }
         return listaPrecio;   
     }
-    
+
+
     @Override
     public List<DetListaPrecio> listDetPrecioByIdArticulo(Integer IdArticulo,Integer inicio,Integer fin) throws DiservBusinessException {
          logger.log(Level.INFO, "[listDetPrecioByIdArticulo] desde:" + inicio + " hasta:" + fin);
@@ -75,5 +76,6 @@ public class DetListaPrecioBean implements DetListaPrecioBeanLocal {
         }
         return preciosList;
     }
-    
+
+
 }
