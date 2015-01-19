@@ -5,6 +5,7 @@
  */
 package sv.com.diserv.web.ui.articulos.rendered;
 
+import org.zkoss.zk.ui.sys.ComponentsCtrl;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
@@ -38,6 +39,9 @@ public class PreciosItemRenderer implements ListitemRenderer{
         lb.setParent(item);
         
         item.setAttribute("data", data);
+        
+        ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedPrecio");
+        
     }
     
 }
