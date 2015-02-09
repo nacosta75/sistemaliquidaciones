@@ -42,11 +42,11 @@ public class ExistenciasBean implements ExistenciasBeanLocal {
         List<SaldoExistencia> existenciaList = null;
         Query query;
         try {
-//            query = em.createNamedQuery("SaldoExistencia.findByIdArticulo");
-//            query.setParameter("idarticulo", idArticulo);
-//            query.setFirstResult(inicio);
-//            query.setMaxResults(fin);
-//            existenciaList = query.getResultList();
+            query = em.createNamedQuery("SaldoExistencia.findByIdArticulo");
+            query.setParameter("idarticulo", idArticulo);
+            query.setFirstResult(inicio);
+            query.setMaxResults(fin);
+            existenciaList = query.getResultList();
             if (existenciaList != null) {
                 logger.log(Level.INFO, "[loadAllExistencia] Se encontraron " + existenciaList.size() + " existencia");
             }
