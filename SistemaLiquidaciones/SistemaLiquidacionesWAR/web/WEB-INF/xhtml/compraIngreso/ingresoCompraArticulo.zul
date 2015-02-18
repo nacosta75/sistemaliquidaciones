@@ -119,77 +119,36 @@
                                                 </grid>
                                             </groupbox>
                                             <hbox>                                                
-                                                <button id="btnAgregarItem" label="Agregar Servicio"/>
-                                            </hbox>
-                                            <groupbox  
-                                                mold="3d" 
-                                                closable="false">
-                                                <caption image="/images/icon-edit.png"
-                                                         label="Identificación Documento Cliente" />
-                                                <grid sclass="GridPlain">
-                                                    <columns>
-                                                        <column align="left" width="160px" />
-                                                        <column width="100%" />
-                                                    </columns>
-                                                    <rows>                                                        
-                                                       
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Número Documento" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <intbox id="txtNumeroDocumento"
-                                                                    hflex="1"
-                                                                    maxlength="10"
-                                                                    tooltiptext="Identificador Unico de Documento"
-                                                                    readonly="false" />
-                                                        </row>
-                                                        <row>                                                            
-                                                            <label value="Tipo Documento: " />
-                                                            <combobox id="comboTipoDocumento" 
-                                                                      autodrop="true"
-                                                                      mold="rounded"
-                                                                      hflex="1"/>          
-                                                            />
-                                                        </row> 
-                                                        <row>                                                           
-                                                            <label value="Estado Documento:" />
-                                                            <combobox id="comboEstadoDocumento" 
-                                                                      autodrop="true"
-                                                                      mold="rounded"
-                                                                      hflex="1"
-                                                                      disabled="true" />          
-                                                        </row> 
-                                                    </rows>
-                                                </grid>
-                                            </groupbox>
-                                            <groupbox id="gbDetalleDocumento"
-                                                      height="200px"
+                                                <button id="btnAgregarItem" label="Agregar Item"/>
+                                                <button id="btnImportarArchivo" label="Importar Archivo"/>
+                                                <button id="btnCancelar" label="Cancelar"/>
+                                            </hbox>                                             
+                                            <groupbox height="200px"
                                                       mold="3d" 
                                                       closable="false">
                                                 <caption image="/images/properties.gif"
-                                                         label="Detalle Documento Cliente" />
-                                                <listbox id="listBoxDetalleDocumento"
-                                                         tooltiptext="Lista Detalle Documentos Cliente"
+                                                         label="Detalle Productos Insertados" />
+                                                <listbox id="listBoxDetalleProductos"
+                                                         tooltiptext="Lista Articulos insertados"
                                                          width="100%"
                                                          height="100%" 
                                                          multiple="false">
                                                     <listhead sizable="true">
-                                                        <listheader  id="listheaderIdOrdenTrabajo" 
-                                                                     width="15%" 
-                                                                     label="Id Orden" />
-                                                        <listheader id="listheaderDescripcion" 
-                                                                    width="40%" 
-                                                                    label="Descripción" />
-                                                        <listheader id="listheaderCantidad" 
-                                                                    width="15%" 
-                                                                    label="Cantidad" />
-                                                        <listheader id="listheaderUnitario"
-                                                                    width="15%" 
-                                                                    label="Precio Unitario" />
-                                                        <listheader id="listheaderSumas"
-                                                                    width="15%" 
-                                                                    label="Sumas" />
+                                                        <listheader   
+                                                            width="15%" 
+                                                            label="Id Producto" />
+                                                        <listheader  
+                                                            width="40%" 
+                                                            label="No telefono" />
+                                                        <listheader  
+                                                            width="15%" 
+                                                            label="No Imei" />
+                                                        <listheader  
+                                                            width="15%" 
+                                                            label="No ICC" />
+                                                        <listheader  
+                                                            width="15%" 
+                                                            label="Opciones" />
                                                     </listhead>
                                                 </listbox>
                                             </groupbox>
