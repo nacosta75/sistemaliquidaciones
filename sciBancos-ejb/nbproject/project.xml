@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.j2ee.ejbjarproject</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/j2ee-ejbjarproject/3">
+            <name>sciBancos-ejb</name>
+            <minimum-ant-version>1.6.5</minimum-ant-version>
+            <included-library dirs="200">file.reference.log4j-1.2.15.jar</included-library>
+            <included-library dirs="200">file.reference.spring-aop-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-asm-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-beans-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-context-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-context-support-3.0.1.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-core-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-expression-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-jdbc-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-orm-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-security-acl-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-security-config-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-security-core-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-security-web-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-tx-3.0.2.RELEASE.jar</included-library>
+            <included-library dirs="200">file.reference.spring-web-3.0.2.RELEASE.jar</included-library>
+            <source-roots>
+                <root id="src.dir" name="Source Packages"/>
+            </source-roots>
+            <test-roots>
+                <root id="test.src.dir" name="Test Packages"/>
+            </test-roots>
+        </data>
+    </configuration>
+</project>
