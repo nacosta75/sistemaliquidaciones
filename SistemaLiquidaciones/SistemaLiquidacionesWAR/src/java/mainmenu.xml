@@ -101,12 +101,12 @@
         <menuItem id="menu_Item_Devoluciones"
                   label="Devoluciones"
                   iconName="/images/phone_delete.png"
-                  zulNavigation="/WEB-INF/xhtml/inventario/listaDevoluciones.zul"
+                  zulNavigation="/WEB-INF/xhtml/devoluciones/listaDevoluciones.zul"
                   rightName=""/>    
         <menuItem id="menu_Item_Liquidaciones"
                   label="Liquidaciones"
                   iconName="/images/coins.png"
-                  zulNavigation="/WEB-INF/xhtml/inventario/listaCompras.zul"
+                  zulNavigation="/WEB-INF/xhtml/inventario/listaLiquidaciones.zul"
                   rightName=""/>  
 
     </menu>
