@@ -15,5 +15,8 @@
         <group name="grpLiquid">
             <file>file:/C:/Users/abraham.acosta/Documents/sistemas/javacode/SistemaLiquidaciones/SistemaLiquidacionesWAR/src/java/sv/com/diserv/web/ui/bodegas/ListaBodegaCtrl.java</file>
         </group>
+        <group>
+            <file>file:/home/trompudo/NetBeansProjects/SistemaLiquidaciones/SistemaLiquidacionesWAR/src/java/sv/com/diserv/web/ui/asignaciones/DetalleAsignacionCtrl.java</file>
+        </group>
     </open-files>
 </project-private>

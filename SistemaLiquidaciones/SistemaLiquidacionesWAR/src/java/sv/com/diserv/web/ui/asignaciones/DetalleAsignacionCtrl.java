@@ -144,20 +144,7 @@ public class DetalleAsignacionCtrl extends BaseController {
     private List<LotesExistencia> suma = new ArrayList<LotesExistencia>(); ; 
     private List<ConsolidadoAsignacionesDTO> consolidado = new ArrayList<ConsolidadoAsignacionesDTO>(); 
     private BodegaVendedor bodegaVendedor = new BodegaVendedor();
-    
-    private static List<String> colors = new ArrayList<String>();
-     
-     static{
-        colors.add("blue");
-        colors.add("black");
-        colors.add("white");
-                
-    }
-     
-    public static final List<String> getColors() {
-        return new ArrayList<String>(colors);
-    }
-
+   
     public DetalleAsignacionCtrl() {
         logger.log(Level.INFO, "[DetalleAsignacionCtrl]INIT");
         try {
