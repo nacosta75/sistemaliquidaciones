@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul
+	http://www.zkoss.org/2005/zul/zul.xsd">
+    <window id="listaDevolucionesWindow"
+            border="normal"
+            width="100%"
+            height="100%"
+            use="sv.com.diserv.web.ui.inventario.ListaDevolucionesCtrl">
+        <groupbox height="45px"
+                  mold="3d"
+                  closable="false">
+            <toolbar align="end"
+                     style="float:right; border-style:none;">
+                <button id="btnNuevoDev"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnnew.gif"
+                        tooltiptext="Agregar nueva devolucion"  />
+                <button id="btnBusquedaDev"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnsearch.gif"
+                        tooltiptext="Buscar devolucion por criterios"/>
+                <button id="btnRefresh"
+                        sclass="oT_ButtonWithIcon"
+                        image="/images/btnrefresh.gif"
+                        tooltiptext="Refrescar registros"/>
+
+            </toolbar>
+        </groupbox>
+        <groupbox mold="3d" width="100%" height="450px">
+            <caption label="Lista de devoluciones Registradas" />
+            <paging id="pagingDev" />
+            <listbox id="listBoxDev"
+                     style="border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; border-bottom-width: 1px;"
+                     tooltiptext="Para ver detalle click sobre registro, para asignar registros click en boton a lado derecho"
+                     width="100%"
+                     height="100%"
+                     mold="paging"
+                     pagingPosition="top"
+                     multiple="false">
+                <listhead sizable="true">
+                    <listheader id="listheaderIdDev"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="15%"
+                                label="Id Devolucion" />
+                    <listheader id="listheaderFechaDev"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="25%"
+                                label="Fecha" />
+                    <listheader id="listheaderNoDocDev"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="30%"
+                                label="Numero de Documento" />
+                     <listheader id="listheaderVendedorDev"
+                                sclass="FDListBoxHeader1"
+                                sort="auto"
+                                width="30%"
+                                label="Nombre del vendedor" />
+                </listhead>
+            </listbox>
+        </groupbox>
+        <separator />
+    </window>
+</zk>
