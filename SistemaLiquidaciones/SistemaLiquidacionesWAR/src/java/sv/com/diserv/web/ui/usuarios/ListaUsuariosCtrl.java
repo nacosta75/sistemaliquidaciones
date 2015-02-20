@@ -215,17 +215,17 @@ public class ListaUsuariosCtrl extends BaseController {
         if (item != null) {
             usuarioSelected = (Usuarios) item.getAttribute("data");
             try {
-                for (int i = 0; i < listaRoles.size(); i++) {
+//                for (int i = 0; i < listaRoles.size(); i++) {
 //                    listaRoles.get(i).setGroupSelected(Boolean.FALSE);
-                }
-                userRoleList = usuariosBean.findUserRoleByNumeroCarnet(usuarioSelected.getNombreusuario());
-                if (userRoleList != null && userRoleList.size() > 0) {
-                    for (int i = 0; i < userRoleList.size(); i++) {
-                        if (listaRoles.contains(userRoleList.get(i).getGroupid())) { //new Roles(userRoleList.get(i).getRoleId().getRoleId())
+//                }
+                userRoleList = usuariosBean.findUserRoleByIdusuario(usuarioSelected.getIdusuario());
+//                if (userRoleList != null && userRoleList.size() > 0) {
+//                    for (int i = 0; i < userRoleList.size(); i++) {
+//                        if (listaRoles.contains(userRoleList.get(i).getGroupid())) { //new Roles(userRoleList.get(i).getRoleId().getRoleId())
 //                            listaRoles.get(listaRoles.indexOf(userRoleList.get(i).getGroupid())).setGroupSelected(Boolean.TRUE);
-                        }
-                    }
-                }
+//                        }
+//                    }
+//                }
                 listBoxRol.setModel(new ListModelList(listaRoles));
                 listBoxRol.setItemRenderer(new RolItemRendered());
                 ManejadorMensajes.mostraMensajeOperacion("Mostra Información user selected");
