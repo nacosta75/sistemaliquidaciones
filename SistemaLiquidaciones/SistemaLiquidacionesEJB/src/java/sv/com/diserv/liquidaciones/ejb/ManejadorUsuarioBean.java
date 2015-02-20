@@ -237,24 +237,23 @@ public class ManejadorUsuarioBean implements ManejadorUsuarioBeanLocal {
      *
      * @return List<UserRole>
      */
-    @Override
-    public List<Groupmembers> findUserRoleByNumeroCarnet(String nombreUsuario) throws DiservBusinessException {
-        logger.log(Level.INFO, "[findUserRoleByNumeroCarnet] numero de usuario:" + nombreUsuario);
+    public List<Groupmembers> findUserRoleByIdusuario(Integer idUsuario) throws DiservBusinessException {
+        logger.log(Level.INFO, "[Groupmembers.findByUserId] numero de usuario:" + idUsuario);
         List<Groupmembers> userRolList = null;
         Query query;
         try {
-            query = em.createNamedQuery("GroupMembers.findByUserId");
-            query.setParameter("idUsuario", nombreUsuario);
+            query = em.createNamedQuery("Groupmembers.findByUserId");
+            query.setParameter("idusuario", idUsuario);
             userRolList = query.getResultList();
             if (userRolList != null) {
-                logger.log(Level.INFO, "[findUserRoleByNumeroCarnet] Se encontraron " + userRolList.size() + " roles asignados al usuarios:" + nombreUsuario);
+                logger.log(Level.INFO, "[Groupmembers.findByUserId] Se encontraron " + userRolList.size() + " roles asignados al usuarios:" + idUsuario);
             }
         } catch (NoResultException ex) {
-            logger.log(Level.INFO, "[findUserRoleByNumeroCarnet][NoResultException]No se encontraron roles para este usuario");
+            logger.log(Level.INFO, "[Groupmembers.findByUserId][NoResultException]No se encontraron roles para este usuario");
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron roles para este usuario");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.log(Level.INFO, "[findUserRoleByNumeroCarnet][Exception]Se mostro una excepcion al buscar roles de usuario");
+            logger.log(Level.INFO, "[Groupmembers.findByUserId][Exception]Se mostro una excepcion al buscar roles de usuario");
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
         }
         return userRolList;

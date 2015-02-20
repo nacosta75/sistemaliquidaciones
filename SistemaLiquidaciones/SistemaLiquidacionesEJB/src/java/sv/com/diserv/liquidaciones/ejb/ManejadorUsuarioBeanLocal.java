@@ -84,7 +84,7 @@ public interface ManejadorUsuarioBeanLocal {
      * @return
      * @throws sv.com.diserv.liquidaciones.exception.DiservBusinessException
      */
-    public List<Groupmembers> findUserRoleByNumeroCarnet(String nombreUsuario) throws DiservBusinessException;
+    public List<Groupmembers> findUserRoleByIdusuario(Integer idUsuario) throws DiservBusinessException;
 
     /**
      * Metodo para extraer una combinacion RolUsuario partiendo del id de
