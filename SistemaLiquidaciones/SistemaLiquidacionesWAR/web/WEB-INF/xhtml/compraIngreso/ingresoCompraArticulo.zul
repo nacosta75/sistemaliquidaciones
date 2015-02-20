@@ -81,12 +81,14 @@
                                                                 <label value="Id Producto: " />
                                                                 <label value="*" style="color:red;font-size:10px" />
                                                             </hbox>
-                            
+                            <hbox>
                                                             <combobox id="comboProductos" 
                                                                       autodrop="true"
                                                                       mold="rounded"
                                                                       autocomplete="true"
                                                                       hflex="1"/>
+                                                            <textbox id="txtDescripcion"/>
+                            </hbox>
                                                         </row>
                                                         <row>
                                                             <hbox>

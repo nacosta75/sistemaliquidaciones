@@ -5,4 +5,5 @@
     <system systemId="http://www.springframework.org/schema/tool/spring-tool-3.0.xsd" uri="www.springframework.org/schema/tool/spring-tool-3.0.xsd"/>
     <system systemId="http://www.springframework.org/schema/security/spring-security-3.0.xsd" uri="www.springframework.org/schema/security/spring-security-3.0.xsd"/>
     <system systemId="http://www.w3.org/1999/xhtml" uri="www.w3.org/1999/xhtml/index.xml"/>
+    <system systemId="http://www.zkoss.org/2005/zul/zul.xsd" uri="www.zkoss.org/2005/zul/zul.xsd"/>
 </catalog>
