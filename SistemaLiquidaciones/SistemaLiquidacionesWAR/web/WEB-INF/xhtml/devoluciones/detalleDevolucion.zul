@@ -5,7 +5,7 @@
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-    <window id="nuevaDevolucionWindow"
+    <window id="detalleDevolucionWindow"
             title="Mantenimiento de devolucion"
             border="normal"
             use="sv.com.diserv.web.ui.inventario.DetalleDevolucionCtrl"
@@ -178,7 +178,7 @@
                                                                 maxlength="10"
                                                                 tooltiptext="ICC / IMEI / Numero"
                                                                  />
-                                                             <button id="btnNuevoArticulo"
+                                                             <button id="btnNuevo"
                                                            sclass="oT_ButtonWithIcon"
                                                            image="/images/btnnew.gif"
                                                            tooltiptext="Agregar articulos"  />
