@@ -20,6 +20,7 @@ import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
 import sv.com.diserv.liquidaciones.ejb.MovimientosDetBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
@@ -55,6 +56,7 @@ public class DetalleDevolucionCtrl extends BaseController{
     protected Button btnCerrar;
     private ServiceLocator serviceLocator;
     private MovimientosDetBeanLocal movimientoDetBean;
+    private PersonasBeanLocal personaBean;
     private Movimientos devolucionSelected;
     private transient Integer token;
     private ListaDevolucionesCtrl listaDevolucionesCtrl;
