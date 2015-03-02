@@ -84,7 +84,7 @@ public class IngresoCompraArticuloCtrl extends BaseController {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
-            articulosBean = serviceLocator.getService(Constants.JNDI_CLIENTE_BEAN);
+//            articulosBean = serviceLocator.getService(Constants.JNDI_CLIENTE_BEAN);
 //            facturacionBean = serviceLocator.getService(Constants.JNDI_FACTURACION_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());

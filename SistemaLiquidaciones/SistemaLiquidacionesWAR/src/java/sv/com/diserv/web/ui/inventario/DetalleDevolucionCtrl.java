@@ -19,6 +19,7 @@ import org.zkoss.zul.Panel;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
+import sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.MovimientosDetBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
@@ -60,6 +61,7 @@ public class DetalleDevolucionCtrl extends BaseController{
     private Movimientos devolucionSelected;
     private transient Integer token;
     private ListaDevolucionesCtrl listaDevolucionesCtrl;
+    private CatalogosBeanLocal catalogosBeanLocal;
     
     public DetalleDevolucionCtrl()
     {
@@ -78,7 +80,7 @@ public class DetalleDevolucionCtrl extends BaseController{
      public void onCreate$detalleDevolucionWindow(Event event) throws Exception {
         doOnCreateCommon(this.detalleDevolucionWindow, event);
         MensajeMultilinea.doSetTemplate();
-        if (this.args.containsKey("asignacionSelected")) {
+        if (this.args.containsKey("devolucionSelected")) {
             devolucionSelected = ((Movimientos) this.args.get("devolucionSelected"));
             setDevolucionSelected(devolucionSelected);
         }
@@ -88,7 +90,7 @@ public class DetalleDevolucionCtrl extends BaseController{
         } else {
             setToken(Integer.valueOf(0));
         }
-        if (this.args.containsKey("listaAsignacionCtrl")) {
+        if (this.args.containsKey("listaDevolucionCtrl")) {
             listaDevolucionesCtrl = ((ListaDevolucionesCtrl) this.args.get("listaDevolucionesCtrl"));
         }
         showDetalleDevoluciones();
