@@ -49,12 +49,12 @@ public class DetalleDevolucionCtrl extends BaseController{
     protected Datebox txtfechaDevolucion1;
     protected Combobox cmbVendedor;
     protected Textbox nombreVendedor;
-    protected Button btnActualizar;
+//    protected Button btnActualizar;
     protected Button btnNuevo;
-    protected Button btnEditar;
-    protected Button btnGuardar;
-    protected Button btnEliminar;
-    protected Button btnCerrar;
+//    protected Button btnEditar;
+//    protected Button btnGuardar;
+//    protected Button btnEliminar;
+//    protected Button btnCerrar;
     private ServiceLocator serviceLocator;
     private MovimientosDetBeanLocal movimientoDetBean;
     private PersonasBeanLocal personaBean;
@@ -69,7 +69,8 @@ public class DetalleDevolucionCtrl extends BaseController{
         try {
             serviceLocator = ServiceLocator.getInstance();
             movimientoDetBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOSDET_BEAN);
-            
+            personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN); 
+            catalogosBeanLocal = serviceLocator.getService(Constants.JNDI_CATALOGO_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
@@ -126,12 +127,13 @@ public class DetalleDevolucionCtrl extends BaseController{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        btnGuardar.setVisible(false);
+       // btnGuardar.setVisible(false);
        // detalleDevolucionWindow.setHeight("370px");
     }
 
     private void loadComboboxVendedor() {
-          List<Personas> listaVendedores;
+        
+         List<Personas> listaVendedores =null;
          List<CatalogoDTO> listaCatalogoVendedores = new ArrayList<CatalogoDTO>();
 
       try {
@@ -168,7 +170,12 @@ public class DetalleDevolucionCtrl extends BaseController{
     }
 
     private void doNew() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        this.btnGuardar.setVisible(true);
+//        this.btnCerrar.setVisible(true);
+//        this.btnActualizar.setVisible(false);
+//        this.btnEliminar.setVisible(false);
+//        this.btnEditar.setVisible(false);
+        this.btnNuevo.setVisible(false);
     }
     
      
