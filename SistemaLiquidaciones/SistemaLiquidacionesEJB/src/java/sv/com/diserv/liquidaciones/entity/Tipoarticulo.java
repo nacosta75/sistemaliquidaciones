@@ -46,10 +46,12 @@ public class Tipoarticulo implements Serializable {
     private String descripcion;
     @Size(max = 1)
     @Column(name = "KIT")
-    private String kit;
+    Integer kit;
     @Size(max = 1)
     @Column(name = "KARDEX")
-    private String kardex;
+    Integer kardex;
+    @Column(name = "LOTE")
+    Integer lote;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idtipoarticulo")
     private List<Articulos> articulosList;
 
@@ -76,21 +78,30 @@ public class Tipoarticulo implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getKit() {
+    public Integer getKit() {
         return kit;
     }
 
-    public void setKit(String kit) {
+    public void setKit(Integer kit) {
         this.kit = kit;
     }
 
-    public String getKardex() {
+    public Integer getKardex() {
         return kardex;
     }
 
-    public void setKardex(String kardex) {
+    public void setKardex(Integer kardex) {
         this.kardex = kardex;
     }
+
+    public Integer getLote() {
+        return lote;
+    }
+
+    public void setLote(Integer lote) {
+        this.lote = lote;
+    }
+
 
     @XmlTransient
     public List<Articulos> getArticulosList() {
