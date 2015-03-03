@@ -20,7 +20,7 @@ public class CatalogoItemRenderer implements ComboitemRenderer {
      catalogo = (CatalogoDTO) data;
      
      item.setLabel(catalogo.getDescripcionCatalogo());
-     item.setValue(catalogo.getIdCatalogo());
+     item.setValue(catalogo);
      item.setAttribute("data", data);
           
     }

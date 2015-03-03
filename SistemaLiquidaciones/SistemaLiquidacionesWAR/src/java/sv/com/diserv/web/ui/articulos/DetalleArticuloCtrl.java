@@ -92,7 +92,7 @@ public class DetalleArticuloCtrl extends BaseController {
     protected Combobox cmbMarcaArticulo;
     protected Combobox cmbMedidaArticulo;
     private List<Articulos> listaArticulosLike;
-     private List<DetListaPrecio> listaPrecios;
+    private List<DetListaPrecio> listaPrecios;
     private CatalogosBeanLocal catalogosBeanLocal;
     private TipoArticuloBeanLocal tipoArticuloBean;
     private LineaArticuloBeanLocal lineasBean;
