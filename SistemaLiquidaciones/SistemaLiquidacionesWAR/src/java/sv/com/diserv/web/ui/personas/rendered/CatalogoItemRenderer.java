@@ -13,13 +13,15 @@ public class CatalogoItemRenderer implements ComboitemRenderer {
 
     CatalogoDTO catalogo;
 
+
     @Override
     public void render(Comboitem item, Object data) throws Exception {
-     catalogo = (CatalogoDTO)data;
+     
+     catalogo = (CatalogoDTO) data;
+     
      item.setLabel(catalogo.getDescripcionCatalogo());
      item.setValue(catalogo.getIdCatalogo());
-     
-     
-
+     item.setAttribute("data", data);
+          
     }
 }
