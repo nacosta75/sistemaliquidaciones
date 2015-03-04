@@ -1,27 +1,31 @@
 package sv.com.diserv.web.ui.personas.rendered;
 
-import sv.com.diserv.web.ui.personas.rendered.*;
-import org.zkoss.zk.ui.sys.ComponentsCtrl;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.ComboitemRenderer;
-
-import org.zkoss.zul.Listcell;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
-import sv.com.diserv.liquidaciones.entity.Personas;
+import sv.com.diserv.liquidaciones.entity.Articulos;
 
 public class CatalogoItemRenderer implements ComboitemRenderer {
 
-    CatalogoDTO catalogo;
-
+    private Articulos art;
+    private CatalogoDTO catalogo;
 
     @Override
-    public void render(Comboitem item, Object data) throws Exception {
-     
-     catalogo = (CatalogoDTO) data;
-     
-     item.setLabel(catalogo.getDescripcionCatalogo());
-     item.setValue(catalogo);
-     item.setAttribute("data", data);
-          
+    public void render(Comboitem item, Object data) {
+        try {
+            if (data instanceof CatalogoDTO) {
+                catalogo = (CatalogoDTO) data;
+                item.setLabel(catalogo.getDescripcionCatalogo());
+                item.setValue(catalogo);
+            } else if (data instanceof Articulos) {
+                art = (Articulos) data;
+                item.setLabel(art.getDescarticulo());
+                item.setValue(art);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        item.setAttribute("data", data);
+
     }
 }
