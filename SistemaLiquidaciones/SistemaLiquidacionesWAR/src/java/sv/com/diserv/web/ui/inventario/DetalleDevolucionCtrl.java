@@ -101,14 +101,14 @@ public class DetalleDevolucionCtrl extends BaseController {
         articuloSelected = null;
         if (item != null) {
             articuloSelected = (Articulos) item.getAttribute("data");
-//          if (articuloSelected.getIdtipoarticulo().getLote()==1)
-//          {
-//            this.rowICC.setVisible(true);
-//          }
-//          else
-//          {
-//           this.rowICC.setVisible(false);
-//          }
+          if (articuloSelected.getIdtipoarticulo().getLote()==1)
+          {
+            this.rowICC.setVisible(true);
+          }
+          else
+          {
+           this.rowICC.setVisible(false);
+          }
         }
     }
 
@@ -173,11 +173,6 @@ public class DetalleDevolucionCtrl extends BaseController {
         List<Personas> listaVendedores = null;
         List<CatalogoDTO> listaCatalogoVendedores = new ArrayList<CatalogoDTO>();
 
-        //articulos
-        List<CatalogoDTO> listaCatalogoArticulos = new ArrayList<CatalogoDTO>();
-
-
-
         try {
 
             listaVendedores = personaBean.loadAllPersonaByTipoAndSucursal(2, 1);
@@ -198,25 +193,6 @@ public class DetalleDevolucionCtrl extends BaseController {
                 cmbVendedor.setButtonVisible(false);
                 cmbVendedor.setDisabled(true);
             }
-//                
-//                listaArticulos = articulosBean.loadAllArticulos(0 * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista());
-//                objectList = new ArrayList<Object>(listaArticulos);
-//                listaCatalogoArticulos = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idarticulo", "descarticulo");
-//                               
-//                if(listaCatalogoArticulos != null && listaCatalogoArticulos.size()>0){
-//                    ListModelList modeloArticulo = new ListModelList(listaCatalogoArticulos);
-//                    cmbArticulo.setModel(modeloArticulo);
-//                    cmbArticulo.setItemRenderer(new CatalogoItemRenderer());
-//                    cmbArticulo.setText("Seleccione un Producto!!");
-//                    cmbArticulo.setReadonly(false);
-//                    cmbArticulo.setButtonVisible(true);
-//                }
-//                else{
-//                     cmbArticulo.setText("No existen productos registrados!!");
-//                     cmbArticulo.setReadonly(true);
-//                     cmbArticulo.setButtonVisible(false);
-//                     cmbArticulo.setDisabled(true);
-//                    }
 
 
         } catch (DiservBusinessException ex) {
@@ -226,7 +202,7 @@ public class DetalleDevolucionCtrl extends BaseController {
 
     public void loadDataInicial() {
         try {
-            listaArticulos = articulosBean.loadAllArticulos(0 * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista());
+            listaArticulos = articulosBean.loadAllArticulos();
             if (listaArticulos.size() > 0) {
                 logger.log(Level.INFO, "Registros cargados=={0}", listaArticulos.size());
                 cmbArticulo.setModel(new ListModelList(listaArticulos));
