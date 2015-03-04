@@ -20,6 +20,7 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 public interface ArticulosBeanLocal {
     
     public List<Articulos> loadAllArticulos(int inicio, int fin) throws DiservBusinessException;
+    public List<Articulos> loadAllArticulos() throws DiservBusinessException;
     public Integer countAllArticulos() throws DiservBusinessException;
     public OperacionesArticuloDTO guardarArticulo(Articulos articulo) throws DiservBusinessException;
     public List<Articulos> loadAllArticuloByLike(String nombreLike) throws DiservBusinessException;
