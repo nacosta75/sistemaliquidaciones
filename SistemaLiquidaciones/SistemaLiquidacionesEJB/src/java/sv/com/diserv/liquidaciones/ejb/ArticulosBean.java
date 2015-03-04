@@ -75,6 +75,27 @@ public class ArticulosBean implements ArticulosBeanLocal {
         return articulosList;
     }
 
+    public List<Articulos> loadAllArticulos() throws DiservBusinessException {
+        logger.log(Level.INFO, "[loadAllArticulos]");
+        List<Articulos> articulosList = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("Articulos.findAll");
+            articulosList = query.getResultList();
+            if (articulosList != null) {
+                logger.log(Level.INFO, "[loadAllArticulos] Se encontraron " + articulosList.size() + " articulos");
+            }
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[loadAllArticulos][NoResultException]No se encontraron Articulos");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron articulos");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[loadAllArticulos][Exception]Se mostro una excepcion al buscar articulos");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return articulosList;
+    }
+    
     @Override
     public Integer countAllArticulos() throws DiservBusinessException {
         logger.log(Level.INFO, "[countAllArticulos]INIT");
