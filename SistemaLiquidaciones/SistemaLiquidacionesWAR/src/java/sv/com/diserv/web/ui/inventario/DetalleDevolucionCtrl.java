@@ -13,7 +13,6 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
-import org.zkoss.zul.ComboitemRenderer;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
@@ -33,10 +32,8 @@ import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
-import sv.com.diserv.web.ui.articulos.rendered.ArticuloComboitemRenderer;
-import sv.com.diserv.web.ui.personas.DetalleClienteCtrl;
+//import sv.com.diserv.web.ui.articulos.rendered.ArticuloComboitemRenderer;
 import sv.com.diserv.web.ui.personas.rendered.CatalogoItemRenderer;
-import sv.com.diserv.web.ui.articulos.rendered.ArticuloItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
@@ -44,9 +41,9 @@ import sv.com.diserv.web.ui.util.MensajeMultilinea;
  *
  * @author abraham.acosta
  */
-public class DetalleDevolucionCtrl extends BaseController{
-    
-     static final Logger logger = Logger.getLogger(DetalleDevolucionCtrl.class.getCanonicalName());
+public class DetalleDevolucionCtrl extends BaseController {
+
+    static final Logger logger = Logger.getLogger(DetalleDevolucionCtrl.class.getCanonicalName());
     private static final long serialVersionUID = -546886879998950489L;
     protected Window detalleDevolucionWindow;
     protected Panel panelInformacionDevolucion;
@@ -82,44 +79,40 @@ public class DetalleDevolucionCtrl extends BaseController{
     public void setListaArticulos(List<Articulos> listaArticulos) {
         this.listaArticulos = listaArticulos;
     }
-    
-    
-    
-    public DetalleDevolucionCtrl()
-    {
+
+    public DetalleDevolucionCtrl() {
         logger.log(Level.INFO, "[DetalleDevolucionCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
             movimientoDetBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOSDET_BEAN);
-            personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN); 
+            personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
             catalogosBeanLocal = serviceLocator.getService(Constants.JNDI_CATALOGO_BEAN);
             articulosBean = serviceLocator.getService(Constants.JNDI_ARTICULOS_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
         }
-            
+
     }
-    
+
     public void onSelect$cmbArticulo(Event event) throws Exception {
         logger.log(Level.INFO, "[onSelect$cmbArticulo]");
-       Comboitem item = this.cmbArticulo.getSelectedItem();
-       articuloSelected = null;
-       if (item != null)
-       {  
-          articuloSelected = (Articulos) item.getAttribute("data");
-          if (articuloSelected.getIdtipoarticulo().getLote()==1)
-          {
-            this.rowICC.setVisible(true);
-          }
-          else
-          {
-           this.rowICC.setVisible(false);
-          }
-       }
+        Comboitem item = this.cmbArticulo.getSelectedItem();
+        articuloSelected = null;
+        if (item != null) {
+            articuloSelected = (Articulos) item.getAttribute("data");
+//          if (articuloSelected.getIdtipoarticulo().getLote()==1)
+//          {
+//            this.rowICC.setVisible(true);
+//          }
+//          else
+//          {
+//           this.rowICC.setVisible(false);
+//          }
+        }
     }
-    
-     public void onCreate$detalleDevolucionWindow(Event event) throws Exception {
+
+    public void onCreate$detalleDevolucionWindow(Event event) throws Exception {
         doOnCreateCommon(this.detalleDevolucionWindow, event);
         MensajeMultilinea.doSetTemplate();
         if (this.args.containsKey("devolucionSelected")) {
@@ -161,7 +154,7 @@ public class DetalleDevolucionCtrl extends BaseController{
             if (devolucionSelected != null) {
                 doEditButton();
                 loadDataFromEntity();
-                
+
             } else {
                 doNew();
             }
@@ -170,42 +163,41 @@ public class DetalleDevolucionCtrl extends BaseController{
             e.printStackTrace();
             Logger.getLogger(DetalleDevolucionCtrl.class.getName()).log(Level.SEVERE, null, e);
         }
-       // btnGuardar.setVisible(false);
-       // detalleDevolucionWindow.setHeight("370px");
+        // btnGuardar.setVisible(false);
+        // detalleDevolucionWindow.setHeight("370px");
     }
 
     private void loadComboboxVendedor() {
-        
+
         //vendedores
-         List<Personas> listaVendedores =null;
-         List<CatalogoDTO> listaCatalogoVendedores = new ArrayList<CatalogoDTO>();
-         
-          //articulos
-         List<CatalogoDTO> listaCatalogoArticulos = new ArrayList<CatalogoDTO>();
-         
+        List<Personas> listaVendedores = null;
+        List<CatalogoDTO> listaCatalogoVendedores = new ArrayList<CatalogoDTO>();
+
+        //articulos
+        List<CatalogoDTO> listaCatalogoArticulos = new ArrayList<CatalogoDTO>();
 
 
-      try {
-                
-                listaVendedores = personaBean.loadAllPersonaByTipoAndSucursal(2,1);
-                List<Object> objectList = new ArrayList<Object>(listaVendedores);
-                listaCatalogoVendedores = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idpersona", "nombre");
-                
-               
-                if(listaCatalogoVendedores != null && listaCatalogoVendedores.size()>0){
-                    ListModelList modelovendedor = new ListModelList(listaCatalogoVendedores);
-                    cmbVendedor.setModel(modelovendedor);
-                    cmbVendedor.setItemRenderer(new CatalogoItemRenderer());
-                    cmbVendedor.setText("Seleccione un vendedor!!");
-                    cmbVendedor.setReadonly(false);
-                    cmbVendedor.setButtonVisible(true);
-                }
-                else{
-                     cmbVendedor.setText("No existen vendedores registrados!!");
-                     cmbVendedor.setReadonly(true);
-                     cmbVendedor.setButtonVisible(false);
-                     cmbVendedor.setDisabled(true);
-                    }
+
+        try {
+
+            listaVendedores = personaBean.loadAllPersonaByTipoAndSucursal(2, 1);
+            List<Object> objectList = new ArrayList<Object>(listaVendedores);
+            listaCatalogoVendedores = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idpersona", "nombre");
+
+
+            if (listaCatalogoVendedores != null && listaCatalogoVendedores.size() > 0) {
+                ListModelList modelovendedor = new ListModelList(listaCatalogoVendedores);
+                cmbVendedor.setModel(modelovendedor);
+                cmbVendedor.setItemRenderer(new CatalogoItemRenderer());
+                cmbVendedor.setText("Seleccione un vendedor!!");
+                cmbVendedor.setReadonly(false);
+                cmbVendedor.setButtonVisible(true);
+            } else {
+                cmbVendedor.setText("No existen vendedores registrados!!");
+                cmbVendedor.setReadonly(true);
+                cmbVendedor.setButtonVisible(false);
+                cmbVendedor.setDisabled(true);
+            }
 //                
 //                listaArticulos = articulosBean.loadAllArticulos(0 * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista());
 //                objectList = new ArrayList<Object>(listaArticulos);
@@ -225,21 +217,20 @@ public class DetalleDevolucionCtrl extends BaseController{
 //                     cmbArticulo.setButtonVisible(false);
 //                     cmbArticulo.setDisabled(true);
 //                    }
-                
-                
-           } catch (DiservBusinessException ex) {
-                Logger.getLogger(DetalleDevolucionCtrl.class.getName()).log(Level.SEVERE, null, ex);
-           }
+
+
+        } catch (DiservBusinessException ex) {
+            Logger.getLogger(DetalleDevolucionCtrl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    
+
     public void loadDataInicial() {
         try {
             listaArticulos = articulosBean.loadAllArticulos(0 * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista());
-            if (listaArticulos .size() > 0) {
-                logger.log(Level.INFO, "Registros cargados=={0}", listaArticulos .size());
+            if (listaArticulos.size() > 0) {
+                logger.log(Level.INFO, "Registros cargados=={0}", listaArticulos.size());
                 cmbArticulo.setModel(new ListModelList(listaArticulos));
-                cmbArticulo.setItemRenderer(new ArticuloComboitemRenderer());
+                cmbArticulo.setItemRenderer(new CatalogoItemRenderer());
             } else {
                 logger.info("No se cargaron registros");
                 cmbArticulo.setText("No se cargaron registros para mostrar");
@@ -266,6 +257,4 @@ public class DetalleDevolucionCtrl extends BaseController{
         this.btnBuscar.setVisible(true);
         this.rowICC.setVisible(false);
     }
-    
-     
 }
