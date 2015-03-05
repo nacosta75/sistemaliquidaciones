@@ -49,6 +49,7 @@ public class DetalleDevolucionCtrl extends BaseController {
     protected Panel panelInformacionDevolucion;
     protected Intbox txtNumDoc;
     protected Intbox txtNumDoc1;
+    protected Intbox txtArticulo;
     protected Datebox txtfechaDevolucion;
     protected Datebox txtfechaDevolucion1;
     protected Combobox cmbVendedor;
