@@ -56,7 +56,8 @@ public class DetalleDevolucionCtrl extends BaseController {
     protected Combobox cmbArticulo;
     protected Textbox nombreVendedor;
     protected Button btnAdd;
-    protected Button btnBuscar;
+    protected Button btnBuscArt;
+    protected Button btnBuscICC;
     protected Row rowICC;
 //    protected Button btnEditar;
 //    protected Button btnGuardar;
@@ -231,7 +232,8 @@ public class DetalleDevolucionCtrl extends BaseController {
 //        this.btnActualizar.setVisible(false);
 //        this.btnEliminar.setVisible(false);
         this.btnAdd.setVisible(true);
-        this.btnBuscar.setVisible(true);
+        this.btnBuscArt.setVisible(true);
+        this.btnBuscICC.setVisible(true);
         this.rowICC.setVisible(false);
     }
 }
