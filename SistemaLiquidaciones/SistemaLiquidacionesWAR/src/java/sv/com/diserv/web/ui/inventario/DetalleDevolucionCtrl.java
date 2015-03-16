@@ -21,6 +21,7 @@ import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
+import sv.com.diserv.liquidaciones.dto.ConsolidadoAsignacionesDTO;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.MovimientosDetBeanLocal;
@@ -55,7 +56,7 @@ public class DetalleDevolucionCtrl extends BaseController {
     protected Combobox cmbVendedor;
     protected Combobox cmbArticulo;
     protected Textbox nombreVendedor;
-    protected Button btnAdd;
+    //protected Button btnAdd;
     protected Button btnBuscArt;
     protected Button btnBuscICC;
     protected Row rowICC;
@@ -73,6 +74,7 @@ public class DetalleDevolucionCtrl extends BaseController {
     private ArticulosBeanLocal articulosBean;
     private Articulos articuloSelected;
     private List<Articulos> listaArticulos;
+    private List<ConsolidadoAsignacionesDTO> consolidadoPaginaAnterior = new ArrayList<ConsolidadoAsignacionesDTO>();
 
     public List<Articulos> getListaArticulos() {
         return listaArticulos;
@@ -100,16 +102,21 @@ public class DetalleDevolucionCtrl extends BaseController {
     public void onSelect$cmbArticulo(Event event) throws Exception {
         logger.log(Level.INFO, "[onSelect$cmbArticulo]");
         Comboitem item = this.cmbArticulo.getSelectedItem();
+        //cmbArticulo.addEventListener("onEnter", this.cmbArticulo);
         articuloSelected = null;
         if (item != null) {
             articuloSelected = (Articulos) item.getAttribute("data");
           if (articuloSelected.getIdtipoarticulo().getLote()==1)
           {
             this.rowICC.setVisible(true);
+            this.btnBuscArt.setVisible(false);
+            this.btnBuscICC.setVisible(true);
           }
           else
           {
-           this.rowICC.setVisible(false);
+            this.rowICC.setVisible(false);
+            this.btnBuscArt.setVisible(true);
+            this.btnBuscICC.setVisible(false);
           }
         }
     }
@@ -231,9 +238,9 @@ public class DetalleDevolucionCtrl extends BaseController {
 //        this.btnCerrar.setVisible(true);
 //        this.btnActualizar.setVisible(false);
 //        this.btnEliminar.setVisible(false);
-        this.btnAdd.setVisible(true);
-        this.btnBuscArt.setVisible(true);
-        this.btnBuscICC.setVisible(true);
+     //   this.btnAdd.setVisible(true);
+        this.btnBuscArt.setVisible(false);
+        this.btnBuscICC.setVisible(false);
         this.rowICC.setVisible(false);
     }
 }
