@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
@@ -24,9 +25,11 @@ import sv.com.diserv.liquidaciones.dto.CatalogoDTO;
 import sv.com.diserv.liquidaciones.dto.ConsolidadoAsignacionesDTO;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.LotesExistenciasBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.MovimientosDetBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Articulos;
+import sv.com.diserv.liquidaciones.entity.LotesExistencia;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
@@ -72,6 +75,7 @@ public class DetalleDevolucionCtrl extends BaseController {
     private ListaDevolucionesCtrl listaDevolucionesCtrl;
     private CatalogosBeanLocal catalogosBeanLocal;
     private ArticulosBeanLocal articulosBean;
+    private LotesExistenciasBeanLocal lotesExistenciasBean;
     private Articulos articuloSelected;
     private List<Articulos> listaArticulos;
     private List<ConsolidadoAsignacionesDTO> consolidadoPaginaAnterior = new ArrayList<ConsolidadoAsignacionesDTO>();
@@ -92,6 +96,7 @@ public class DetalleDevolucionCtrl extends BaseController {
             personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
             catalogosBeanLocal = serviceLocator.getService(Constants.JNDI_CATALOGO_BEAN);
             articulosBean = serviceLocator.getService(Constants.JNDI_ARTICULOS_BEAN);
+            lotesExistenciasBean = serviceLocator.getService(Constants.JNDI_LOTESEXISTENCIAS_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
@@ -108,19 +113,45 @@ public class DetalleDevolucionCtrl extends BaseController {
             articuloSelected = (Articulos) item.getAttribute("data");
           if (articuloSelected.getIdtipoarticulo().getLote()==1)
           {
-            this.rowICC.setVisible(true);
-            this.btnBuscArt.setVisible(false);
-            this.btnBuscICC.setVisible(true);
+            activarBusqueda(true);
           }
           else
           {
-            this.rowICC.setVisible(false);
-            this.btnBuscArt.setVisible(true);
-            this.btnBuscICC.setVisible(false);
+            activarBusqueda(false);
           }
         }
     }
 
+    public void activarBusqueda(Boolean estado)
+    {
+            this.rowICC.setVisible(estado);
+            this.btnBuscArt.setVisible(!estado);
+            this.btnBuscICC.setVisible(estado);
+    }
+    
+    public void onClick$btnBuscICC(Event event) throws Exception {
+        
+        logger.log(Level.INFO, "[onClick$btnBuscICC]");
+        Comboitem item = this.cmbArticulo.getSelectedItem();
+    
+        articuloSelected = null;
+        if (item != null) {
+            articuloSelected = (Articulos) item.getAttribute("data");
+            //buscar icc
+            //LotesExistencia lotesExistencia = lotesExistenciasBean.buscarLoteByCriteria(null);
+          if (articuloSelected.getIdtipoarticulo().getLote()==1)
+          {
+            activarBusqueda(true);
+          }
+          else
+          {
+            activarBusqueda(false);
+          }
+        }
+    }
+    
+    
+    
     public void onCreate$detalleDevolucionWindow(Event event) throws Exception {
         doOnCreateCommon(this.detalleDevolucionWindow, event);
         MensajeMultilinea.doSetTemplate();
