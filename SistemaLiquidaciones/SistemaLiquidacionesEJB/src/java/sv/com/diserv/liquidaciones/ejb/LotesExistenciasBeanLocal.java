@@ -22,5 +22,5 @@ public interface LotesExistenciasBeanLocal {
    
     public int actualizarLotes(List<LotesExistencia> lotes) throws DiservBusinessException;
     public List<LotesExistencia> buscarLoteByCriteria(BusquedaLoteExistenciaDTO re) throws DiservBusinessException;
-public List<ConsolidadoAsignacionesDTO> buscarLoteByCriterias(BusquedaLoteExistenciaDTO re) throws DiservBusinessException;
+    public List<ConsolidadoAsignacionesDTO> buscarLoteByCriterias(BusquedaLoteExistenciaDTO re) throws DiservBusinessException;
 }

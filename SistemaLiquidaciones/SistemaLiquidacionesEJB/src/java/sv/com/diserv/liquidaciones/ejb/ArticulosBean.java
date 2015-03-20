@@ -249,7 +249,7 @@ public class ArticulosBean implements ArticulosBeanLocal {
             articulo = (Articulos) query.getSingleResult();
         } catch (NoResultException ex) {
             logger.log(Level.INFO, "[loadArticuloByID][NoResultException]No se encontraron articulos");
-//            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron articulo");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron articulos");
         } catch (Exception e) {
             e.printStackTrace();
             logger.log(Level.INFO, "[loadArticuloByID][Exception]Se mostro una excepcion al buscar articulo");

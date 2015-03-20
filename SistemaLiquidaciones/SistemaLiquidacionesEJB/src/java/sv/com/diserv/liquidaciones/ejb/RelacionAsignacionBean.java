@@ -123,4 +123,26 @@ public class RelacionAsignacionBean implements RelacionAsignacionBeanLocal {
         }
         return response;
     }
+
+    @Override
+    public RelacionAsignaciones loadRelacionByIccVendedor(Integer vendedor, Integer icc) throws DiservBusinessException {
+          logger.log(Level.INFO, "[loadRelacionByIccVendedor] ");
+        RelacionAsignaciones relacionAsignaciones = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("RelacionAsignaciones.findByIccIdvendedor");
+            query.setParameter("icc", icc);
+            query.setParameter("idpersona", vendedor);
+            relacionAsignaciones = (RelacionAsignaciones) query.getSingleResult();
+       
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[loadRelacionByIccVendedor][NoResultException]No se encontraron relaciones");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron relaciones");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[loadRelacionByIccVendedor][Exception]Se mostro una excepcion al buscar relaciones");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return relacionAsignaciones;
+    }
 }
