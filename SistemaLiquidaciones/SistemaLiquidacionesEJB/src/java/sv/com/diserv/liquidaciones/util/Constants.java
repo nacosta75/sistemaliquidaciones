@@ -49,4 +49,5 @@ public class Constants {
     public static String JNDI_MOVIMIENTOSDET_BEAN = "java:comp/env/ejb/MovimientosDetBean";
     public static String JNDI_DETLISTAPRECIO_BEAN = "java:comp/env/ejb/DetListaPrecioBean";
     public static String JNDI_ENCLISTAPRECIO_BEAN = "java:comp/env/ejb/EncListaPrecioBean";
+    public static final String MSG_ICC_NO_ASIGNADO = "Icc no asignado a este vendedor";
 }

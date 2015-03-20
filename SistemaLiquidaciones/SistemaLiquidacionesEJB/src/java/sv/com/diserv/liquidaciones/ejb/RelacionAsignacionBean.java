@@ -125,7 +125,7 @@ public class RelacionAsignacionBean implements RelacionAsignacionBeanLocal {
     }
 
     @Override
-    public RelacionAsignaciones loadRelacionByIccVendedor(Integer vendedor, Integer icc) throws DiservBusinessException {
+    public RelacionAsignaciones loadRelacionByVendedor(Integer vendedor, Integer icc) throws DiservBusinessException {
           logger.log(Level.INFO, "[loadRelacionByIccVendedor] ");
         RelacionAsignaciones relacionAsignaciones = null;
         Query query;
