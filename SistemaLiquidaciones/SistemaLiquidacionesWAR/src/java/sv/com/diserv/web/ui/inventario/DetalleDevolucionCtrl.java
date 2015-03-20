@@ -142,15 +142,13 @@ public class DetalleDevolucionCtrl extends BaseController {
         if (item != null) {
             articuloSelected = (Articulos) item.getAttribute("data");
             //buscar icc
-            RelacionAsignaciones relAsignacion = (RelacionAsignaciones) relAsignacionBean.loadRelacionByIccVendedor(Integer.parseInt(cmbArticulo.getValue()), Integer.parseInt(cmbVendedor.getValue()));
+            RelacionAsignaciones relAsignacion = (RelacionAsignaciones) relAsignacionBean.loadRelacionByVendedor(Integer.parseInt(cmbArticulo.getValue()), Integer.parseInt(cmbVendedor.getValue()));
             //LotesExistencia lotesExistencia = lotesExistenciasBean.buscarLoteByCriteria(null);
-          if (articuloSelected.getIdtipoarticulo().getLote()==1)
+            
+          if (relAsignacion==null)
           {
-            activarBusqueda(true);
-          }
-          else
-          {
-            activarBusqueda(false);
+            MensajeMultilinea.show(Constants.MSG_ICC_NO_ASIGNADO);  
+            txtArticulo.setFocus(true);
           }
         }
     }
