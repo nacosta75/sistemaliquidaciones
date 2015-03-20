@@ -28,10 +28,12 @@ import sv.com.diserv.liquidaciones.ejb.CatalogosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.LotesExistenciasBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.MovimientosDetBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.RelacionAsignacionBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Articulos;
 import sv.com.diserv.liquidaciones.entity.LotesExistencia;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.Personas;
+import sv.com.diserv.liquidaciones.entity.RelacionAsignaciones;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
@@ -76,6 +78,7 @@ public class DetalleDevolucionCtrl extends BaseController {
     private CatalogosBeanLocal catalogosBeanLocal;
     private ArticulosBeanLocal articulosBean;
     private LotesExistenciasBeanLocal lotesExistenciasBean;
+    private RelacionAsignacionBeanLocal relAsignacionBean;
     private Articulos articuloSelected;
     private List<Articulos> listaArticulos;
     private List<ConsolidadoAsignacionesDTO> consolidadoPaginaAnterior = new ArrayList<ConsolidadoAsignacionesDTO>();
@@ -97,6 +100,7 @@ public class DetalleDevolucionCtrl extends BaseController {
             catalogosBeanLocal = serviceLocator.getService(Constants.JNDI_CATALOGO_BEAN);
             articulosBean = serviceLocator.getService(Constants.JNDI_ARTICULOS_BEAN);
             lotesExistenciasBean = serviceLocator.getService(Constants.JNDI_LOTESEXISTENCIAS_BEAN);
+            relAsignacionBean = serviceLocator.getService(Constants.JNDI_RELASIGNACION_BEAN);
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
@@ -138,6 +142,7 @@ public class DetalleDevolucionCtrl extends BaseController {
         if (item != null) {
             articuloSelected = (Articulos) item.getAttribute("data");
             //buscar icc
+            RelacionAsignaciones relAsignacion = (RelacionAsignaciones) relAsignacionBean.loadRelacionByIccVendedor(Integer.parseInt(cmbArticulo.getValue()), Integer.parseInt(cmbVendedor.getValue()));
             //LotesExistencia lotesExistencia = lotesExistenciasBean.buscarLoteByCriteria(null);
           if (articuloSelected.getIdtipoarticulo().getLote()==1)
           {
