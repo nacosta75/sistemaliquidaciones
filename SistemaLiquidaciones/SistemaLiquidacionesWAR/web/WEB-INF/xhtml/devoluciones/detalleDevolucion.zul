@@ -144,7 +144,7 @@
                                                      </rows>
                                                 </grid>
                                             </groupbox>
-                                            <groupbox mold="3d" width="100%" height="300px">
+                                            <groupbox mold="3d" width="100%" height="400px">
                                                 <caption label="Lista de articulos a devolver" />
                                                 <groupbox height="116px"
                                                     mold="3d"
@@ -195,9 +195,8 @@
                                                              <groupbox
                                                                        mold="3d"
                                                                        closable="false" contentStyle="border:0" style="margin:0 0 0 0 ">  
-                                                            <intbox
-                                                                id="txtArticulo"
-                                                                
+                                                            <textbox
+                                                                id="txtArticulo"                                                                
                                                                 maxlength="10"
                                                                 tooltiptext="ICC / IMEI / Numero"
                                                                  />
@@ -219,7 +218,7 @@
                                                          style="border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; border-bottom-width: 1px;"
                                                          tooltiptext="Para ver detalle click sobre registro, para asignar registros click en boton a lado derecho"
                                                          width="100%"
-                                                         height="100%"
+                                                         height="200%"
                                                          mold="paging"
                                                          pagingPosition="top"
                                                          multiple="false">
@@ -264,7 +263,7 @@
                                                          mold="paging"
                                                          pagingPosition="top"
                                                          multiple="false" >
-                                                    <listhead sizable="true">
+                                                    <listhead sizable="true" >
                                                         <listheader id="listheaderLote"
                                                                     sclass="FDListBoxHeader1"
                                                                     sort="auto"

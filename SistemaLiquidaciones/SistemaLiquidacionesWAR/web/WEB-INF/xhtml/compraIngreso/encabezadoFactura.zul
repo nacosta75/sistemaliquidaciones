@@ -5,9 +5,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
     <window id="encabezadoFacturaWindow"
-            title="Administración Documentos de Cobro a Cliente"
+            title="Administración Documentos de Compra"
             border="normal"
-            use="sv.com.ats.ui.facturacion.EncabezadoFacturaCtrl"
+            use="sv.com.diserv.web.ui.inventario.IngresoCompraArticuloCtrl"
             closable="true"
             width="700px" 
             height="600px"
