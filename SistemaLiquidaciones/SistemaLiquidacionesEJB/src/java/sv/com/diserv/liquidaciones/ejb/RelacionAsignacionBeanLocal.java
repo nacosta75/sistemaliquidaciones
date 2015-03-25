@@ -25,5 +25,5 @@ public interface RelacionAsignacionBeanLocal {
     public OperacionesRelAsignacionDTO guardarRelacionAsignacion(RelacionAsignaciones relacionAsignacion) throws DiservBusinessException;
     public OperacionesRelAsignacionDTO eliminarRelacionAsignacion(RelacionAsignaciones relacionAsignacion) throws DiservBusinessException;
     public OperacionesRelAsignacionDTO guardarRelacionAsignacion(Movimientos movimiento, List<LotesExistencia> lotes) throws DiservBusinessException;
-    public RelacionAsignaciones loadRelacionByVendedor(Integer vendedor, Integer icc) throws DiservBusinessException;
+    public RelacionAsignaciones loadRelacionByVendedor(Integer vendedor, String icc) throws DiservBusinessException;
 }
