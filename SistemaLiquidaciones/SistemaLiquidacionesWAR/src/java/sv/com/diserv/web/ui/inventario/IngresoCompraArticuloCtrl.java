@@ -29,30 +29,7 @@ import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.web.ui.inventario.rendered.ArticulosItemRendered;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
-//import sv.com.ats.business.dto.ConsultaFacturaDTO;
-//import sv.com.ats.business.dto.OperacionesDocumentoClienteDTO;
-//import sv.com.ats.business.dto.TipoDocumentoDTO;
-//import sv.com.ats.business.ejb.ClienteBeanLocal;
-//import sv.com.ats.business.ejb.FacturacionBeanLocal;
-//import sv.com.ats.business.entity.Clientes;
-//import sv.com.ats.business.entity.Configuracion;
-//import sv.com.ats.business.entity.DetalleDocumentoCliente;
-//import sv.com.ats.business.entity.Documentocliente;
-//import sv.com.ats.business.entity.EstadoFactura;
-//import sv.com.ats.business.exception.AtsBusinessBusinessRolledbackException;
-//import sv.com.ats.business.exception.AtsBusinessException;
-//import sv.com.ats.business.exception.AtsWebException;
-//import sv.com.ats.business.exception.ServiceLocatorException;
-//import sv.com.ats.business.util.Constants;
-//import sv.com.ats.business.util.ServiceLocator;
-//import sv.com.ats.business.util.UtilFormat;
-//import sv.com.ats.ui.facturacion.rendered.DetalleDocumentoItemRenderer;
-//import sv.com.ats.ui.facturacion.rendered.EstadoFacturaItemRenderer;
-//import sv.com.ats.ui.ordentrabajo.DetalleOrdenTrabajoCtrl;
-//import sv.com.ats.ui.ordentrabajo.rendered.BusquedaClienteItemRenderer;
-//import sv.com.ats.ui.reportes.ManejadorReporte;
-//import sv.com.ats.web.ui.util.BaseController;
-//import sv.com.ats.web.ui.util.MensajeMultilinea;
+
 
 public class IngresoCompraArticuloCtrl extends BaseController {
 

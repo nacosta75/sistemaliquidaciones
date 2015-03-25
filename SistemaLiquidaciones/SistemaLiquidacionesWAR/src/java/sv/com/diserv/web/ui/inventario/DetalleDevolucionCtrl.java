@@ -63,7 +63,7 @@ public class DetalleDevolucionCtrl extends BaseController {
     protected Panel panelInformacionDevolucion;
     protected Intbox txtNumDoc;
     protected Intbox txtNumDoc1;
-    protected Intbox txtArticulo;
+    protected Textbox txtArticulo;
     protected Datebox txtfechaDevolucion;
     protected Datebox txtfechaDevolucion1;
     protected Combobox cmbVendedor;
@@ -151,25 +151,22 @@ public class DetalleDevolucionCtrl extends BaseController {
     public void onClick$btnBuscICC(Event event) throws Exception {
         
         logger.log(Level.INFO, "[onClick$btnBuscICC]");
-        
-        int idVendedor =0;
-         if (cmbVendedor != null && cmbVendedor.getSelectedItem() != null) {
-                   idVendedor = (Integer) cmbVendedor.getSelectedItem().getValue();
-               }
-
-            if (idVendedor == 0) {
+       
+    
+        Comboitem item = this.cmbVendedor.getSelectedItem();
+        if (item == null) {
                    throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe seleccionar un vendedor");
-               }
-            else
-            {
+            }
+          else
+          {
             
-                Comboitem item = this.cmbArticulo.getSelectedItem();
-
+             Personas vendedorSelected = (Personas) item.getAttribute("data");
+                item = this.cmbArticulo.getSelectedItem();
                 articuloSelected = null;
                 if (item != null) {
                     articuloSelected = (Articulos) item.getAttribute("data");
                     //buscar icc
-                    RelacionAsignaciones relAsignacion = (RelacionAsignaciones) relAsignacionBean.loadRelacionByVendedor(Integer.parseInt(cmbArticulo.getValue()), Integer.parseInt(cmbVendedor.getValue()));
+                    RelacionAsignaciones relAsignacion = (RelacionAsignaciones) relAsignacionBean.loadRelacionByVendedor(vendedorSelected.getIdpersona(), txtArticulo.getValue());
                     //LotesExistencia lotesExistencia = lotesExistenciasBean.buscarLoteByCriteria(null);
 
                   if (relAsignacion==null)
@@ -179,12 +176,12 @@ public class DetalleDevolucionCtrl extends BaseController {
                   }
                   else
                   {
-                        bodegaVendedor = bodegaVendedorBean.findBodegaVendedorByIdVendedor((Integer) cmbVendedor.getSelectedItem().getValue());
+                        bodegaVendedor = bodegaVendedorBean.findBodegaVendedorByIdVendedor(vendedorSelected.getIdpersona());
                         //Articulos articulo = articuloBean.loadArticuloByID(consolida.getIdArticulo());
                         DetListaPrecio listaPrecio = detListaPrecioBean.findDetPrecioByIdArticulo(bodegaVendedor.getIdlista().getIdlista(), articuloSelected.getIdarticulo());
                         MovimientosDet movimientoDet = new MovimientosDet();
                          //movimientoDet.setIdmov(responseOperacion.getMovimiento());
-                         //movimientoDet.setCantidad(new BigDecimal(consolida.getCantidad()));
+                         movimientoDet.setCantidad(new BigDecimal(1));
                          movimientoDet.setFechaMov(new Date());
                          movimientoDet.setIdarticulo(articuloSelected);
                          movimientoDet.setIdlista(bodegaVendedor.getIdlista());
@@ -219,7 +216,7 @@ public class DetalleDevolucionCtrl extends BaseController {
             listaDevolucionesCtrl = ((ListaDevolucionesCtrl) this.args.get("listaDevolucionesCtrl"));
         }
         showDetalleDevoluciones();
-        loadComboboxVendedor();
+        //loadComboboxVendedor();
         loadDataInicial();
     }
 
@@ -257,40 +254,43 @@ public class DetalleDevolucionCtrl extends BaseController {
         // detalleDevolucionWindow.setHeight("370px");
     }
 
-    private void loadComboboxVendedor() {
-
-        //vendedores
-        List<Personas> listaVendedores = null;
-        List<CatalogoDTO> listaCatalogoVendedores = new ArrayList<CatalogoDTO>();
-
-        try {
-
-            listaVendedores = personaBean.loadAllPersonaByTipoAndSucursal(2, 1);
-            List<Object> objectList = new ArrayList<Object>(listaVendedores);
-            listaCatalogoVendedores = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idpersona", "nombre");
-
-
-            if (listaCatalogoVendedores != null && listaCatalogoVendedores.size() > 0) {
-                ListModelList modelovendedor = new ListModelList(listaCatalogoVendedores);
-                cmbVendedor.setModel(modelovendedor);
-                cmbVendedor.setItemRenderer(new CatalogoItemRenderer());
-                cmbVendedor.setText("Seleccione un vendedor!!");
-                cmbVendedor.setReadonly(false);
-                cmbVendedor.setButtonVisible(true);
-            } else {
-                cmbVendedor.setText("No existen vendedores registrados!!");
-                cmbVendedor.setReadonly(true);
-                cmbVendedor.setButtonVisible(false);
-                cmbVendedor.setDisabled(true);
-            }
-
-
-        } catch (DiservBusinessException ex) {
-            Logger.getLogger(DetalleDevolucionCtrl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    private void loadComboboxVendedor() {
+//
+//        //vendedores
+//        List<Personas> listaVendedores = null;
+//        List<CatalogoDTO> listaCatalogoVendedores = new ArrayList<CatalogoDTO>();
+//
+//        try {
+//
+//            listaVendedores = personaBean.loadAllPersonaByTipoAndSucursal(2, 1);
+//            List<Object> objectList = new ArrayList<Object>(listaVendedores);
+//            listaCatalogoVendedores = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idpersona", "nombre");
+//
+//
+//            if (listaCatalogoVendedores != null && listaCatalogoVendedores.size() > 0) {
+//                ListModelList modelovendedor = new ListModelList(listaCatalogoVendedores);
+//                cmbVendedor.setModel(modelovendedor);
+//                cmbVendedor.setItemRenderer(new CatalogoItemRenderer());
+//                cmbVendedor.setText("Seleccione un vendedor!!");
+//                cmbVendedor.setReadonly(false);
+//                cmbVendedor.setButtonVisible(true);
+//            } else {
+//                cmbVendedor.setText("No existen vendedores registrados!!");
+//                cmbVendedor.setReadonly(true);
+//                cmbVendedor.setButtonVisible(false);
+//                cmbVendedor.setDisabled(true);
+//            }
+//
+//
+//        } catch (DiservBusinessException ex) {
+//            Logger.getLogger(DetalleDevolucionCtrl.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     public void loadDataInicial() {
+        
+        // combo articulos
+       
         try {
             listaArticulos = articulosBean.loadAllArticulos();
             if (listaArticulos.size() > 0) {
@@ -304,6 +304,23 @@ public class DetalleDevolucionCtrl extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        //combo vendedores
+         List<Personas> listaVendedores = null;
+        try {
+            listaVendedores = personaBean.loadAllPersonaByTipoAndSucursal(2, 1);
+            if (listaVendedores.size() > 0) {
+                logger.log(Level.INFO, "Registros cargados=={0}", listaVendedores.size());
+                cmbVendedor.setModel(new ListModelList(listaVendedores));
+                cmbVendedor.setItemRenderer(new CatalogoItemRenderer());
+            } else {
+                logger.info("No se cargaron registros");
+                cmbArticulo.setText("No se cargaron registros para mostrar");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
 
     private void doEditButton() {
