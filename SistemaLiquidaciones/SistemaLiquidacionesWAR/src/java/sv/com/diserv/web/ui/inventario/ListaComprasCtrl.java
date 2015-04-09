@@ -52,12 +52,11 @@ public class ListaComprasCtrl extends BaseController {
     protected Paging pagingMovimientosCompra;
     protected Listbox listBoxMovimientos;
     protected Listheader lhIdMovimiento;
-    protected Listheader lhIdProveedor;
     protected Listheader lhProveedor;
     protected Listheader lhRegistro;
-    protected Listheader lhEstado;
     protected Listheader lhObservacioens;
     protected Listheader lhFechaMovimiento;
+    protected Listheader lhNumero;
     protected Listbox listBoxDetalleMovimiento;
     //contadores pagina
     private ServiceLocator serviceLocator;

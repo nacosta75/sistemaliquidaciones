@@ -1,5 +1,6 @@
 package sv.com.diserv.web.ui.inventario.rendered;
 
+import java.math.BigDecimal;
 import org.zkoss.zk.ui.sys.ComponentsCtrl;
 
 import org.zkoss.zul.Listcell;
@@ -26,10 +27,7 @@ public class DetalleMovimientoItemRenderer implements ListitemRenderer {
         lc = new Listcell(detalleMovimiento.getPrecio() != null ? detalleMovimiento.getPrecio().toPlainString() : "N/D");
         lc.setParent(item);
 
-        lc = new Listcell(detalleMovimiento.getUltCosto() != null ? detalleMovimiento.getUltCosto().toPlainString() : "N/D");
-        lc.setParent(item);
-
-        lc = new Listcell(detalleMovimiento.getUltCosto() != null ? detalleMovimiento.getUltCosto().toPlainString() : "0.00");
+        lc = new Listcell(detalleMovimiento.getCantidad().multiply(detalleMovimiento.getPrecio())!= null ? detalleMovimiento.getCantidad().multiply(detalleMovimiento.getPrecio()).toPlainString() : "0.00");
         lc.setParent(item);
 
         item.setAttribute("data", data);

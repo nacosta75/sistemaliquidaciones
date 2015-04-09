@@ -17,21 +17,24 @@ public class MovimientoItemRenderer implements ListitemRenderer {
         movimiento = (Movimientos) data;
         Listcell lc = new Listcell(movimiento.getIdmov() != null ? movimiento.getIdmov().toString() : "N/D");
         lc.setParent(item);
+        
+        lc = new Listcell(movimiento.getFechamov() != null ? UtilFormat.convertirFechaYYYYMMMDDD(movimiento.getFechamov()) : "N/D");
+        lc.setParent(item);
+        
+        lc = new Listcell(movimiento.getNodoc() != null ? movimiento.getNodoc().toString() : "N/D");
+        lc.setParent(item);
+        
+         lc = new Listcell(movimiento.getNoRegistro() != null ? movimiento.getNoRegistro() : "N/D");
+        lc.setParent(item);
 
         lc = new Listcell(movimiento.getNombre() != null ? movimiento.getNombre() : "N/D");
         lc.setParent(item);
 
-        lc = new Listcell(movimiento.getNoRegistro() != null ? movimiento.getNoRegistro() : "N/D");
-        lc.setParent(item);
-
-        lc = new Listcell(movimiento.getEstado() != null ? movimiento.getEstado() : "N/D");
-        lc.setParent(item);
 
         lc = new Listcell(movimiento.getObserva1() != null ? movimiento.getObserva1() : "N/D");
         lc.setParent(item);
 
-        lc = new Listcell(movimiento.getFechamov() != null ? UtilFormat.convertirFechaYYYYMMMDDD(movimiento.getFechamov()) : "N/D");
-        lc.setParent(item);
+        
 
         item.setAttribute("data", data);
         ComponentsCtrl.applyForward(item, "onClick=onClickedMovimiento");
