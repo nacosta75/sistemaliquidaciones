@@ -66,7 +66,7 @@ public class Movimientos implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "NODOC")
-    private int nodoc;
+    private Integer nodoc;
     @Column(name = "IDCAJA")
     private Integer idcaja;
     @Size(max = 80)
@@ -137,11 +137,11 @@ public class Movimientos implements Serializable {
         this.fechamov = fechamov;
     }
 
-    public int getNodoc() {
+    public Integer getNodoc() {
         return nodoc;
     }
 
-    public void setNodoc(int nodoc) {
+    public void setNodoc(Integer nodoc) {
         this.nodoc = nodoc;
     }
 
