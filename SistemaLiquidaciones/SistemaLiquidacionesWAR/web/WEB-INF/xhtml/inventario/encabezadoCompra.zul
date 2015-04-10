@@ -4,8 +4,8 @@
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-    <window id="encabezadoFacturaWindow"
-            title="Administración Documentos de Cobro a Cliente"
+    <window id="encabezadoCompraWindow"
+            title="Orden"
             border="normal"
             use="sv.com.diserv.web.ui.inventario.ListaComprasCtrl"
             closable="true"
@@ -14,194 +14,6 @@
             sizable="true" 
             sclass="pageWindowTitle"
             mode="modal">
-<!--        <groupbox height="45px"
-                  mold="3d" 
-                  closable="false">    
-            <toolbar align="end"
-                     style="float:right; border-style:none;">
-                <button id="btnImprimir"
-                        sclass="oT_ButtonWithIcon"
-                        image="/images/btnprint.gif"
-                        tooltiptext="Imprimir Documento"  />
-                <button id="btnNuevo"
-                        sclass="oT_ButtonWithIcon"
-                        image="/images/btnnew.gif"
-                        tooltiptext="Agregar Nuevo Documento"  />
-                <button id="btnEditar"
-                        sclass="oT_ButtonWithIcon"
-                        image="/images/btnedit.gif"
-                        tooltiptext="Editar Registro"/>
-                <button id="btnGuardar"
-                        sclass="oT_ButtonWithIcon"
-                        image="/images/btnsave.gif"
-                        tooltiptext="Guardar Encabezado"/>
-                <button id="btnActualizar"
-                        sclass="oT_ButtonWithIcon"
-                        image="/images/btnsave.gif"
-                        tooltiptext="Actualizar Registro"/>
-                <button id="btnCerrar"
-                        height="20"
-                        sclass="oT_ButtonWithIcon"
-                        image="/images/close.jpg"
-                        tooltiptext="Cerrar esta Ventana"/>
-            </toolbar>
-        </groupbox>
-        <borderlayout>
-            <north border="none"></north>
-            <center border="none">
-                <div id="divCenterOrdenTrabajo">
-                    <hbox align="stretch"
-                          pack="stretch"
-                          sclass="FDCenterNoBorder"
-                          width="100%"
-                          style="padding: 3px;">
-                         Left CONTENT AREA 
-                         simulates a columnLayout 
-                        <cell width="50%">
-                            <vbox align="stretch"
-                                  pack="stretch"
-                                  width="100%" 
-                                  style="padding: 3px;">
-                                <div>
-                                    <panel  border="none">
-                                        <panelchildren>
-                                            <groupbox  
-                                                mold="3d" 
-                                                closable="false">
-                                                <caption image="/images/btnEditar.gif"
-                                                         label="Información Cliente" />
-                                                <grid sclass="GridPlain">
-                                                    <columns>
-                                                        <column align="left" width="160px" />
-                                                        <column width="100%" />
-                                                    </columns>
-                                                    <rows>                                                        
-                                                        <row>   
-                                                            <hbox>                                                                                                                     
-                                                                <label value="Nombre Cliente: " />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                            
-                                                            <combobox id="comboNombreCliente" 
-                                                                      autodrop="true"
-                                                                      mold="rounded"
-                                                                      autocomplete="true"
-                                                                      hflex="1"/>
-                                                        </row>
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Id Cliente" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <intbox
-                                                                id="txtIdCliente"
-                                                                hflex="1"
-                                                                maxlength="10"
-                                                                tooltiptext="Identificador unico de cliente"
-                                                                readonly="false" />
-                                                        </row>
-                                                        <row>
-                                                            <label
-                                                                value="Número Registro IVA " />
-                                                            <textbox maxlength="10"
-                                                                     id="txtRegistroIVA" 
-                                                                     hflex="1"  
-                                                                     readonly="true"/>
-                                                        </row>                                                              
-                                                        <row>                                                           
-                                                            <label
-                                                                value="Número NIT  : " />
-                                                            <textbox id="txtNumeroNIT" 
-                                                                     readonly="true"
-                                                                     hflex="1" />
-                                                        </row>
-                                                    </rows>
-                                                </grid>
-                                            </groupbox>
-                                            <hbox>                                                
-                                                <button id="btnAgregarItem" label="Agregar Servicio"/>
-                                            </hbox>
-                                            <groupbox  
-                                                mold="3d" 
-                                                closable="false">
-                                                <caption image="/images/icon-edit.png"
-                                                         label="Identificación Documento Cliente" />
-                                                <grid sclass="GridPlain">
-                                                    <columns>
-                                                        <column align="left" width="160px" />
-                                                        <column width="100%" />
-                                                    </columns>
-                                                    <rows>                                                        
-                                                       
-                                                        <row>
-                                                            <hbox>
-                                                                <label value="Número Documento" />
-                                                                <label value="*" style="color:red;font-size:10px" />
-                                                            </hbox>
-                                                            <intbox id="txtNumeroDocumento"
-                                                                    hflex="1"
-                                                                    maxlength="10"
-                                                                    tooltiptext="Identificador Unico de Documento"
-                                                                    readonly="false" />
-                                                        </row>
-                                                        <row>                                                            
-                                                            <label value="Tipo Documento: " />
-                                                            <combobox id="comboTipoDocumento" 
-                                                                      autodrop="true"
-                                                                      mold="rounded"
-                                                                      hflex="1"/>          
-                                                            />
-                                                        </row> 
-                                                        <row>                                                           
-                                                            <label value="Estado Documento:" />
-                                                            <combobox id="comboEstadoDocumento" 
-                                                                      autodrop="true"
-                                                                      mold="rounded"
-                                                                      hflex="1"
-                                                                      disabled="true" />          
-                                                        </row> 
-                                                    </rows>
-                                                </grid>
-                                            </groupbox>
-                                            <groupbox id="gbDetalleDocumento"
-                                                      height="200px"
-                                                      mold="3d" 
-                                                      closable="false">
-                                                <caption image="/images/properties.gif"
-                                                         label="Detalle Documento Cliente" />
-                                                <listbox id="listBoxDetalleDocumento"
-                                                         tooltiptext="Lista Detalle Documentos Cliente"
-                                                         width="100%"
-                                                         height="100%" 
-                                                         multiple="false">
-                                                    <listhead sizable="true">
-                                                        <listheader  id="listheaderIdOrdenTrabajo" 
-                                                                     width="15%" 
-                                                                     label="Id Orden" />
-                                                        <listheader id="listheaderDescripcion" 
-                                                                    width="40%" 
-                                                                    label="Descripción" />
-                                                        <listheader id="listheaderCantidad" 
-                                                                    width="15%" 
-                                                                    label="Cantidad" />
-                                                        <listheader id="listheaderUnitario"
-                                                                    width="15%" 
-                                                                    label="Precio Unitario" />
-                                                        <listheader id="listheaderSumas"
-                                                                    width="15%" 
-                                                                    label="Sumas" />
-                                                    </listhead>
-                                                </listbox>
-                                            </groupbox>
-                                        </panelchildren>
-                                    </panel>
-                                </div>
-                            </vbox>
-                        </cell>                                 
-                    </hbox>                         
-                </div>
-            </center>
-        </borderlayout>-->
         <div sclass="z-toolbar" style="padding:0">
 			<hbox pack="stretch" sclass="hboxRemoveWhiteStrips"
 				width="100%">
@@ -222,28 +34,28 @@
 				<!-- CRUD BUTTONS -->
 				<toolbar align="end"
 					style="float:right; border-style: none;">
-					<button id="button_OrderDialog_PrintOrder"
+					<button id="btnImprimir"
 						sclass="oT_ButtonWithIcon"
 						image="/images/btnprint.gif"
 						tooltiptext="Imprimir Orden de compra" />
 					<separator bar="true" orient="vertical" />
-					<button id="btnNew" sclass="oT_ButtonWithIcon"
+					<button id="btnNuevo" sclass="oT_ButtonWithIcon"
                                                 image="/images/btnnew.gif"
 						tooltiptext="Crear Orden de Compra" />
-					<button id="btnEdit" sclass="oT_ButtonWithIcon"
+					<button id="btnEditar" sclass="oT_ButtonWithIcon"
                                                 image="/images/btnedit.gif"
 						tooltiptext="Editar Orden" />
 					<button id="btnDelete" sclass="oT_ButtonWithIcon"
                                                 image="/images/btndelete.gif"
 						tooltiptext="Borrar Orden" />
-					<button id="btnSave" sclass="oT_ButtonWithIcon"
+					<button id="btnGuardar" sclass="oT_ButtonWithIcon"
                                                 image="/images/btnsave.gif"
 						tooltiptext="Guardar Orden" />
-					<button id="btnCancel" sclass="oT_ButtonWithIcon"
-                                                image="/images/debug_16x16.gif"
-						tooltiptext="Cancelar Orden" />
-					<button id="btnClose" sclass="oT_ButtonWithIcon"
+					<button id="btnCancelar" sclass="oT_ButtonWithIcon"
                                                 image="/images/close.jpg"
+						tooltiptext="Cancelar Orden" />
+					<button id="btnCerrar" sclass="oT_ButtonWithIcon"
+                                                image="/images/btn_exitdoor2_16x16.gif"
 						tooltiptext="Cerrar" />
 				</toolbar>
 			</hbox>
@@ -260,7 +72,7 @@
 
 						<groupbox mold="3d" closable="false">
 							<caption image="/images/view.gif"
-								label="Datos de Orden" />
+								label="Datos de la Orden" />
 
 							<grid sclass="GridLayoutNoBorder"
 								fixedLayout="true"
@@ -309,45 +121,34 @@
 																	<row>
 																		<label
 																			id="label_bboxCustomerSearch2_CustNo"
-																			value="Proveedor No." />
+																			value="Codigo" />
 																		<textbox
 																			id="tb_Orders_SearchCustNo" width="99%" />
 																		<button
 																			id="button_bbox_CustomerSearch_Search"
-																			image="/images/icons/search.gif"
+																			image="/images/search.gif"
 																			label="Buscar"
-																			tooltiptext="${c:l('button_bbox_CustomerSearch_Search.tooltiptext')}" />
+																			tooltiptext="${c:l('Buscar Proveedor')}" />
 																		<button
 																			id="button_bbox_CustomerSearch_Close"
-																			image="/images/icons/stop.gif"
+																			image="/images/stop.gif"
 																			tooltiptext="${c:l('button_bbox_CustomerSearch_Close.tooltiptext')}" />
 																	</row>
 																	<row>
 																		<label
 																			id="label_bboxCustomerSearch2_CustMatchcode"
-																			value="${c:l('label_bboxCustomerSearch2_CustMatchcode.value')}" />
+																			value="Registro" />
 																		<textbox
 																			id="tb_Orders_CustSearchMatchcode" width="99%" />
 																	</row>
 																	<row>
 																		<label
 																			id="label_bboxCustomerSearch2_CustName1"
-																			value="${c:l('label_bboxCustomerSearch2_CustName1.value')}" />
+																			value="Nombre" />
 																		<textbox
 																			id="tb_Orders_SearchCustName1" width="99%" />
 																	</row>
-																	<row>
-																		<label
-																			id="label_bboxCustomerSearch2_CustCity"
-																			value="${c:l('label_bboxCustomerSearch2_CustCity.value')}" />
-																		<textbox
-																			id="tb_Orders_SearchCustCity" width="99%" />
-																		<button
-																			id="button_bbox_CustomerSearch_NewCustomer"
-																			image="/images/icons/edit_table_data.gif"
-																			label="${c:l('button_bbox_CustomerSearch_NewCustomer.label')}"
-																			tooltiptext="${c:l('button_bbox_CustomerSearch_NewCustomer.tooltiptext')}" />
-																	</row>
+																
 
 																	<row
 																		spans="4">
@@ -363,18 +164,19 @@
 																					sizable="true">
 																					<listheader
 																						id="listheader_CustNo_2" sort="auto" width="15%"
-																						label="${c:l('label_OrderDialog_kunName1.label')}" />
+                                                                                                                                                                                image="/images/builder.gif"
+																						label="Codigo" />
 																					<listheader
 																						id="listheader_CustMatchcode_2" sort="auto"
-																						width="25%"
-																						label="${c:l('listheader_CustMatchcode_2.label')}" />
+                                                                                                                                                                                image="/images/builder.gif"
+																						width="15%"
+																						label="Registro" />
 																					<listheader
 																						id="listheader_CustName1_2" sort="auto"
-																						width="30%"
-																						label="${c:l('listheader_CustName1_2.label')}" />
-																					<listheader
-																						id="listheader_CustCity_2" sort="auto" width="30%"
-																						label="${c:l('listheader_CustCity_2.label')}" />
+                                                                                                                                                                                image="/images/create_doc.gif"
+																						width="60%"
+																						label="Nombre" />
+																					
 																				</listhead>
 																			</listbox>
 																		</vbox>
@@ -405,14 +207,14 @@
 									<row>
 										<label
 											id="label_OrderDialog_aufNr"
-											value="${c:l('label_OrderDialog_aufNr.value')}" />
+											value="Factura No." />
 										<textbox id="aufNr"
 											width="180px" />
 									</row>
 									<row>
 										<label
 											id="label_OrderDialog_aufBezeichnung"
-											value="${c:l('label_OrderDialog_aufBezeichnung.value')}" />
+											value="Observaciones" />
 										<textbox id="aufBezeichnung"
 											hflex="1" />
 									</row>
@@ -429,7 +231,7 @@
 
 					<panel id="panel_OrderDialog_OrderPositions"
 						width="100%"
-						title="${c:l('panel_OrderDialog_OrderPositions.title')}"
+						title="Articulos de  la Orden"
 						border="none" />
 
 					<div sclass="z-toolbar" style="padding:0">
@@ -441,9 +243,9 @@
 								style="float:left; border-style: none;" height="28px">
 								<button
 									id="button_OrderDialog_NewOrderPosition" height="24px"
-									image="/images/icons/btn_new2_16x16.gif"
+									image="/images/btnnew.gif"
 									label="${c:l('button_OrderDialog_NewOrderPosition.label')}"
-									tooltiptext="${c:l('button_OrderDialog_NewOrderPosition.tooltiptext')}" />
+									tooltiptext="Insertar Articulo" />
 							</toolbar>
 							<!-- SEARCH AREA -->
 							<toolbar align="center"
@@ -475,24 +277,24 @@
 								<listhead sizable="true">
 									<listheader
 										id="listheader_OrderPosList2_Orderpos_No"
-										image="/images/icons/builder.gif" sort="auto" width="10%"
-										label="${c:l('listheader_OrderPosList2_Orderpos_No.label')}" />
+										image="/images/builder.gif" sort="auto" width="10%"
+										label="Codigo" />
 									<listheader
 										id="listheader_OrderPosList2_Shorttext"
-										image="/images/icons/create_doc.gif" sort="auto" width="40%"
-										label="${c:l('listheader_OrderPosList2_Shorttext.label')}" />
+										image="/images/create_doc.gif" sort="auto" width="40%"
+										label="Articulo" />
 									<listheader
 										id="listheader_OrderPosList2_Count"
-										image="/images/icons/builder.gif" sort="auto" width="10%"
-										label="${c:l('listheader_OrderPosList_Count.label')}" />
+										image="/images/builder.gif" sort="auto" width="12%"
+										label="Cantidad" />
 									<listheader
 										id="listheader_OrderPosList2_SinglePrice"
-										image="/images/icons/builder.gif" sort="auto" width="20%"
-										label="${c:l('listheader_OrderPosList_SinglePrice.label')}" />
+										image="/images/builder.gif" sort="auto" width="20%"
+										label="Costo" />
 									<listheader
 										id="listheader_OrderPosList2_WholePrice"
-										image="/images/icons/builder.gif" sort="auto" width="20%"
-										label="${c:l('listheader_OrderPosList_WholePrice.label')}" />
+										image="/images/builder.gif" sort="auto" width="20%"
+										label="Total" />
 								</listhead>
 							</listbox>
 
