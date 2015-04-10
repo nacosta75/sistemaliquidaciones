@@ -45,19 +45,36 @@ public class ListaComprasCtrl extends BaseController {
 
     static final Logger logger = Logger.getLogger(ListaComprasCtrl.class.getCanonicalName());
     protected Window listaMovimientoWindow;
-    protected Button btnNuevoMovimiento;
+
+    protected Button btnHelp;
     protected Button btnRefresh;
+    protected Button button_bbox_CustomerSearch_Search;
+    protected Button button_bbox_CustomerSearch_Close;
+    protected Button btnNuevoMovimiento;
+    
     protected Button btnBusquedaMovimiento;
     protected Button btnImprimir;
-    protected Paging pagingMovimientosCompra;
-    protected Listbox listBoxMovimientos;
+    protected Paging paging_OrderList;
+    
+    //busqueda de proveedor
+    protected Listbox listBoxCustomerSearch;
+    protected Listheader listheader_CustNo;
+    protected Listheader listheader_CustMatchcode;
+    protected Listheader listheader_CustName1;
+    protected Listheader listheader_CustCity;
+    protected Listheader lhNoRegistro;
+    
+    protected Button button_OrderList_OrderNameSearch;
+    protected Button button_OrderList_NewOrder;
+    
+    protected Listbox listBoxOrder;
     protected Listheader lhIdMovimiento;
     protected Listheader lhProveedor;
     protected Listheader lhRegistro;
-    protected Listheader lhObservacioens;
+    protected Listheader lhObservaciones;
     protected Listheader lhFechaMovimiento;
     protected Listheader lhNumero;
-    protected Listbox listBoxDetalleMovimiento;
+    protected Listbox listBoxDetalleCompra;
     //contadores pagina
     private ServiceLocator serviceLocator;
     private Movimientos movimientoSelected;
@@ -88,8 +105,8 @@ public class ListaComprasCtrl extends BaseController {
         logger.log(Level.INFO, "[onCreate$listaMovimientoWindow]Event:{0}", event.toString());
         doOnCreateCommon(listaMovimientoWindow);
         MensajeMultilinea.doSetTemplate();
-        pagingMovimientosCompra.setPageSize(getUserLogin().getRegistrosLista());
-        pagingMovimientosCompra.setDetailed(true);
+        paging_OrderList.setPageSize(getUserLogin().getRegistrosLista());
+        paging_OrderList.setDetailed(true);
         doCheckPermisos();
         reloadTotal();
         refreshModel(numeroPaginInicio);
@@ -127,14 +144,14 @@ public class ListaComprasCtrl extends BaseController {
                 listaMovimiento = movimientoBean.loadAllMovimientos(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),Constants.CODIGO_MOVIMIENTO_TIPO_COMPRA );
                 if (listaMovimiento.size() > 0) {
                     logger.log(Level.INFO, "Registros cargados=={0}", listaMovimiento.size());
-                    pagingMovimientosCompra.setTotalSize(getTotalMovimiento());
-                    listBoxMovimientos.setModel(new ListModelList(listaMovimiento));
-                    listBoxMovimientos.setItemRenderer(new MovimientoItemRenderer());
+                    paging_OrderList.setTotalSize(getTotalMovimiento());
+                    listBoxOrder.setModel(new ListModelList(listaMovimiento));
+                    listBoxOrder.setItemRenderer(new MovimientoItemRenderer());
                 } else {
                     logger.info("No se encontraron registros con los parametros ingresados");
                 }
             } else {
-                listBoxMovimientos.setEmptyMessage("No se encontraron registros para mostrar");
+                listBoxOrder.setEmptyMessage("No se encontraron registros para mostrar");
             }
         } catch (Exception ex) {
             logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Ocurrio Una exception :{0}", ex.getLocalizedMessage());
@@ -144,7 +161,7 @@ public class ListaComprasCtrl extends BaseController {
 
     public void onDoubleClickedDetalleMovimiento(Event event) throws Exception {
         logger.log(Level.INFO, "[onDoubleClickedDetalleMovimiento]Event:{0}", event.toString());
-        Listitem item = this.listBoxDetalleMovimiento.getSelectedItem();
+        Listitem item = this.listBoxDetalleCompra.getSelectedItem();
         if (item != null) {
             detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
             HashMap map = new HashMap();
@@ -152,25 +169,38 @@ public class ListaComprasCtrl extends BaseController {
             map.put("token", TokenGenerator.getTokenOperation());
             map.put("listaFacturaCtrl", this);
 
-            Executions.createComponents("/WEB-INF/xhtml/facturacion/encabezadoFactura.zul", null, map);
+            Executions.createComponents("/WEB-INF/xhtml/inventario/encabezadoCompra.zul", null, map);
+        }
+    }
+    
+     public void onDoubleClickedCompra(Event event) throws Exception {
+        logger.log(Level.INFO, "[**onDoubleClickedCompra]Event:{0}", event.toString());
+        Listitem item = this.listBoxOrder.getSelectedItem();
+        if (item != null) {
+            Movimientos compra = (Movimientos) item.getAttribute("data");
+            HashMap map = new HashMap();
+            map.put("compraSelected", compra);
+            map.put("token", UtilFormat.getToken());
+            map.put("ListaComprasCtrl", this);
+            Executions.createComponents("/WEB-INF/xhtml/inventario/encabezadoCompra.zul", null, map);
         }
     }
 
     public void onClickedMovimiento(Event event) throws Exception {
         logger.log(Level.INFO, "[onClickedMovimiento]Event:{0}", event.toString());
-        Listitem item = this.listBoxMovimientos.getSelectedItem();
+        Listitem item = this.listBoxOrder.getSelectedItem();
         if (item != null) {  
             movimientoSelected = (Movimientos) item.getAttribute("data");
 //            System.out.println("tramites:" + documentoSelected.getIdfactura());
             if (movimientoSelected != null) {
                 listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(movimientoSelected.getIdmov());
                 if (listaDetalleMovimiento.size() > 0) {
-                    listBoxDetalleMovimiento.setModel(new ListModelList(listaDetalleMovimiento));
-                    listBoxDetalleMovimiento.setItemRenderer(new DetalleMovimientoItemRenderer());
+                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
+                    listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
                 } else {
                     logger.info("No se cargaron registros");
-                    listBoxDetalleMovimiento.setModel(new ListModelList(listaDetalleMovimiento));
-                    listBoxDetalleMovimiento.setEmptyMessage("Factura no tiene items agregados");
+                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
+                    listBoxDetalleCompra.setEmptyMessage("Factura no tiene items agregados");
                 }
             }
         }  

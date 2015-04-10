@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
@@ -31,24 +31,26 @@ import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
 
-public class IngresoCompraArticuloCtrl extends BaseController {
+public class IngresoCompraArticuloCtrl extends BaseController  {
 
-    static final Logger logger = Logger.getLogger(IngresoCompraArticuloCtrl.class.getCanonicalName());
+    static final Logger logger = Logger.getLogger(IngresoCompraArticuloCtrl.class);
     private static final long serialVersionUID = -546886879998950467L;
-    protected Window encabezadoIngresoCompra;
+    protected Window encabezadoCompraWindow;
     protected Button btnImprimir;
     protected Button btnNuevo;
     protected Button btnEditar;
+    protected Button btnDelete;
     protected Button btnGuardar;
-    protected Button btnActualizar;
+    //protected Button btnActualizar;
     protected Button btnCerrar;
+    protected Button btnCancelar;
     protected Combobox comboProductos;
     protected Intbox txtNumeroTelefono;
     protected Textbox txtNumeroImei;
     protected Textbox txtNumeroIcc;
     protected Button btnAgregarItem;
     protected Button btnImportarArchivo;
-    protected Button btnCancelar;
+
     protected Listbox listBoxDetalleProductos;
     private Articulos articuloSelected;
     private ArticulosBeanLocal articulosBean;
@@ -64,13 +66,13 @@ public class IngresoCompraArticuloCtrl extends BaseController {
 //            articulosBean = serviceLocator.getService(Constants.JNDI_CLIENTE_BEAN);
 //            facturacionBean = serviceLocator.getService(Constants.JNDI_FACTURACION_BEAN);
         } catch (ServiceLocatorException ex) {
-            logger.log(Level.SEVERE, ex.getLocalizedMessage());
+            logger.log(Level.ERROR, ex.getLocalizedMessage());
             ex.printStackTrace();
         }
     }
 
     public void onCreate$encabezadoIngresoCompra(Event event) throws Exception {
-        doOnCreateCommon(this.encabezadoIngresoCompra, event);
+        doOnCreateCommon(this.encabezadoCompraWindow, event);
         MensajeMultilinea.doSetTemplate();
         if (this.args.containsKey("token")) {
             tokenOperation = ((Integer) this.args.get("token"));
@@ -78,10 +80,10 @@ public class IngresoCompraArticuloCtrl extends BaseController {
         } else {
             setTokenOperation(0);
         }
-        showIngresoArticulo();
+        showCompra();
     }
 
-    public void showIngresoArticulo() {
+    public void showCompra() {
 //            try {
 //                listaArticulos= articulosBean.loadAllArticulos(MODAL, MODAL)facturacionBean.loadAllEstadoFactura();
 //                comboEstadoDocumento.setModel(new ListModelList(listaEstadoFactura));
@@ -95,7 +97,7 @@ public class IngresoCompraArticuloCtrl extends BaseController {
 //                } else {
 //                    doNew();
 //                }
-//                encabezadoFacturaWindow.doModal();
+//                encabezadoCompraWindow.doModal();
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }

@@ -15,10 +15,7 @@ public class MovimientoItemRenderer implements ListitemRenderer {
     @Override
     public void render(Listitem item, Object data) throws Exception {
         movimiento = (Movimientos) data;
-        Listcell lc = new Listcell(movimiento.getIdmov() != null ? movimiento.getIdmov().toString() : "N/D");
-        lc.setParent(item);
-        
-        lc = new Listcell(movimiento.getFechamov() != null ? UtilFormat.convertirFechaYYYYMMMDDD(movimiento.getFechamov()) : "N/D");
+        Listcell lc = new Listcell(movimiento.getFechamov() != null ? UtilFormat.convertirFechaYYYYMMMDDD(movimiento.getFechamov()) : "N/D");
         lc.setParent(item);
         
         lc = new Listcell(movimiento.getNodoc() != null ? movimiento.getNodoc().toString() : "N/D");
@@ -39,5 +36,7 @@ public class MovimientoItemRenderer implements ListitemRenderer {
         item.setAttribute("data", data);
         ComponentsCtrl.applyForward(item, "onClick=onClickedMovimiento");
         ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedDetalleMovimiento");
+        ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedCompra");
+        
     }
 }
