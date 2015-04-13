@@ -16,10 +16,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang.StringUtils;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.ForwardEvent;
+import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.FieldComparator;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
@@ -27,8 +30,11 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.event.PagingEvent;
+import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
+import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.entity.MovimientosDet;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
@@ -37,6 +43,7 @@ import sv.com.diserv.liquidaciones.util.TokenGenerator;
 import sv.com.diserv.liquidaciones.util.UtilFormat;
 import sv.com.diserv.web.ui.inventario.rendered.DetalleMovimientoItemRenderer;
 import sv.com.diserv.web.ui.inventario.rendered.MovimientoItemRenderer;
+import sv.com.diserv.web.ui.personas.rendered.PersonaItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 import sv.com.diserv.web.ui.util.UserWorkspace;
@@ -85,6 +92,18 @@ public class ListaComprasCtrl extends BaseController {
     private Integer numeroPaginInicio;
     private List<MovimientosDet> listaDetalleMovimiento;
     private Integer tipoMovimientoSelected;
+    private BusquedaPersonaDTO request;
+    
+    
+    // bandbox searchCustomer
+    protected Bandbox bandbox_OrderList_CustomerSearch;
+    private Object paging_OrderList_CustomerSearchList;
+    private transient List<Personas> searchObjCustomer;
+    private final int pageSizeSearchCustomers = 20;
+    
+    private PersonasBeanLocal personaBean;
+    
+
 
     /**
      * default constructor.<br>
@@ -94,12 +113,23 @@ public class ListaComprasCtrl extends BaseController {
         try {
             serviceLocator = ServiceLocator.getInstance();
             movimientoBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOS_BEAN);
+            personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
             numeroPaginInicio = 0;
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
             ex.printStackTrace();
         }
     }
+
+    public BusquedaPersonaDTO getRequest() {
+        return request;
+    }
+
+    public void setRequest(BusquedaPersonaDTO request) {
+        this.request = request;
+    }
+    
+    
 
     public void onCreate$listaMovimientoWindow(Event event) throws Exception {
         logger.log(Level.INFO, "[onCreate$listaMovimientoWindow]Event:{0}", event.toString());
@@ -286,5 +316,98 @@ public class ListaComprasCtrl extends BaseController {
     public void setListaDetalleMovimiento(List<MovimientosDet> listaDetalleMovimiento) {
         this.listaDetalleMovimiento = listaDetalleMovimiento;
     }
+    
+    
+public void onClick$button_bbox_CustomerSearch_Close(Event event) {
+		// logger.debug(event.toString());
+
+		bandbox_OrderList_CustomerSearch.close();
+	}
+
+
+
+public void onOpen$bandbox_OrderList_CustomerSearch(Event event) throws Exception {
+		// logger.debug(event.toString());
+
+		// not used listheaders must be declared like ->
+		// lh.setSortAscending(""); lh.setSortDescending("")
+		listheader_CustNo.setSortAscending(new FieldComparator("kunNr", true));
+		listheader_CustNo.setSortDescending(new FieldComparator("kunNr", false));
+		listheader_CustMatchcode.setSortAscending(new FieldComparator("kunMatchcode", true));
+		listheader_CustMatchcode.setSortDescending(new FieldComparator("kunMatchcode", false));
+		listheader_CustName1.setSortAscending(new FieldComparator("kunName1", true));
+		listheader_CustName1.setSortDescending(new FieldComparator("kunName1", false));
+		//listheader_CustCity.setSortAscending(new FieldComparator("kunOrt", true));
+		//listheader_CustCity.setSortDescending(new FieldComparator("kunOrt", false));
+
+		// set the paging params
+		//paging_OrderList_CustomerSearchList.setPageSize(pageSizeSearchCustomers);
+		//paging_OrderList_CustomerSearchList.setDetailed(true);
+
+		// ++ create the searchObject and init sorting ++ //
+//		if (getSearchObjCustomer() == null) {
+//			setSearchObjCustomer(pageSizeSearchCustomers);
+//			getSearchObjCustomer().addSort("kunMatchcode", false);
+//			setSearchObjCustomer(searchObjCustomer);
+//		}
+//
+//		// Set the ListModel.
+//		//getPlwCustomers().init(getSearchObjCustomer(), listBoxCustomerSearch, paging_OrderList_CustomerSearchList);
+//		// set the itemRenderer
+//		listBoxCustomerSearch.setItemRenderer(new OrderSearchCustomerListModelItemRenderer());
+                BuscarProveedor();
+	}
+
+
+    
+    private void BuscarProveedor() {
+        logger.log(Level.INFO, "[BuscarProveedor][refreshModel]Recargar clientes");
+        try {
+            request = new BusquedaPersonaDTO();
+//            if (StringUtils.isNotEmpty(txtIdProveedor.getText())) {
+//                request.setIdPersona(txtIdProveedor.getValue());
+//            }
+//            if (StringUtils.isNotEmpty(txtNombreProveedor.getValue())) {
+//                request.setNombre(txtNombreProveedor.getValue().toUpperCase());
+//            }
+//            if (StringUtils.isNotEmpty(txtNumeroNit.getValue())) {
+//                request.setNit(txtNumeroNit.getValue());
+//            }
+//            if (StringUtils.isNotEmpty(txtRegistroFiscal.getValue())) {
+//                request.setNumeroRegistro(txtRegistroFiscal.getValue());
+//            }
+//            
+            request.setTipoPersona(3);
+            searchObjCustomer = personaBean.buscarPersonaByCriteria(request);
+
+            if (!searchObjCustomer.isEmpty()) {
+                //setSearchObjCustomer(searchObjCustomer);
+                //paging_OrderList.setTotalSize(getTotalMovimiento());
+                listBoxCustomerSearch.setModel(new ListModelList(searchObjCustomer));
+                listBoxCustomerSearch.setItemRenderer(new PersonaItemRenderer());
+                //setSearchObjCustomer(searchObjCustomer);
+                //listaProveedorCtrl.setTotalProveedores(listaClientes.size());
+                //listaProveedorCtrl.getListBoxProveedor().setModel(new ListModelList(listaClientes));
+                // doClose();
+            } else {
+                //this.getListaProveedores().setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
+                //listaProveedorCtrl.getListBoxProveedor().setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
+                MensajeMultilinea.show("No se encontraron proveedores con los criterios ingresados", Constants.MENSAJE_TIPO_ALERTA);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajeMultilinea.show(e.toString(), Constants.MENSAJE_TIPO_ERROR);
+        }
+    }
+
+    public List<Personas> getSearchObjCustomer() {
+        return searchObjCustomer;
+    }
+
+    public void setSearchObjCustomer(List<Personas> searchObjCustomer) {
+        this.searchObjCustomer = searchObjCustomer;
+    }
+
+    
 
 }
