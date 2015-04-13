@@ -118,19 +118,24 @@
 																				<listhead
 																					sizable="true">
 																					<listheader
-																						id="listheader_CustNo_2" sort="auto" width="15%"
+																						id="listheader_CustNo" sort="auto" width="15%"
                                                                                                                                                                                 image="/images/builder.gif"
 																						label="Codigo" />
+                                                                                                                                                                        <listheader
+																						id="listheader_CustName1" sort="auto"
+                                                                                                                                                                                image="/images/create_doc.gif"
+																						width="60%"
+																						label="Nombre" />
 																					<listheader
-																						id="listheader_CustMatchcode_2" sort="auto"
+																						id="listheader_CustMatchcode" sort="auto"
                                                                                                                                                                                 image="/images/builder.gif"
 																						width="15%"
 																						label="Registro" />
 																					<listheader
-																						id="listheader_CustName1_2" sort="auto"
+																						id="listheader_CustTel" sort="auto"
                                                                                                                                                                                 image="/images/create_doc.gif"
 																						width="60%"
-																						label="Nombre" />
+																						label="Telefono" />
 																					
 																				</listhead>
 																			</listbox>
