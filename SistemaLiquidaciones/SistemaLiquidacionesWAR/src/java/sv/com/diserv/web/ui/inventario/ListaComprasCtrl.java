@@ -74,6 +74,7 @@ public class ListaComprasCtrl extends BaseController {
     protected Button button_OrderList_OrderNameSearch;
     protected Button button_OrderList_NewOrder;
     
+    
     protected Listbox listBoxOrder;
     protected Listheader lhIdMovimiento;
     protected Listheader lhProveedor;
@@ -103,6 +104,8 @@ public class ListaComprasCtrl extends BaseController {
     
     private PersonasBeanLocal personaBean;
     
+    // dialog control
+    protected Button button_OrderDialog_NewOrderPosition;
 
 
     /**
@@ -248,6 +251,21 @@ public class ListaComprasCtrl extends BaseController {
         }
     }
 
+    public void onClick$button_OrderDialog_NewOrderPosition(Event event)
+    {
+         logger.log(Level.INFO, "[onclick$button_OrderDialog_NewOrderPosition]Event:{0}", event.toString());
+        try {
+            HashMap map = new HashMap();
+            map.put("token", UtilFormat.getToken());
+            map.put("listaComprasCtrl", this);
+            Executions.createComponents("/WEB-INF/xhtml/inventario/orderPositionDialog.zul", null, map);
+        } catch (Exception a) {
+            a.printStackTrace();
+        }
+        
+    }
+    
+    
     public void onClick$btnRefresh(Event event) throws Exception {
         logger.log(Level.INFO, "[onClick$btnRefresh]Event:{0}", event.toString());
 
