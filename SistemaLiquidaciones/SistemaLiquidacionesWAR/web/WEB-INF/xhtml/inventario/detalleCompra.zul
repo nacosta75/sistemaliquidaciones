@@ -7,7 +7,6 @@
     <window id="detalleFacturaWindow"
             title="Detalle Documento Cliente"
             border="normal"
-            use="sv.com.ats.ui.facturacion.DetalleFacturaCtrl"
             closable="true"
             width="600px" 
             height="380px"
