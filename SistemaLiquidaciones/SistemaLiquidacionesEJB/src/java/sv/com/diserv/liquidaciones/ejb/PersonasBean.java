@@ -170,7 +170,7 @@ public class PersonasBean implements PersonasBeanLocal {
             condiciones.add(" UPPER(nit) LIKE UPPER('%" + re.getNit() + "%') ");
         }
         if (re.getNumeroRegistro() != null) {
-            condiciones.add(" UPPER(noRegistroFiscal) LIKE UPPER('%" + re.getNumeroRegistro() + "%') ");
+            condiciones.add(" UPPER(no_Registro_Fiscal) LIKE UPPER('%" + re.getNumeroRegistro() + "%') ");
         }
         if (re.getTipoPersona() != 0) {
             condiciones.add(" idtipopersona = " + re.getTipoPersona() + " ");
