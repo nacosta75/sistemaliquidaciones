@@ -17,17 +17,20 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
+import org.jfree.text.TextBox;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.FieldComparator;
+import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.event.PagingEvent;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
@@ -71,9 +74,6 @@ public class ListaComprasCtrl extends BaseController {
     protected Listheader listheader_CustCity;
     protected Listheader lhNoRegistro;
     
-    protected Button button_OrderList_OrderNameSearch;
-    protected Button button_OrderList_NewOrder;
-    
     
     protected Listbox listBoxOrder;
     protected Listheader lhIdMovimiento;
@@ -94,13 +94,18 @@ public class ListaComprasCtrl extends BaseController {
     private List<MovimientosDet> listaDetalleMovimiento;
     private Integer tipoMovimientoSelected;
     private BusquedaPersonaDTO request;
-    
+     
     
     // bandbox searchCustomer
     protected Bandbox bandbox_OrderList_CustomerSearch;
     private Object paging_OrderList_CustomerSearchList;
     private transient List<Personas> searchObjCustomer;
     private final int pageSizeSearchCustomers = 20;
+    protected Intbox tb_Orders_SearchCustNo;
+    protected Textbox tb_Orders_CustSearchMatchcode;
+    protected Textbox tb_Orders_SearchCustName1;
+    protected Button button_OrderList_OrderNameSearch;
+    protected Button button_OrderList_NewOrder;
     
     private PersonasBeanLocal personaBean;
     
@@ -335,34 +340,31 @@ public class ListaComprasCtrl extends BaseController {
         this.listaDetalleMovimiento = listaDetalleMovimiento;
     }
     
-    
-public void onClick$button_bbox_CustomerSearch_Close(Event event) {
-		// logger.debug(event.toString());
+    public void onClick$button_bbox_CustomerSearch_Close(Event event) {
+        // logger.debug(event.toString());
 
-		bandbox_OrderList_CustomerSearch.close();
-	}
-
+        bandbox_OrderList_CustomerSearch.close();
+    }
 
 
-public void onOpen$bandbox_OrderList_CustomerSearch(Event event) throws Exception {
+    public void onOpen$bandbox_OrderList_CustomerSearch(Event event) throws Exception {
 		// logger.debug(event.toString());
 
 		// not used listheaders must be declared like ->
-		// lh.setSortAscending(""); lh.setSortDescending("")
-		listheader_CustNo.setSortAscending(new FieldComparator("kunNr", true));
-		listheader_CustNo.setSortDescending(new FieldComparator("kunNr", false));
-		listheader_CustMatchcode.setSortAscending(new FieldComparator("kunMatchcode", true));
-		listheader_CustMatchcode.setSortDescending(new FieldComparator("kunMatchcode", false));
-		listheader_CustName1.setSortAscending(new FieldComparator("kunName1", true));
-		listheader_CustName1.setSortDescending(new FieldComparator("kunName1", false));
+        // lh.setSortAscending(""); lh.setSortDescending("")
+        listheader_CustNo.setSortAscending(new FieldComparator("kunNr", true));
+        listheader_CustNo.setSortDescending(new FieldComparator("kunNr", false));
+        listheader_CustMatchcode.setSortAscending(new FieldComparator("kunMatchcode", true));
+        listheader_CustMatchcode.setSortDescending(new FieldComparator("kunMatchcode", false));
+        listheader_CustName1.setSortAscending(new FieldComparator("kunName1", true));
+        listheader_CustName1.setSortDescending(new FieldComparator("kunName1", false));
 		//listheader_CustCity.setSortAscending(new FieldComparator("kunOrt", true));
-		//listheader_CustCity.setSortDescending(new FieldComparator("kunOrt", false));
+        //listheader_CustCity.setSortDescending(new FieldComparator("kunOrt", false));
 
 		// set the paging params
-		//paging_OrderList_CustomerSearchList.setPageSize(pageSizeSearchCustomers);
-		//paging_OrderList_CustomerSearchList.setDetailed(true);
-
-		// ++ create the searchObject and init sorting ++ //
+        //paging_OrderList_CustomerSearchList.setPageSize(pageSizeSearchCustomers);
+        //paging_OrderList_CustomerSearchList.setDetailed(true);
+        // ++ create the searchObject and init sorting ++ //
 //		if (getSearchObjCustomer() == null) {
 //			setSearchObjCustomer(pageSizeSearchCustomers);
 //			getSearchObjCustomer().addSort("kunMatchcode", false);
@@ -373,28 +375,32 @@ public void onOpen$bandbox_OrderList_CustomerSearch(Event event) throws Exceptio
 //		//getPlwCustomers().init(getSearchObjCustomer(), listBoxCustomerSearch, paging_OrderList_CustomerSearchList);
 //		// set the itemRenderer
 //		listBoxCustomerSearch.setItemRenderer(new OrderSearchCustomerListModelItemRenderer());
-                BuscarProveedor();
-	}
+        BuscarProveedor();
+    }
 
+    public void onClick$button_bbox_CustomerSearch_Search(Event event) {
+               BuscarProveedor();
+    }
 
     
     private void BuscarProveedor() {
         logger.log(Level.INFO, "[BuscarProveedor][refreshModel]Recargar clientes");
         try {
             request = new BusquedaPersonaDTO();
-//            if (StringUtils.isNotEmpty(txtIdProveedor.getText())) {
-//                request.setIdPersona(txtIdProveedor.getValue());
-//            }
-//            if (StringUtils.isNotEmpty(txtNombreProveedor.getValue())) {
-//                request.setNombre(txtNombreProveedor.getValue().toUpperCase());
-//            }
+            
+            if (StringUtils.isNotEmpty(tb_Orders_SearchCustNo.getText())) {
+                request.setIdPersona(tb_Orders_SearchCustNo.getValue());
+            }
+            if (StringUtils.isNotEmpty(tb_Orders_SearchCustName1.getValue())) {
+                request.setNombre(tb_Orders_SearchCustName1.getValue().toUpperCase());
+            }
 //            if (StringUtils.isNotEmpty(txtNumeroNit.getValue())) {
 //                request.setNit(txtNumeroNit.getValue());
 //            }
-//            if (StringUtils.isNotEmpty(txtRegistroFiscal.getValue())) {
-//                request.setNumeroRegistro(txtRegistroFiscal.getValue());
-//            }
-//            
+            if (StringUtils.isNotEmpty(tb_Orders_CustSearchMatchcode.getValue())) {
+                request.setNumeroRegistro(tb_Orders_CustSearchMatchcode.getValue());
+            }
+            
             request.setTipoPersona(3);
             searchObjCustomer = personaBean.buscarPersonaByCriteria(request);
 
@@ -410,6 +416,7 @@ public void onOpen$bandbox_OrderList_CustomerSearch(Event event) throws Exceptio
             } else {
                 //this.getListaProveedores().setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
                 //listaProveedorCtrl.getListBoxProveedor().setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
+                listBoxCustomerSearch.setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
                 MensajeMultilinea.show("No se encontraron proveedores con los criterios ingresados", Constants.MENSAJE_TIPO_ALERTA);
             }
         } catch (Exception e) {
