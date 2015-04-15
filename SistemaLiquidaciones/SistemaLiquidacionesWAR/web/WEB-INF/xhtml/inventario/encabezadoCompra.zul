@@ -7,7 +7,7 @@
     <window id="encabezadoCompraWindow"
             title="Orden"
             border="normal"
-            use="sv.com.diserv.web.ui.inventario.ListaComprasCtrl"
+            use="sv.com.diserv.web.ui.inventario.EncabezadoCompraCtrl"
             closable="true"
             width="700px" 
             height="600px"
@@ -37,7 +37,7 @@
 					<button id="btnImprimir"
 						sclass="oT_ButtonWithIcon"
 						image="/images/btnprint.gif"
-						tooltiptext="Imprimir Orden de compra" />
+						tooltiptext="ImprimirOrden de compra" />
 					<separator bar="true" orient="vertical" />
 					<button id="btnNuevo" sclass="oT_ButtonWithIcon"
                                                 image="/images/btnnew.gif"
@@ -46,7 +46,7 @@
                                                 image="/images/btnedit.gif"
 						tooltiptext="Editar Orden" />
 					<button id="btnDelete" sclass="oT_ButtonWithIcon"
-                                                image="/images/btndelete.gif"
+                                               image="/images/btndelete.gif"
 						tooltiptext="Borrar Orden" />
 					<button id="btnGuardar" sclass="oT_ButtonWithIcon"
                                                 image="/images/btnsave.gif"
@@ -122,7 +122,7 @@
 																		<label
 																			id="label_bboxCustomerSearch2_CustNo"
 																			value="Codigo" />
-																		<textbox
+																		<intbox
 																			id="tb_Orders_SearchCustNo" width="99%" />
 																		<button
 																			id="button_bbox_CustomerSearch_Search"
@@ -163,16 +163,16 @@
 																				<listhead
 																					sizable="true">
 																					<listheader
-																						id="listheader_CustNo_2" sort="auto" width="15%"
+																						id="listheader_CustNo" sort="auto" width="15%"
                                                                                                                                                                                 image="/images/builder.gif"
 																						label="Codigo" />
 																					<listheader
-																						id="listheader_CustMatchcode_2" sort="auto"
+																						id="listheader_CustMatchcode" sort="auto"
                                                                                                                                                                                 image="/images/builder.gif"
 																						width="15%"
 																						label="Registro" />
 																					<listheader
-																						id="listheader_CustName1_2" sort="auto"
+																						id="listheader_CustName1" sort="auto"
                                                                                                                                                                                 image="/images/create_doc.gif"
 																						width="60%"
 																						label="Nombre" />

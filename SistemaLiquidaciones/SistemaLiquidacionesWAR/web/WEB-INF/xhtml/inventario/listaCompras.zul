@@ -77,13 +77,13 @@
 																		<label
 																			id="label_bboxCustomerSearch2_CustNo"
 																			value="Codigo" />
-																		<textbox
+																		<intbox
 																			id="tb_Orders_SearchCustNo" width="99%" />
 																		<button
 																			id="button_bbox_CustomerSearch_Search"
 																			image="/images/search.gif"
 																			label="Buscar"
-																			tooltiptext="${c:l('Buscar Proveedor')}" />
+																			tooltiptext="Buscar Proveedor" />
 																		<button
 																			id="button_bbox_CustomerSearch_Close"
 																			image="/images/stop.gif"

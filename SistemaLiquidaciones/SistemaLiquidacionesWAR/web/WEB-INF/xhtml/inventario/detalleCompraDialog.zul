@@ -11,7 +11,8 @@
 		title="Articulo de la Orden" border="none"
 		sizable="true" mode="modal"               
                 closable="true"
-		width="600px" height="280px">
+		width="600px" height="280px"
+                use="sv.com.diserv.web.ui.inventario.DetalleCompraDialogCtrl" >
 
 		<borderlayout id="borderlayoutOrderPositionDialog">
 
@@ -170,19 +171,19 @@
 																					<listhead
 																						sizable="true">
 																						<listheader
-																							id="listheader_ArticleSearch_artNr"
+																							id="listheader_ArticleSearch_artcodigo"
 																							sclass="FDListBoxHeader1"
 																							image="/images/builder.gif" sort="auto"
 																							width="25%"
 																							label="Codigo" />
 																						<listheader
-																							id="listheader_ArticleSearch_artKurzbezeichnung"
+																							id="listheader_ArticleSearch_artDesc"
 																							sclass="FDListBoxHeader1"
 																							image="/images/create_doc.gif" sort="auto"
 																							width="60%"
 																							label="Descripcion" />
 																						<listheader
-																							id="listheader_ArticleSearch_aupEinzelwert"
+																							id="listheader_ArticleSearch_artPrecio"
 																							sclass="FDListBoxHeader1"
 																							image="/images/builder.gif" sort="none"
 																							width="15%"
