@@ -8,9 +8,11 @@ package sv.com.diserv.web.ui.inventario;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Priority;
+
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Bandbox;
@@ -33,6 +35,8 @@ import static sv.com.diserv.web.ui.inventario.ListaComprasCtrl.logger;
 import sv.com.diserv.web.ui.personas.rendered.PersonaItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -40,7 +44,7 @@ import sv.com.diserv.web.ui.util.MensajeMultilinea;
  */
 public class EncabezadoCompraCtrl extends BaseController{
     
-    static final Logger logger = Logger.getLogger(EncabezadoCompraCtrl.class.getName());
+    static final Logger logger = Logger.getLogger(EncabezadoCompraCtrl.class.toString());
     private static final long serialVersionUID = -5546886879998950489L;
     
     protected Window encabezadoCompraWindow;
@@ -158,6 +162,7 @@ public class EncabezadoCompraCtrl extends BaseController{
      public void onClick$button_OrderDialog_NewOrderPosition(Event event)
     {
          logger.log(Level.INFO, "[onclick$button_OrderDialog_NewOrderPosition]Event:{0}", event.toString());
+         
         try {
             HashMap map = new HashMap();
             map.put("token", UtilFormat.getToken());
