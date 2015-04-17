@@ -84,10 +84,10 @@
 								<rows>
 									<row>
 										<label
-											id="label_OrderDialog_kunNr"
+											id="label_OrderDialog_codPersona"
 											value="Proveedor" />
 										<hbox>
-											<textbox id="kunNr"
+											<textbox id="txtPersonaCod"
 												value="" />
 
 											<bandbox
@@ -195,9 +195,9 @@
 									</row>
 									<row>
 										<label
-											id="label_OrderDialog_kunName1"
+											id="label_OrderDialog_personaName"
 											value="${c:l('label_OrderDialog_kunName.value')}" />
-										<textbox id="kunName1"
+										<textbox id="txtPersonaName"
 											hflex="1" />
 									</row>
 									<row>
@@ -206,16 +206,16 @@
 									</row>
 									<row>
 										<label
-											id="label_OrderDialog_aufNr"
+											id="label_OrderDialog_facturaNo"
 											value="Factura No." />
-										<textbox id="aufNr"
+										<textbox id="txtFacturaNo"
 											width="180px" />
 									</row>
 									<row>
 										<label
 											id="label_OrderDialog_aufBezeichnung"
 											value="Observaciones" />
-										<textbox id="aufBezeichnung"
+										<textbox id="txtObservaciones"
 											hflex="1" />
 									</row>
 								</rows>

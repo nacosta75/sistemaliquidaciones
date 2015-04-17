@@ -135,7 +135,7 @@
 																				id="label_ArticleSearch_artNr"
 																				value="Codigo" />
 																			<textbox
-																				id="tb_OrderPosition_SearchArticlelNo" width="99%" />
+																				id="tb_OrderPosition_SearchArticleCodigo" width="99%" />
 																			<button
 																				id="button_bbox_ArticleSearch_Search"
 																				image="/images/search.gif"
@@ -171,23 +171,23 @@
 																					<listhead
 																						sizable="true">
 																						<listheader
-																							id="listheader_ArticleSearch_artcodigo"
+																							id="listheader_ArticleSearch_artId"
 																							sclass="FDListBoxHeader1"
 																							image="/images/builder.gif" sort="auto"
 																							width="25%"
+																							label="Id" />
+																						<listheader
+																							id="listheader_ArticleSearch_artCod"
+																							sclass="FDListBoxHeader1"
+																							image="/images/create_doc.gif" sort="auto"
+																							width="40%"
 																							label="Codigo" />
 																						<listheader
 																							id="listheader_ArticleSearch_artDesc"
 																							sclass="FDListBoxHeader1"
-																							image="/images/create_doc.gif" sort="auto"
+																							image="/images/builder.gif" sort="none"
 																							width="60%"
 																							label="Descripcion" />
-																						<listheader
-																							id="listheader_ArticleSearch_artPrecio"
-																							sclass="FDListBoxHeader1"
-																							image="/images/builder.gif" sort="none"
-																							width="15%"
-																							label="Precio" />
 																					</listhead>
 																				</listbox>
 																			</div>
