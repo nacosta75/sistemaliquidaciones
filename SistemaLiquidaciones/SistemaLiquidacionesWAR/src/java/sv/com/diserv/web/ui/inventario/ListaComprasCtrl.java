@@ -205,7 +205,7 @@ public class ListaComprasCtrl extends BaseController {
             HashMap map = new HashMap();
             map.put("movimientoSelected", detalleMovimientoSelected);
             map.put("token", TokenGenerator.getTokenOperation());
-            map.put("listaFacturaCtrl", this);
+            map.put("listaComprasCtrl", this);
 
             Executions.createComponents("/WEB-INF/xhtml/inventario/encabezadoCompra.zul", null, map);
         }
@@ -244,13 +244,13 @@ public class ListaComprasCtrl extends BaseController {
         }  
     }
 
-    public void onClick$btnNuevoDocumento(Event event) {
+    public void onClick$button_OrderList_NewOrder(Event event) {
         logger.log(Level.INFO, "[onClick$btnNuevoDocumento]Event:{0}", event.toString());
         try {
             HashMap map = new HashMap();
             map.put("token", UtilFormat.getToken());
-            map.put("listaFacturaCtrl", this);
-            Executions.createComponents("/WEB-INF/xhtml/facturacion/encabezadoFactura.zul", null, map);
+            map.put("listaComprasCtrl", this);
+            Executions.createComponents("/WEB-INF/xhtml/inventario/encabezadoCompra.zul", null, map);
         } catch (Exception a) {
             a.printStackTrace();
         }

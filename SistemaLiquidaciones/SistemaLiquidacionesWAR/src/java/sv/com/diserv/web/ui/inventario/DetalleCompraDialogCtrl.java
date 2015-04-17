@@ -21,6 +21,7 @@ import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.BusquedaArticuloDTO;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
+import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Articulos;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
@@ -44,15 +45,16 @@ public class DetalleCompraDialogCtrl extends BaseController{
     
     //busqueda de articulos
     protected Listbox listBoxArticleSearch;
-    protected Listheader listheader_ArticleSearch_artcodigo;
-    protected Listheader listheader_ArticleSearch_artDesc;
-    protected Listheader listheader_ArticleSearch_artPrecio;  
+    protected Listheader listheader_ArticleSearch_artId;
+    protected Listheader listheader_ArticleSearch_artCod;
+    protected Listheader listheader_ArticleSearch_artDesc;  
     // bandbox searchProv
     protected Bandbox bandbox_OrderPositionDialog_ArticleSearch;
     private Object paging_ListBoxArticleSearch;
-    private transient List<Articulos> searchObjCustomer;
+    private transient List<Articulos> searchObjProduct;
     private final int pageSizeSearchCustomers = 20;
-    protected Textbox tb_OrderPosition_SearchArticlelNo;
+
+    protected Textbox tb_OrderPosition_SearchArticleCodigo;
     protected Textbox tb_OrderPosition_SearchArticleDesc;
     
     private ServiceLocator serviceLocator;
@@ -60,6 +62,7 @@ public class DetalleCompraDialogCtrl extends BaseController{
     private Integer numeroPaginInicio;
     private BusquedaArticuloDTO request;
 
+    private ArticulosBeanLocal articuloBean;
     
     public DetalleCompraDialogCtrl()
     {
@@ -68,7 +71,7 @@ public class DetalleCompraDialogCtrl extends BaseController{
         try {
             serviceLocator = ServiceLocator.getInstance();
             //movimientoBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOS_BEAN);
-            //personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
+            articuloBean = serviceLocator.getService(Constants.JNDI_ARTICULOS_BEAN);
             numeroPaginInicio = 0;
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
@@ -97,17 +100,17 @@ public class DetalleCompraDialogCtrl extends BaseController{
 
 		// not used listheaders must be declared like ->
         // lh.setSortAscending(""); lh.setSortDescending("")
-        listheader_ArticleSearch_artcodigo.setSortAscending(new FieldComparator("kunNr", true));
-        listheader_ArticleSearch_artcodigo.setSortDescending(new FieldComparator("kunNr", false));
-        listheader_ArticleSearch_artDesc.setSortAscending(new FieldComparator("kunMatchcode", true));
-        listheader_ArticleSearch_artDesc.setSortDescending(new FieldComparator("kunMatchcode", false));
-        listheader_ArticleSearch_artPrecio.setSortAscending(new FieldComparator("kunName1", true));
-        listheader_ArticleSearch_artPrecio.setSortDescending(new FieldComparator("kunName1", false));
+        listheader_ArticleSearch_artId.setSortAscending(new FieldComparator("kunNr", true));
+        listheader_ArticleSearch_artId.setSortDescending(new FieldComparator("kunNr", false));
+        listheader_ArticleSearch_artCod.setSortAscending(new FieldComparator("kunMatchcode", true));
+        listheader_ArticleSearch_artCod.setSortDescending(new FieldComparator("kunMatchcode", false));
+        listheader_ArticleSearch_artDesc.setSortAscending(new FieldComparator("kunName1", true));
+        listheader_ArticleSearch_artDesc.setSortDescending(new FieldComparator("kunName1", false));
 
         BuscarProdutos();
     }
 
-    public void onClick$button_bbox_CustomerSearch_Search(Event event) {
+    public void onClick$button_bbox_ArticleSearch_Search(Event event) {
                BuscarProdutos();
     }
 
@@ -117,9 +120,13 @@ public class DetalleCompraDialogCtrl extends BaseController{
         try {
             request = new BusquedaArticuloDTO();
             
-            if (StringUtils.isNotEmpty(tb_OrderPosition_SearchArticlelNo.getText())) {
-                request.setCodarticulo(tb_OrderPosition_SearchArticlelNo.getValue());
+         
+            //codigo del producto
+            if (StringUtils.isNotEmpty(tb_OrderPosition_SearchArticleCodigo.getText())) {
+                request.setCodarticulo(tb_OrderPosition_SearchArticleCodigo.getValue());
             }
+            
+            // descripcion del producto
             if (StringUtils.isNotEmpty(tb_OrderPosition_SearchArticleDesc.getValue())) {
                 request.setDescarticulo(tb_OrderPosition_SearchArticleDesc.getValue().toUpperCase());
             }
@@ -129,11 +136,11 @@ public class DetalleCompraDialogCtrl extends BaseController{
 //            }
 //            
 //            request.setTipoPersona(3);
-//            searchObjCustomer = personaBean.buscarPersonaByCriteria(request);
+             searchObjProduct = articuloBean.buscarArticuloByCriteria(request);
 
-            if (!searchObjCustomer.isEmpty()) {
+            if (!searchObjProduct.isEmpty()) {
 
-                listBoxArticleSearch.setModel(new ListModelList(searchObjCustomer));
+                listBoxArticleSearch.setModel(new ListModelList(searchObjProduct));
                 listBoxArticleSearch.setItemRenderer(new ArticuloItemRenderer());
 
             } else {
