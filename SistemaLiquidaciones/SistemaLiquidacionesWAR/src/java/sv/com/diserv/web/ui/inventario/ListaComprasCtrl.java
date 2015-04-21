@@ -199,11 +199,11 @@ public class ListaComprasCtrl extends BaseController {
 
     public void onDoubleClickedDetalleMovimiento(Event event) throws Exception {
         logger.log(Level.INFO, "[onDoubleClickedDetalleMovimiento]Event:{0}", event.toString());
-        Listitem item = this.listBoxDetalleCompra.getSelectedItem();
+        Listitem item = this.listBoxOrder.getSelectedItem();
         if (item != null) {
-            detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
+            movimientoSelected = (Movimientos) item.getAttribute("data");
             HashMap map = new HashMap();
-            map.put("movimientoSelected", detalleMovimientoSelected);
+            map.put("movimientoSelected", movimientoSelected);
             map.put("token", TokenGenerator.getTokenOperation());
             map.put("listaComprasCtrl", this);
 

@@ -5,7 +5,6 @@
  */
 package sv.com.diserv.web.ui.inventario;
 
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,26 +42,26 @@ import sv.com.diserv.liquidaciones.entity.Movimientos;
  *
  * @author abraham.acosta
  */
-public class EncabezadoCompraCtrl extends BaseController{
-    
+public class EncabezadoCompraCtrl extends BaseController {
+
     static final Logger logger = Logger.getLogger(EncabezadoCompraCtrl.class.toString());
     private static final long serialVersionUID = -5546886879998950489L;
-    
+
     protected Window encabezadoCompraWindow;
-    protected Button btnNew;
-    protected Button btnEdit;
+    protected Button btnNuevo;
+    protected Button btnEditar;
     protected Button btnDelete;
     protected Button btnSave;
-    protected Button btnCancel;
-    protected Button btnClose;
+    protected Button btnCancelar;
+    protected Button btnCerrar;
     protected Button btnImprimir;
     protected Textbox txtPersonaName;
     protected Textbox txtPersonaCod;
     protected Textbox txtFacturaNo;
     protected Textbox txtObservaciones;
-    
+
     private BusquedaPersonaDTO request;
-    
+
     //busqueda de proveedor
     protected Listbox listBoxCustomerSearch;
     protected Listheader listheader_CustNo;
@@ -70,7 +69,7 @@ public class EncabezadoCompraCtrl extends BaseController{
     protected Listheader listheader_CustName1;
     protected Listheader listheader_CustCity;
     protected Listheader lhNoRegistro;
-    
+
     // bandbox searchCustomer
     protected Bandbox bandbox_OrderDialog_CustomerSearch;
     private Object paging_OrderDialog_CustomerSearchList;
@@ -81,21 +80,19 @@ public class EncabezadoCompraCtrl extends BaseController{
     protected Textbox tb_Orders_SearchCustName1;
     protected Button button_OrderList_OrderNameSearch;
     protected Button button_OrderList_NewOrder;
-    
+
     private Integer totalMovimiento;
     private Integer numeroPaginInicio;
     private transient Integer token;
-    
+
     private PersonasBeanLocal personaBean;
     private ServiceLocator serviceLocator;
-    
+
     private Movimientos movimientoSelected;
     private ListaComprasCtrl listaComprasCtrl;
-    
-    
-    public EncabezadoCompraCtrl()
-    {
-      logger.log(Level.INFO, "[EncabezadoCompraCtrl]INIT");
+
+    public EncabezadoCompraCtrl() {
+        logger.log(Level.INFO, "[EncabezadoCompraCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
             //movimientoBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOS_BEAN);
@@ -106,8 +103,8 @@ public class EncabezadoCompraCtrl extends BaseController{
             ex.printStackTrace();
         }
     }
-    
-     public void onCreate$encabezadoCompraWindow(Event event) throws Exception {
+
+    public void onCreate$encabezadoCompraWindow(Event event) throws Exception {
         doOnCreateCommon(this.encabezadoCompraWindow, event);
         MensajeMultilinea.doSetTemplate();
         if (this.args.containsKey("movimientoSelected")) {
@@ -123,23 +120,22 @@ public class EncabezadoCompraCtrl extends BaseController{
         if (this.args.containsKey("listaComprasCtrl")) {
             listaComprasCtrl = ((ListaComprasCtrl) this.args.get("listaComprasCtrl"));
         }
-      //  checkPermisos();
-      showDetalleLineas();
-      
-         //userLogin.getUsuario().getIdusuario();
+        //  checkPermisos();
+        showDetalleLineas();
+
+        //userLogin.getUsuario().getIdusuario();
     }
-    
+
     public void onClick$button_bbox_CustomerSearch_Close(Event event) {
         // logger.debug(event.toString());
 
         bandbox_OrderDialog_CustomerSearch.close();
     }
 
-
     public void onOpen$bandbox_OrderDialog_CustomerSearch(Event event) throws Exception {
 		// logger.debug(event.toString());
 
-		// not used listheaders must be declared like ->
+        // not used listheaders must be declared like ->
         // lh.setSortAscending(""); lh.setSortDescending("")
         listheader_CustNo.setSortAscending(new FieldComparator("facturaNo", true));
         listheader_CustNo.setSortDescending(new FieldComparator("facturaNo", false));
@@ -152,15 +148,14 @@ public class EncabezadoCompraCtrl extends BaseController{
     }
 
     public void onClick$button_bbox_CustomerSearch_Search(Event event) {
-               BuscarProveedor();
+        BuscarProveedor();
     }
 
-    
     private void BuscarProveedor() {
         logger.log(Level.INFO, "[BuscarProveedor][refreshModel]Recargar proveedores");
         try {
             request = new BusquedaPersonaDTO();
-            
+
             if (StringUtils.isNotEmpty(tb_Orders_SearchCustNo.getText())) {
                 request.setIdPersona(tb_Orders_SearchCustNo.getValue());
             }
@@ -171,7 +166,7 @@ public class EncabezadoCompraCtrl extends BaseController{
             if (StringUtils.isNotEmpty(tb_Orders_CustSearchMatchcode.getValue())) {
                 request.setNumeroRegistro(tb_Orders_CustSearchMatchcode.getValue());
             }
-            
+
             request.setTipoPersona(3);
             searchObjCustomer = personaBean.buscarPersonaByCriteria(request);
 
@@ -181,7 +176,7 @@ public class EncabezadoCompraCtrl extends BaseController{
                 listBoxCustomerSearch.setItemRenderer(new PersonaItemRenderer());
 
             } else {
-                
+
                 listBoxCustomerSearch.setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
                 MensajeMultilinea.show("No se encontraron proveedores con los criterios ingresados", Constants.MENSAJE_TIPO_ALERTA);
             }
@@ -190,11 +185,10 @@ public class EncabezadoCompraCtrl extends BaseController{
             MensajeMultilinea.show(e.toString(), Constants.MENSAJE_TIPO_ERROR);
         }
     }
-    
-     public void onClick$button_OrderDialog_NewOrderPosition(Event event)
-    {
-         logger.log(Level.INFO, "[onclick$button_OrderDialog_NewOrderPosition]Event:{0}", event.toString());
-         
+
+    public void onClick$button_OrderDialog_NewOrderPosition(Event event) {
+        logger.log(Level.INFO, "[onclick$button_OrderDialog_NewOrderPosition]Event:{0}", event.toString());
+
         try {
             HashMap map = new HashMap();
             map.put("token", UtilFormat.getToken());
@@ -203,7 +197,7 @@ public class EncabezadoCompraCtrl extends BaseController{
         } catch (Exception a) {
             a.printStackTrace();
         }
-        
+
     }
 
     public BusquedaPersonaDTO getRequest() {
@@ -247,8 +241,8 @@ public class EncabezadoCompraCtrl extends BaseController{
     }
 
     private void showDetalleLineas() {
-          
-      try {
+
+        try {
             if (movimientoSelected != null) {
                 doReadOnly(Boolean.TRUE);
                 doEditButton();
@@ -257,7 +251,7 @@ public class EncabezadoCompraCtrl extends BaseController{
             } else {
                 doNew();
             }
-            encabezadoCompraWindow.doModal();
+            //encabezadoCompraWindow.doModal();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -288,26 +282,45 @@ public class EncabezadoCompraCtrl extends BaseController{
 //            } else {
 //                txtCostoAnt.setValue(BigDecimal.ZERO);
 //            }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    private void doReadOnly(Boolean TRUE) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void doReadOnly(Boolean opt) {
+        txtPersonaName.setReadonly(opt);
+        txtFacturaNo.setReadonly(opt);
     }
 
     private void doEditButton() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.btnCerrar.setVisible(true);
+        this.btnEditar.setVisible(true);
+        this.btnNuevo.setVisible(true);
+        this.btnSave.setVisible(false);
+        this.btnDelete.setVisible(false);
+        this.btnImprimir.setVisible(false);
+        this.btnCancelar.setVisible(false);
     }
 
     private void doNew() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        doClear();
+        doReadOnly(Boolean.FALSE);
+
+        this.btnCerrar.setVisible(false);
+        this.btnEditar.setVisible(false);
+        this.btnNuevo.setVisible(false);
+        this.btnSave.setVisible(true);
+        this.btnDelete.setVisible(true);
+        this.btnImprimir.setVisible(true);
+        this.btnCancelar.setVisible(true);
     }
 
-    
-    
-    
+    private void doClear() {
+
+        txtPersonaName.setValue(null);
+        txtFacturaNo.setValue(null);
+    }
+
 }
