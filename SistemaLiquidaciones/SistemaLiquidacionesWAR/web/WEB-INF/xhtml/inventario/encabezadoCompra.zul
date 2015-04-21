@@ -48,7 +48,7 @@
 					<button id="btnDelete" sclass="oT_ButtonWithIcon"
                                                image="/images/btndelete.gif"
 						tooltiptext="Borrar Orden" />
-					<button id="btnGuardar" sclass="oT_ButtonWithIcon"
+					<button id="btnSave" sclass="oT_ButtonWithIcon"
                                                 image="/images/btnsave.gif"
 						tooltiptext="Guardar Orden" />
 					<button id="btnCancelar" sclass="oT_ButtonWithIcon"
@@ -132,7 +132,7 @@
 																		<button
 																			id="button_bbox_CustomerSearch_Close"
 																			image="/images/stop.gif"
-																			tooltiptext="${c:l('button_bbox_CustomerSearch_Close.tooltiptext')}" />
+																			tooltiptext="Cerrar Busqueda" />
 																	</row>
 																	<row>
 																		<label
@@ -250,7 +250,7 @@
 								<button
 									id="button_OrderDialog_NewOrderPosition" height="24px"
 									image="/images/btnnew.gif"
-									label="${c:l('button_OrderDialog_NewOrderPosition.label')}"
+									label="Nueva Orden"
 									tooltiptext="Insertar Articulo" />
 							</toolbar>
 							<!-- SEARCH AREA -->
@@ -273,12 +273,12 @@
 						<!-- PAGING COMPONENT -->
 						<north border="none" height="26px">
 							<paging
-								id="paging_ListBoxOrderOrderPositions" pageSize="20" />
+								id="paging_ListBoxOrderOrderPositions2" pageSize="20" />
 						</north>
 
 						<center border="none">
 							<listbox id="listBoxOrderOrderPositions"
-								tooltiptext="${c:l('listbox.tooltiptext')}" width="100%"
+								tooltiptext="listBoxOrderOrderPositions" width="100%"
 								height="100%" multiple="false">
 								<listhead sizable="true">
 									<listheader
