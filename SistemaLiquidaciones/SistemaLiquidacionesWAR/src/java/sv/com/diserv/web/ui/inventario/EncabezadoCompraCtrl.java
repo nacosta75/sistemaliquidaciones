@@ -67,8 +67,8 @@ public class EncabezadoCompraCtrl extends BaseController {
     protected Listheader listheader_CustNo;
     protected Listheader listheader_CustMatchcode;
     protected Listheader listheader_CustName1;
-    protected Listheader listheader_CustCity;
-    protected Listheader lhNoRegistro;
+    protected Listheader listheader_CustTel;
+   // protected Listheader lhNoRegistro;
 
     // bandbox searchCustomer
     protected Bandbox bandbox_OrderDialog_CustomerSearch;
@@ -78,8 +78,8 @@ public class EncabezadoCompraCtrl extends BaseController {
     protected Intbox tb_Orders_SearchCustNo;
     protected Textbox tb_Orders_CustSearchMatchcode;
     protected Textbox tb_Orders_SearchCustName1;
-    protected Button button_OrderList_OrderNameSearch;
-    protected Button button_OrderList_NewOrder;
+    //protected Button button_OrderList_OrderNameSearch;
+    //protected Button button_OrderList_NewOrder;
 
     private Integer totalMovimiento;
     private Integer numeroPaginInicio;
@@ -88,7 +88,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     private PersonasBeanLocal personaBean;
     private ServiceLocator serviceLocator;
 
-    private Movimientos movimientoSelected;
+    private Movimientos compraSelected;
     private ListaComprasCtrl listaComprasCtrl;
 
     public EncabezadoCompraCtrl() {
@@ -107,9 +107,9 @@ public class EncabezadoCompraCtrl extends BaseController {
     public void onCreate$encabezadoCompraWindow(Event event) throws Exception {
         doOnCreateCommon(this.encabezadoCompraWindow, event);
         MensajeMultilinea.doSetTemplate();
-        if (this.args.containsKey("movimientoSelected")) {
-            movimientoSelected = ((Movimientos) this.args.get("movimientoSelected"));
-            setMovimientoSelected(movimientoSelected);
+        if (this.args.containsKey("compraSelected")) {
+            compraSelected = ((Movimientos) this.args.get("compraSelected"));
+            setCompraSelected(compraSelected);
         }
         if (this.args.containsKey("token")) {
             this.token = ((Integer) this.args.get("token"));
@@ -216,13 +216,14 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.numeroPaginInicio = numeroPaginInicio;
     }
 
-    public Movimientos getMovimientoSelected() {
-        return movimientoSelected;
+    public Movimientos getCompraSelected() {
+        return compraSelected;
     }
 
-    public void setMovimientoSelected(Movimientos movimientoSelected) {
-        this.movimientoSelected = movimientoSelected;
+    public void setCompraSelected(Movimientos compraSelected) {
+        this.compraSelected = compraSelected;
     }
+
 
     public Integer getToken() {
         return token;
@@ -243,7 +244,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     private void showDetalleLineas() {
 
         try {
-            if (movimientoSelected != null) {
+            if (compraSelected != null) {
                 doReadOnly(Boolean.TRUE);
                 doEditButton();
                 loadDataFromEntity();
@@ -260,9 +261,9 @@ public class EncabezadoCompraCtrl extends BaseController {
     private void loadDataFromEntity() {
 
         try {
-            txtPersonaName.setValue(movimientoSelected.getIdpersona().getNombre());
-            txtPersonaCod.setValue(movimientoSelected.getIdpersona().getNoRegistroFiscal());
-            txtFacturaNo.setValue(movimientoSelected.getNodoc().toString());
+            txtPersonaName.setValue(compraSelected.getIdpersona().getNombre());
+            txtPersonaCod.setValue(compraSelected.getIdpersona().getNoRegistroFiscal());
+            txtFacturaNo.setValue(compraSelected.getNodoc().toString());
 
 //            loadCombobox();
 //

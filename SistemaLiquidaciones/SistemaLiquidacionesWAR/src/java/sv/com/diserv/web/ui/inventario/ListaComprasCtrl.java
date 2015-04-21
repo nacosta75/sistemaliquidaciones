@@ -199,16 +199,16 @@ public class ListaComprasCtrl extends BaseController {
 
     public void onDoubleClickedDetalleMovimiento(Event event) throws Exception {
         logger.log(Level.INFO, "[onDoubleClickedDetalleMovimiento]Event:{0}", event.toString());
-        Listitem item = this.listBoxOrder.getSelectedItem();
-        if (item != null) {
-            movimientoSelected = (Movimientos) item.getAttribute("data");
-            HashMap map = new HashMap();
-            map.put("movimientoSelected", movimientoSelected);
-            map.put("token", TokenGenerator.getTokenOperation());
-            map.put("listaComprasCtrl", this);
-
-            Executions.createComponents("/WEB-INF/xhtml/inventario/encabezadoCompra.zul", null, map);
-        }
+    //    Listitem item = this.listBoxOrder.getSelectedItem();
+//        if (item != null) {
+//            movimientoSelected = (Movimientos) item.getAttribute("data");
+//            HashMap map = new HashMap();
+//            map.put("movimientoSelected", movimientoSelected);
+//            map.put("token", TokenGenerator.getTokenOperation());
+//            map.put("listaComprasCtrl", this);
+//
+//            Executions.createComponents("/WEB-INF/xhtml/inventario/encabezadoCompra.zul", null, map);
+//        }
     }
     
      public void onDoubleClickedCompra(Event event) throws Exception {
