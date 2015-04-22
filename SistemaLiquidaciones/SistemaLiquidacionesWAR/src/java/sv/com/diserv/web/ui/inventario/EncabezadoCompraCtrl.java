@@ -36,7 +36,10 @@ import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
+import sv.com.diserv.liquidaciones.entity.MovimientosDet;
+import sv.com.diserv.web.ui.inventario.rendered.DetalleMovimientoItemRenderer;
 
 /**
  *
@@ -80,22 +83,25 @@ public class EncabezadoCompraCtrl extends BaseController {
     protected Textbox tb_Orders_SearchCustName1;
     //protected Button button_OrderList_OrderNameSearch;
     //protected Button button_OrderList_NewOrder;
+    protected Listbox listBoxDetalleCompra;
 
     private Integer totalMovimiento;
     private Integer numeroPaginInicio;
     private transient Integer token;
 
     private PersonasBeanLocal personaBean;
+    private MovimientosBeanLocal movimientoBean;
     private ServiceLocator serviceLocator;
 
     private Movimientos compraSelected;
     private ListaComprasCtrl listaComprasCtrl;
+    private List<MovimientosDet> listaDetalleMovimiento;
 
     public EncabezadoCompraCtrl() {
         logger.log(Level.INFO, "[EncabezadoCompraCtrl]INIT");
         try {
             serviceLocator = ServiceLocator.getInstance();
-            //movimientoBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOS_BEAN);
+            movimientoBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOS_BEAN);
             personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
             numeroPaginInicio = 0;
         } catch (ServiceLocatorException ex) {
@@ -241,6 +247,16 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.totalMovimiento = totalMovimiento;
     }
 
+    public List<MovimientosDet> getListaDetalleMovimiento() {
+        return listaDetalleMovimiento;
+    }
+
+    public void setListaDetalleMovimiento(List<MovimientosDet> listaDetalleMovimiento) {
+        this.listaDetalleMovimiento = listaDetalleMovimiento;
+    }
+    
+    
+
     private void showDetalleLineas() {
 
         try {
@@ -264,7 +280,7 @@ public class EncabezadoCompraCtrl extends BaseController {
             txtPersonaName.setValue(compraSelected.getIdpersona().getNombre());
             txtPersonaCod.setValue(compraSelected.getIdpersona().getNoRegistroFiscal());
             txtFacturaNo.setValue(compraSelected.getNodoc().toString());
-
+            txtObservaciones.setValue(compraSelected.getObserva1());
 //            loadCombobox();
 //
 //            cmbMarcaArticulo.setValue(articuloSelected.getIdmarca().getDescmarca());
@@ -283,15 +299,33 @@ public class EncabezadoCompraCtrl extends BaseController {
 //            } else {
 //                txtCostoAnt.setValue(BigDecimal.ZERO);
 //            }
+            showDetalleCompra();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+    
+    public void showDetalleCompra() throws Exception {
+        logger.log(Level.INFO, "[showDetalleCompra][refreshModel]Recargar detalle");
+            if (compraSelected != null) {
+                listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(compraSelected.getIdmov());
+                if (listaDetalleMovimiento.size() > 0) {
+                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
+                    listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
+                } else {
+                    logger.info("No se cargaron registros");
+                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
+                    listBoxDetalleCompra.setEmptyMessage("Factura no tiene items agregados");
+                }
+            }
+    }
 
     private void doReadOnly(Boolean opt) {
         txtPersonaName.setReadonly(opt);
         txtFacturaNo.setReadonly(opt);
+        txtPersonaCod.setReadonly(opt);
+        txtObservaciones.setReadonly(opt);
     }
 
     private void doEditButton() {
@@ -322,6 +356,11 @@ public class EncabezadoCompraCtrl extends BaseController {
 
         txtPersonaName.setValue(null);
         txtFacturaNo.setValue(null);
+    }
+    
+     public void onClick$btnEditar(Event event) {
+        doReadOnly(Boolean.FALSE);
+        doEditButton();
     }
 
 }
