@@ -128,7 +128,7 @@
 																			id="button_bbox_CustomerSearch_Search"
 																			image="/images/search.gif"
 																			label="Buscar"
-																			tooltiptext="${c:l('Buscar Proveedor')}" />
+																			tooltiptext="button_bbox_CustomerSearch_Search" />
 																		<button
 																			id="button_bbox_CustomerSearch_Close"
 																			image="/images/stop.gif"
@@ -250,7 +250,7 @@
 								<button
 									id="button_OrderDialog_NewOrderPosition" height="24px"
 									image="/images/btnnew.gif"
-									label="Nueva Orden"
+									label="Nuevo Articulo"
 									tooltiptext="Insertar Articulo" />
 							</toolbar>
 							<!-- SEARCH AREA -->
@@ -277,8 +277,8 @@
 						</north>
 
 						<center border="none">
-							<listbox id="listBoxOrderOrderPositions"
-								tooltiptext="listBoxOrderOrderPositions" width="100%"
+							<listbox id="listBoxDetalleCompra"
+								tooltiptext="Articulos de la compra" width="100%"
 								height="100%" multiple="false">
 								<listhead sizable="true">
 									<listheader
