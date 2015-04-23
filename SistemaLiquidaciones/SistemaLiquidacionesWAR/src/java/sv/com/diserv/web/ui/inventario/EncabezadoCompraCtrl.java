@@ -36,9 +36,11 @@ import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.zkoss.zul.Listitem;
 import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.MovimientosDet;
+import sv.com.diserv.liquidaciones.util.TokenGenerator;
 import sv.com.diserv.web.ui.inventario.rendered.DetalleMovimientoItemRenderer;
 
 /**
@@ -94,6 +96,8 @@ public class EncabezadoCompraCtrl extends BaseController {
     private ServiceLocator serviceLocator;
 
     private Movimientos compraSelected;
+    private MovimientosDet detalleMovimientoSelected;
+    
     private ListaComprasCtrl listaComprasCtrl;
     private List<MovimientosDet> listaDetalleMovimiento;
 
@@ -204,6 +208,20 @@ public class EncabezadoCompraCtrl extends BaseController {
             a.printStackTrace();
         }
 
+    }
+    
+    public void onDoubleClickedDetalleMovimiento(Event event) throws Exception {
+        logger.log(Level.INFO, "[onDoubleClickedDetalleMovimiento]Event:{0}", event.toString());
+        Listitem item = this.listBoxDetalleCompra.getSelectedItem();
+        if (item != null) {
+            detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
+            HashMap map = new HashMap();
+            map.put("detalleMovimientoSelected", detalleMovimientoSelected);
+            map.put("token", TokenGenerator.getTokenOperation());
+            map.put("encabezadoComprasCtrl", this);
+
+            Executions.createComponents("/WEB-INF/xhtml/inventario/detalleCompraDialog.zul", null, map);
+        }
     }
 
     public BusquedaPersonaDTO getRequest() {

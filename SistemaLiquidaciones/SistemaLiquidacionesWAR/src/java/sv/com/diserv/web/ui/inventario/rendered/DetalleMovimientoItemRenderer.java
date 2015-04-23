@@ -33,6 +33,6 @@ public class DetalleMovimientoItemRenderer implements ListitemRenderer {
         item.setAttribute("data", data);
         ComponentsCtrl.applyForward(item, "onClick=onClickedDetalleDocumento");
 
-        ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedDocumentoCliente");
+        ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedDetalleMovimiento");
     }
 }
