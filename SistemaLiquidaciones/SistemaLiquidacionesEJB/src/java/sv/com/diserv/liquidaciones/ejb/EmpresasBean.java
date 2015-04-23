@@ -205,12 +205,37 @@ public class EmpresasBean implements EmpresasBeanLocal {
 
     @Override
     public List<Empresas> loadEmpresaByNombreLike(String likeNombre) throws DiservBusinessException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         logger.log(Level.INFO, "[loadEmpresaByNombreLike]Buscando:" + likeNombre);
+        Query query;
+        try {
+            query = em.createQuery("Empresas.findByNombre");
+            query.setParameter("nombre", "%" + likeNombre + "%");
+            return query.getResultList();
+        } catch (Exception e) {
+            logger.log(Level.ERROR, "[getnombreEmpresa]Exception={0}", e);
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public Empresas loadEmpresaByID(Integer idEmpresa) throws DiservBusinessException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        logger.log(Level.INFO, "[loadEmpresaByID] Idarticulo:" + idEmpresa);
+        Empresas empresa = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("Empresas.findByIdempresa");
+            query.setParameter("idempresa", idEmpresa);
+            empresa = (Empresas) query.getSingleResult();
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[loadEmpresaByID][NoResultException]No se encontraron empresas");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron empresas");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[loadEmpresaByID][Exception]Se mostro una excepcion al buscar empresa");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return empresa;
     }
     
 }

@@ -47,7 +47,7 @@ public class BusquedaArticuloDTO {
     public void setIdtipoarticulo(int idtipoarticulo) {
         this.idtipoarticulo = idtipoarticulo;
     }
-     
+
      
      
      
