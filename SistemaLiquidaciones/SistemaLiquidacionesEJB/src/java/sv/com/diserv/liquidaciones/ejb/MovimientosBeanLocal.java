@@ -7,6 +7,7 @@ package sv.com.diserv.liquidaciones.ejb;
 
 import java.util.List;
 import javax.ejb.Local;
+import sv.com.diserv.liquidaciones.dto.BusquedaMovimientoDTO;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
@@ -29,4 +30,5 @@ public interface MovimientosBeanLocal {
     public Integer maxNumDocByVendedorAndTipoMov(int idVendedor, int tipoMov) throws DiservBusinessException;
     public List<MovimientosDet> loadDetalleMovimientoByIdMovimento(Integer codigoMovimiento) throws DiservBusinessException;
     public Movimientos findMovimientoById( Integer idMovimiento) throws DiservBusinessException;
+    public List<Movimientos> buscarMovimientoByCriteria(BusquedaMovimientoDTO input) throws DiservBusinessException;
 }

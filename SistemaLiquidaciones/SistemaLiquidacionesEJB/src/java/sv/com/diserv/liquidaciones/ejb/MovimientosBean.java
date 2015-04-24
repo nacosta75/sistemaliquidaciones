@@ -1,5 +1,9 @@
 package sv.com.diserv.liquidaciones.ejb;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -11,9 +15,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import sv.com.diserv.liquidaciones.dto.BusquedaMovimientoDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.MovimientosDet;
+import sv.com.diserv.liquidaciones.entity.Sucursales;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.util.Constants;
 
@@ -175,5 +181,99 @@ public class MovimientosBean implements MovimientosBeanLocal {
             throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
         }
         return movimiento;   
+    }
+
+    @Override
+    public List<Movimientos> buscarMovimientoByCriteria(BusquedaMovimientoDTO input) throws DiservBusinessException {
+        logger.info("[buscarMovimientoByCriteria]Parametros=" + input.toString());
+        List<Movimientos> response = new ArrayList<>();
+        Movimientos movimientos;
+        List<String> condiciones = new ArrayList<>();
+        if (input.getIdmov() != null) {
+            condiciones.add(" idMov=" + input.getIdmov() + " ");
+        }
+        if (input.getFecha()!= null) {
+            condiciones.add(" UPPER(fechamov) = UPPER('" + input.getFecha() + "') ");
+        }
+        if (input.getIdpersona() != null) {
+            condiciones.add(" idpersona=" + input.getIdpersona() + " ");
+        }
+        if (input.getIdsucursal() != null) {
+            condiciones.add(" idsucursal=" + input.getIdsucursal() + " ");
+        }
+        if (input.getNoDoc() != null) {
+            condiciones.add(" idnodoc=" + input.getNoDoc() + " ");
+        }
+        if (input.getIdtipomov() != 0) {
+            condiciones.add(" idtipomov = " + input.getIdtipomov() + " ");
+        }
+
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(" SELECT * FROM movimientos ");
+            if (!condiciones.isEmpty()) {
+                sb.append(" WHERE ");
+                sb.append(condiciones.get(0));
+                for (int i = 1; i < condiciones.size(); i++) {
+                    sb.append(" AND ");
+                    sb.append(condiciones.get(i));
+                }
+            }
+            sb.append(" ORDER BY fechamov DESC ");
+            System.out.println("SQL A EJECUTAR:--> " + sb.toString());
+            System.out.println("PARAMETROS RECIBIDOS:-->" + input.toString());
+            Query q = em.createNativeQuery(sb.toString());
+            List<Object[]> lista = q.getResultList();
+            if (lista.size() > 0) {
+                for (Object[] item : lista) {
+                    movimientos = new Movimientos();
+                    movimientos.setIdmov(Integer.parseInt(item[0] != null ? item[0].toString() : "0"));
+                    
+                    SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+                    String strFecha = item[1] != null ? item[1].toString() : "";
+                    Date fecha = null;
+                    try {
+
+                        fecha = formatoDelTexto.parse(strFecha);
+
+                    } catch (ParseException ex) {
+
+                        ex.printStackTrace();
+
+                    }
+                    movimientos.setFechamov(fecha);
+                    
+                    movimientos.setIdsucursal(new Sucursales(Integer.parseInt(item[2] != null ? item[2].toString() : "0")));
+                    movimientos.setNombre(item[3] != null ? item[3].toString() : "N/D");
+                    movimientos.setEstado(item[4] != null ? item[4].toString() : "N/D");
+                    movimientos.setDireccion(item[6] != null ? item[6].toString() : "N/D");
+                    movimientos.setColonia(item[7] != null ? item[7].toString() : "N/D");
+                    movimientos.setNit(item[8] != null ? item[8].toString() : "N/D");
+                    movimientos.setNoRegistroFiscal(item[9] != null ? item[9].toString() : "N/D");
+                    movimientos.setTelefono1(item[10] != null ? item[10].toString() : "N/D");
+                    movimientos.setExt1(Integer.parseInt(item[11] != null ? item[11].toString() : "0"));
+                    movimientos.setTelefono2(item[12] != null ? item[12].toString() : "N/D");
+                    movimientos.setExt2(Integer.parseInt(item[13] != null ? item[13].toString() : "0"));
+                    movimientos.setTelefono3(item[14] != null ? item[14].toString() : "N/D");
+                    movimientos.setExt3(Integer.parseInt(item[15] != null ? item[15].toString() : "0"));
+                    movimientos.setFax(item[16] != null ? item[16].toString() : "N/D");
+                    movimientos.setCreditoActivo(item[17] != null ? item[17].toString() : "N/D");
+                    movimientos.setLimiteCredito(new BigDecimal(item[18] != null ? item[18].toString() : "0"));
+                    movimientos.setCorreo(item[19] != null ? item[19].toString() : "N/D");
+                    movimientos.setUltSaldo(new BigDecimal(item[20] != null ? item[20].toString() : "0"));
+                    
+                    movimientos.setEstadoCivil(item[22] != null ? item[22].toString() : "N/D");
+                    movimientos.setIdusuariocrea(Integer.parseInt(item[23] != null ? item[23].toString() : "0"));
+
+                    response.add(movimientos);
+                }
+            }
+        } catch (NoResultException e) {
+            logger.info("[consultarBitacoraFinalizadasParametros]No se encontraron registros con criterios recibidos");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron registros con parametros proporcionados");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 }
