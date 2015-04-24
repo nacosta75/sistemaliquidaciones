@@ -218,7 +218,7 @@ public class EncabezadoCompraCtrl extends BaseController {
             HashMap map = new HashMap();
             map.put("detalleMovimientoSelected", detalleMovimientoSelected);
             map.put("token", TokenGenerator.getTokenOperation());
-            map.put("encabezadoComprasCtrl", this);
+            map.put("encabezadoCompraCtrl", this);
 
             Executions.createComponents("/WEB-INF/xhtml/inventario/detalleCompraDialog.zul", null, map);
         }
@@ -379,6 +379,16 @@ public class EncabezadoCompraCtrl extends BaseController {
      public void onClick$btnEditar(Event event) {
         doReadOnly(Boolean.FALSE);
         doEditButton();
+    }
+     
+       public void onClick$btnCerrar(Event event) throws InterruptedException {
+        doClose();
+    }
+
+   
+
+    private void doClose() {
+        this.encabezadoCompraWindow.onClose();
     }
 
 }

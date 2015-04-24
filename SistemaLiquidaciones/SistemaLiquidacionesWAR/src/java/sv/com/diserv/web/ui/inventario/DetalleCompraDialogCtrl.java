@@ -5,6 +5,7 @@
  */
 package sv.com.diserv.web.ui.inventario;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.FieldComparator;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
@@ -23,6 +25,8 @@ import sv.com.diserv.liquidaciones.dto.BusquedaArticuloDTO;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Articulos;
+import sv.com.diserv.liquidaciones.entity.Movimientos;
+import sv.com.diserv.liquidaciones.entity.MovimientosDet;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
@@ -41,7 +45,7 @@ public class DetalleCompraDialogCtrl extends BaseController{
     static final Logger logger = Logger.getLogger(DetalleCompraDialogCtrl.class.toString());
     private static final long serialVersionUID = -5746886879998950489L;
     
-    protected Window borderlayoutOrderPositionDialog;
+    protected Window orderPositionDialogWindow;
     
     //busqueda de articulos
     protected Listbox listBoxArticleSearch;
@@ -54,6 +58,20 @@ public class DetalleCompraDialogCtrl extends BaseController{
     private transient List<Articulos> searchObjProduct;
     private final int pageSizeSearchCustomers = 20;
 
+    //detalle de movimiento
+    protected Button btnNew;
+    protected Button btnEdit;
+    protected Button btnDelete;
+    protected Button btnSave;
+    protected Button btnCancel;
+    protected Button btnClose;
+    
+    protected Textbox txtCodigo;
+    protected Textbox txtDescripcion;
+    protected Decimalbox txtCantidad;
+    protected Decimalbox txtPrecio;
+    protected Decimalbox txtTotal;
+    
     protected Textbox tb_OrderPosition_SearchArticleCodigo;
     protected Textbox tb_OrderPosition_SearchArticleDesc;
     
@@ -63,6 +81,10 @@ public class DetalleCompraDialogCtrl extends BaseController{
     private BusquedaArticuloDTO request;
 
     private ArticulosBeanLocal articuloBean;
+    
+    private MovimientosDet detalleMovimientoSelected;
+    private transient Integer token;
+    private EncabezadoCompraCtrl encabezadoCompraCtrl;
     
     public DetalleCompraDialogCtrl()
     {
@@ -80,6 +102,27 @@ public class DetalleCompraDialogCtrl extends BaseController{
     
     }
 
+     public void onCreate$orderPositionDialogWindow(Event event) throws Exception {
+        doOnCreateCommon(this.orderPositionDialogWindow, event);
+        MensajeMultilinea.doSetTemplate();
+        if (this.args.containsKey("detalleMovimientoSelected")) {
+            detalleMovimientoSelected = ((MovimientosDet) this.args.get("detalleMovimientoSelected"));
+            setDetalleMovimientoSelected(detalleMovimientoSelected);
+        }
+        if (this.args.containsKey("token")) {
+            this.token = ((Integer) this.args.get("token"));
+            setToken(this.token);
+        } else {
+            setToken(Integer.valueOf(0));
+        }
+        if (this.args.containsKey("encabezadoCompraCtrl")) {
+            encabezadoCompraCtrl = ((EncabezadoCompraCtrl) this.args.get("encabezadoCompraCtrl"));
+        }
+       
+        showDetalleLineas();
+       
+    }
+     
     public Integer getNumeroPaginInicio() {
         return numeroPaginInicio;
     }
@@ -160,6 +203,100 @@ public class DetalleCompraDialogCtrl extends BaseController{
 
     public void setRequest(BusquedaArticuloDTO request) {
         this.request = request;
+    }
+
+    public MovimientosDet getDetalleMovimientoSelected() {
+        return detalleMovimientoSelected;
+    }
+
+    public void setDetalleMovimientoSelected(MovimientosDet detalleMovimientoSelected) {
+        this.detalleMovimientoSelected = detalleMovimientoSelected;
+    }
+
+    public Integer getToken() {
+        return token;
+    }
+
+    public void setToken(Integer token) {
+        this.token = token;
+    }
+
+    private void showDetalleLineas() {
+        try {
+            if (detalleMovimientoSelected != null) {
+                doReadOnly(Boolean.TRUE);
+                doEditButton();
+                loadDataFromEntity();
+
+            } else {
+                doNew();
+            }
+            //encabezadoCompraWindow.doModal();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+
+    private void doEditButton() {
+        this.btnClose.setVisible(true);
+        this.btnEdit.setVisible(true);
+        this.btnNew.setVisible(true);
+        this.btnSave.setVisible(false);
+        this.btnDelete.setVisible(false);
+        this.btnCancel.setVisible(false);
+    }
+
+    private void doNew() {
+
+        doClear();
+        doReadOnly(Boolean.FALSE);
+
+        this.btnClose.setVisible(false);
+        this.btnEdit.setVisible(false);
+        this.btnNew.setVisible(false);
+        this.btnSave.setVisible(true);
+        this.btnDelete.setVisible(true);
+        this.btnCancel.setVisible(true);
+    }
+    
+    private void doReadOnly(Boolean opt) {
+    
+        txtCodigo.setReadonly(opt);
+        txtDescripcion.setReadonly(opt);
+        txtCantidad.setReadonly(opt);
+        txtPrecio.setReadonly(opt);
+        txtTotal.setReadonly(opt);
+        
+    }
+    private void loadDataFromEntity() {
+         try {
+            txtCodigo.setValue(detalleMovimientoSelected.getIdarticulo().getCodarticulo()); 
+            txtDescripcion.setValue(detalleMovimientoSelected.getIdarticulo().getDescarticulo());
+            txtCantidad.setValue(detalleMovimientoSelected.getCantidad());
+            txtPrecio.setValue(detalleMovimientoSelected.getPrecio());
+            txtTotal.setValue(detalleMovimientoSelected.getCantidad().multiply(detalleMovimientoSelected.getPrecio()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void doClear() {
+        txtCodigo.setValue(null);
+        txtDescripcion.setValue(null);
+        txtCantidad.setValue(BigDecimal.ZERO);
+        txtPrecio.setValue(BigDecimal.ZERO);
+        txtTotal.setValue(BigDecimal.ZERO);
+    }
+
+    public void onClick$btnClose(Event event) throws InterruptedException {
+        doClose();
+    }
+    
+     private void doClose() {
+        this.orderPositionDialogWindow.onClose();
     }
     
     

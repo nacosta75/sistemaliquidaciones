@@ -10,7 +10,7 @@ package sv.com.diserv.web.ui.inventario;
 
 /**
  *
- * @author edwin.alvarenga
+ * @author abraham.acosta
  */
 import java.util.HashMap;
 import java.util.List;
@@ -108,7 +108,7 @@ public class ListaComprasCtrl extends BaseController {
     protected Button button_OrderList_NewOrder;
     
     private PersonasBeanLocal personaBean;
-    
+    private Personas personas;
     // dialog control
     protected Button button_OrderDialog_NewOrderPosition;
 
@@ -341,9 +341,7 @@ public class ListaComprasCtrl extends BaseController {
     }
     
     public void onClick$button_bbox_CustomerSearch_Close(Event event) {
-        // logger.debug(event.toString());
-
-        bandbox_OrderList_CustomerSearch.close();
+         bandbox_OrderList_CustomerSearch.close();
     }
 
 
@@ -432,7 +430,61 @@ public class ListaComprasCtrl extends BaseController {
     public void setSearchObjCustomer(List<Personas> searchObjCustomer) {
         this.searchObjCustomer = searchObjCustomer;
     }
-
     
+     public void onClick$btnCerrar(Event event) throws InterruptedException {
+        doClose();
+    }
+
+    private void doClose() {
+        this.listaMovimientoWindow.onClose();
+    }
+
+    public Personas getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(Personas personas) {
+        this.personas = personas;
+    }
+    
+    
+    
+    public void onDoubleClickedCustomerItem(Event event) {
+		// logger.debug(event.toString());
+
+		// get the customer
+		Listitem item = this.listBoxCustomerSearch.getSelectedItem();
+		if (item != null) {
+
+			/* clear the listboxes from older stuff */
+			if ((ListModelList) listBoxOrder.getModel() != null) {
+				((ListModelList) listBoxOrder.getModel()).clear();
+			}
+			if ((ListModelList) listBoxDetalleCompra.getModel() != null) {
+				((ListModelList) listBoxDetalleCompra.getModel()).clear();
+			}
+
+			Personas persona = (Personas) item.getAttribute("data");
+
+			if (persona != null)
+				setPersonas(persona);
+
+			bandbox_OrderList_CustomerSearch.setValue(persona.getNombre() + ", " + persona.getIdpersona());
+  
+			listaMovimiento = movimientoBean.loadAllMovimientos(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),Constants.CODIGO_MOVIMIENTO_TIPO_COMPRA );
+                if (listaMovimiento.size() > 0) {
+                    logger.log(Level.INFO, "Registros cargados=={0}", listaMovimiento.size());
+                    paging_OrderList.setTotalSize(getTotalMovimiento());
+                    listBoxOrder.setModel(new ListModelList(listaMovimiento));
+                    listBoxOrder.setItemRenderer(new MovimientoItemRenderer());
+                } else {
+                    logger.info("No se encontraron registros con los parametros ingresados");
+                }
+		}
+
+		// close the bandbox
+		bandbox_OrderList_CustomerSearch.close();
+
+	}
 
 }
