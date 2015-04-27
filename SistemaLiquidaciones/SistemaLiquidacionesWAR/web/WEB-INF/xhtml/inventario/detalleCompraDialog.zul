@@ -98,7 +98,7 @@
 												value="Codigo" />
 
 											<hbox>
-												<textbox id="artNr"
+												<textbox id="txtCodigo"
 													value="" />
                                                                                                 <bandbox
 													id="bandbox_OrderPositionDialog_ArticleSearch"
@@ -209,7 +209,7 @@
 												id="label_OrderPositionDialog_artKurzbezeichnung"
 												value="Descripcion" />
 											<textbox
-												id="artKurzbezeichnung" readonly="true" hflex="1" />
+												id="txtDescripcion" readonly="true" hflex="1" />
 
 										</row>
 										<row>
@@ -222,7 +222,7 @@
 												value="Cantidad" />
 											<hbox>
 												<decimalbox
-													id="aupMenge" readonly="true" width="100px" />
+													id="txtCantidad" readonly="true" width="100px" />
 												<space />
 												<button
 													id="button_OrderPositionDialog_Calculate"
@@ -235,7 +235,7 @@
 												id="label_OrderPositionDialog_aupEinzelwert"
 												value="Precio" />
 											<decimalbox
-												id="aupEinzelwert" readonly="true" width="100px" />
+												id="txtPrecio" readonly="true" width="100px" />
 										</row>
 										<row>
 											<separator bar="true"></separator>
@@ -246,7 +246,7 @@
 												id="label_OrderPositionDialog_aupGesamtwert"
 												value="Total" />
 											<decimalbox
-												id="aupGesamtwert" readonly="true" width="100px" />
+												id="txtTotal" readonly="true" width="100px" />
 										</row>
                                                                             
                                                                         </rows>
