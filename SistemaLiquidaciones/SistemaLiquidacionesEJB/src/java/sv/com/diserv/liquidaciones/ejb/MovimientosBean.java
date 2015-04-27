@@ -17,9 +17,12 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.BusquedaMovimientoDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
+import sv.com.diserv.liquidaciones.entity.Bodegas;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.MovimientosDet;
+import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.entity.Sucursales;
+import sv.com.diserv.liquidaciones.entity.TiposMov;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.util.Constants;
 
@@ -242,29 +245,19 @@ public class MovimientosBean implements MovimientosBeanLocal {
 
                     }
                     movimientos.setFechamov(fecha);
-                    
-                    movimientos.setIdsucursal(new Sucursales(Integer.parseInt(item[2] != null ? item[2].toString() : "0")));
-                    movimientos.setNombre(item[3] != null ? item[3].toString() : "N/D");
-                    movimientos.setEstado(item[4] != null ? item[4].toString() : "N/D");
+                    movimientos.setNodoc(Integer.parseInt(item[2] != null ? item[2].toString() : "0"));//NODOC
+                    movimientos.setIdcaja(Integer.parseInt(item[3] != null ? item[3].toString() : "0"));//idcaja
+                    movimientos.setNombre(item[4] != null ? item[4].toString() : "N/D");
+                    movimientos.setNoRegistro(item[5] != null ? item[5].toString() : "N/D");//noregistro
                     movimientos.setDireccion(item[6] != null ? item[6].toString() : "N/D");
-                    movimientos.setColonia(item[7] != null ? item[7].toString() : "N/D");
-                    movimientos.setNit(item[8] != null ? item[8].toString() : "N/D");
-                    movimientos.setNoRegistroFiscal(item[9] != null ? item[9].toString() : "N/D");
-                    movimientos.setTelefono1(item[10] != null ? item[10].toString() : "N/D");
-                    movimientos.setExt1(Integer.parseInt(item[11] != null ? item[11].toString() : "0"));
-                    movimientos.setTelefono2(item[12] != null ? item[12].toString() : "N/D");
-                    movimientos.setExt2(Integer.parseInt(item[13] != null ? item[13].toString() : "0"));
-                    movimientos.setTelefono3(item[14] != null ? item[14].toString() : "N/D");
-                    movimientos.setExt3(Integer.parseInt(item[15] != null ? item[15].toString() : "0"));
-                    movimientos.setFax(item[16] != null ? item[16].toString() : "N/D");
-                    movimientos.setCreditoActivo(item[17] != null ? item[17].toString() : "N/D");
-                    movimientos.setLimiteCredito(new BigDecimal(item[18] != null ? item[18].toString() : "0"));
-                    movimientos.setCorreo(item[19] != null ? item[19].toString() : "N/D");
-                    movimientos.setUltSaldo(new BigDecimal(item[20] != null ? item[20].toString() : "0"));
+                    movimientos.setObserva1(item[7] != null ? item[7].toString() : "N/D");
+                    movimientos.setEstado(item[8] != null ? item[8].toString() : "N/D");
+                    movimientos.setIdtipomov(new TiposMov(Integer.parseInt(item[9] != null ? item[9].toString() : "0")));
+                    movimientos.setIdsucursal(new Sucursales(Integer.parseInt(item[10] != null ? item[10].toString() : "0")));
+                    movimientos.setIdpersona(new Personas(Integer.parseInt(item[11] != null ? item[11].toString() : "0")));
+                    movimientos.setIdbodegaentrada(new Bodegas(Integer.parseInt(item[12] != null ? item[12].toString() : "0")));
+                    movimientos.setIdbodegasalida(new Bodegas(Integer.parseInt(item[12] != null ? item[12].toString() : "0")));
                     
-                    movimientos.setEstadoCivil(item[22] != null ? item[22].toString() : "N/D");
-                    movimientos.setIdusuariocrea(Integer.parseInt(item[23] != null ? item[23].toString() : "0"));
-
                     response.add(movimientos);
                 }
             }
