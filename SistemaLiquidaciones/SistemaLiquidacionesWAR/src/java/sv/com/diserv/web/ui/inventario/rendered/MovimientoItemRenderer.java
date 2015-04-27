@@ -37,6 +37,8 @@ public class MovimientoItemRenderer implements ListitemRenderer {
         ComponentsCtrl.applyForward(item, "onClick=onClickedMovimiento");
         //ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedDetalleMovimiento");
         ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedCompra");
+        ComponentsCtrl.applyForward(item, "onDoubleClick=onDoubleClickedCustomerItem");
+        
         
     }
 }

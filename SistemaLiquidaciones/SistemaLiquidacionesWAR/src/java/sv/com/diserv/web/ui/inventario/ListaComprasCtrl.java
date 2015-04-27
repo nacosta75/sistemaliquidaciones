@@ -33,12 +33,14 @@ import org.zkoss.zul.Paging;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.event.PagingEvent;
+import sv.com.diserv.liquidaciones.dto.BusquedaMovimientoDTO;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.Personas;
 import sv.com.diserv.liquidaciones.entity.MovimientosDet;
+import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
@@ -94,6 +96,7 @@ public class ListaComprasCtrl extends BaseController {
     private List<MovimientosDet> listaDetalleMovimiento;
     private Integer tipoMovimientoSelected;
     private BusquedaPersonaDTO request;
+    private BusquedaMovimientoDTO busquedaMovimientoDTO;
      
     
     // bandbox searchCustomer
@@ -344,6 +347,16 @@ public class ListaComprasCtrl extends BaseController {
          bandbox_OrderList_CustomerSearch.close();
     }
 
+    public BusquedaMovimientoDTO getBusquedaMovimientoDTO() {
+        return busquedaMovimientoDTO;
+    }
+
+    public void setBusquedaMovimientoDTO(BusquedaMovimientoDTO busquedaMovimientoDTO) {
+        this.busquedaMovimientoDTO = busquedaMovimientoDTO;
+    }
+    
+    
+
 
     public void onOpen$bandbox_OrderList_CustomerSearch(Event event) throws Exception {
 		// logger.debug(event.toString());
@@ -449,7 +462,7 @@ public class ListaComprasCtrl extends BaseController {
     
     
     
-    public void onDoubleClickedCustomerItem(Event event) {
+    public void onDoubleClickedCustomerItem(Event event) throws DiservBusinessException {
 		// logger.debug(event.toString());
 
 		// get the customer
@@ -471,7 +484,13 @@ public class ListaComprasCtrl extends BaseController {
 
 			bandbox_OrderList_CustomerSearch.setValue(persona.getNombre() + ", " + persona.getIdpersona());
   
-			listaMovimiento = movimientoBean.loadAllMovimientos(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),Constants.CODIGO_MOVIMIENTO_TIPO_COMPRA );
+                        busquedaMovimientoDTO = new BusquedaMovimientoDTO();
+                        busquedaMovimientoDTO.setIdpersona(persona.getIdpersona());
+                        busquedaMovimientoDTO.setIdtipomov(Constants.CODIGO_MOVIMIENTO_TIPO_COMPRA);
+                        
+                        
+			listaMovimiento = movimientoBean.buscarMovimientoByCriteria(busquedaMovimientoDTO);
+                        
                 if (listaMovimiento.size() > 0) {
                     logger.log(Level.INFO, "Registros cargados=={0}", listaMovimiento.size());
                     paging_OrderList.setTotalSize(getTotalMovimiento());
