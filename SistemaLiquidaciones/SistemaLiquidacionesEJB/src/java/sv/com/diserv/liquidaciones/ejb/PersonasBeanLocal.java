@@ -28,4 +28,5 @@ public interface PersonasBeanLocal {
     public OperacionesPersonaDTO actualizarPersona(Personas persona) throws DiservBusinessException;
     public OperacionesPersonaDTO eliminarPersona(Personas persona) throws DiservBusinessException;
     public List<Personas> buscarPersonaByCriteria(BusquedaPersonaDTO request) throws DiservBusinessException;
+    public Personas buscarPersonaById(int id) throws DiservBusinessException ;
 }

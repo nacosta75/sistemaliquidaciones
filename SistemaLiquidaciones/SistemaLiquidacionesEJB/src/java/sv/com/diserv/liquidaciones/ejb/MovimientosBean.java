@@ -38,6 +38,8 @@ public class MovimientosBean implements MovimientosBeanLocal {
     private EntityManager em;
     @EJB
     GenericDaoServiceBeanLocal genericDaoBean;
+    @EJB
+    PersonasBeanLocal personasBean;
 
     @Override
     public Integer countAllMovimientos(int tipoMovimiento) throws DiservBusinessException {
@@ -246,17 +248,18 @@ public class MovimientosBean implements MovimientosBeanLocal {
                     }
                     movimientos.setFechamov(fecha);
                     movimientos.setNodoc(Integer.parseInt(item[2] != null ? item[2].toString() : "0"));//NODOC
-                    movimientos.setIdcaja(Integer.parseInt(item[3] != null ? item[3].toString() : "0"));//idcaja
-                    movimientos.setNombre(item[4] != null ? item[4].toString() : "N/D");
-                    movimientos.setNoRegistro(item[5] != null ? item[5].toString() : "N/D");//noregistro
-                    movimientos.setDireccion(item[6] != null ? item[6].toString() : "N/D");
-                    movimientos.setObserva1(item[7] != null ? item[7].toString() : "N/D");
-                    movimientos.setEstado(item[8] != null ? item[8].toString() : "N/D");
-                    movimientos.setIdtipomov(new TiposMov(Integer.parseInt(item[9] != null ? item[9].toString() : "0")));
-                    movimientos.setIdsucursal(new Sucursales(Integer.parseInt(item[10] != null ? item[10].toString() : "0")));
-                    movimientos.setIdpersona(new Personas(Integer.parseInt(item[11] != null ? item[11].toString() : "0")));
-                    movimientos.setIdbodegaentrada(new Bodegas(Integer.parseInt(item[12] != null ? item[12].toString() : "0")));
-                    movimientos.setIdbodegasalida(new Bodegas(Integer.parseInt(item[12] != null ? item[12].toString() : "0")));
+                    movimientos.setIdpersona(personasBean.buscarPersonaById(Integer.parseInt(item[3] != null ? item[3].toString() : "0")));
+                    movimientos.setIdcaja(Integer.parseInt(item[4] != null ? item[4].toString() : "0"));//idcaja
+                    movimientos.setIdsucursal(new Sucursales(Integer.parseInt(item[5] != null ? item[5].toString() : "0")));
+                    movimientos.setIdbodegaentrada(new Bodegas(Integer.parseInt(item[6] != null ? item[6].toString() : "0")));
+                    movimientos.setIdbodegasalida(new Bodegas(Integer.parseInt(item[7] != null ? item[7].toString() : "0")));
+                    movimientos.setNombre(item[8] != null ? item[8].toString() : "N/D");
+                    movimientos.setNoRegistro(item[9] != null ? item[9].toString() : "N/D");//noregistro
+                    movimientos.setDireccion(item[10] != null ? item[10].toString() : "N/D");
+                    movimientos.setObserva1(item[11] != null ? item[11].toString() : "N/D");
+                    movimientos.setEstado(item[12] != null ? item[12].toString() : "N/D");
+                    movimientos.setIdtipomov(new TiposMov(Integer.parseInt(item[13] != null ? item[13].toString() : "0")));
+                                              
                     
                     response.add(movimientos);
                 }

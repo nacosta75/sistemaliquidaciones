@@ -269,4 +269,25 @@ public class PersonasBean implements PersonasBeanLocal {
         return personaList;
     }
 
+    @Override
+    public Personas buscarPersonaById(int id) throws DiservBusinessException  {
+          logger.log(Level.INFO, "[buscarPersonaById] " );
+        Personas personas = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("Personas.findByIdpersona");
+            query.setParameter("idpersona", id);
+            personas = (Personas) query.getSingleResult();
+            if (personas!= null) {
+                logger.log(Level.INFO, "[buscarPersonaById] Se encontraron " + personas.getNombre() + " personas");
+            }
+            
+        }
+         catch (Exception e) {
+            logger.log(Level.INFO, "[Excepcion en buscarPersonaById]" + e.toString());
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return personas;
+    }
+
 }
