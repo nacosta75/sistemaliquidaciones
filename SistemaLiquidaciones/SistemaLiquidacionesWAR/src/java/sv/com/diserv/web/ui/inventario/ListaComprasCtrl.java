@@ -180,6 +180,7 @@ public class ListaComprasCtrl extends BaseController {
 
     private void refreshModel(int activePage) {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][refreshModel]Recargar clientes,Pagina activa:{0}", activePage);
+        bandbox_OrderList_CustomerSearch.setReadonly(true);
         try {
             if (totalMovimiento > 0) {
                 listaMovimiento = movimientoBean.loadAllMovimientos(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),Constants.CODIGO_MOVIMIENTO_TIPO_COMPRA );
@@ -188,6 +189,7 @@ public class ListaComprasCtrl extends BaseController {
                     paging_OrderList.setTotalSize(getTotalMovimiento());
                     listBoxOrder.setModel(new ListModelList(listaMovimiento));
                     listBoxOrder.setItemRenderer(new MovimientoItemRenderer());
+                    
                 } else {
                     logger.info("No se encontraron registros con los parametros ingresados");
                 }
@@ -201,44 +203,7 @@ public class ListaComprasCtrl extends BaseController {
     }
 
     public void onDoubleClickedDetalleMovimiento(Event event) throws Exception {
-        logger.log(Level.INFO, "[onDoubleClickedDetalleMovimiento]Event:{0}", event.toString());
-         Listitem item = this.listBoxCustomerSearch.getSelectedItem();
-		if (item != null) {
-
-			/* clear the listboxes from older stuff */
-			if ((ListModelList) listBoxOrder.getModel() != null) {
-				((ListModelList) listBoxOrder.getModel()).clear();
-			}
-			if ((ListModelList) listBoxDetalleCompra.getModel() != null) {
-				((ListModelList) listBoxDetalleCompra.getModel()).clear();
-			}
-
-			Personas persona = (Personas) item.getAttribute("data");
-
-			if (persona != null)
-				setPersonas(persona);
-
-			bandbox_OrderList_CustomerSearch.setValue(persona.getNombre() + ", " + persona.getIdpersona());
-  
-                        busquedaMovimientoDTO = new BusquedaMovimientoDTO();
-                        busquedaMovimientoDTO.setIdpersona(persona.getIdpersona());
-                        busquedaMovimientoDTO.setIdtipomov(Constants.CODIGO_MOVIMIENTO_TIPO_COMPRA);
-                        
-                        
-			listaMovimiento = movimientoBean.buscarMovimientoByCriteria(busquedaMovimientoDTO);
-                        
-                if (listaMovimiento.size() > 0) {
-                    logger.log(Level.INFO, "Registros cargados=={0}", listaMovimiento.size());
-                    paging_OrderList.setTotalSize(getTotalMovimiento());
-                    listBoxOrder.setModel(new ListModelList(listaMovimiento));
-                    listBoxOrder.setItemRenderer(new MovimientoItemRenderer());
-                } else {
-                    logger.info("No se encontraron registros con los parametros ingresados");
-                }
-		}
-
-		// close the bandbox
-		bandbox_OrderList_CustomerSearch.close();
+     
 
     //    Listitem item = this.listBoxOrder.getSelectedItem();
 //        if (item != null) {
@@ -520,7 +485,7 @@ public class ListaComprasCtrl extends BaseController {
 			if (persona != null)
 				setPersonas(persona);
 
-			bandbox_OrderList_CustomerSearch.setValue(persona.getNombre() + ", " + persona.getIdpersona());
+			bandbox_OrderList_CustomerSearch.setValue(persona.getNombre());
   
                         busquedaMovimientoDTO = new BusquedaMovimientoDTO();
                         busquedaMovimientoDTO.setIdpersona(persona.getIdpersona());

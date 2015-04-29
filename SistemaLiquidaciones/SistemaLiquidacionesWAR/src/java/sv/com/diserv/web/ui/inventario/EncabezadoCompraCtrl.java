@@ -40,6 +40,7 @@ import org.zkoss.zul.Listitem;
 import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.MovimientosDet;
+import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.util.TokenGenerator;
 import sv.com.diserv.web.ui.inventario.rendered.DetalleMovimientoItemRenderer;
 
@@ -94,6 +95,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     private PersonasBeanLocal personaBean;
     private MovimientosBeanLocal movimientoBean;
     private ServiceLocator serviceLocator;
+    private Personas personas;
 
     private Movimientos compraSelected;
     private MovimientosDet detalleMovimientoSelected;
@@ -391,4 +393,29 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.encabezadoCompraWindow.onClose();
     }
 
+     public void onDoubleClickedPersona(Event event) throws DiservBusinessException {
+
+         Listitem item = this.listBoxCustomerSearch.getSelectedItem();
+         if (item != null) {
+             Personas persona = (Personas) item.getAttribute("data");
+             if (persona != null) {
+                 setPersonas(persona);
+             }
+             txtPersonaCod.setValue(persona.getNoRegistroFiscal());
+             txtPersonaName.setValue(persona.getNombre());
+             // close the bandbox
+             bandbox_OrderDialog_CustomerSearch.close();
+
+	}
+    }
+
+    public Personas getPersonas() {
+        return personas;
+    }
+
+    public void setPersonas(Personas personas) {
+        this.personas = personas;
+    }
+     
+     
 }

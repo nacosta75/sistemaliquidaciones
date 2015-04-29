@@ -19,6 +19,7 @@ import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.BusquedaArticuloDTO;
@@ -85,6 +86,7 @@ public class DetalleCompraDialogCtrl extends BaseController{
     private MovimientosDet detalleMovimientoSelected;
     private transient Integer token;
     private EncabezadoCompraCtrl encabezadoCompraCtrl;
+    private Articulos articulo;
     
     public DetalleCompraDialogCtrl()
     {
@@ -299,5 +301,33 @@ public class DetalleCompraDialogCtrl extends BaseController{
         this.orderPositionDialogWindow.onClose();
     }
     
-    
+     public void onDoubleClickedArticulo(Event event) throws Exception {
+        logger.log(Level.INFO, "[**onDoubleClickedArticulo]Event:{0}", event.toString());
+        Listitem item = this.listBoxArticleSearch.getSelectedItem();
+        if (item != null) {
+            Articulos articulo= (Articulos) item.getAttribute("data");
+            if (articulo!=null)
+            {
+                txtCodigo.setValue(articulo.getCodarticulo());
+                txtDescripcion.setValue(articulo.getDescarticulo());
+                txtCantidad.setValue(BigDecimal.ZERO);
+                txtPrecio.setValue(articulo.getCostopromant());
+                txtTotal.setValue(txtCantidad.getValue().multiply(txtPrecio.getValue()));
+                
+                setArticulo(articulo);
+            }
+            
+            bandbox_OrderPositionDialog_ArticleSearch.close();
+        }
+    }
+
+    public Articulos getArticulo() {
+        return articulo;
+    }
+
+    public void setArticulo(Articulos articulo) {
+        this.articulo = articulo;
+    }
+     
+     
 }
