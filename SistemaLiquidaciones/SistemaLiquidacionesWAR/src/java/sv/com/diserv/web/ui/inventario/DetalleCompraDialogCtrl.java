@@ -311,7 +311,15 @@ public class DetalleCompraDialogCtrl extends BaseController{
                 txtCodigo.setValue(articulo.getCodarticulo());
                 txtDescripcion.setValue(articulo.getDescarticulo());
                 txtCantidad.setValue(BigDecimal.ZERO);
+                if (articulo.getCostopromant()!=null)
+                {
                 txtPrecio.setValue(articulo.getCostopromant());
+                }
+                else
+                {
+                 txtPrecio.setValue(BigDecimal.ZERO);
+                }
+                
                 txtTotal.setValue(txtCantidad.getValue().multiply(txtPrecio.getValue()));
                 
                 setArticulo(articulo);
