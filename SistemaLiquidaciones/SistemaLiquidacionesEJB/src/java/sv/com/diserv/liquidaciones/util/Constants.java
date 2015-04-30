@@ -6,6 +6,8 @@
  */
 package sv.com.diserv.liquidaciones.util;
 
+import java.math.BigDecimal;
+
 /**
  *
  * alvarenga.miranda@gmail.com
@@ -18,6 +20,7 @@ public class Constants {
     public static final int CODE_OPERACION_SATISFACTORIA = 100;
     public static final int CODE_OPERATION_FALLIDA = 98;
     public static final int REGISTROS_A_MOSTRAR_LISTA = 15;
+    public static final BigDecimal VALOR_IMPUESTO_IVA = new BigDecimal(13);
     public static final String MSG_FALLO_EN_OPERACION = "Ocurrio un error al realizar operacion";
     public static final String MSG_OPERACION_SATISFACTORIA = "Operacion ejecutada satisfactoriamente";
     public static final short MENSAJE_TIPO_INFO = 1;
