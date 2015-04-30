@@ -30,13 +30,13 @@ import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.liquidaciones.util.UtilFormat;
-import static sv.com.diserv.web.ui.inventario.ListaComprasCtrl.logger;
 import sv.com.diserv.web.ui.personas.rendered.PersonaItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Paging;
 import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.MovimientosDet;
@@ -88,6 +88,8 @@ public class EncabezadoCompraCtrl extends BaseController {
     //protected Button button_OrderList_NewOrder;
     protected Listbox listBoxDetalleCompra;
 
+    //detalle
+    protected Paging paging_ListBoxOrderOrderPositions2;
     private Integer totalMovimiento;
     private Integer numeroPaginInicio;
     private transient Integer token;
@@ -204,6 +206,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         try {
             HashMap map = new HashMap();
             map.put("token", UtilFormat.getToken());
+            map.put("encabezadoCompra",compraSelected);
             map.put("listaComprasCtrl", this);
             Executions.createComponents("/WEB-INF/xhtml/inventario/detalleCompraDialog.zul", null, map);
         } catch (Exception a) {
@@ -218,6 +221,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         if (item != null) {
             detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
             HashMap map = new HashMap();
+            map.put("encabezadoCompra",compraSelected);
             map.put("detalleMovimientoSelected", detalleMovimientoSelected);
             map.put("token", TokenGenerator.getTokenOperation());
             map.put("encabezadoCompraCtrl", this);
@@ -415,6 +419,28 @@ public class EncabezadoCompraCtrl extends BaseController {
 
     public void setPersonas(Personas personas) {
         this.personas = personas;
+    }
+
+    void refreshModel(int activePage) {
+        logger.log(Level.INFO, "[EncabezadoCompraCtrl ][refreshModel]Recargar articulos,Pagina activa:{0}", activePage);
+        try {
+            if (totalMovimiento > 0) {
+                listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(compraSelected.getIdmov());
+                if (listaDetalleMovimiento.size() > 0) {
+                    logger.log(Level.INFO, "Registros cargados=={0}", listaDetalleMovimiento.size());
+                    paging_ListBoxOrderOrderPositions2.setTotalSize(getTotalMovimiento());
+                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
+                    listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
+                } else {
+                    logger.info("No se cargaron registros");
+                }
+            } else {
+                listBoxDetalleCompra.setEmptyMessage("No se encontraron registros para mostrar");
+            }
+        } catch (Exception ex) {
+            logger.log(Level.INFO, "[EncabezadoCompraCtrl ][refreshModel] Ocurrio Una exception :{0}", ex.getLocalizedMessage());
+            ex.printStackTrace();
+        }
     }
      
      

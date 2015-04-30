@@ -15,7 +15,6 @@ import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.FieldComparator;
-import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
@@ -23,17 +22,17 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.dto.BusquedaArticuloDTO;
-import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
+import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDetDTO;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.MovimientosDetBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Articulos;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.MovimientosDet;
+import sv.com.diserv.liquidaciones.exception.DiservWebException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.web.ui.articulos.rendered.ArticuloItemRenderer;
-import static sv.com.diserv.web.ui.inventario.EncabezadoCompraCtrl.logger;
-import sv.com.diserv.web.ui.personas.rendered.PersonaItemRenderer;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
@@ -66,6 +65,7 @@ public class DetalleCompraDialogCtrl extends BaseController{
     protected Button btnSave;
     protected Button btnCancel;
     protected Button btnClose;
+    protected Button button_OrderPositionDialog_Calculate;
     
     protected Textbox txtCodigo;
     protected Textbox txtDescripcion;
@@ -82,11 +82,15 @@ public class DetalleCompraDialogCtrl extends BaseController{
     private BusquedaArticuloDTO request;
 
     private ArticulosBeanLocal articuloBean;
+    private MovimientosDetBeanLocal movimientosDetBean;
     
     private MovimientosDet detalleMovimientoSelected;
     private transient Integer token;
+    private Movimientos encabezadoCompra;
     private EncabezadoCompraCtrl encabezadoCompraCtrl;
     private Articulos articulo;
+    private OperacionesMovimientoDetDTO responseOperacion;
+    private Movimientos encabezadoMov;
     
     public DetalleCompraDialogCtrl()
     {
@@ -111,6 +115,10 @@ public class DetalleCompraDialogCtrl extends BaseController{
             detalleMovimientoSelected = ((MovimientosDet) this.args.get("detalleMovimientoSelected"));
             setDetalleMovimientoSelected(detalleMovimientoSelected);
         }
+        if (this.args.containsKey("encabezadoCompra")) {
+            encabezadoCompra = ((Movimientos) this.args.get("encabezadoCompra"));
+            setEncabezadoCompra(encabezadoCompra);
+        }
         if (this.args.containsKey("token")) {
             this.token = ((Integer) this.args.get("token"));
             setToken(this.token);
@@ -118,12 +126,32 @@ public class DetalleCompraDialogCtrl extends BaseController{
             setToken(Integer.valueOf(0));
         }
         if (this.args.containsKey("encabezadoCompraCtrl")) {
-            encabezadoCompraCtrl = ((EncabezadoCompraCtrl) this.args.get("encabezadoCompraCtrl"));
+            encabezadoCompraCtrl = ((EncabezadoCompraCtrl) this.args.get("encabezadoCompraCtrl"));           
         }
        
         showDetalleLineas();
        
     }
+
+    public Movimientos getEncabezadoCompra() {
+        return encabezadoCompra;
+    }
+
+    public void setEncabezadoCompra(Movimientos encabezadoCompra) {
+        this.encabezadoCompra = encabezadoCompra;
+    }
+
+     
+     
+    public Movimientos getEncabezadoMov() {
+        return encabezadoMov;
+    }
+
+    public void setEncabezadoMov(Movimientos encabezadoMov) {
+        this.encabezadoMov = encabezadoMov;
+    }
+     
+     
      
     public Integer getNumeroPaginInicio() {
         return numeroPaginInicio;
@@ -137,6 +165,10 @@ public class DetalleCompraDialogCtrl extends BaseController{
         // logger.debug(event.toString());
 
         bandbox_OrderPositionDialog_ArticleSearch.close();
+    }
+    
+    public void onClick$button_OrderPositionDialog_Calculate(Event event) {
+        txtTotal.setValue(txtCantidad.getValue().multiply(txtPrecio.getValue()));
     }
 
 
@@ -337,5 +369,87 @@ public class DetalleCompraDialogCtrl extends BaseController{
         this.articulo = articulo;
     }
      
+    public void onClick$btnSave(Event event) {
+        try {
+            
+            if (getToken().intValue() > 0) {
+                loadDataFromTextboxs();
+              
+                detalleMovimientoSelected.setClaseOperacion("E");
+                detalleMovimientoSelected.setCostoProm(articulo.getCostopromact());
+                detalleMovimientoSelected.setFechaMov(encabezadoCompra.getFechamov());
+                detalleMovimientoSelected.setIdmov(encabezadoCompra);
+                detalleMovimientoSelected.setNoDoc(encabezadoCompra.getNodoc());
+                detalleMovimientoSelected.setUltCosto(articulo.getCostocompant());
+                detalleMovimientoSelected.setValorImpuesto(Constants.VALOR_IMPUESTO_IVA);
+                
+                responseOperacion = movimientosDetBean.guardarMovimientoDet(detalleMovimientoSelected);
+                if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id movimiento:" + responseOperacion.getMovimiento().getIdmovd(), Constants.MENSAJE_TIPO_INFO);
+                    detalleMovimientoSelected = responseOperacion.getMovimiento();
+                    loadDataFromEntity();
+                    doReadOnly(Boolean.TRUE);
+                    doEditButton();
+                    encabezadoCompraCtrl.refreshModel(0);
+                } else {
+                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+                }
+                setToken(0);
+            } else if (getToken().intValue() == 0) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar el mismo articulo dos veces, por seguridad solo se proceso una vez ");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
+        }
+    }
+
+    private void loadDataFromTextboxs() {
+        try {
+            
+            MovimientosDet oldMovimientosDet=detalleMovimientoSelected;
+            
+            detalleMovimientoSelected = new MovimientosDet();
+            
+            if (StringUtils.isEmpty(txtCodigo.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar codigo de producto valido");
+            }
+
+           if (StringUtils.isEmpty(txtDescripcion.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar descripcion de producto valido");
+            }
+
+            if (!(txtCantidad.getValue().intValue()>0)) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "cantidad de articulos debe ser mayor que cero");
+            }
+            
+            if (oldMovimientosDet!=null)
+            {
+             detalleMovimientoSelected.setIdarticulo(oldMovimientosDet.getIdarticulo());
+            }
+            else
+            {
+              detalleMovimientoSelected.setIdarticulo(articulo);
+            }
+            detalleMovimientoSelected.setCantidad(txtCantidad.getValue());
+            detalleMovimientoSelected.setPrecio(txtPrecio.getValue());
+            
+                        
+           
+        } catch (DiservWebException ex) {
+            MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
+        }
+
+    }
+
+    public EncabezadoCompraCtrl getEncabezadoCompraCtrl() {
+        return encabezadoCompraCtrl;
+    }
+
+    public void setEncabezadoCompraCtrl(EncabezadoCompraCtrl encabezadoCompraCtrl) {
+        this.encabezadoCompraCtrl = encabezadoCompraCtrl;
+    }
+    
+    
      
 }
