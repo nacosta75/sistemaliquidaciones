@@ -421,7 +421,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.personas = personas;
     }
 
-    void refreshModel(int activePage) {
+    public void refreshModel(int activePage) {
         logger.log(Level.INFO, "[EncabezadoCompraCtrl ][refreshModel]Recargar articulos,Pagina activa:{0}", activePage);
         try {
             if (totalMovimiento > 0) {
