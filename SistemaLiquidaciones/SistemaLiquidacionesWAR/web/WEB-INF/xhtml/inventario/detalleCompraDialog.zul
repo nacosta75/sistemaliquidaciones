@@ -57,6 +57,10 @@
 								sclass="oT_ButtonWithIcon"
                                                                  image="/images/btnsave.gif"
 								tooltiptext="Guardar" />
+                                                        <button id="btnActualizar"
+								sclass="oT_ButtonWithIcon"
+                                                                 image="/images/btnsave.gif"
+								tooltiptext="Actualizar" />
 							<button id="btnCancel"
 								sclass="oT_ButtonWithIcon"
                                                                  image="/images/close.jpg"
