@@ -23,6 +23,7 @@ public class Constants {
     public static final BigDecimal VALOR_IMPUESTO_IVA = new BigDecimal(13);
     public static final String MSG_FALLO_EN_OPERACION = "Ocurrio un error al realizar operacion";
     public static final String MSG_OPERACION_SATISFACTORIA = "Operacion ejecutada satisfactoriamente";
+    public static final String MSG_ELIMINAR_REGISTRO="Seguro que Desea Eliminar este Registro?";
     public static final short MENSAJE_TIPO_INFO = 1;
     public static final short MENSAJE_TIPO_ALERTA = 2;
     public static final short MENSAJE_TIPO_ERROR = 3;
@@ -30,6 +31,7 @@ public class Constants {
     public static final String TITLE_PRINT_MANAGER = ".::Manejador Impresiones::.Sistema Liquidaciones";
     public static final String RUTA_REPORTE_TELEDESPACHO = "reportes//nombreReporteCualquiera.jasper";
     public static final String MSG_SISTEMA = properties.getProperty("enlace.default.mensaje.sistema");
+    
     public static int REGISTROS_A_MOSTRAR_LISTA_CON_CHECKBOX = 15;
     public static String JNDI_BODEGA_BEAN = "java:comp/env/ejb/BodegasBean";
     public static String JNDI_PERSONA_BEAN = "java:comp/env/ejb/PersonasBean";
@@ -53,4 +55,5 @@ public class Constants {
     public static String JNDI_DETLISTAPRECIO_BEAN = "java:comp/env/ejb/DetListaPrecioBean";
     public static String JNDI_ENCLISTAPRECIO_BEAN = "java:comp/env/ejb/EncListaPrecioBean";
     public static final String MSG_ICC_NO_ASIGNADO = "Icc no asignado a este vendedor";
+    
 }
