@@ -62,6 +62,7 @@ public class DetalleCompraDialogCtrl extends BaseController {
     //detalle de movimiento
     protected Button btnNew;
     protected Button btnEdit;
+    protected Button btnActualizar;
     protected Button btnDelete;
     protected Button btnSave;
     protected Button btnCancel;
@@ -92,7 +93,6 @@ public class DetalleCompraDialogCtrl extends BaseController {
     private Articulos articulo;
     private OperacionesMovimientoDetDTO responseOperacion;
     private Movimientos encabezadoMov;
-    
 
     public DetalleCompraDialogCtrl() {
 
@@ -266,13 +266,20 @@ public class DetalleCompraDialogCtrl extends BaseController {
         }
     }
 
+    public void onClick$btnEdit(Event event) {
+        doReadOnly(Boolean.FALSE);
+        this.btnActualizar.setVisible(true);
+        this.btnEdit.setVisible(false);
+    }
+
     private void doEditButton() {
         this.btnClose.setVisible(true);
         this.btnEdit.setVisible(true);
-        this.btnNew.setVisible(true);
+        this.btnNew.setVisible(false);
         this.btnSave.setVisible(false);
+        this.btnActualizar.setVisible(false);
         this.btnDelete.setVisible(false);
-        this.btnCancel.setVisible(false);
+        this.btnCancel.setVisible(true);
     }
 
     private void doNew() {
@@ -284,7 +291,7 @@ public class DetalleCompraDialogCtrl extends BaseController {
         this.btnEdit.setVisible(false);
         this.btnNew.setVisible(false);
         this.btnSave.setVisible(true);
-        this.btnDelete.setVisible(true);
+        this.btnDelete.setVisible(false);
         this.btnCancel.setVisible(true);
     }
 
@@ -359,6 +366,57 @@ public class DetalleCompraDialogCtrl extends BaseController {
         this.articulo = articulo;
     }
 
+    public void onClick$btnActualizar(Event event) throws InterruptedException {
+        doActualizar();
+        this.btnActualizar.setVisible(false);
+    }
+
+    public void doActualizar() {
+        
+        try {
+
+            if (getToken().intValue() > 0) {
+                loadDataFromTextboxs();
+
+                detalleMovimientoSelected.setClaseOperacion("E");
+                if (articulo.getCostopromact() != null) {
+                    detalleMovimientoSelected.setCostoProm(articulo.getCostopromact());
+                } else {
+                    detalleMovimientoSelected.setCostoProm(BigDecimal.ZERO);
+                }
+                detalleMovimientoSelected.setFechaMov(encabezadoCompra.getFechamov());
+                detalleMovimientoSelected.setIdmov(encabezadoCompra);
+                detalleMovimientoSelected.setNoDoc(encabezadoCompra.getNodoc());
+                if (articulo.getCostocompant() != null) {
+                    detalleMovimientoSelected.setUltCosto(articulo.getCostocompant());
+                } else {
+                    detalleMovimientoSelected.setUltCosto(BigDecimal.ZERO);
+                }
+                detalleMovimientoSelected.setValorImpuesto(Constants.VALOR_IMPUESTO_IVA);
+                detalleMovimientoSelected.setIdlista(new EncListaPrecio(1));
+
+                responseOperacion = movimientosDetBean.guardarMovimientoDet(detalleMovimientoSelected);
+                if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+                    //MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id movimiento:" + responseOperacion.getMovimiento().getIdmovd(), Constants.MENSAJE_TIPO_INFO);
+                    detalleMovimientoSelected = responseOperacion.getMovimiento();
+                    loadDataFromEntity();
+                    doReadOnly(Boolean.TRUE);
+                    doEditButton();
+                    encabezadoCompraCtrl.refreshModel(0);
+                    doClose();
+                } else {
+                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+                }
+                setToken(0);
+            } else if (getToken().intValue() == 0) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar el mismo articulo dos veces, por seguridad solo se proceso una vez ");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
+        }
+    }
+
     public void onClick$btnSave(Event event) {
         try {
 
@@ -384,12 +442,13 @@ public class DetalleCompraDialogCtrl extends BaseController {
 
                 responseOperacion = movimientosDetBean.guardarMovimientoDet(detalleMovimientoSelected);
                 if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id movimiento:" + responseOperacion.getMovimiento().getIdmovd(), Constants.MENSAJE_TIPO_INFO);
+                    //MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id movimiento:" + responseOperacion.getMovimiento().getIdmovd(), Constants.MENSAJE_TIPO_INFO);
                     detalleMovimientoSelected = responseOperacion.getMovimiento();
                     loadDataFromEntity();
                     doReadOnly(Boolean.TRUE);
                     doEditButton();
                     encabezadoCompraCtrl.refreshModel(0);
+                    doClose();
                 } else {
                     MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }

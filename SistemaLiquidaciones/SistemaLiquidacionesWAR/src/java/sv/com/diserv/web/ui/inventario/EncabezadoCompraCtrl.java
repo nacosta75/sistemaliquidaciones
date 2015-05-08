@@ -35,9 +35,13 @@ import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Paging;
+import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDetDTO;
 import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.MovimientosDetBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.MovimientosDet;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
@@ -57,6 +61,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     protected Button btnNuevo;
     protected Button btnEditar;
     protected Button btnDelete;
+    protected Button button_OrderDialog_btnDelete;
     protected Button btnSave;
     protected Button btnCancelar;
     protected Button btnCerrar;
@@ -101,7 +106,9 @@ public class EncabezadoCompraCtrl extends BaseController {
 
     private Movimientos compraSelected;
     private MovimientosDet detalleMovimientoSelected;
-    
+    private MovimientosDetBeanLocal movimientosDetBean;
+    private OperacionesMovimientoDetDTO responseOperacion;
+
     private ListaComprasCtrl listaComprasCtrl;
     private List<MovimientosDet> listaDetalleMovimiento;
 
@@ -111,6 +118,7 @@ public class EncabezadoCompraCtrl extends BaseController {
             serviceLocator = ServiceLocator.getInstance();
             movimientoBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOS_BEAN);
             personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
+            movimientosDetBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOSDET_BEAN);
             numeroPaginInicio = 0;
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
@@ -206,22 +214,22 @@ public class EncabezadoCompraCtrl extends BaseController {
         try {
             HashMap map = new HashMap();
             map.put("token", UtilFormat.getToken());
-            map.put("encabezadoCompra",compraSelected);
-            map.put("listaComprasCtrl", this);
+            map.put("encabezadoCompra", compraSelected);
+            map.put("encabezadoCompraCtrl", this);
             Executions.createComponents("/WEB-INF/xhtml/inventario/detalleCompraDialog.zul", null, map);
         } catch (Exception a) {
             a.printStackTrace();
         }
 
     }
-    
+
     public void onDoubleClickedDetalleMovimiento(Event event) throws Exception {
         logger.log(Level.INFO, "[onDoubleClickedDetalleMovimiento]Event:{0}", event.toString());
         Listitem item = this.listBoxDetalleCompra.getSelectedItem();
         if (item != null) {
             detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
             HashMap map = new HashMap();
-            map.put("encabezadoCompra",compraSelected);
+            map.put("encabezadoCompra", compraSelected);
             map.put("detalleMovimientoSelected", detalleMovimientoSelected);
             map.put("token", TokenGenerator.getTokenOperation());
             map.put("encabezadoCompraCtrl", this);
@@ -254,7 +262,6 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.compraSelected = compraSelected;
     }
 
-
     public Integer getToken() {
         return token;
     }
@@ -278,8 +285,6 @@ public class EncabezadoCompraCtrl extends BaseController {
     public void setListaDetalleMovimiento(List<MovimientosDet> listaDetalleMovimiento) {
         this.listaDetalleMovimiento = listaDetalleMovimiento;
     }
-    
-    
 
     private void showDetalleLineas() {
 
@@ -329,20 +334,20 @@ public class EncabezadoCompraCtrl extends BaseController {
         }
 
     }
-    
+
     public void showDetalleCompra() throws Exception {
         logger.log(Level.INFO, "[showDetalleCompra][refreshModel]Recargar detalle");
-            if (compraSelected != null) {
-                listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(compraSelected.getIdmov());
-                if (listaDetalleMovimiento.size() > 0) {
-                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
-                    listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
-                } else {
-                    logger.info("No se cargaron registros");
-                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
-                    listBoxDetalleCompra.setEmptyMessage("Factura no tiene items agregados");
-                }
+        if (compraSelected != null) {
+            listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(compraSelected.getIdmov());
+            if (listaDetalleMovimiento.size() > 0) {
+                listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
+                listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
+            } else {
+                logger.info("No se cargaron registros");
+                listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
+                listBoxDetalleCompra.setEmptyMessage("Factura no tiene items agregados");
             }
+        }
     }
 
     private void doReadOnly(Boolean opt) {
@@ -381,36 +386,80 @@ public class EncabezadoCompraCtrl extends BaseController {
         txtPersonaName.setValue(null);
         txtFacturaNo.setValue(null);
     }
-    
-     public void onClick$btnEditar(Event event) {
+
+    public void onClick$btnEditar(Event event) {
         doReadOnly(Boolean.FALSE);
         doEditButton();
     }
-     
-       public void onClick$btnCerrar(Event event) throws InterruptedException {
+
+    public void onClick$btnCerrar(Event event) throws InterruptedException {
         doClose();
     }
 
-   
+    public void  eliminarArticulo()
+    {
+        try {
+            MensajeMultilinea.show(Constants.MSG_ELIMINAR_REGISTRO, Constants.MENSAJE_TIPO_INTERRROGACION, new EventListener() {
+                @Override
+                public void onEvent(Event evt) throws DiservBusinessException {
+                    try {
+                        Integer opSelected = (((Integer) evt.getData()).intValue());
+                        System.out.println("opselected;" + opSelected);
+                        if (opSelected == Messagebox.OK) {
+
+                            Listitem item = listBoxDetalleCompra.getSelectedItem();
+                            detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
+                            if (item != null) {
+
+                                responseOperacion = movimientosDetBean.eliminarMovimientoDet(detalleMovimientoSelected);
+                                if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+                                    //MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_INFO);
+                                    doEditButton();
+                                    //doClose();
+                                    refreshModel(0);
+                                } else {
+                                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+                                }
+
+                            }// no null                       
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        MensajeMultilinea.show("Ocurrió un error al eliminar el registro", Constants.MENSAJE_TIPO_ALERTA);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajeMultilinea.show("Ocurrio un error al cargar los componentes", Constants.MENSAJE_TIPO_ALERTA);
+        }
+    
+    }
+
+    public void onClick$button_OrderDialog_btnDelete(Event event) throws InterruptedException {
+
+       eliminarArticulo();
+
+    }
 
     private void doClose() {
         this.encabezadoCompraWindow.onClose();
     }
 
-     public void onDoubleClickedPersona(Event event) throws DiservBusinessException {
+    public void onDoubleClickedPersona(Event event) throws DiservBusinessException {
 
-         Listitem item = this.listBoxCustomerSearch.getSelectedItem();
-         if (item != null) {
-             Personas persona = (Personas) item.getAttribute("data");
-             if (persona != null) {
-                 setPersonas(persona);
-             }
-             txtPersonaCod.setValue(persona.getNoRegistroFiscal());
-             txtPersonaName.setValue(persona.getNombre());
-             // close the bandbox
-             bandbox_OrderDialog_CustomerSearch.close();
+        Listitem item = this.listBoxCustomerSearch.getSelectedItem();
+        if (item != null) {
+            Personas persona = (Personas) item.getAttribute("data");
+            if (persona != null) {
+                setPersonas(persona);
+            }
+            txtPersonaCod.setValue(persona.getNoRegistroFiscal());
+            txtPersonaName.setValue(persona.getNombre());
+            // close the bandbox
+            bandbox_OrderDialog_CustomerSearch.close();
 
-	}
+        }
     }
 
     public Personas getPersonas() {
@@ -424,24 +473,27 @@ public class EncabezadoCompraCtrl extends BaseController {
     public void refreshModel(int activePage) {
         logger.log(Level.INFO, "[EncabezadoCompraCtrl ][refreshModel]Recargar articulos,Pagina activa:{0}", activePage);
         try {
-            if (totalMovimiento > 0) {
-                listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(compraSelected.getIdmov());
-                if (listaDetalleMovimiento.size() > 0) {
-                    logger.log(Level.INFO, "Registros cargados=={0}", listaDetalleMovimiento.size());
-                    paging_ListBoxOrderOrderPositions2.setTotalSize(getTotalMovimiento());
-                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
-                    listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
-                } else {
-                    logger.info("No se cargaron registros");
-                }
+            //if (totalMovimiento > 0) {
+            listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(compraSelected.getIdmov());
+            if (listaDetalleMovimiento.size() > 0) {
+                logger.log(Level.INFO, "Registros cargados=={0}", listaDetalleMovimiento.size());
+                //      paging_ListBoxOrderOrderPositions2.setTotalSize(getTotalMovimiento());
+                listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
+                listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
             } else {
-                listBoxDetalleCompra.setEmptyMessage("No se encontraron registros para mostrar");
+                logger.info("No se cargaron registros");
             }
+//            } else {
+//                listBoxDetalleCompra.setEmptyMessage("No se encontraron registros para mostrar");
+//            }
         } catch (Exception ex) {
             logger.log(Level.INFO, "[EncabezadoCompraCtrl ][refreshModel] Ocurrio Una exception :{0}", ex.getLocalizedMessage());
             ex.printStackTrace();
         }
     }
-     
-     
+
+    private void loadDataFromTextboxs() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
