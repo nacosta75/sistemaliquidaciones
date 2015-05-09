@@ -228,7 +228,9 @@ public class EncabezadoCompraCtrl extends BaseController {
         Listitem item = this.listBoxDetalleCompra.getSelectedItem();
         if (item != null) {
             detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
+            
             HashMap map = new HashMap();
+            map.put("articulo", detalleMovimientoSelected.getIdarticulo());
             map.put("encabezadoCompra", compraSelected);
             map.put("detalleMovimientoSelected", detalleMovimientoSelected);
             map.put("token", TokenGenerator.getTokenOperation());

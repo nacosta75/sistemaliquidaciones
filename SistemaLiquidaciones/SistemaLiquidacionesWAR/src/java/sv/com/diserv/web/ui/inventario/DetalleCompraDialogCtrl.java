@@ -121,6 +121,10 @@ public class DetalleCompraDialogCtrl extends BaseController {
             encabezadoCompra = ((Movimientos) this.args.get("encabezadoCompra"));
             setEncabezadoCompra(encabezadoCompra);
         }
+        if (this.args.containsKey("articulo")) {
+            articulo = ((Articulos) this.args.get("articulo"));
+            setArticulo(articulo);
+        }
         if (this.args.containsKey("token")) {
             this.token = ((Integer) this.args.get("token"));
             setToken(this.token);
@@ -270,6 +274,14 @@ public class DetalleCompraDialogCtrl extends BaseController {
         doReadOnly(Boolean.FALSE);
         this.btnActualizar.setVisible(true);
         this.btnEdit.setVisible(false);
+        this.btnCancel.setVisible(true);
+    }
+    
+     public void onClick$btnCancel(Event event) {
+        doReadOnly(Boolean.TRUE);
+        this.btnActualizar.setVisible(false);
+        this.btnEdit.setVisible(true);
+        this.btnCancel.setVisible(false);
     }
 
     private void doEditButton() {
@@ -279,7 +291,7 @@ public class DetalleCompraDialogCtrl extends BaseController {
         this.btnSave.setVisible(false);
         this.btnActualizar.setVisible(false);
         this.btnDelete.setVisible(false);
-        this.btnCancel.setVisible(true);
+        this.btnCancel.setVisible(false);
     }
 
     private void doNew() {
@@ -297,11 +309,11 @@ public class DetalleCompraDialogCtrl extends BaseController {
 
     private void doReadOnly(Boolean opt) {
 
-        txtCodigo.setReadonly(opt);
-        txtDescripcion.setReadonly(opt);
+        txtCodigo.setReadonly(true);
+        txtDescripcion.setReadonly(true);
         txtCantidad.setReadonly(opt);
         txtPrecio.setReadonly(opt);
-        txtTotal.setReadonly(opt);
+        txtTotal.setReadonly(true);
 
     }
 
