@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Checkbox;
@@ -246,6 +247,7 @@ public class DetalleArticuloCtrl extends BaseController {
         if (this.args.containsKey("listaArticulosCtrl")) {
             listaArticulosCtrl = ((ListaArticulosCtrl) this.args.get("listaArticulosCtrl"));
         }
+
         //  checkPermisos();
         showDetalleArticulos();
         //this.userLogin.getUsuario().getIdsucursal().getIdempresa().getIva();
@@ -506,6 +508,50 @@ public class DetalleArticuloCtrl extends BaseController {
 //        }
         doReadOnly(Boolean.TRUE);
         doEditButton();
+    }
+    
+    
+     public void onDoubleClickedPrecio(Event event) throws Exception {
+        logger.log(Level.INFO, "[**onDoubleClickedPrecio]Event:{0}", event.toString());
+        Listitem item = this.listBoxListaPrecios.getSelectedItem();
+        if (item != null) {
+            DetListaPrecio precio= (DetListaPrecio) item.getAttribute("data");
+            HashMap map = new HashMap();
+            map.put("precioSelected", precio);
+            map.put("token", UtilFormat.getToken());
+            map.put("detalleArticuloCtrl", this);
+
+            Executions.createComponents("/WEB-INF/xhtml/articulos/detallePrecio.zul", null, map);
+        }
+    }
+     
+     public void refreshModel(int activePage) {
+        logger.log(Level.INFO, "[ListaPreciosCtrl ][refreshModel]Recargar precios,Pagina activa:{0}", activePage);
+        try {
+            if (articuloSelected != null) {
+                
+                listaPrecios = detListaPrecioBean.listDetPrecioByIdArticulo(articuloSelected.getIdarticulo(), Constants.PAGINA_INICIO_DEFAULT, Constants.REGISTROS_A_MOSTRAR_LISTA);
+                if (listaPrecios.size() > 0) {
+                    listBoxListaPrecios.setModel(new ListModelList(listaPrecios));
+                    listBoxListaPrecios.setItemRenderer(new PreciosItemRenderer());
+                } else {
+                    listBoxListaPrecios.setModel(new ListModelList(listaPrecios));
+                    listBoxListaPrecios.setEmptyMessage("Articulo no Tiene Precios");
+                    logger.info("No se cargaron registros");
+                }
+            }
+        } catch (Exception ex) {
+            logger.log(Level.INFO, "[ListaPreciosCtrl ][refreshModel]Ocurrio Una exception :{0}", ex.getLocalizedMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    public ListaArticulosCtrl getListaArticulosCtrl() {
+        return listaArticulosCtrl;
+    }
+
+    public void setListaArticulosCtrl(ListaArticulosCtrl listaArticulosCtrl) {
+        this.listaArticulosCtrl = listaArticulosCtrl;
     }
 
 }
