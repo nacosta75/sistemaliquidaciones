@@ -169,8 +169,23 @@ public class DetalleCompraDialogCtrl extends BaseController {
         bandbox_OrderPositionDialog_ArticleSearch.close();
     }
 
+    public void onChange$txtCantidad(Event event)
+    {
+      totalizar();
+    }
+    
+    public void onChange$txtPrecio(Event event)
+    {
+      totalizar();
+    }
+    
     public void onClick$button_OrderPositionDialog_Calculate(Event event) {
-        txtTotal.setValue(txtCantidad.getValue().multiply(txtPrecio.getValue()));
+        totalizar();
+    }
+    
+    public void totalizar()
+    {
+      txtTotal.setValue(txtCantidad.getValue().multiply(txtPrecio.getValue()));
     }
 
     public void onOpen$bandbox_OrderPositionDialog_ArticleSearch(Event event) throws Exception {
@@ -292,6 +307,7 @@ public class DetalleCompraDialogCtrl extends BaseController {
         this.btnActualizar.setVisible(false);
         this.btnDelete.setVisible(false);
         this.btnCancel.setVisible(false);
+        bandbox_OrderPositionDialog_ArticleSearch.setVisible(false);
     }
 
     private void doNew() {
@@ -305,6 +321,8 @@ public class DetalleCompraDialogCtrl extends BaseController {
         this.btnSave.setVisible(true);
         this.btnDelete.setVisible(false);
         this.btnCancel.setVisible(true);
+        this.btnActualizar.setVisible(false);
+        bandbox_OrderPositionDialog_ArticleSearch.setVisible(true);
     }
 
     private void doReadOnly(Boolean opt) {
@@ -319,6 +337,7 @@ public class DetalleCompraDialogCtrl extends BaseController {
 
     private void loadDataFromEntity() {
         try {
+            totalizar();
             txtCodigo.setValue(detalleMovimientoSelected.getIdarticulo().getCodarticulo());
             txtDescripcion.setValue(detalleMovimientoSelected.getIdarticulo().getDescarticulo());
             txtCantidad.setValue(detalleMovimientoSelected.getCantidad());
