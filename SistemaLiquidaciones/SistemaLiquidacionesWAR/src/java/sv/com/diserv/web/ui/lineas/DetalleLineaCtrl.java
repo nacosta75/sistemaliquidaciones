@@ -205,12 +205,13 @@ public class DetalleLineaCtrl extends BaseController {
                 
                 responseOperacion = lineasBean.guardarLinea(lineaSelected);
                 if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                    MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id Linea:" + responseOperacion.getLineaArticulo().getIdlinea(), Constants.MENSAJE_TIPO_INFO);
+                    //MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id Linea:" + responseOperacion.getLineaArticulo().getIdlinea(), Constants.MENSAJE_TIPO_INFO);
                     lineaSelected = responseOperacion.getLineaArticulo();
                     loadDataFromEntity();
                     doReadOnly(Boolean.TRUE);
                     doEditButton();
                     listaLineasCtrl.refreshModel(0);
+                    this.doClose();
                 } else {
                     MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }
