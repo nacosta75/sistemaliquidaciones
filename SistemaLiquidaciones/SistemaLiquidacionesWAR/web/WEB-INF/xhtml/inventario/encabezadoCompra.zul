@@ -51,6 +51,9 @@
                     <button id="btnSave" sclass="oT_ButtonWithIcon"
                                                 image="/images/btnsave.gif"
                                                 tooltiptext="Guardar Orden" />
+                     <button id="btnActualizar" sclass="oT_ButtonWithIcon"
+                                                image="/images/btnsave.gif"
+                                                tooltiptext="Actualizar Orden" />
                     <button id="btnCancelar" sclass="oT_ButtonWithIcon"
                                                 image="/images/close.jpg"
                                                 tooltiptext="Cancelar Orden" />
