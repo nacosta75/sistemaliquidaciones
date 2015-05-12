@@ -8,10 +8,10 @@
     <window id="detallePrecioWindow"
             title="Mantenimiento de precios"
             border="normal"
-            use="sv.com.diserv.web.ui.articulos.DetallePrecioCtrl"
+            use="sv.com.diserv.web.ui.articulos.DetallePreciosCtrl"
             closable="true"
             width="650px" 
-            height="220px"
+            height="300px"
             sizable="true" 
             sclass="pageWindowTitle"
             mode="modal">
@@ -20,18 +20,18 @@
                   closable="false">    
             <toolbar align="end"
                      style="float:right; border-style:none;">
-                <button id="btnNuevo"
+<!--                <button id="btnNuevo"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnnew.gif"
-                        tooltiptext="Agregar nueva bodega"  />
+                        tooltiptext="Agregar nueva bodega"  />-->
                 <button id="btnEditar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnedit.gif"
-                        tooltiptext="Buscar linea por criterios"/>
-                <button id="btnGuardar"
+                        tooltiptext="Editar Precio"/>
+<!--                <button id="btnGuardar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsave.gif"
-                        tooltiptext="Guardar registro"/>
+                        tooltiptext="Guardar registro"/>-->
                 <button id="btnActualizar"
                         sclass="oT_ButtonWithIcon"
                         image="/images/btnsave.gif"
@@ -67,7 +67,7 @@
                                                       mold="3d" 
                                                       closable="false">
                                                 <caption image="/images/person.gif"
-                                                         label="Información Linea" />
+                                                         label="Detalle Precio" />
                                                 <grid sclass="GridPlain">
                                                     <columns>
                                                         <column align="left" width="150px" />
@@ -82,7 +82,6 @@
                                                             </hbox>
                                                             <intbox
                                                                 id="txtIdPrecio"
-                                                                hflex="1"
                                                                 maxlength="10"
                                                                 tooltiptext="Identificador unico de Precio"
                                                                 readonly="true" />
@@ -100,7 +99,7 @@
                                                                                   autodrop="true"
                                                                                   mold="rounded"
                                                                                   autocomplete="true"
-                                                                                  hflex="1"/>
+                                                                                  />
                                                         </row>
                                                         
                                                         <row>
@@ -109,7 +108,7 @@
                                                                     value="Precio : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                            <decimalbox   id="txtPrecio"   hflex="1" />
+                                                            <decimalbox   id="txtPrecio"  />
                                                         </row>
                                                         
                                                         <row>
@@ -118,7 +117,8 @@
                                                                     value="Desde : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                               <datebox id="dbDesde"hflex="1"/>      
+                                                               
+                                                               <datebox id="dbDesde"/>      
                                                         </row>
                                                       
                                                       <row>
@@ -127,7 +127,7 @@
                                                                     value="Hasta : " />
                                                                 <label value="*" style="color:red; font-size:10px" />
                                                             </hbox>
-                                                               <datebox id="dbHasta"hflex="1"/>      
+                                                               <datebox id="dbHasta" />      
                                                         </row>
                                                      </rows>
                                                 </grid>
