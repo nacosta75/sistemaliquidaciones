@@ -217,10 +217,10 @@
         <extension>xml</extension>
         <mime-type>text/xml</mime-type>
     </mime-mapping>
-    <mime-mapping>
+<!--    <mime-mapping>
         <extension>xul</extension>
         <mime-type>application/vnd.mozilla.xul-xml</mime-type>
-    </mime-mapping>
+    </mime-mapping>-->
     <mime-mapping>
         <extension>zhtml</extension>
         <mime-type>text/html</mime-type>
@@ -365,6 +365,13 @@
         <ejb-ref-type>Session</ejb-ref-type>
         <local>sv.com.diserv.liquidaciones.ejb.DetListaPrecioBeanLocal</local>
         <mapped-name>ejb/DetListaPrecioBean</mapped-name>
+    </ejb-local-ref>
+    
+     <ejb-local-ref>
+        <ejb-ref-name>ejb/EncListaPrecioBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sv.com.diserv.liquidaciones.ejb.EncListaPrecioBeanLocal</local>
+        <mapped-name>ejb/EncListaPrecioBean</mapped-name>
     </ejb-local-ref>
     
 </web-app>
