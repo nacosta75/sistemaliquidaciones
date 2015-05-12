@@ -66,6 +66,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     protected Button btnCancelar;
     protected Button btnCerrar;
     protected Button btnImprimir;
+    protected Button btnActualizar;
     protected Textbox txtPersonaName;
     protected Textbox txtPersonaCod;
     protected Textbox txtFacturaNo;
@@ -145,7 +146,6 @@ public class EncabezadoCompraCtrl extends BaseController {
         //  checkPermisos();
         showDetalleLineas();
 
-        //userLogin.getUsuario().getIdusuario();
     }
 
     public void onClick$button_bbox_CustomerSearch_Close(Event event) {
@@ -155,10 +155,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     }
 
     public void onOpen$bandbox_OrderDialog_CustomerSearch(Event event) throws Exception {
-		// logger.debug(event.toString());
 
-        // not used listheaders must be declared like ->
-        // lh.setSortAscending(""); lh.setSortDescending("")
         listheader_CustNo.setSortAscending(new FieldComparator("facturaNo", true));
         listheader_CustNo.setSortDescending(new FieldComparator("facturaNo", false));
         listheader_CustMatchcode.setSortAscending(new FieldComparator("codPersona", true));
@@ -297,7 +294,7 @@ public class EncabezadoCompraCtrl extends BaseController {
             } else {
                 doNew();
             }
-            //encabezadoCompraWindow.doModal();
+           
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -310,24 +307,7 @@ public class EncabezadoCompraCtrl extends BaseController {
             txtPersonaCod.setValue(compraSelected.getIdpersona().getNoRegistroFiscal());
             txtFacturaNo.setValue(compraSelected.getNodoc().toString());
             txtObservaciones.setValue(compraSelected.getObserva1());
-//            loadCombobox();
-//
-//            cmbMarcaArticulo.setValue(articuloSelected.getIdmarca().getDescmarca());
-//            cmbLineaArticulo.setValue(articuloSelected.getIdlinea().getDesclinea());
-//            cmbTipoArticulo.setValue(articuloSelected.getIdtipoarticulo().getDescripcion());
-//            cmbMedidaArticulo.setValue(articuloSelected.getIdumedida().getDescumedida());
-//
-//            if (articuloSelected.getCostopromact() != null) {
-//                txtCostoProm.setValue(articuloSelected.getCostopromact());
-//            } else {
-//                txtCostoProm.setValue(BigDecimal.ZERO);
-//            }
-//
-//            if (articuloSelected.getCostopromant() != null) {
-//                txtCostoAnt.setValue(articuloSelected.getCostocompant());
-//            } else {
-//                txtCostoAnt.setValue(BigDecimal.ZERO);
-//            }
+
             showDetalleCompra();
         } catch (Exception e) {
             e.printStackTrace();
@@ -359,12 +339,13 @@ public class EncabezadoCompraCtrl extends BaseController {
 
     private void doEditButton() {
         this.btnCerrar.setVisible(true);
-        this.btnEditar.setVisible(true);
+        this.btnEditar.setVisible(false);
         this.btnNuevo.setVisible(true);
         this.btnSave.setVisible(false);
         this.btnDelete.setVisible(false);
         this.btnImprimir.setVisible(false);
         this.btnCancelar.setVisible(false);
+        this.btnActualizar.setVisible(false);
     }
 
     private void doNew() {
@@ -376,9 +357,10 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.btnEditar.setVisible(false);
         this.btnNuevo.setVisible(false);
         this.btnSave.setVisible(true);
-        this.btnDelete.setVisible(true);
+        this.btnDelete.setVisible(false);
         this.btnImprimir.setVisible(true);
         this.btnCancelar.setVisible(true);
+        this.btnActualizar.setVisible(false);
     }
 
     private void doClear() {
@@ -388,8 +370,11 @@ public class EncabezadoCompraCtrl extends BaseController {
     }
 
     public void onClick$btnEditar(Event event) {
-        doReadOnly(Boolean.FALSE);
         doEditButton();
+        doReadOnly(Boolean.FALSE);
+        this.btnActualizar.setVisible(true);
+        this.btnEditar.setVisible(false);
+        this.btnCancelar.setVisible(true);
     }
 
     public void onClick$btnCerrar(Event event) throws InterruptedException {
@@ -402,19 +387,14 @@ public class EncabezadoCompraCtrl extends BaseController {
                 @Override
                 public void onEvent(Event evt) throws DiservBusinessException {
                     try {
-                        Integer opSelected = (((Integer) evt.getData()).intValue());
-                        System.out.println("opselected;" + opSelected);
+                        Integer opSelected = (((Integer) evt.getData()).intValue());                        
                         if (opSelected == Messagebox.OK) {
-
                             Listitem item = listBoxDetalleCompra.getSelectedItem();
                             detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
                             if (item != null) {
-
                                 responseOperacion = movimientosDetBean.eliminarMovimientoDet(detalleMovimientoSelected);
                                 if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                                    //MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_INFO);
                                     doEditButton();
-                                    //doClose();
                                     refreshModel(0);
                                 } else {
                                     MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
@@ -432,13 +412,10 @@ public class EncabezadoCompraCtrl extends BaseController {
             e.printStackTrace();
             MensajeMultilinea.show("Ocurrio un error al cargar los componentes", Constants.MENSAJE_TIPO_ALERTA);
         }
-
     }
 
     public void onClick$button_OrderDialog_btnDelete(Event event) throws InterruptedException {
-
         eliminarArticulo();
-
     }
 
     private void doClose() {
@@ -457,7 +434,6 @@ public class EncabezadoCompraCtrl extends BaseController {
             txtPersonaName.setValue(persona.getNombre());
             // close the bandbox
             bandbox_OrderDialog_CustomerSearch.close();
-
         }
     }
 
