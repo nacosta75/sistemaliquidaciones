@@ -153,7 +153,7 @@ public class ListaLineaArticuloCtrl extends BaseController {
             HashMap map = new HashMap();
             map.put("lineaSelected", linea);
             map.put("token", UtilFormat.getToken());
-            map.put("ListaLineaArticuloCtrl", this);
+            map.put("listaLineasCtrl", this);
             Executions.createComponents("/WEB-INF/xhtml/lineas/detalleLinea.zul", null, map);
         }
     }
@@ -162,7 +162,7 @@ public class ListaLineaArticuloCtrl extends BaseController {
         logger.log(Level.INFO, "[onClick$btnNuevaLinea]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
-        map.put("ListaLineaArticuloCtrl", this);
+        map.put("listaLineasCtrl", this);
         Executions.createComponents("/WEB-INF/xhtml/lineas/detalleLinea.zul", null, map);
 
     }

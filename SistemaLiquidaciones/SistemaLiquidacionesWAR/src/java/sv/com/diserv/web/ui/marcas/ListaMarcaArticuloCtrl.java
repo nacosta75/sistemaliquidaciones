@@ -156,7 +156,7 @@ public class ListaMarcaArticuloCtrl extends BaseController {
             HashMap map = new HashMap();
             map.put("marcaSelected", linea);
             map.put("token", UtilFormat.getToken());
-            map.put("ListaMarcaArticuloCtrl", this);
+            map.put("listaMarcasCtrl", this);
             Executions.createComponents("/WEB-INF/xhtml/marcas/detalleMarca.zul", null, map);
         }
     }

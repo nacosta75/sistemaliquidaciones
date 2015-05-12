@@ -131,7 +131,7 @@ public class ListaBodegaCtrl extends BaseController {
             HashMap map = new HashMap();
             map.put("bodegaSelected", bodega);
             map.put("token", UtilFormat.getToken());
-            map.put("listaBodegaCtrl", this);
+            map.put("listaBodegasCtrl", this);
             Executions.createComponents("/WEB-INF/xhtml/bodega/detalleBodega.zul", null, map);
         }
     }
@@ -140,7 +140,7 @@ public class ListaBodegaCtrl extends BaseController {
         logger.log(Level.INFO, "[onClick$btnNuevoBodega]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
-        map.put("listaBodegaCtrl", this);
+        map.put("listaBodegasCtrl", this);
         Executions.createComponents("/WEB-INF/xhtml/bodega/detalleBodega.zul", null, map);
 
     }
@@ -156,7 +156,7 @@ public class ListaBodegaCtrl extends BaseController {
         logger.log(Level.INFO, "[onClick$btnBusquedaBodega]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
-        map.put("listaBodegaCtrl", this);
+        map.put("listaBodegasCtrl", this);
         Executions.createComponents("/WEB-INF/xhtml/bodega/busquedaBodega.zul", null, map);
 
     }

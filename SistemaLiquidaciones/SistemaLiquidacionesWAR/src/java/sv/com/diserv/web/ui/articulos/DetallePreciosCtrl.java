@@ -168,13 +168,9 @@ public class DetallePreciosCtrl extends BaseController {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar Canal");
             }
 
-//            if (StringUtils.isEmpty(txtDescripcion.getValue())) {
-//                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar descripción para Articulos");
-//            }
             precioSelected.setIdarticulo(articulo);
             precioSelected.setIdlistadet(txtIdPrecio.getValue());
-            precioSelected.setIdlistaenc(new EncListaPrecio((Integer) cmbCanal.getSelectedItem().getValue()));
-            // articuloSelected.setIdlinea(new LineaArticulo((Integer) cmbLineaArticulo.getSelectedItem().getValue()));
+            precioSelected.setIdlistaenc((EncListaPrecio) cmbCanal.getSelectedItem().getAttribute("data"));
             precioSelected.setPrecio(txtPrecio.getValue());
 
         } catch (DiservWebException ex) {
@@ -184,20 +180,13 @@ public class DetallePreciosCtrl extends BaseController {
     }
 
     private void loadCombobox() {
-
-        List<CatalogoDTO> listaCatalogoPrecios = new ArrayList<CatalogoDTO>();
+        
         List<EncListaPrecio> listaCanales;
-
         try {
-
             //****************************** unidades de medida *********************/ 
-            listaCanales = encListaPrecioBean.loadAllCanales();
-            List<Object> objectListCanal = new ArrayList<Object>(listaCanales);
-            listaCatalogoPrecios = catalogosBeanLocal.loadAllElementosCatalogo(objectListCanal, "idlista", "descripcionLista");
-
-            if (listaCatalogoPrecios != null && listaCatalogoPrecios.size() > 0) {
-                ListModelList modelotipo = new ListModelList(listaCatalogoPrecios);
-                cmbCanal.setModel(modelotipo);
+            listaCanales = encListaPrecioBean.loadAllCanales();          
+            if (listaCanales != null) {
+                cmbCanal.setModel(new ListModelList(listaCanales));
                 cmbCanal.setItemRenderer(new CatalogoItemRenderer());
             } else {
                 cmbCanal.setValue("No existen Canales!!");
@@ -279,12 +268,7 @@ public class DetallePreciosCtrl extends BaseController {
             MensajeMultilinea.show(bex.toString(), Constants.MENSAJE_TIPO_ERROR);
 
         }
-//        ListModelList lml = (ListModelList) getLbBodegas().getListModel();
-//        if (lml.indexOf(bodega) == -1) {
-//            lml.add(bodega);
-//        } else {
-//            lml.set(lml.indexOf(bodega), bodega);
-//        }
+
         doReadOnly(Boolean.TRUE);
         doEditButton();
     }

@@ -131,7 +131,7 @@ public class ListaArticulosCtrl extends BaseController{
             HashMap map = new HashMap();
             map.put("articuloSelected", articulo);
             map.put("token", UtilFormat.getToken());
-            map.put("ListaArticulosCtrl", this);
+            map.put("listaArticulosCtrl", this);
             Executions.createComponents("/WEB-INF/xhtml/articulos/detalleArticulo.zul", null, map);
         }
     }
@@ -140,7 +140,7 @@ public class ListaArticulosCtrl extends BaseController{
         logger.log(Level.INFO, "[onClick$btnNuevoArticulo]Event:{0}", event.toString());
         HashMap map = new HashMap();
         map.put("token", UtilFormat.getToken());
-        map.put("ListaArticulosCtrl", this);
+        map.put("listaArticulosCtrl", this);
         Executions.createComponents("/WEB-INF/xhtml/articulos/detalleArticulo.zul", null, map);
 
     }

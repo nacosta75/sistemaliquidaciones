@@ -85,19 +85,6 @@ public class DetalleVendedorCtrl extends BaseController {
     private OperacionesBodegaVendedorDTO responseOperacionBodega;
     private List<Personas> listaVendedoresLike;
 
-    private static List<String> colors = new ArrayList<String>();
-
-    static {
-        colors.add("blue");
-        colors.add("black");
-        colors.add("white");
-
-    }
-
-    public static final List<String> getColors() {
-        return new ArrayList<String>(colors);
-    }
-
     public DetalleVendedorCtrl() {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl]INIT");
         try {
@@ -214,18 +201,12 @@ public class DetalleVendedorCtrl extends BaseController {
     }
 
     private void loadComboboxBodegas() {
-        List<Bodegas> listaBodegas;
-        List<CatalogoDTO> listaCatalogoBodegas = new ArrayList<CatalogoDTO>();
-
+        List<Bodegas> listaBodegas;        
         try {
 
             listaBodegas = bodegaVendedorBean.loadAllBodegasAsignables();
-            List<Object> objectList = new ArrayList<Object>(listaBodegas);
-            listaCatalogoBodegas = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idbodega", "nombre");
-
-            if (listaCatalogoBodegas != null && listaCatalogoBodegas.size() > 0) {
-                ListModelList modelobodegas = new ListModelList(listaCatalogoBodegas);
-                cmbBodegasAsignables.setModel(modelobodegas);
+            if (listaBodegas!= null) {
+                cmbBodegasAsignables.setModel(new ListModelList(listaBodegas));
                 cmbBodegasAsignables.setItemRenderer(new CatalogoItemRenderer());
                 btnAsignarBodega.setDisabled(false);
                 cmbBodegasAsignables.setText("Seleccione una bodega!!");

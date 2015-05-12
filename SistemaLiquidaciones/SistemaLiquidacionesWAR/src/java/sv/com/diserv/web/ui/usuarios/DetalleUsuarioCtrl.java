@@ -77,18 +77,12 @@ public class DetalleUsuarioCtrl extends BaseController {
     private void loadCombobox() {
 
         //Sucursal
-        List<CatalogoDTO> listaCatalogo= new ArrayList<CatalogoDTO>();
         List<Sucursales> listaSucursales;
 
         try {
-
-            listaSucursales = sucursalesBean.loadAllSucursal();
-            List<Object> objectList = new ArrayList<Object>(listaSucursales);
-            listaCatalogo = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idsucursal", "descripcion");
-
-            if (listaCatalogo!= null && listaCatalogo.size() > 0) {
-                ListModelList modelotipo = new ListModelList(listaCatalogo);
-                cmbSucursal.setModel(modelotipo);
+            listaSucursales = sucursalesBean.loadAllSucursal();           
+            if (listaSucursales!= null ) {
+                cmbSucursal.setModel(new ListModelList(listaSucursales));
                 cmbSucursal.setItemRenderer(new CatalogoItemRenderer());
             } else {
                 cmbSucursal.setValue("No existen sucursales!!");

@@ -127,31 +127,15 @@ public class DetalleArticuloCtrl extends BaseController {
 
     private void loadCombobox() {
 
-        List<CatalogoDTO> listaCatalogo = new ArrayList<CatalogoDTO>();
-        List<CatalogoDTO> listaCatalogoTipoArticulo = new ArrayList<CatalogoDTO>();
         List<Tipoarticulo> listaTipoArticulo;
-
-        // lineas
-        List<CatalogoDTO> listaCatalogoLineas = new ArrayList<CatalogoDTO>();
         List<LineaArticulo> listaLineas;
-
-        //marcas
-        List<CatalogoDTO> listaCatalogoMarcas = new ArrayList<CatalogoDTO>();
         List<MarcaArticulo> listaMarcas;
-
-        //umedida
-        List<CatalogoDTO> listaCatalogoUmedida = new ArrayList<CatalogoDTO>();
         List<UnidadesMed> listaUmedida;
 
-        try {
-
-            listaTipoArticulo = tipoArticuloBean.loadAllTiposArticulos();
-            List<Object> objectList = new ArrayList<Object>(listaTipoArticulo);
-            listaCatalogoTipoArticulo = catalogosBeanLocal.loadAllElementosCatalogo(objectList, "idtipoarticulo", "descripcion");
-
-            if (listaCatalogoTipoArticulo != null && listaCatalogoTipoArticulo.size() > 0) {
-                ListModelList modelotipo = new ListModelList(listaCatalogoTipoArticulo);
-                cmbTipoArticulo.setModel(modelotipo);
+        try {    
+            listaTipoArticulo = tipoArticuloBean.loadAllTiposArticulos();    
+            if (listaTipoArticulo != null) {
+                cmbTipoArticulo.setModel(new ListModelList(listaTipoArticulo));
                 cmbTipoArticulo.setItemRenderer(new CatalogoItemRenderer());
             } else {
                 cmbTipoArticulo.setValue("No existen tipos articulos!!");
@@ -162,12 +146,8 @@ public class DetalleArticuloCtrl extends BaseController {
 
             //****************************** lineas de articulos *********************/ 
             listaLineas = lineasBean.loadAllLineas();
-            List<Object> objectListLinea = new ArrayList<Object>(listaLineas);
-            listaCatalogoLineas = catalogosBeanLocal.loadAllElementosCatalogo(objectListLinea, "idlinea", "desclinea");
-
-            if (listaCatalogoLineas != null && listaCatalogoLineas.size() > 0) {
-                ListModelList modelotipo = new ListModelList(listaCatalogoLineas);
-                cmbLineaArticulo.setModel(modelotipo);
+            if (listaLineas != null) {
+                cmbLineaArticulo.setModel(new ListModelList(listaLineas));
                 cmbLineaArticulo.setItemRenderer(new CatalogoItemRenderer());
             } else {
                 cmbLineaArticulo.setValue("No existen Lineas!!");
@@ -178,12 +158,8 @@ public class DetalleArticuloCtrl extends BaseController {
 
             //****************************** marcas de articulos *********************/ 
             listaMarcas = marcasBean.loadAllMarcas();
-            List<Object> objectListMarca = new ArrayList<Object>(listaMarcas);
-            listaCatalogoMarcas = catalogosBeanLocal.loadAllElementosCatalogo(objectListMarca, "idmarca", "descmarca");
-
-            if (listaCatalogoMarcas != null && listaCatalogoMarcas.size() > 0) {
-                ListModelList modelotipo = new ListModelList(listaCatalogoMarcas);
-                cmbMarcaArticulo.setModel(modelotipo);
+            if (listaMarcas != null) {
+                cmbMarcaArticulo.setModel(new ListModelList(listaMarcas));
                 cmbMarcaArticulo.setItemRenderer(new CatalogoItemRenderer());
             } else {
                 cmbMarcaArticulo.setValue("No existen Marcas!!");
@@ -193,13 +169,9 @@ public class DetalleArticuloCtrl extends BaseController {
             }
 
             //****************************** unidades de medida *********************/ 
-            listaUmedida = umedidaBean.loadAllUmedidaArticulos();
-            List<Object> objectListMedida = new ArrayList<Object>(listaUmedida);
-            listaCatalogoUmedida = catalogosBeanLocal.loadAllElementosCatalogo(objectListMedida, "idumedida", "descumedida");
-
-            if (listaCatalogoUmedida != null && listaCatalogoUmedida.size() > 0) {
-                ListModelList modelotipo = new ListModelList(listaCatalogoUmedida);
-                cmbMedidaArticulo.setModel(modelotipo);
+            listaUmedida = umedidaBean.loadAllUmedidaArticulos();        
+            if (listaUmedida!= null) {
+                cmbMedidaArticulo.setModel(new ListModelList(listaUmedida));
                 cmbMedidaArticulo.setItemRenderer(new CatalogoItemRenderer());
             } else {
                 cmbMedidaArticulo.setValue("No existen Umedida!!");
@@ -339,11 +311,11 @@ public class DetalleArticuloCtrl extends BaseController {
             if (StringUtils.isEmpty(txtDescripcion.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar descripción para Articulos");
             }
-
-            articuloSelected.setIdtipoarticulo(new Tipoarticulo((Integer) cmbTipoArticulo.getSelectedItem().getValue()));
-            articuloSelected.setIdlinea(new LineaArticulo((Integer) cmbLineaArticulo.getSelectedItem().getValue()));
-            articuloSelected.setIdmarca(new MarcaArticulo((Integer) cmbMarcaArticulo.getSelectedItem().getValue()));
-            articuloSelected.setIdumedida(new UnidadesMed((Integer) cmbMedidaArticulo.getSelectedItem().getValue()));
+       
+            articuloSelected.setIdlinea( (LineaArticulo) cmbLineaArticulo.getSelectedItem().getAttribute("data"));
+            articuloSelected.setIdmarca( (MarcaArticulo) cmbMarcaArticulo.getSelectedItem().getAttribute("data"));
+            articuloSelected.setIdumedida((UnidadesMed) cmbMedidaArticulo.getSelectedItem().getAttribute("data"));
+            articuloSelected.setIdtipoarticulo((Tipoarticulo) cmbTipoArticulo.getSelectedItem().getAttribute("data"));            
             articuloSelected.setIdempresa(new Empresas(1));
             articuloSelected.setCostopromact(BigDecimal.ZERO);
             articuloSelected.setCostopromant(BigDecimal.ZERO);
@@ -386,10 +358,36 @@ public class DetalleArticuloCtrl extends BaseController {
     }
          
     public void onClick$btnGuardar(Event event) {
-        
+        doInsertar();
         
     }
 
+    public void doInsertar() {
+        try {
+            if (getToken().intValue() > 0) {
+                loadDataFromTextboxs();       
+
+            responseOperacion = articulosBean.guardarArticulo(articuloSelected);
+            if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+                MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id articulo:" + responseOperacion.getArticulo().getIdarticulo(), Constants.MENSAJE_TIPO_INFO);
+                articuloSelected = responseOperacion.getArticulo();
+                loadDataFromEntity();
+                doReadOnly(Boolean.TRUE);
+                doEditButton();
+                listaArticulosCtrl.refreshModel(Constants.PAGINA_INICIO_DEFAULT);
+            } else {
+                MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+            }
+           setToken(0);
+            } else if (getToken().intValue() == 0) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar registro dos veces, por seguridad solo se proceso una vez ");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
+        }
+    }
+    
     public List<DetListaPrecio> getListaPrecios() {
         return listaPrecios;
     }

@@ -7,6 +7,7 @@
 package sv.com.diserv.web.ui.sucursales.rendered;
 
 import org.zkoss.zk.ui.sys.ComponentsCtrl;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
@@ -35,5 +36,6 @@ public class SucursalItemRenderer implements ListitemRenderer {
         ComponentsCtrl.applyForward(item, "onClick=onClickedSucursal");
 
     }
+
     
 }
