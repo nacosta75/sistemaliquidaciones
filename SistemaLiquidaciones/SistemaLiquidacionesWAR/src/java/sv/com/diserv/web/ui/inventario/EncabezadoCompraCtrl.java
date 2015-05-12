@@ -193,10 +193,8 @@ public class EncabezadoCompraCtrl extends BaseController {
             searchObjCustomer = personaBean.buscarPersonaByCriteria(request);
 
             if (!searchObjCustomer.isEmpty()) {
-
                 listBoxCustomerSearch.setModel(new ListModelList(searchObjCustomer));
                 listBoxCustomerSearch.setItemRenderer(new PersonaItemRenderer());
-
             } else {
 
                 listBoxCustomerSearch.setEmptyMessage("No se encontraron registros con los criterios ingresados!!");
@@ -228,7 +226,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         Listitem item = this.listBoxDetalleCompra.getSelectedItem();
         if (item != null) {
             detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
-            
+
             HashMap map = new HashMap();
             map.put("articulo", detalleMovimientoSelected.getIdarticulo());
             map.put("encabezadoCompra", compraSelected);
@@ -398,8 +396,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         doClose();
     }
 
-    public void  eliminarArticulo()
-    {
+    public void eliminarArticulo() {
         try {
             MensajeMultilinea.show(Constants.MSG_ELIMINAR_REGISTRO, Constants.MENSAJE_TIPO_INTERRROGACION, new EventListener() {
                 @Override
@@ -435,12 +432,12 @@ public class EncabezadoCompraCtrl extends BaseController {
             e.printStackTrace();
             MensajeMultilinea.show("Ocurrio un error al cargar los componentes", Constants.MENSAJE_TIPO_ALERTA);
         }
-    
+
     }
 
     public void onClick$button_OrderDialog_btnDelete(Event event) throws InterruptedException {
 
-       eliminarArticulo();
+        eliminarArticulo();
 
     }
 
