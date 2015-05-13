@@ -261,8 +261,9 @@
                                                                         label="Quitar Articulo"
                                                                         tooltiptext="Borrar Articulo de la Compra" >
                                 </button>    
-                                <button id="uploadBtn" label="Upload File" upload="true,maxsize=-1" />
-                                <label id="lbl" style="overflow:auto" />
+                                <button id="btn" height="24px" sclass="oT_ButtonWithIcon" label="Importar desde Excel!" 
+                                        tooltiptext="Importar Articulos desde archivo Excel" image="/images/page_excel.png"
+                                        upload="true,maxsize=-1,multiple=true"/>
                             </toolbar>
                             <!-- SEARCH AREA -->
                             <toolbar align="center"
