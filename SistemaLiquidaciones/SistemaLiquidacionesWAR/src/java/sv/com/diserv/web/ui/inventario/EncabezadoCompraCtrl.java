@@ -206,14 +206,27 @@ public class EncabezadoCompraCtrl extends BaseController {
     public void onClick$button_OrderDialog_NewOrderPosition(Event event) {
         logger.log(Level.INFO, "[onclick$button_OrderDialog_NewOrderPosition]Event:{0}", event.toString());
 
+        if (getCompraSelected() == null || getCompraSelected().getIdmov()==null) {
+            MensajeMultilinea.show("Debe Guardar Primero el Encabezado de la Compra!!!", Constants.MENSAJE_TIPO_ALERTA);
+            //doCancel();
+            return;
+        }
+
+        HashMap map = new HashMap();
+        map.put("token", UtilFormat.getToken());
+        map.put("encabezadoCompra", compraSelected);
+        map.put("encabezadoCompraCtrl", this);
+
         try {
-            HashMap map = new HashMap();
-            map.put("token", UtilFormat.getToken());
-            map.put("encabezadoCompra", compraSelected);
-            map.put("encabezadoCompraCtrl", this);
             Executions.createComponents("/WEB-INF/xhtml/inventario/detalleCompraDialog.zul", null, map);
         } catch (Exception a) {
             a.printStackTrace();
+            logger.warning("NewOrder:: error opening window / " + a.getMessage());
+            // Show a error box
+            String msg = a.getMessage();
+            MensajeMultilinea.doSetTemplate();
+            MensajeMultilinea.show(msg, Constants.MENSAJE_TIPO_ALERTA);
+
         }
 
     }
@@ -294,7 +307,7 @@ public class EncabezadoCompraCtrl extends BaseController {
             } else {
                 doNew();
             }
-           
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -387,7 +400,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                 @Override
                 public void onEvent(Event evt) throws DiservBusinessException {
                     try {
-                        Integer opSelected = (((Integer) evt.getData()).intValue());                        
+                        Integer opSelected = (((Integer) evt.getData()).intValue());
                         if (opSelected == Messagebox.OK) {
                             Listitem item = listBoxDetalleCompra.getSelectedItem();
                             detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
