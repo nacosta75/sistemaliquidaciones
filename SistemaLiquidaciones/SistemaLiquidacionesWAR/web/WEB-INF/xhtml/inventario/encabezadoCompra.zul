@@ -255,12 +255,14 @@
                                     image="/images/btnnew.gif"
                                     label="Insertar Articulo"
                                     tooltiptext="Insertar Articulo en la Compra" />
-                                <button id="button_OrderDialog_btnDelete"
+                                <button id="button_OrderDialog_btnDelete" height="24px"
                                                                         sclass="oT_ButtonWithIcon"
                                                                         image="/images/btndelete.gif"
                                                                         label="Quitar Articulo"
                                                                         tooltiptext="Borrar Articulo de la Compra" >
                                 </button>    
+                                <button id="uploadBtn" label="Upload File" upload="true,maxsize=-1" />
+                                <label id="lbl" style="overflow:auto" />
                             </toolbar>
                             <!-- SEARCH AREA -->
                             <toolbar align="center"
