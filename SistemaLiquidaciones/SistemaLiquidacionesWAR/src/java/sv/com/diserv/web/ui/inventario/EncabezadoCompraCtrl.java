@@ -23,6 +23,8 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+import org.zkoss.zk.ui.event.UploadEvent;
+import org.zkoss.zul.Fileupload;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Personas;
@@ -35,7 +37,9 @@ import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Paging;
@@ -493,6 +497,35 @@ public class EncabezadoCompraCtrl extends BaseController {
 
     private void loadDataFromTextboxs() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    private Fileupload fileupload;
+    
+    private void doImportarExcel(UploadEvent event)
+    {
+        
+        org.zkoss.util.media.Media media= event.getMedia();
+       // Importer importer= Importers.getImporter("excel");
+    }
+    
+   protected Button uploadBtn;
+   private Label lbl;
+   
+    public void uploadFile(UploadEvent event) throws InterruptedException {
+        Media media = event.getMedia();
+        String strRead;
+        String uploadId;
+        String contentType="";
+
+        if (contentType.equalsIgnoreCase("application/vnd.ms-excel")) {
+            uploadId = generateUploadId(dealerCd.getValue().toString());
+            lbl.setValue("Content Type : " + media.getContentType()
+                    + " Format : " + media.getFormat()
+                    + " Name : " + media.getName()
+                    + " Upload Id : " + uploadId);
+        } else {
+            Messagebox.show("Wrong format file", null, 0, Messagebox.ERROR);
+        }
     }
 
 }

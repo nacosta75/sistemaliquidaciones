@@ -84,7 +84,7 @@ public class ListaComprasCtrl extends BaseController {
     protected Listheader lhObservaciones;
     protected Listheader lhFechaMovimiento;
     protected Listheader lhNumero;
-    protected Listbox listBoxDetalleCompra;
+   // protected Listbox listBoxDetalleCompra;
     //contadores pagina
     private ServiceLocator serviceLocator;
     private Movimientos movimientoSelected;
@@ -202,20 +202,6 @@ public class ListaComprasCtrl extends BaseController {
         }
     }
 
-    public void onDoubleClickedDetalleMovimiento(Event event) throws Exception {
-     
-
-    //    Listitem item = this.listBoxOrder.getSelectedItem();
-//        if (item != null) {
-//            movimientoSelected = (Movimientos) item.getAttribute("data");
-//            HashMap map = new HashMap();
-//            map.put("movimientoSelected", movimientoSelected);
-//            map.put("token", TokenGenerator.getTokenOperation());
-//            map.put("listaComprasCtrl", this);
-//
-//            Executions.createComponents("/WEB-INF/xhtml/inventario/encabezadoCompra.zul", null, map);
-//        }
-    }
     
      public void onDoubleClickedCompra(Event event) throws Exception {
         logger.log(Level.INFO, "[**onDoubleClickedCompra]Event:{0}", event.toString());
@@ -230,25 +216,25 @@ public class ListaComprasCtrl extends BaseController {
         }
     }
 
-    public void onClickedMovimiento(Event event) throws Exception {
-        logger.log(Level.INFO, "[onClickedMovimiento]Event:{0}", event.toString());
-        Listitem item = this.listBoxOrder.getSelectedItem();
-        if (item != null) {  
-            movimientoSelected = (Movimientos) item.getAttribute("data");
-//            System.out.println("tramites:" + documentoSelected.getIdfactura());
-            if (movimientoSelected != null) {
-                listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(movimientoSelected.getIdmov());
-                if (listaDetalleMovimiento.size() > 0) {
-                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
-                    listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
-                } else {
-                    logger.info("No se cargaron registros");
-                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
-                    listBoxDetalleCompra.setEmptyMessage("Factura no tiene items agregados");
-                }
-            }
-        }  
-    }
+//    public void onClickedMovimiento(Event event) throws Exception {
+//        logger.log(Level.INFO, "[onClickedMovimiento]Event:{0}", event.toString());
+//        Listitem item = this.listBoxOrder.getSelectedItem();
+//        if (item != null) {  
+//            movimientoSelected = (Movimientos) item.getAttribute("data");
+////            System.out.println("tramites:" + documentoSelected.getIdfactura());
+//            if (movimientoSelected != null) {
+//                listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(movimientoSelected.getIdmov());
+//                if (listaDetalleMovimiento.size() > 0) {
+//                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
+//                    listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
+//                } else {
+//                    logger.info("No se cargaron registros");
+//                    listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
+//                    listBoxDetalleCompra.setEmptyMessage("Factura no tiene items agregados");
+//                }
+//            }
+//        }  
+//    }
 
     public void onClick$button_OrderList_NewOrder(Event event) {
         logger.log(Level.INFO, "[onClick$btnNuevoDocumento]Event:{0}", event.toString());
@@ -476,9 +462,9 @@ public class ListaComprasCtrl extends BaseController {
 			if ((ListModelList) listBoxOrder.getModel() != null) {
 				((ListModelList) listBoxOrder.getModel()).clear();
 			}
-			if ((ListModelList) listBoxDetalleCompra.getModel() != null) {
-				((ListModelList) listBoxDetalleCompra.getModel()).clear();
-			}
+//			if ((ListModelList) listBoxDetalleCompra.getModel() != null) {
+//				((ListModelList) listBoxDetalleCompra.getModel()).clear();
+//			}
 
 			Personas persona = (Personas) item.getAttribute("data");
 
