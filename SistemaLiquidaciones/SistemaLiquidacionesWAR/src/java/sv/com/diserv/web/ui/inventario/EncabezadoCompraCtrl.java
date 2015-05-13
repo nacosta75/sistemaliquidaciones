@@ -186,7 +186,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                 request.setNumeroRegistro(tb_Orders_CustSearchMatchcode.getValue());
             }
 
-            request.setTipoPersona(3);
+            request.setTipoPersona(Constants.ID_TIPO_PERSONA_PROVEEDOR);
             searchObjCustomer = personaBean.buscarPersonaByCriteria(request);
 
             if (!searchObjCustomer.isEmpty()) {
@@ -221,7 +221,7 @@ public class EncabezadoCompraCtrl extends BaseController {
             Executions.createComponents("/WEB-INF/xhtml/inventario/detalleCompraDialog.zul", null, map);
         } catch (Exception a) {
             a.printStackTrace();
-            logger.warning("NewOrder:: error opening window / " + a.getMessage());
+            logger.warning("NewOrder: error opening window / " + a.getMessage());
             // Show a error box
             String msg = a.getMessage();
             MensajeMultilinea.doSetTemplate();
@@ -365,6 +365,7 @@ public class EncabezadoCompraCtrl extends BaseController {
 
         doClear();
         doReadOnly(Boolean.FALSE);
+        
 
         this.btnCerrar.setVisible(false);
         this.btnEditar.setVisible(false);
@@ -380,6 +381,7 @@ public class EncabezadoCompraCtrl extends BaseController {
 
         txtPersonaName.setValue(null);
         txtFacturaNo.setValue(null);
+        refreshModel(0);
     }
 
     public void onClick$btnEditar(Event event) {
@@ -390,11 +392,20 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.btnCancelar.setVisible(true);
     }
 
+     public void onClick$btnNuevo(Event event) {
+        doNew();
+        doReadOnly(Boolean.FALSE);
+        this.btnActualizar.setVisible(false);
+        this.btnEditar.setVisible(false);
+        this.btnCancelar.setVisible(true);
+        this.btnSave.setVisible(true);
+    }
+     
     public void onClick$btnCerrar(Event event) throws InterruptedException {
         doClose();
     }
 
-    public void eliminarArticulo() {
+    public void doEliminarArticulo() {
         try {
             MensajeMultilinea.show(Constants.MSG_ELIMINAR_REGISTRO, Constants.MENSAJE_TIPO_INTERRROGACION, new EventListener() {
                 @Override
@@ -428,7 +439,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     }
 
     public void onClick$button_OrderDialog_btnDelete(Event event) throws InterruptedException {
-        eliminarArticulo();
+        doEliminarArticulo();
     }
 
     private void doClose() {
