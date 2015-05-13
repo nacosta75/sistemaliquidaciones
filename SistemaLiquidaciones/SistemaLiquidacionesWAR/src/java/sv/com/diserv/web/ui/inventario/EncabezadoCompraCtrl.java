@@ -51,6 +51,14 @@ import sv.com.diserv.liquidaciones.entity.MovimientosDet;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.util.TokenGenerator;
 import sv.com.diserv.web.ui.inventario.rendered.DetalleMovimientoItemRenderer;
+import org.zkoss.zk.ui.*;
+import org.zkoss.zk.ui.event.*;
+import org.zkoss.zk.ui.util.*;
+import org.zkoss.zk.ui.ext.*;
+import org.zkoss.zk.au.*;
+import org.zkoss.zk.au.out.*;
+import org.zkoss.zul.*;
+import org.zkoss.util.media.*;
 
 /**
  *
@@ -76,6 +84,8 @@ public class EncabezadoCompraCtrl extends BaseController {
     protected Textbox txtFacturaNo;
     protected Textbox txtObservaciones;
 
+    protected Button btn;
+    
     private BusquedaPersonaDTO request;
 
     //busqueda de proveedor
@@ -210,7 +220,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     public void onClick$button_OrderDialog_NewOrderPosition(Event event) {
         logger.log(Level.INFO, "[onclick$button_OrderDialog_NewOrderPosition]Event:{0}", event.toString());
 
-        if (getCompraSelected() == null || getCompraSelected().getIdmov()==null) {
+        if (getCompraSelected() == null || getCompraSelected().getIdmov() == null) {
             MensajeMultilinea.show("Debe Guardar Primero el Encabezado de la Compra!!!", Constants.MENSAJE_TIPO_ALERTA);
             //doCancel();
             return;
@@ -369,7 +379,6 @@ public class EncabezadoCompraCtrl extends BaseController {
 
         doClear();
         doReadOnly(Boolean.FALSE);
-        
 
         this.btnCerrar.setVisible(false);
         this.btnEditar.setVisible(false);
@@ -396,7 +405,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.btnCancelar.setVisible(true);
     }
 
-     public void onClick$btnNuevo(Event event) {
+    public void onClick$btnNuevo(Event event) {
         doNew();
         doReadOnly(Boolean.FALSE);
         this.btnActualizar.setVisible(false);
@@ -404,7 +413,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.btnCancelar.setVisible(true);
         this.btnSave.setVisible(true);
     }
-     
+
     public void onClick$btnCerrar(Event event) throws InterruptedException {
         doClose();
     }
@@ -498,33 +507,29 @@ public class EncabezadoCompraCtrl extends BaseController {
     private void loadDataFromTextboxs() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    private Fileupload fileupload;
-    
-    private void doImportarExcel(UploadEvent event)
-    {
-        
-        org.zkoss.util.media.Media media= event.getMedia();
-       // Importer importer= Importers.getImporter("excel");
-    }
-    
-   protected Button uploadBtn;
-   private Label lbl;
-   
-    public void uploadFile(UploadEvent event) throws InterruptedException {
-        Media media = event.getMedia();
-        String strRead;
-        String uploadId;
-        String contentType="";
 
-        if (contentType.equalsIgnoreCase("application/vnd.ms-excel")) {
-            uploadId = generateUploadId(dealerCd.getValue().toString());
-            lbl.setValue("Content Type : " + media.getContentType()
-                    + " Format : " + media.getFormat()
-                    + " Name : " + media.getName()
-                    + " Upload Id : " + uploadId);
+
+    public void onUpload$btn(UploadEvent e) throws InterruptedException
+    {
+        System.out.println(e.getMedias() );
+        if (e.getMedias() != null) {
+            StringBuilder sb = new StringBuilder("You uploaded: \n");
+
+            for (Media m : e.getMedias()) {
+                sb.append(m.getName());
+                sb.append(" (");
+                sb.append(m.getContentType());
+                sb.append(")\n");
+                String filename = m.getName();
+                //nos fijamos las extenciones
+                if (filename.indexOf(".txt") == -1 || filename.indexOf(".xls") == -1 || filename.indexOf(".csv") == -1) {
+                    Messagebox.show("Mal");
+                }
+            }
+
+            Messagebox.show(sb.toString());
         } else {
-            Messagebox.show("Wrong format file", null, 0, Messagebox.ERROR);
+            Messagebox.show("You uploaded no files!");
         }
     }
 
