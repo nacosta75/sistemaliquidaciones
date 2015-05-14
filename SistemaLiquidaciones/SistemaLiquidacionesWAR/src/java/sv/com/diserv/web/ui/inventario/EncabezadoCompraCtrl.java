@@ -59,6 +59,9 @@ import org.zkoss.zk.au.*;
 import org.zkoss.zk.au.out.*;
 import org.zkoss.zul.*;
 import org.zkoss.util.media.*;
+import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
+import sv.com.diserv.liquidaciones.entity.Empresas;
+import sv.com.diserv.liquidaciones.exception.DiservWebException;
 
 /**
  *
@@ -84,7 +87,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     protected Textbox txtFacturaNo;
     protected Textbox txtObservaciones;
 
-    protected Button btn;
+    protected Button btnSubir;
     
     private BusquedaPersonaDTO request;
 
@@ -122,6 +125,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     private Movimientos compraSelected;
     private MovimientosDet detalleMovimientoSelected;
     private MovimientosDetBeanLocal movimientosDetBean;
+     private OperacionesMovimientoDTO responseOperacionM;
     private OperacionesMovimientoDetDTO responseOperacion;
 
     private ListaComprasCtrl listaComprasCtrl;
@@ -397,6 +401,36 @@ public class EncabezadoCompraCtrl extends BaseController {
         refreshModel(0);
     }
 
+      public void onClick$btnSave(Event event) {
+         try {
+            
+            if (getToken().intValue() > 0) {
+                loadDataFromTextboxs();
+            
+                
+                compraSelected.setIdsucursal(this.userLogin.getUsuario().getIdsucursal());
+                //compraSelected.setIdbodegaentrada(this.userLogin.getUsuario().getIdsucursal());
+                responseOperacionM = movimientoBean.guardarMovimiento(compraSelected);
+                if (responseOperacionM.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {                    
+                    compraSelected = responseOperacionM.getMovimiento();
+                    loadDataFromEntity();
+                    doReadOnly(Boolean.TRUE);
+                    doEditButton();
+                    refreshModel(0);
+                
+                } else {
+                    MensajeMultilinea.show(responseOperacionM.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+                }
+                setToken(0);
+            } else if (getToken().intValue() == 0) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Se intento guardar la compra dos veces, por seguridad solo se proceso una vez ");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
+        }
+    }
+     
     public void onClick$btnEditar(Event event) {
         doEditButton();
         doReadOnly(Boolean.FALSE);
@@ -452,6 +486,12 @@ public class EncabezadoCompraCtrl extends BaseController {
     }
 
     public void onClick$button_OrderDialog_btnDelete(Event event) throws InterruptedException {
+        
+         if (getCompraSelected() == null || getCompraSelected().getIdmov() == null) {
+            MensajeMultilinea.show("Debe Guardar Primero el Encabezado de la Compra!!!", Constants.MENSAJE_TIPO_ALERTA);
+            //doCancel();
+            return;
+        }
         doEliminarArticulo();
     }
 
@@ -505,32 +545,67 @@ public class EncabezadoCompraCtrl extends BaseController {
     }
 
     private void loadDataFromTextboxs() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       try {
+            Movimientos compraSelected2 = compraSelected;
+            compraSelected = new Movimientos();
+            //validamos los campos
+
+            txtPersonaName.setValue(compraSelected.getIdpersona().getNombre());
+            txtPersonaCod.setValue(compraSelected.getIdpersona().getNoRegistroFiscal());
+            txtFacturaNo.setValue(compraSelected.getNodoc().toString());
+            txtObservaciones.setValue(compraSelected.getObserva1());
+           
+             if (StringUtils.isEmpty(txtPersonaCod.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar un proveedor valido");
+            }
+             
+            if (StringUtils.isEmpty(txtPersonaName.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar un proveedor valido");
+            }
+
+           if (StringUtils.isEmpty(txtFacturaNo.getValue())) {
+                throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar numero de factura valido");
+            }
+
+            compraSelected.setIdpersona(getPersonas());
+            //compraSelected.setNodoc(txtFacturaNo.getValue());
+
+        } catch (DiservWebException ex) {
+            MensajeMultilinea.show(ex.getMensaje(), Constants.MENSAJE_TIPO_ERROR);
+        }
+
     }
 
 
-    public void onUpload$btn(UploadEvent e) throws InterruptedException
+    public void onUpload$btnSubir(ForwardEvent event) 
     {
-        System.out.println(e.getMedias() );
-        if (e.getMedias() != null) {
-            StringBuilder sb = new StringBuilder("You uploaded: \n");
-
-            for (Media m : e.getMedias()) {
-                sb.append(m.getName());
-                sb.append(" (");
-                sb.append(m.getContentType());
-                sb.append(")\n");
-                String filename = m.getName();
-                //nos fijamos las extenciones
-                if (filename.indexOf(".txt") == -1 || filename.indexOf(".xls") == -1 || filename.indexOf(".csv") == -1) {
-                    Messagebox.show("Mal");
-                }
-            }
-
-            Messagebox.show(sb.toString());
-        } else {
-            Messagebox.show("You uploaded no files!");
+        UploadEvent eventMedia;
+        Object media;
+    
+        try
+        {
+          eventMedia = (UploadEvent) event.getOrigin();
+          media =  eventMedia.getMedia();
+          if (media instanceof org.zkoss.image.Image)
+          {
+             System.out.println("imagen");
+          }
+          else if (media instanceof AMedia)
+          {
+            AMedia medi= (AMedia) media;
+            System.out.println("es archivo de otro tipo");
+            System.out.println("nombre :"+ medi.getName());
+            System.out.println("tipo :"+ medi.getFormat());
+            System.out.println("size :"+ medi.getByteData().length);
+          
+          }
         }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+      
+     
     }
 
 }
