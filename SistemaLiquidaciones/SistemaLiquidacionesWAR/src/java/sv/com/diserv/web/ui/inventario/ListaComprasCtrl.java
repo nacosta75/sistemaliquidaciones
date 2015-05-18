@@ -46,6 +46,7 @@ import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
 import sv.com.diserv.liquidaciones.util.TokenGenerator;
 import sv.com.diserv.liquidaciones.util.UtilFormat;
+import static sv.com.diserv.web.ui.inventario.EncabezadoCompraCtrl.logger;
 import sv.com.diserv.web.ui.inventario.rendered.DetalleMovimientoItemRenderer;
 import sv.com.diserv.web.ui.inventario.rendered.MovimientoItemRenderer;
 import sv.com.diserv.web.ui.personas.rendered.PersonaItemRenderer;
@@ -140,6 +141,13 @@ public class ListaComprasCtrl extends BaseController {
         this.request = request;
     }
     
+    
+     public void onPaging$paging_OrderList(ForwardEvent event) throws DiservBusinessException {
+        logger.log(Level.INFO, "[onPaging$paging_OrderList]Event:", event.getName());
+        final PagingEvent pe = (PagingEvent) event.getOrigin();
+        numeroPaginInicio = pe.getActivePage();
+        refreshModel(numeroPaginInicio);
+    }
     
 
     public void onCreate$listaMovimientoWindow(Event event) throws Exception {

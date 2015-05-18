@@ -59,9 +59,12 @@ import org.zkoss.zk.au.*;
 import org.zkoss.zk.au.out.*;
 import org.zkoss.zul.*;
 import org.zkoss.util.media.*;
+import org.zkoss.zul.event.PagingEvent;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
 import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.exception.DiservWebException;
+import static sv.com.diserv.web.ui.inventario.ListaComprasCtrl.logger;
+import sv.com.diserv.web.ui.inventario.rendered.MovimientoItemRenderer;
 
 /**
  *
@@ -161,10 +164,21 @@ public class EncabezadoCompraCtrl extends BaseController {
         if (this.args.containsKey("listaComprasCtrl")) {
             listaComprasCtrl = ((ListaComprasCtrl) this.args.get("listaComprasCtrl"));
         }
+        paging_ListBoxOrderOrderPositions2.setPageSize(getUserLogin().getRegistrosLista());
+        paging_ListBoxOrderOrderPositions2.setDetailed(true);
         //  checkPermisos();
+        reloadTotal();
         showDetalleLineas();
 
     }
+    
+     public void onPaging$paging_ListBoxOrderOrderPositions2(ForwardEvent event) throws DiservBusinessException {
+        logger.log(Level.INFO, "[onPaging$paging_ListBoxOrderOrderPositions2]Event:", event.getName());
+        final PagingEvent pe = (PagingEvent) event.getOrigin();
+        numeroPaginInicio = pe.getActivePage();
+        refreshModel(numeroPaginInicio);
+    }
+
 
     public void onClick$button_bbox_CustomerSearch_Close(Event event) {
         // logger.debug(event.toString());
@@ -320,7 +334,7 @@ public class EncabezadoCompraCtrl extends BaseController {
             if (compraSelected != null) {
                 doReadOnly(Boolean.TRUE);
                 doEditButton();
-                loadDataFromEntity();
+                loadDataFromEntity(numeroPaginInicio);
 
             } else {
                 doNew();
@@ -331,7 +345,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         }
     }
 
-    private void loadDataFromEntity() {
+    private void loadDataFromEntity(int activePage) {
 
         try {
             txtPersonaName.setValue(compraSelected.getIdpersona().getNombre());
@@ -339,26 +353,33 @@ public class EncabezadoCompraCtrl extends BaseController {
             txtFacturaNo.setValue(compraSelected.getNodoc().toString());
             txtObservaciones.setValue(compraSelected.getObserva1());
 
-            showDetalleCompra();
+            refreshModel(activePage);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-
-    public void showDetalleCompra() throws Exception {
-        logger.log(Level.INFO, "[showDetalleCompra][refreshModel]Recargar detalle");
+    
+    void refreshModel(int activePage) throws DiservBusinessException {
+         logger.log(Level.INFO, "[showDetalleCompra][refreshModel]Recargar detalle");
         if (compraSelected != null) {
-            listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(compraSelected.getIdmov());
+            listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),compraSelected.getIdmov());
             if (listaDetalleMovimiento.size() > 0) {
                 listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
                 listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
+                paging_ListBoxOrderOrderPositions2.setTotalSize(getTotalMovimiento());
             } else {
                 logger.info("No se cargaron registros");
                 listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
                 listBoxDetalleCompra.setEmptyMessage("Factura no tiene items agregados");
             }
         }
+    }
+
+    
+    public void doRefreshModel(int activePage) throws DiservBusinessException {
+        logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][doRefreshModel]Pagina activa:{0}", activePage);
+        refreshModel(activePage);
     }
 
     private void doReadOnly(Boolean opt) {
@@ -379,7 +400,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.btnActualizar.setVisible(false);
     }
 
-    private void doNew() {
+    private void doNew() throws DiservBusinessException {
 
         doClear();
         doReadOnly(Boolean.FALSE);
@@ -394,7 +415,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.btnActualizar.setVisible(false);
     }
 
-    private void doClear() {
+    private void doClear() throws DiservBusinessException {
 
         txtPersonaName.setValue(null);
         txtFacturaNo.setValue(null);
@@ -413,7 +434,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                 responseOperacionM = movimientoBean.guardarMovimiento(compraSelected);
                 if (responseOperacionM.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {                    
                     compraSelected = responseOperacionM.getMovimiento();
-                    loadDataFromEntity();
+                    loadDataFromEntity(numeroPaginInicio);
                     doReadOnly(Boolean.TRUE);
                     doEditButton();
                     refreshModel(0);
@@ -439,7 +460,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.btnCancelar.setVisible(true);
     }
 
-    public void onClick$btnNuevo(Event event) {
+    public void onClick$btnNuevo(Event event) throws DiservBusinessException {
         doNew();
         doReadOnly(Boolean.FALSE);
         this.btnActualizar.setVisible(false);
@@ -522,27 +543,27 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.personas = personas;
     }
 
-    public void refreshModel(int activePage) {
-        logger.log(Level.INFO, "[EncabezadoCompraCtrl ][refreshModel]Recargar articulos,Pagina activa:{0}", activePage);
-        try {
-            //if (totalMovimiento > 0) {
-            listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(compraSelected.getIdmov());
-            if (listaDetalleMovimiento.size() > 0) {
-                logger.log(Level.INFO, "Registros cargados=={0}", listaDetalleMovimiento.size());
-                //      paging_ListBoxOrderOrderPositions2.setTotalSize(getTotalMovimiento());
-                listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
-                listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
-            } else {
-                logger.info("No se cargaron registros");
-            }
+//    public void refreshModel(int activePage) {
+//        logger.log(Level.INFO, "[EncabezadoCompraCtrl ][refreshModel]Recargar articulos,Pagina activa:{0}", activePage);
+//        try {
+//            //if (totalMovimiento > 0) {
+//            listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(compraSelected.getIdmov());
+//            if (listaDetalleMovimiento.size() > 0) {
+//                logger.log(Level.INFO, "Registros cargados=={0}", listaDetalleMovimiento.size());
+//                //      paging_ListBoxOrderOrderPositions2.setTotalSize(getTotalMovimiento());
+//                listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
+//                listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
 //            } else {
-//                listBoxDetalleCompra.setEmptyMessage("No se encontraron registros para mostrar");
+//                logger.info("No se cargaron registros");
 //            }
-        } catch (Exception ex) {
-            logger.log(Level.INFO, "[EncabezadoCompraCtrl ][refreshModel] Ocurrio Una exception :{0}", ex.getLocalizedMessage());
-            ex.printStackTrace();
-        }
-    }
+////            } else {
+////                listBoxDetalleCompra.setEmptyMessage("No se encontraron registros para mostrar");
+////            }
+//        } catch (Exception ex) {
+//            logger.log(Level.INFO, "[EncabezadoCompraCtrl ][refreshModel] Ocurrio Una exception :{0}", ex.getLocalizedMessage());
+//            ex.printStackTrace();
+//        }
+//    }
 
     private void loadDataFromTextboxs() {
        try {
@@ -607,5 +628,23 @@ public class EncabezadoCompraCtrl extends BaseController {
       
      
     }
+
+
+    
+    public void reloadTotal() {
+        try {
+            totalMovimiento = movimientosDetBean.countAllMovimientosDet(Constants.CODIGO_MOVIMIENTO_TIPO_COMPRA);            
+            if (totalMovimiento != null) {
+                setTotalMovimiento(totalMovimiento);
+                System.out.println(getTotalMovimiento());
+            } else {
+                logger.info("[onCreate$listaClienteWindow]No se pudo obtener total registros");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
 
 }

@@ -135,6 +135,7 @@ public class DetalleCompraDialogCtrl extends BaseController {
             encabezadoCompraCtrl = ((EncabezadoCompraCtrl) this.args.get("encabezadoCompraCtrl"));
         }
 
+
         showDetalleLineas();
 
     }
@@ -422,7 +423,7 @@ public class DetalleCompraDialogCtrl extends BaseController {
                 detalleMovimientoSelected.setValorImpuesto(Constants.VALOR_IMPUESTO_IVA);
                 detalleMovimientoSelected.setIdlista(new EncListaPrecio(1));
 
-                responseOperacion = movimientosDetBean.guardarMovimientoDet(detalleMovimientoSelected);
+                responseOperacion = movimientosDetBean.actualizarMovimientoDet(detalleMovimientoSelected);
                 if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                     //MensajeMultilinea.show(responseOperacion.getMensajeRespuesta() + " Id movimiento:" + responseOperacion.getMovimiento().getIdmovd(), Constants.MENSAJE_TIPO_INFO);
                     detalleMovimientoSelected = responseOperacion.getMovimiento();
@@ -509,6 +510,7 @@ public class DetalleCompraDialogCtrl extends BaseController {
             }
 
             if (oldMovimientosDet != null) {
+                detalleMovimientoSelected.setIdmovd(oldMovimientosDet.getIdmovd());
                 detalleMovimientoSelected.setIdarticulo(oldMovimientosDet.getIdarticulo());
             } else {
                 detalleMovimientoSelected.setIdarticulo(articulo);
