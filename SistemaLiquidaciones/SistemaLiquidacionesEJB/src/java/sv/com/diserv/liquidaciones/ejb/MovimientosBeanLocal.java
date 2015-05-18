@@ -28,7 +28,7 @@ public interface MovimientosBeanLocal {
     public OperacionesMovimientoDTO actualizarMovimiento(Movimientos movimiento) throws DiservBusinessException;
     public OperacionesMovimientoDTO eliminarMovimiento(Movimientos movimiento) throws DiservBusinessException;
     public Integer maxNumDocByVendedorAndTipoMov(int idVendedor, int tipoMov) throws DiservBusinessException;
-    public List<MovimientosDet> loadDetalleMovimientoByIdMovimento(Integer codigoMovimiento) throws DiservBusinessException;
+    public List<MovimientosDet> loadDetalleMovimientoByIdMovimento(int inicio, int fin, Integer codigoMovimiento) throws DiservBusinessException;
     public Movimientos findMovimientoById( Integer idMovimiento) throws DiservBusinessException;
     public List<Movimientos> buscarMovimientoByCriteria(BusquedaMovimientoDTO input) throws DiservBusinessException;
 }

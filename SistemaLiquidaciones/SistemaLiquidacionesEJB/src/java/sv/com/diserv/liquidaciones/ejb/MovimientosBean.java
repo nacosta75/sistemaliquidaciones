@@ -148,13 +148,15 @@ public class MovimientosBean implements MovimientosBeanLocal {
      * @throws DiservBusinessException
      */
     @Override
-    public List<MovimientosDet> loadDetalleMovimientoByIdMovimento(Integer codigoMovimiento) throws DiservBusinessException {
+    public List<MovimientosDet> loadDetalleMovimientoByIdMovimento(int inicio, int fin,Integer codigoMovimiento) throws DiservBusinessException {
         logger.log(Level.INFO, "[loadDetalleMovimientoByIdMovimento] codigoMovimiento:" + codigoMovimiento);
         List<MovimientosDet> personaList = null;
         Query query;
         try {
             query = em.createNamedQuery("MovimientosDet.findByIdMovimiento");
             query.setParameter("idMovimiento", codigoMovimiento);
+            query.setFirstResult(inicio);
+            query.setMaxResults(fin);
             query.setMaxResults(Constants.REGISTROS_A_MOSTRAR_LISTA);
             personaList = query.getResultList();
         } catch (NoResultException ex) {
