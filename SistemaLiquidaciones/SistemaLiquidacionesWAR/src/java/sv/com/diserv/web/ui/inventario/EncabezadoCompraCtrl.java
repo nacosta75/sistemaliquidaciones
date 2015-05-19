@@ -52,6 +52,11 @@ import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.el.ExpressionFactory;
+import javax.el.ValueExpression;
+import javax.faces.context.FacesContext;
+import org.mozilla.javascript.Context;
+import static org.mozilla.javascript.Context.getCurrentContext;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Label;
@@ -652,6 +657,17 @@ public class EncabezadoCompraCtrl extends BaseController {
                     out.write(buf, 0, len);
                 }
                 is.close();
+                
+                //Este es para hacer la insercion por Bach en este metodo se manda a leer desde el server el archivo y se procesa
+            int response = insertLoteProducto(name);//ejbAlaClie.insertBatchAlarmaCliente(name);
+			
+            if (response < 0) { 
+                MensajeMultilinea.show("Ocurrió un error al importar lote!!", Constants.MENSAJE_TIPO_ALERTA);
+               
+            } else {
+                MensajeMultilinea.show("Lote Importado con exito!!, se importaron :"+response+", registros!!!", Constants.MENSAJE_TIPO_ALERTA);
+               
+            }
 
                 System.out.println("es archivo de otro tipo");
                 System.out.println("nombre :" + medi.getName());
