@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.BusquedaLoteExistenciaDTO;
 import sv.com.diserv.liquidaciones.dto.ConsolidadoAsignacionesDTO;
+import sv.com.diserv.liquidaciones.dto.OperacionesLostesExistenciasDTO;
 import sv.com.diserv.liquidaciones.entity.Articulos;
 import sv.com.diserv.liquidaciones.entity.LotesExistencia;
 import sv.com.diserv.liquidaciones.entity.Movimientos;
@@ -175,5 +176,33 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
             e.printStackTrace();
         }
         return i;
+    }
+
+    @Override
+    public OperacionesLostesExistenciasDTO guardarLote(LotesExistencia lote) throws DiservBusinessException {
+          OperacionesLostesExistenciasDTO response = new OperacionesLostesExistenciasDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar lote");
+        try {
+            lote = genericDaoBean.create(lote);
+            response = new OperacionesLostesExistenciasDTO(Constants.CODE_OPERACION_SATISFACTORIA, "Lote creado satisfactoriamente");
+            response.setLotesExistencia(lote);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setMensajeRespuesta(e.toString());
+        }
+        return response;
+    }
+
+    @Override
+    public OperacionesLostesExistenciasDTO actualizarLote(LotesExistencia lote) throws DiservBusinessException {
+         OperacionesLostesExistenciasDTO response = new OperacionesLostesExistenciasDTO(Constants.CODE_OPERATION_FALLIDA, "no se pudo guardar lote");
+        try {
+            lote = genericDaoBean.update(lote);
+            response = new OperacionesLostesExistenciasDTO(Constants.CODE_OPERACION_SATISFACTORIA, "lote actualizado satisfactoriamente");
+            response.setLotesExistencia(lote);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setMensajeRespuesta(e.toString());
+        }
+        return response;
     }
 }

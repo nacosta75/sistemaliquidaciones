@@ -258,4 +258,25 @@ public class ArticulosBean implements ArticulosBeanLocal {
         return articulo;
     }
 
+    @Override
+    public Articulos loadArticuloByCodigo(String codArticulo) throws DiservBusinessException {
+        //Articulos.findByCodarticulo
+        logger.log(Level.INFO, "[loadArticuloByCodigo] codarticulo:" + codArticulo);
+        Articulos articulo = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("Articulos.findByCodarticulo");
+            query.setParameter("codarticulo", codArticulo);
+            articulo = (Articulos) query.getSingleResult();
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[loadArticuloByCodigo][NoResultException]No se encontraron articulos");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron articulos");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[loadArticuloByCodigo][Exception]Se mostro una excepcion al buscar articulo");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return articulo;
+    }
+
 }

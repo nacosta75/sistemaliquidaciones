@@ -28,4 +28,5 @@ public interface ArticulosBeanLocal {
     public List<Articulos> buscarArticuloByCriteria(BusquedaArticuloDTO request) throws DiservBusinessException;
     public List<Articulos> loadArticuloByDescripcionLike(String likeNombre) throws DiservBusinessException;
     public Articulos loadArticuloByID(Integer idArticulo) throws DiservBusinessException;
+    public Articulos loadArticuloByCodigo(String codArticulo) throws DiservBusinessException;
 }
