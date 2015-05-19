@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import static java.lang.Integer.parseInt;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -760,12 +761,14 @@ public class EncabezadoCompraCtrl extends BaseController {
 //                         detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
 //                         movimientosDetBean.actualizarMovimientoDet(detalleMovimientoSelected);
 //                    }
-//                    //MovimientosDet =
+//                  
+                    MovimientosDet detalle = null;
                     for (MovimientosDet lista :listaDetalleMovimiento)
                     {
                        if (loteAdd.getIdarticulo() == lista.getIdarticulo())
                        {
-                           
+                           detalle = lista;
+                           detalle.setCantidad(new BigDecimal(lista.getCantidad().signum()));
                            existe = true;
                            break;
                        }
@@ -775,8 +778,14 @@ public class EncabezadoCompraCtrl extends BaseController {
                     
                     if (existe)
                     {
-                       movimientosDetBean.actualizarMovimientoDet(detalleMovimientoSelected);
+                       movimientosDetBean.actualizarMovimientoDet(detalle);
                     
+                    }
+                    else
+                    {
+                      detalle.setIdarticulo(loteAdd.getIdarticulo());
+                      detalle.setCantidad(new BigDecimal("1"));
+                      movimientosDetBean.guardarMovimientoDet(detalle);
                     }
                     
                    response += 1;
