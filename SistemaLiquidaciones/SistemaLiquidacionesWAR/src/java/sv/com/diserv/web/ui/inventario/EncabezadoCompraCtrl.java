@@ -753,6 +753,32 @@ public class EncabezadoCompraCtrl extends BaseController {
                     
                     lotesExistenciasBean.guardarLote(loteAdd);
                     
+                    Boolean existe=false;
+                    
+//                    if (listaDetalleMovimiento.contains(loteAdd.getIdarticulo()))
+//                    {
+//                         detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
+//                         movimientosDetBean.actualizarMovimientoDet(detalleMovimientoSelected);
+//                    }
+//                    //MovimientosDet =
+                    for (MovimientosDet lista :listaDetalleMovimiento)
+                    {
+                       if (loteAdd.getIdarticulo() == lista.getIdarticulo())
+                       {
+                           
+                           existe = true;
+                           break;
+                       }
+                    
+                    }
+                    
+                    
+                    if (existe)
+                    {
+                       movimientosDetBean.actualizarMovimientoDet(detalleMovimientoSelected);
+                    
+                    }
+                    
                    response += 1;
                    
                    } catch (Exception ex) {
