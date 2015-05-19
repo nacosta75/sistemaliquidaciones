@@ -5,6 +5,21 @@
  */
 package sv.com.diserv.web.ui.inventario;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import static java.lang.Integer.parseInt;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,8 +75,14 @@ import org.zkoss.zk.au.out.*;
 import org.zkoss.zul.*;
 import org.zkoss.util.media.*;
 import org.zkoss.zul.event.PagingEvent;
+import sv.com.diserv.liquidaciones.dto.BusquedaArticuloDTO;
+import sv.com.diserv.liquidaciones.dto.OperacionesLostesExistenciasDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
+import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
+import sv.com.diserv.liquidaciones.ejb.LotesExistenciasBeanLocal;
+import sv.com.diserv.liquidaciones.entity.Articulos;
 import sv.com.diserv.liquidaciones.entity.Empresas;
+import sv.com.diserv.liquidaciones.entity.LotesExistencia;
 import sv.com.diserv.liquidaciones.exception.DiservWebException;
 import static sv.com.diserv.web.ui.inventario.ListaComprasCtrl.logger;
 import sv.com.diserv.web.ui.inventario.rendered.MovimientoItemRenderer;
@@ -91,7 +112,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     protected Textbox txtObservaciones;
 
     protected Button btnSubir;
-    
+
     private BusquedaPersonaDTO request;
 
     //busqueda de proveedor
@@ -128,11 +149,18 @@ public class EncabezadoCompraCtrl extends BaseController {
     private Movimientos compraSelected;
     private MovimientosDet detalleMovimientoSelected;
     private MovimientosDetBeanLocal movimientosDetBean;
-     private OperacionesMovimientoDTO responseOperacionM;
+    private OperacionesMovimientoDTO responseOperacionM;
     private OperacionesMovimientoDetDTO responseOperacion;
 
     private ListaComprasCtrl listaComprasCtrl;
     private List<MovimientosDet> listaDetalleMovimiento;
+
+    String instanceRoot = System.getProperty("com.sun.aas.instanceRoot");
+    String path = instanceRoot;
+    String FOLDER = "SistemaLiquidaciones";
+    private LotesExistencia loteAdd;
+    private ArticulosBeanLocal articuloBean;
+    private LotesExistenciasBeanLocal lotesExistenciasBean;
 
     public EncabezadoCompraCtrl() {
         logger.log(Level.INFO, "[EncabezadoCompraCtrl]INIT");
@@ -141,6 +169,8 @@ public class EncabezadoCompraCtrl extends BaseController {
             movimientoBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOS_BEAN);
             personaBean = serviceLocator.getService(Constants.JNDI_PERSONA_BEAN);
             movimientosDetBean = serviceLocator.getService(Constants.JNDI_MOVIMIENTOSDET_BEAN);
+            articuloBean = serviceLocator.getService(Constants.JNDI_ARTICULOS_BEAN);
+            lotesExistenciasBean = serviceLocator.getService(Constants.JNDI_LOTESEXISTENCIAS_BEAN);
             numeroPaginInicio = 0;
         } catch (ServiceLocatorException ex) {
             logger.log(Level.SEVERE, ex.getLocalizedMessage());
@@ -171,14 +201,13 @@ public class EncabezadoCompraCtrl extends BaseController {
         showDetalleLineas();
 
     }
-    
-     public void onPaging$paging_ListBoxOrderOrderPositions2(ForwardEvent event) throws DiservBusinessException {
+
+    public void onPaging$paging_ListBoxOrderOrderPositions2(ForwardEvent event) throws DiservBusinessException {
         logger.log(Level.INFO, "[onPaging$paging_ListBoxOrderOrderPositions2]Event:", event.getName());
         final PagingEvent pe = (PagingEvent) event.getOrigin();
         numeroPaginInicio = pe.getActivePage();
         refreshModel(numeroPaginInicio);
     }
-
 
     public void onClick$button_bbox_CustomerSearch_Close(Event event) {
         // logger.debug(event.toString());
@@ -359,11 +388,11 @@ public class EncabezadoCompraCtrl extends BaseController {
         }
 
     }
-    
+
     void refreshModel(int activePage) throws DiservBusinessException {
-         logger.log(Level.INFO, "[showDetalleCompra][refreshModel]Recargar detalle");
+        logger.log(Level.INFO, "[showDetalleCompra][refreshModel]Recargar detalle");
         if (compraSelected != null) {
-            listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(),compraSelected.getIdmov());
+            listaDetalleMovimiento = movimientoBean.loadDetalleMovimientoByIdMovimento(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(), compraSelected.getIdmov());
             if (listaDetalleMovimiento.size() > 0) {
                 listBoxDetalleCompra.setModel(new ListModelList(listaDetalleMovimiento));
                 listBoxDetalleCompra.setItemRenderer(new DetalleMovimientoItemRenderer());
@@ -376,7 +405,6 @@ public class EncabezadoCompraCtrl extends BaseController {
         }
     }
 
-    
     public void doRefreshModel(int activePage) throws DiservBusinessException {
         logger.log(Level.INFO, "[ListaEvaluacionesAuditoriaCtrl][doRefreshModel]Pagina activa:{0}", activePage);
         refreshModel(activePage);
@@ -422,23 +450,22 @@ public class EncabezadoCompraCtrl extends BaseController {
         refreshModel(0);
     }
 
-      public void onClick$btnSave(Event event) {
-         try {
-            
+    public void onClick$btnSave(Event event) {
+        try {
+
             if (getToken().intValue() > 0) {
                 loadDataFromTextboxs();
-            
-                
+
                 compraSelected.setIdsucursal(this.userLogin.getUsuario().getIdsucursal());
                 //compraSelected.setIdbodegaentrada(this.userLogin.getUsuario().getIdsucursal());
                 responseOperacionM = movimientoBean.guardarMovimiento(compraSelected);
-                if (responseOperacionM.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {                    
+                if (responseOperacionM.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                     compraSelected = responseOperacionM.getMovimiento();
                     loadDataFromEntity(numeroPaginInicio);
                     doReadOnly(Boolean.TRUE);
                     doEditButton();
                     refreshModel(0);
-                
+
                 } else {
                     MensajeMultilinea.show(responseOperacionM.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
                 }
@@ -451,7 +478,7 @@ public class EncabezadoCompraCtrl extends BaseController {
             MensajeMultilinea.show(e.getMessage(), Constants.MENSAJE_TIPO_ERROR);
         }
     }
-     
+
     public void onClick$btnEditar(Event event) {
         doEditButton();
         doReadOnly(Boolean.FALSE);
@@ -507,8 +534,8 @@ public class EncabezadoCompraCtrl extends BaseController {
     }
 
     public void onClick$button_OrderDialog_btnDelete(Event event) throws InterruptedException {
-        
-         if (getCompraSelected() == null || getCompraSelected().getIdmov() == null) {
+
+        if (getCompraSelected() == null || getCompraSelected().getIdmov() == null) {
             MensajeMultilinea.show("Debe Guardar Primero el Encabezado de la Compra!!!", Constants.MENSAJE_TIPO_ALERTA);
             //doCancel();
             return;
@@ -564,9 +591,8 @@ public class EncabezadoCompraCtrl extends BaseController {
 //            ex.printStackTrace();
 //        }
 //    }
-
     private void loadDataFromTextboxs() {
-       try {
+        try {
             Movimientos compraSelected2 = compraSelected;
             compraSelected = new Movimientos();
             //validamos los campos
@@ -575,16 +601,16 @@ public class EncabezadoCompraCtrl extends BaseController {
             txtPersonaCod.setValue(compraSelected.getIdpersona().getNoRegistroFiscal());
             txtFacturaNo.setValue(compraSelected.getNodoc().toString());
             txtObservaciones.setValue(compraSelected.getObserva1());
-           
-             if (StringUtils.isEmpty(txtPersonaCod.getValue())) {
+
+            if (StringUtils.isEmpty(txtPersonaCod.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar un proveedor valido");
             }
-             
+
             if (StringUtils.isEmpty(txtPersonaName.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar un proveedor valido");
             }
 
-           if (StringUtils.isEmpty(txtFacturaNo.getValue())) {
+            if (StringUtils.isEmpty(txtFacturaNo.getValue())) {
                 throw new DiservWebException(Constants.CODE_OPERATION_FALLIDA, "Debe ingresar numero de factura valido");
             }
 
@@ -597,43 +623,59 @@ public class EncabezadoCompraCtrl extends BaseController {
 
     }
 
-
-    public void onUpload$btnSubir(ForwardEvent event) 
-    {
+    public void onUpload$btnSubir(ForwardEvent event) throws FileNotFoundException, IOException {
         UploadEvent eventMedia;
         Object media;
-    
-        try
-        {
-          eventMedia = (UploadEvent) event.getOrigin();
-          media =  eventMedia.getMedia();
-          if (media instanceof org.zkoss.image.Image)
-          {
-             System.out.println("imagen");
-          }
-          else if (media instanceof AMedia)
-          {
-            AMedia medi= (AMedia) media;
-            System.out.println("es archivo de otro tipo");
-            System.out.println("nombre :"+ medi.getName());
-            System.out.println("tipo :"+ medi.getFormat());
-            System.out.println("size :"+ medi.getByteData().length);
-          
-          }
+        OutputStream out = null;
+        InputStream is = null;
+        byte buf[] = new byte[1024];
+        int len;
+
+        try {
+            eventMedia = (UploadEvent) event.getOrigin();
+            media = eventMedia.getMedia();
+            if (media instanceof org.zkoss.image.Image) {
+                System.out.println("imagen");
+            } else if (media instanceof AMedia) {
+                AMedia medi = (AMedia) media;
+
+                SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
+                String name = fmt.format(new Date()) + "_" + medi.getName();//.substring(event.getFile().getFileName().lastIndexOf('.'));
+                //System.out.println("nombre archivo " + name);
+                File file = new File(path + File.separator + FOLDER + "/LoteTelefonos" + name);
+
+                System.out.println(file);
+                //escribir archivo al servidor
+                is = medi.getStreamData();
+                out = new FileOutputStream(file);
+                while ((len = is.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                is.close();
+
+                System.out.println("es archivo de otro tipo");
+                System.out.println("nombre :" + medi.getName());
+                System.out.println("tipo :" + medi.getFormat());
+                System.out.println("size :" + medi.getByteData().length);
+
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(EncabezadoCompraCtrl.class.getName()).log(Level.SEVERE, "No existe la ruta o el archivo en el server", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(EncabezadoCompraCtrl.class.getName()).log(Level.SEVERE, "Error I/O al subir el archivo", ex);
+        } finally {
+            try {
+                out.close();
+            } catch (Exception ex) {
+                Logger.getLogger(EncabezadoCompraCtrl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-      
-     
+
     }
 
-
-    
     public void reloadTotal() {
         try {
-            totalMovimiento = movimientosDetBean.countAllMovimientosDet(Constants.CODIGO_MOVIMIENTO_TIPO_COMPRA);            
+            totalMovimiento = movimientosDetBean.countAllMovimientosDet(Constants.CODIGO_MOVIMIENTO_TIPO_COMPRA);
             if (totalMovimiento != null) {
                 setTotalMovimiento(totalMovimiento);
                 System.out.println(getTotalMovimiento());
@@ -644,7 +686,85 @@ public class EncabezadoCompraCtrl extends BaseController {
             e.printStackTrace();
         }
     }
+
+    public LotesExistencia getLoteAdd() {
+        return loteAdd;
+    }
+
+    public void setLoteAdd(LotesExistencia loteAdd) {
+        this.loteAdd = loteAdd;
+    }
+
+      
     
-    
+    public int insertLoteProducto(String fileName) {
+        FileInputStream fstream = null;
+        int response = 0;
+        BufferedWriter bw = null;
+        DataInputStream in = null;
+        try {
+           
+            fstream = new FileInputStream(instanceRoot + File.separator +FOLDER+File.separator+"LoteTelefonos"+fileName);
+            System.out.println(instanceRoot + File.separator +FOLDER+File.separator+"LoteTelefonos"+fileName);
+            in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            FileWriter fw = new FileWriter(instanceRoot + File.separator +FOLDER+File.separator+"error"+"LoteTelefonos"+fileName);
+            bw = new BufferedWriter(fw);
+            
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                System.out.println("..... strLine "+strLine);
+                
+                String stringEntity[] = (strLine.split(","));
+                
+                if (stringEntity.length == 8) {
+
+                try{
+                   
+                    loteAdd = new LotesExistencia();
+                    loteAdd.setFechacrea(new Date());                                        
+                    loteAdd.setIdmov(this.getCompraSelected());                    
+                    loteAdd.setFechaMov(new Date());
+                    
+                    BusquedaArticuloDTO request = new BusquedaArticuloDTO();
+           
+                    loteAdd.setIdarticulo(articuloBean.loadArticuloByCodigo(stringEntity[0]));
+                    loteAdd.setTelefono(parseInt(stringEntity[1]));
+                    loteAdd.setIcc(stringEntity[2]);
+                    loteAdd.setImei(stringEntity[3]);
+                    loteAdd.setEstado("N");
+                    loteAdd.setIdusuariocrea(this.userLogin.getUsuario());
+                    
+                    lotesExistenciasBean.guardarLote(loteAdd);
+                    
+                   response += 1;
+                   
+                   } catch (Exception ex) {
+                System.err.println("Error insertLoteProducto - ".concat(ex.getMessage()));  
+                bw.write("Error insertLoteProducto - ".concat(strLine));
+                bw.newLine();
+                //response=null;
+            }  
+                   
+                }else{
+                   bw.write(strLine);
+                   bw.newLine();
+                }
+            }
+            
+        } catch (Exception ex) {
+            System.err.println("Error insertLoteProducto - ".concat(ex.getMessage()));
+            response = -97;
+        } finally {
+            try {
+                fstream.close();
+                in.close();
+                bw.close();
+            } catch (Exception ex) {
+               System.err.println("Error insertLoteProducto - ".concat(ex.getMessage()));
+            }
+        }
+        return response;
+    }
 
 }
