@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import org.apache.log4j.Priority;
 
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
@@ -40,7 +39,6 @@ import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 import org.zkoss.zk.ui.event.UploadEvent;
-import org.zkoss.zul.Fileupload;
 import sv.com.diserv.liquidaciones.dto.BusquedaPersonaDTO;
 import sv.com.diserv.liquidaciones.ejb.PersonasBeanLocal;
 import sv.com.diserv.liquidaciones.entity.Personas;
@@ -53,14 +51,7 @@ import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.el.ExpressionFactory;
-import javax.el.ValueExpression;
-import javax.faces.context.FacesContext;
-import org.mozilla.javascript.Context;
-import static org.mozilla.javascript.Context.getCurrentContext;
-import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zul.Label;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Paging;
@@ -72,26 +63,15 @@ import sv.com.diserv.liquidaciones.entity.MovimientosDet;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.util.TokenGenerator;
 import sv.com.diserv.web.ui.inventario.rendered.DetalleMovimientoItemRenderer;
-import org.zkoss.zk.ui.*;
 import org.zkoss.zk.ui.event.*;
-import org.zkoss.zk.ui.util.*;
-import org.zkoss.zk.ui.ext.*;
-import org.zkoss.zk.au.*;
-import org.zkoss.zk.au.out.*;
-import org.zkoss.zul.*;
 import org.zkoss.util.media.*;
 import org.zkoss.zul.event.PagingEvent;
 import sv.com.diserv.liquidaciones.dto.BusquedaArticuloDTO;
-import sv.com.diserv.liquidaciones.dto.OperacionesLostesExistenciasDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.LotesExistenciasBeanLocal;
-import sv.com.diserv.liquidaciones.entity.Articulos;
-import sv.com.diserv.liquidaciones.entity.Empresas;
 import sv.com.diserv.liquidaciones.entity.LotesExistencia;
 import sv.com.diserv.liquidaciones.exception.DiservWebException;
-import static sv.com.diserv.web.ui.inventario.ListaComprasCtrl.logger;
-import sv.com.diserv.web.ui.inventario.rendered.MovimientoItemRenderer;
 
 /**
  *
@@ -648,7 +628,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                 SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
                 String name = fmt.format(new Date()) + "_" + medi.getName();//.substring(event.getFile().getFileName().lastIndexOf('.'));
                 //System.out.println("nombre archivo " + name);
-                File file = new File(path + File.separator + FOLDER + "/LoteTelefonos" + name);
+                File file = new File(path + File.separator + FOLDER + "/Lt" + name);
 
                 System.out.println(file);
                 //escribir archivo al servidor
@@ -656,11 +636,12 @@ public class EncabezadoCompraCtrl extends BaseController {
                 out = new FileOutputStream(file);
                 while ((len = is.read(buf)) > 0) {
                     out.write(buf, 0, len);
+                    System.out.println(is.read(buf));
                 }
                 is.close();
                 
                 //Este es para hacer la insercion por Bach en este metodo se manda a leer desde el server el archivo y se procesa
-            int response = insertLoteProducto(name);//ejbAlaClie.insertBatchAlarmaCliente(name);
+            int response = insertLoteProducto(file.getName());//ejbAlaClie.insertBatchAlarmaCliente(name);
 			
             if (response < 0) { 
                 MensajeMultilinea.show("Ocurrió un error al importar lote!!", Constants.MENSAJE_TIPO_ALERTA);
@@ -721,11 +702,13 @@ public class EncabezadoCompraCtrl extends BaseController {
         DataInputStream in = null;
         try {
            
-            fstream = new FileInputStream(instanceRoot + File.separator +FOLDER+File.separator+"LoteTelefonos"+fileName);
-            System.out.println(instanceRoot + File.separator +FOLDER+File.separator+"LoteTelefonos"+fileName);
+            System.out.println(fileName);  
+            System.out.println(instanceRoot + File.separator +FOLDER+File.separator+fileName);
+            fstream = new FileInputStream(instanceRoot + File.separator + FOLDER + File.separator + fileName);
+            
             in = new DataInputStream(fstream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            FileWriter fw = new FileWriter(instanceRoot + File.separator +FOLDER+File.separator+"error"+"LoteTelefonos"+fileName);
+            FileWriter fw = new FileWriter(instanceRoot + File.separator +FOLDER+File.separator+"error"+fileName);
             bw = new BufferedWriter(fw);
             
             String strLine;
