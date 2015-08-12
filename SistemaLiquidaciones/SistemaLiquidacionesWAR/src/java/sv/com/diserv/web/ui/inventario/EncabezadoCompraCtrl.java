@@ -66,6 +66,7 @@ import org.zkoss.zk.ui.event.*;
 import org.zkoss.util.media.*;
 import org.zkoss.zul.event.PagingEvent;
 import sv.com.diserv.liquidaciones.dto.BusquedaArticuloDTO;
+import sv.com.diserv.liquidaciones.dto.OperacionesLotesExistenciasDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.LotesExistenciasBeanLocal;
@@ -136,6 +137,7 @@ public class EncabezadoCompraCtrl extends BaseController {
     private MovimientosDetBeanLocal movimientosDetBean;
     private OperacionesMovimientoDTO responseOperacionM;
     private OperacionesMovimientoDetDTO responseOperacion;
+    private OperacionesLotesExistenciasDTO responseOperacionLotes;
 
     private ListaComprasCtrl listaComprasCtrl;
     private List<MovimientosDet> listaDetalleMovimiento;
@@ -799,32 +801,33 @@ public class EncabezadoCompraCtrl extends BaseController {
                         loteAdd.setEstado("N");
                         loteAdd.setIdusuariocrea(this.userLogin.getUsuario());
 
-                        loteAdd=lotesExistenciasBean.guardarLote(loteAdd).getLotesExistencia();
+                        loteAdd = GuardarLote(loteAdd);
 
-                        Boolean existe = false;
+                        if (loteAdd != null) {
+                            Boolean existe = false;
 
-                        MovimientosDet detalle = null;
-                        for (MovimientosDet lista : listaDetalleMovimiento) {
-                            if (loteAdd.getIdarticulo() == lista.getIdarticulo()) {
-                                detalle = lista;
-                                detalle.setCantidad(new BigDecimal(lista.getCantidad().signum()));
-                                existe = true;
-                                break;
+                            MovimientosDet detalle = null;
+                            for (MovimientosDet lista : listaDetalleMovimiento) {
+                                if (loteAdd.getIdarticulo() == lista.getIdarticulo()) {
+                                    detalle = lista;
+                                    detalle.setCantidad(new BigDecimal(lista.getCantidad().signum()));
+                                    existe = true;
+                                    break;
+                                }
+
                             }
 
+                            if (existe) {
+                                movimientosDetBean.actualizarMovimientoDet(detalle);
+
+                            } else {
+                                detalle.setIdarticulo(loteAdd.getIdarticulo());
+                                detalle.setCantidad(new BigDecimal("1"));
+                                movimientosDetBean.guardarMovimientoDet(detalle);
+                            }
+
+                            response += 1;
                         }
-
-                        if (existe) {
-                            movimientosDetBean.actualizarMovimientoDet(detalle);
-
-                        } else {
-                            detalle.setIdarticulo(loteAdd.getIdarticulo());
-                            detalle.setCantidad(new BigDecimal("1"));
-                            movimientosDetBean.guardarMovimientoDet(detalle);
-                        }
-
-                        response += 1;
-
                     } catch (Exception ex) {
                         System.err.println("Error insertLoteProducto - ".concat(ex.getMessage()));
                         bw.write("Error insertLoteProducto - ".concat(strLine));
@@ -851,6 +854,28 @@ public class EncabezadoCompraCtrl extends BaseController {
             }
         }
         return response;
+    }
+
+    private LotesExistencia GuardarLote(LotesExistencia loteAdd) {
+         try {
+
+            responseOperacionLotes = lotesExistenciasBean.guardarLote(loteAdd);
+            if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+                MensajeMultilinea.show(responseOperacionLotes.getMensajeRespuesta() + " IdLote:" + responseOperacionLotes.getLotesExistencia().getIdlote(), Constants.MENSAJE_TIPO_INFO);
+                loteAdd = responseOperacionLotes.getLotesExistencia();
+              
+            } else {
+                MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+            }
+        } catch (Exception bex) {
+            bex.printStackTrace();
+            logger.severe(_zclass);
+            MensajeMultilinea.show(bex.toString(), Constants.MENSAJE_TIPO_ERROR);
+            loteAdd = null;
+
+        }
+         
+         return loteAdd;
     }
 
 }
