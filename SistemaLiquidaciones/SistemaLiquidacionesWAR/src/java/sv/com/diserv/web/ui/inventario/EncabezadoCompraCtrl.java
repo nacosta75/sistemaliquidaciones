@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Bandbox;
@@ -610,6 +609,71 @@ public class EncabezadoCompraCtrl extends BaseController {
     }
 
     public void onUpload$btnSubir(ForwardEvent event) throws FileNotFoundException, IOException {
+        {
+            UploadEvent eventMedia;
+
+            eventMedia = (UploadEvent) event.getOrigin();
+            Object media;
+            media = eventMedia.getMedia();
+
+            if (media instanceof org.zkoss.image.Image) {
+
+            } else if (media instanceof Media) {
+
+                AMedia tempMedia = (AMedia) media;
+                //AMedia medi = new AMedia(media.getName(), "txt", "text/plain", media.getStreamData().toString());
+                if (tempMedia.isBinary()) {
+                    System.out.println("Binary file");
+                } else {
+                    System.out.println("Text file");
+                }
+                System.out.println(tempMedia.getFormat());
+                System.out.println(tempMedia.getContentType());
+
+                BufferedReader r = null;
+                try {
+                    r = new BufferedReader(tempMedia.getReaderData());
+
+                    SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
+                    String name = fmt.format(new Date()) + "_" + tempMedia.getName();//.substring(event.getFile().getFileName().lastIndexOf('.'));
+                    File file = new File(path + File.separator + FOLDER + "/Lt" + name);
+
+                    String line = null;
+                    BufferedWriter out = new BufferedWriter(new FileWriter(file));
+                    while ((line = r.readLine()) != null) {
+                        out.write(line);
+                        out.newLine();
+                    }
+                    out.close();
+
+                    int response = insertLoteProducto(file.getName());//ejbAlaClie.insertBatchAlarmaCliente(name);
+
+                    if (response < 0) {
+                        MensajeMultilinea.show("Ocurrió un error al importar lote!!", Constants.MENSAJE_TIPO_ALERTA);
+
+                    } else {
+                        MensajeMultilinea.show("Lote Importado con exito!!, se importaron :" + response + ", registros!!!", Constants.MENSAJE_TIPO_ALERTA);
+
+                    }
+
+                    System.out.println("es archivo de otro tipo");
+                    System.out.println("nombre :" + tempMedia.getName());
+                    System.out.println("tipo :" + tempMedia.getFormat());
+                    System.out.println("size :" + tempMedia.getByteData().length);
+
+                } catch (IOException e) {
+                    System.out.println("Error " + e.getMessage());
+                } finally {
+                    if (r != null) {
+                        r.close();
+                    }
+                }
+            }
+        }
+
+    }
+
+    public void onUpload$btnSubir2(ForwardEvent event) throws FileNotFoundException, IOException {
         UploadEvent eventMedia;
         Object media;
         OutputStream out = null;
@@ -620,6 +684,8 @@ public class EncabezadoCompraCtrl extends BaseController {
         try {
             eventMedia = (UploadEvent) event.getOrigin();
             media = eventMedia.getMedia();
+
+            //AMedia tempMedia = new AMedia(eventMedia.getName(),"txt","text/plain",eventMedia.getStreamData().toString());
             if (media instanceof org.zkoss.image.Image) {
                 System.out.println("imagen");
             } else if (media instanceof AMedia) {
@@ -639,17 +705,17 @@ public class EncabezadoCompraCtrl extends BaseController {
                     System.out.println(is.read(buf));
                 }
                 is.close();
-                
+
                 //Este es para hacer la insercion por Bach en este metodo se manda a leer desde el server el archivo y se procesa
-            int response = insertLoteProducto(file.getName());//ejbAlaClie.insertBatchAlarmaCliente(name);
-			
-            if (response < 0) { 
-                MensajeMultilinea.show("Ocurrió un error al importar lote!!", Constants.MENSAJE_TIPO_ALERTA);
-               
-            } else {
-                MensajeMultilinea.show("Lote Importado con exito!!, se importaron :"+response+", registros!!!", Constants.MENSAJE_TIPO_ALERTA);
-               
-            }
+                int response = insertLoteProducto(file.getName());//ejbAlaClie.insertBatchAlarmaCliente(name);
+
+                if (response < 0) {
+                    MensajeMultilinea.show("Ocurrió un error al importar lote!!", Constants.MENSAJE_TIPO_ALERTA);
+
+                } else {
+                    MensajeMultilinea.show("Lote Importado con exito!!, se importaron :" + response + ", registros!!!", Constants.MENSAJE_TIPO_ALERTA);
+
+                }
 
                 System.out.println("es archivo de otro tipo");
                 System.out.println("nombre :" + medi.getName());
@@ -693,99 +759,85 @@ public class EncabezadoCompraCtrl extends BaseController {
         this.loteAdd = loteAdd;
     }
 
-      
-    
     public int insertLoteProducto(String fileName) {
         FileInputStream fstream = null;
         int response = 0;
         BufferedWriter bw = null;
         DataInputStream in = null;
         try {
-           
-            System.out.println(fileName);  
-            System.out.println(instanceRoot + File.separator +FOLDER+File.separator+fileName);
+
+            System.out.println(fileName);
+            System.out.println(instanceRoot + File.separator + FOLDER + File.separator + fileName);
             fstream = new FileInputStream(instanceRoot + File.separator + FOLDER + File.separator + fileName);
-            
+
             in = new DataInputStream(fstream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            FileWriter fw = new FileWriter(instanceRoot + File.separator +FOLDER+File.separator+"error"+fileName);
+            FileWriter fw = new FileWriter(instanceRoot + File.separator + FOLDER + File.separator + "error" + fileName);
             bw = new BufferedWriter(fw);
-            
+
             String strLine;
             while ((strLine = br.readLine()) != null) {
-                System.out.println("..... strLine "+strLine);
-                
-                String stringEntity[] = (strLine.split(","));
-                
-                if (stringEntity.length == 8) {
+                System.out.println("..... strLine " + strLine);
 
-                try{
-                   
-                    loteAdd = new LotesExistencia();
-                    loteAdd.setFechacrea(new Date());                                        
-                    loteAdd.setIdmov(this.getCompraSelected());                    
-                    loteAdd.setFechaMov(new Date());
-                    
-                    BusquedaArticuloDTO request = new BusquedaArticuloDTO();
-           
-                    loteAdd.setIdarticulo(articuloBean.loadArticuloByCodigo(stringEntity[0]));
-                    loteAdd.setTelefono(parseInt(stringEntity[1]));
-                    loteAdd.setIcc(stringEntity[2]);
-                    loteAdd.setImei(stringEntity[3]);
-                    loteAdd.setEstado("N");
-                    loteAdd.setIdusuariocrea(this.userLogin.getUsuario());
-                    
-                    lotesExistenciasBean.guardarLote(loteAdd);
-                    
-                    Boolean existe=false;
-                    
-//                    if (listaDetalleMovimiento.contains(loteAdd.getIdarticulo()))
-//                    {
-//                         detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
-//                         movimientosDetBean.actualizarMovimientoDet(detalleMovimientoSelected);
-//                    }
-//                  
-                    MovimientosDet detalle = null;
-                    for (MovimientosDet lista :listaDetalleMovimiento)
-                    {
-                       if (loteAdd.getIdarticulo() == lista.getIdarticulo())
-                       {
-                           detalle = lista;
-                           detalle.setCantidad(new BigDecimal(lista.getCantidad().signum()));
-                           existe = true;
-                           break;
-                       }
-                    
+                String stringEntity[] = (strLine.split(","));
+
+                if (stringEntity.length == 4) {
+
+                    try {
+
+                        loteAdd = new LotesExistencia();
+                        loteAdd.setFechacrea(new Date());
+                        loteAdd.setIdmov(this.getCompraSelected());
+                        loteAdd.setFechaMov(new Date());
+
+                        BusquedaArticuloDTO request = new BusquedaArticuloDTO();
+
+                        loteAdd.setIdarticulo(articuloBean.loadArticuloByCodigo(stringEntity[0]));
+                        loteAdd.setTelefono(parseInt(stringEntity[1]));
+                        loteAdd.setIcc(stringEntity[2]);
+                        loteAdd.setImei(stringEntity[3]);
+                        loteAdd.setEstado("N");
+                        loteAdd.setIdusuariocrea(this.userLogin.getUsuario());
+
+                        loteAdd=lotesExistenciasBean.guardarLote(loteAdd).getLotesExistencia();
+
+                        Boolean existe = false;
+
+                        MovimientosDet detalle = null;
+                        for (MovimientosDet lista : listaDetalleMovimiento) {
+                            if (loteAdd.getIdarticulo() == lista.getIdarticulo()) {
+                                detalle = lista;
+                                detalle.setCantidad(new BigDecimal(lista.getCantidad().signum()));
+                                existe = true;
+                                break;
+                            }
+
+                        }
+
+                        if (existe) {
+                            movimientosDetBean.actualizarMovimientoDet(detalle);
+
+                        } else {
+                            detalle.setIdarticulo(loteAdd.getIdarticulo());
+                            detalle.setCantidad(new BigDecimal("1"));
+                            movimientosDetBean.guardarMovimientoDet(detalle);
+                        }
+
+                        response += 1;
+
+                    } catch (Exception ex) {
+                        System.err.println("Error insertLoteProducto - ".concat(ex.getMessage()));
+                        bw.write("Error insertLoteProducto - ".concat(strLine));
+                        bw.newLine();
+                        //response=null;
                     }
-                    
-                    
-                    if (existe)
-                    {
-                       movimientosDetBean.actualizarMovimientoDet(detalle);
-                    
-                    }
-                    else
-                    {
-                      detalle.setIdarticulo(loteAdd.getIdarticulo());
-                      detalle.setCantidad(new BigDecimal("1"));
-                      movimientosDetBean.guardarMovimientoDet(detalle);
-                    }
-                    
-                   response += 1;
-                   
-                   } catch (Exception ex) {
-                System.err.println("Error insertLoteProducto - ".concat(ex.getMessage()));  
-                bw.write("Error insertLoteProducto - ".concat(strLine));
-                bw.newLine();
-                //response=null;
-            }  
-                   
-                }else{
-                   bw.write(strLine);
-                   bw.newLine();
+
+                } else {
+                    bw.write(strLine);
+                    bw.newLine();
                 }
             }
-            
+
         } catch (Exception ex) {
             System.err.println("Error insertLoteProducto - ".concat(ex.getMessage()));
             response = -97;
@@ -795,7 +847,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                 in.close();
                 bw.close();
             } catch (Exception ex) {
-               System.err.println("Error insertLoteProducto - ".concat(ex.getMessage()));
+                System.err.println("Error insertLoteProducto - ".concat(ex.getMessage()));
             }
         }
         return response;
