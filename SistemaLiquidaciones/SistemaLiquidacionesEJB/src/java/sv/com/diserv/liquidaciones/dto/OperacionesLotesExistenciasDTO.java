@@ -7,11 +7,11 @@ import sv.com.diserv.liquidaciones.entity.Personas;
  *
  * @author sonia.garcia
  */
-public class OperacionesLostesExistenciasDTO extends BaseResponse {
+public class OperacionesLotesExistenciasDTO extends BaseResponse {
 
     private LotesExistencia lotesExistencia;
 
-    public OperacionesLostesExistenciasDTO(Integer codigoRespuesta, String mensajeRespuesta) {
+    public OperacionesLotesExistenciasDTO(Integer codigoRespuesta, String mensajeRespuesta) {
         super(codigoRespuesta, mensajeRespuesta);
     }
 
