@@ -11,11 +11,14 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,11 +44,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "LotesExistencia.findByFechacrea", query = "SELECT l FROM LotesExistencia l WHERE l.fechacrea = :fechacrea")})
 public class LotesExistencia implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "IDLOTE")
+     @SequenceGenerator(name = "SEQ_LOTES_EXISTENCIA", sequenceName = "SEQ_LOTES_EXISTENCIA")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LOTES_EXISTENCIA")
     private Integer idlote;
+    
     @Size(max = 19)
     @Column(name = "ICC")
     private String icc;
