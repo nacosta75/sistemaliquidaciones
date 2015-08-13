@@ -70,6 +70,7 @@ import sv.com.diserv.liquidaciones.dto.OperacionesLotesExistenciasDTO;
 import sv.com.diserv.liquidaciones.dto.OperacionesMovimientoDTO;
 import sv.com.diserv.liquidaciones.ejb.ArticulosBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.LotesExistenciasBeanLocal;
+import sv.com.diserv.liquidaciones.entity.EncListaPrecio;
 import sv.com.diserv.liquidaciones.entity.LotesExistencia;
 import sv.com.diserv.liquidaciones.exception.DiservWebException;
 
@@ -821,8 +822,22 @@ public class EncabezadoCompraCtrl extends BaseController {
                                 movimientosDetBean.actualizarMovimientoDet(detalle);
 
                             } else {
+                                detalle = new MovimientosDet();
+                                detalle.setFechaMov(compraSelected.getFechamov());
+                                detalle.setClaseOperacion("E");
+                                detalle.setCostoProm(loteAdd.getIdarticulo().getCostocompact());
+                                detalle.setNoDoc(compraSelected.getNodoc());
+                                if (loteAdd.getIdarticulo().getCostocompant() != null) {
+                                    detalle.setUltCosto(loteAdd.getIdarticulo().getCostocompant());
+                                } else {
+                                    detalle.setUltCosto(BigDecimal.ZERO);
+                                }
+                                detalle.setValorImpuesto(Constants.VALOR_IMPUESTO_IVA);
+                                detalle.setIdlista(new EncListaPrecio(1));
+                                detalle.setIdmov(compraSelected);
                                 detalle.setIdarticulo(loteAdd.getIdarticulo());
                                 detalle.setCantidad(new BigDecimal("1"));
+                                detalle.setPrecio(BigDecimal.ZERO);
                                 movimientosDetBean.guardarMovimientoDet(detalle);
                             }
 
@@ -832,6 +847,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                         System.err.println("Error insertLoteProducto - ".concat(ex.getMessage()));
                         bw.write("Error insertLoteProducto - ".concat(strLine));
                         bw.newLine();
+                        ex.printStackTrace();
                         //response=null;
                     }
 
@@ -844,6 +860,7 @@ public class EncabezadoCompraCtrl extends BaseController {
         } catch (Exception ex) {
             System.err.println("Error insertLoteProducto - ".concat(ex.getMessage()));
             response = -97;
+            ex.printStackTrace();
         } finally {
             try {
                 fstream.close();
@@ -860,12 +877,12 @@ public class EncabezadoCompraCtrl extends BaseController {
          try {
 
             responseOperacionLotes = lotesExistenciasBean.guardarLote(loteAdd);
-            if (responseOperacion.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
+            if (responseOperacionLotes.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                 MensajeMultilinea.show(responseOperacionLotes.getMensajeRespuesta() + " IdLote:" + responseOperacionLotes.getLotesExistencia().getIdlote(), Constants.MENSAJE_TIPO_INFO);
                 loteAdd = responseOperacionLotes.getLotesExistencia();
               
             } else {
-                MensajeMultilinea.show(responseOperacion.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
+                MensajeMultilinea.show(responseOperacionLotes.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
             }
         } catch (Exception bex) {
             bex.printStackTrace();
