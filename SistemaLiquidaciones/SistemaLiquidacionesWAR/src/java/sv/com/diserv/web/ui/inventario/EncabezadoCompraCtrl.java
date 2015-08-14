@@ -720,7 +720,7 @@ public class EncabezadoCompraCtrl extends BaseController {
 
                 }
 
-                System.out.println("es archivo de otro tipo");
+                System.out.println("es archivo cvs");
                 System.out.println("nombre :" + medi.getName());
                 System.out.println("tipo :" + medi.getFormat());
                 System.out.println("size :" + medi.getByteData().length);
@@ -780,6 +780,7 @@ public class EncabezadoCompraCtrl extends BaseController {
 
             String strLine;
             while ((strLine = br.readLine()) != null) {
+                showDetalleLineas();
                 System.out.println("..... strLine " + strLine);
 
                 String stringEntity[] = (strLine.split(","));
