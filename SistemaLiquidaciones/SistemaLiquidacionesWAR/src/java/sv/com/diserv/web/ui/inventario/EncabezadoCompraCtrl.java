@@ -780,7 +780,7 @@ public class EncabezadoCompraCtrl extends BaseController {
 
             String strLine;
             while ((strLine = br.readLine()) != null) {
-                showDetalleLineas();
+                refreshModel(this.getNumeroPaginInicio());
                 System.out.println("..... strLine " + strLine);
 
                 String stringEntity[] = (strLine.split(","));
@@ -810,7 +810,7 @@ public class EncabezadoCompraCtrl extends BaseController {
 
                             MovimientosDet detalle = null;
                             for (MovimientosDet lista : listaDetalleMovimiento) {
-                                if (loteAdd.getIdarticulo() == lista.getIdarticulo()) {
+                                if (loteAdd.getIdarticulo().getIdarticulo() == lista.getIdarticulo().getIdarticulo()) {
                                     detalle = lista;
                                     detalle.setCantidad(new BigDecimal(lista.getCantidad().signum()));
                                     existe = true;
