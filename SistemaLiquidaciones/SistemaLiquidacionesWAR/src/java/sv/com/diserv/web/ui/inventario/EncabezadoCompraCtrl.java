@@ -662,7 +662,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                     System.out.println("es archivo de otro tipo");
                     System.out.println("nombre :" + tempMedia.getName());
                     System.out.println("tipo :" + tempMedia.getFormat());
-                    System.out.println("size :" + tempMedia.getByteData().length);
+                   // System.out.println("size :" + tempMedia.getByteData().length);
 
                 } catch (IOException e) {
                     System.out.println("Error " + e.getMessage());
@@ -723,6 +723,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                 System.out.println("es archivo cvs");
                 System.out.println("nombre :" + medi.getName());
                 System.out.println("tipo :" + medi.getFormat());
+                //System.out.println("size :" + medi.getByteData().length);
                 System.out.println("size :" + medi.getByteData().length);
 
             }
@@ -812,7 +813,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                             for (MovimientosDet lista : listaDetalleMovimiento) {
                                 if (loteAdd.getIdarticulo().getIdarticulo() == lista.getIdarticulo().getIdarticulo()) {
                                     detalle = lista;
-                                    detalle.setCantidad(new BigDecimal(lista.getCantidad().signum()));
+                                    detalle.setCantidad(detalle.getCantidad().add(new BigDecimal(1)));                                    
                                     existe = true;
                                     break;
                                 }
@@ -838,7 +839,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                                 detalle.setIdmov(compraSelected);
                                 detalle.setIdarticulo(loteAdd.getIdarticulo());
                                 detalle.setCantidad(new BigDecimal("1"));
-                                detalle.setPrecio(BigDecimal.ZERO);
+                                detalle.setPrecio(loteAdd.getIdarticulo().getCostocompact());
                                 movimientosDetBean.guardarMovimientoDet(detalle);
                             }
 
@@ -879,7 +880,7 @@ public class EncabezadoCompraCtrl extends BaseController {
 
             responseOperacionLotes = lotesExistenciasBean.guardarLote(loteAdd);
             if (responseOperacionLotes.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
-                MensajeMultilinea.show(responseOperacionLotes.getMensajeRespuesta() + " IdLote:" + responseOperacionLotes.getLotesExistencia().getIdlote(), Constants.MENSAJE_TIPO_INFO);
+                //MensajeMultilinea.show(responseOperacionLotes.getMensajeRespuesta() + " IdLote:" + responseOperacionLotes.getLotesExistencia().getIdlote(), Constants.MENSAJE_TIPO_INFO);
                 loteAdd = responseOperacionLotes.getLotesExistencia();
               
             } else {
