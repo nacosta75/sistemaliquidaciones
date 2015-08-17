@@ -179,6 +179,10 @@ public class ArticulosBean implements ArticulosBeanLocal {
             condiciones.add(" UPPER(codarticulo) LIKE UPPER('%" + request.getCodarticulo() + "%') ");
         }
 
+         if (request.getIdtipoarticulo() != 0) {
+            condiciones.add(" UPPER(idtipoarticulo ) LIKE UPPER('%" + request.getIdtipoarticulo() + "%') ");
+        }
+         
         try {
             StringBuilder sb = new StringBuilder();
             sb.append(" SELECT idarticulo,codarticulo,descarticulo,idtipoarticulo, "+
