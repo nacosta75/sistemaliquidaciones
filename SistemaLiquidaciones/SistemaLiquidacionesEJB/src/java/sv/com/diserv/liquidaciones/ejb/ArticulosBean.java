@@ -180,7 +180,7 @@ public class ArticulosBean implements ArticulosBeanLocal {
         }
 
          if (request.getIdtipoarticulo() != 0) {
-            condiciones.add(" UPPER(idtipoarticulo ) LIKE UPPER('%" + request.getIdtipoarticulo() + "%') ");
+            condiciones.add(" UPPER(idtipoarticulo) LIKE UPPER('%" + request.getIdtipoarticulo() + "%') ");
         }
          
         try {
