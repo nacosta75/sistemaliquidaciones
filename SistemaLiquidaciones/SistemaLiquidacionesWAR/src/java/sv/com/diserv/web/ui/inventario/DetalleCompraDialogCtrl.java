@@ -224,7 +224,7 @@ public class DetalleCompraDialogCtrl extends BaseController {
 //                request.setNumeroRegistro(tb_Orders_CustSearchMatchcode.getValue());
 //            }
 //            
-//            request.setTipoPersona(3);
+            request.setIdtipoarticulo(1);
             searchObjProduct = articuloBean.buscarArticuloByCriteria(request);
 
             if (!searchObjProduct.isEmpty()) {
