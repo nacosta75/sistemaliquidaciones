@@ -23,9 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zul.Bandbox;
@@ -438,6 +436,23 @@ public class EncabezadoCompraCtrl extends BaseController {
         refreshModel(0);
     }
 
+    public void onClick$btnLlote(Event event) {
+
+        logger.log(Level.INFO, "[onClick$btnLlote]Event:{0}", event.toString());
+        Listitem item = this.listBoxDetalleCompra.getSelectedItem();
+        if (item != null) {
+            detalleMovimientoSelected = (MovimientosDet) item.getAttribute("data");
+
+            HashMap map = new HashMap();
+            map.put("articulo", detalleMovimientoSelected.getIdarticulo());
+            map.put("detalleMovimientoSelected", detalleMovimientoSelected);
+            map.put("token", TokenGenerator.getTokenOperation());
+            map.put("encabezadoCompraCtrl", this);
+
+            Executions.createComponents("/WEB-INF/xhtml/inventario/listaLote.zul", null, map);
+        }
+    }
+
     public void onClick$btnSave(Event event) {
         try {
 
@@ -662,7 +677,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                     System.out.println("es archivo de otro tipo");
                     System.out.println("nombre :" + tempMedia.getName());
                     System.out.println("tipo :" + tempMedia.getFormat());
-                   // System.out.println("size :" + tempMedia.getByteData().length);
+                    // System.out.println("size :" + tempMedia.getByteData().length);
 
                 } catch (IOException e) {
                     System.out.println("Error " + e.getMessage());
@@ -813,7 +828,7 @@ public class EncabezadoCompraCtrl extends BaseController {
                             for (MovimientosDet lista : listaDetalleMovimiento) {
                                 if (loteAdd.getIdarticulo().getIdarticulo() == lista.getIdarticulo().getIdarticulo()) {
                                     detalle = lista;
-                                    detalle.setCantidad(detalle.getCantidad().add(new BigDecimal(1)));                                    
+                                    detalle.setCantidad(detalle.getCantidad().add(new BigDecimal(1)));
                                     existe = true;
                                     break;
                                 }
@@ -876,13 +891,13 @@ public class EncabezadoCompraCtrl extends BaseController {
     }
 
     private LotesExistencia GuardarLote(LotesExistencia loteAdd) {
-         try {
+        try {
 
             responseOperacionLotes = lotesExistenciasBean.guardarLote(loteAdd);
             if (responseOperacionLotes.getCodigoRespuesta() == Constants.CODE_OPERACION_SATISFACTORIA) {
                 //MensajeMultilinea.show(responseOperacionLotes.getMensajeRespuesta() + " IdLote:" + responseOperacionLotes.getLotesExistencia().getIdlote(), Constants.MENSAJE_TIPO_INFO);
                 loteAdd = responseOperacionLotes.getLotesExistencia();
-              
+
             } else {
                 MensajeMultilinea.show(responseOperacionLotes.getMensajeRespuesta(), Constants.MENSAJE_TIPO_ERROR);
             }
@@ -893,8 +908,8 @@ public class EncabezadoCompraCtrl extends BaseController {
             loteAdd = null;
 
         }
-         
-         return loteAdd;
+
+        return loteAdd;
     }
 
 }
