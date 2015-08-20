@@ -264,7 +264,8 @@
                                 <button id="btnSubir" height="24px" sclass="oT_ButtonWithIcon" label="Importar desde Excel!" 
                                         tooltiptext="Importar Articulos desde archivo Excel" image="/images/page_excel.png"
                                         upload="true"/>
-                            
+                            <button id="btnLlote" height="24px" sclass="oT_ButtonWithIcon" label="ver Lote" 
+                                        tooltiptext="ver detalle de Lote del Articulo" image="/images/box.gif"                                      />
                             </toolbar>
                             <!-- SEARCH AREA -->
                             <toolbar align="center"
