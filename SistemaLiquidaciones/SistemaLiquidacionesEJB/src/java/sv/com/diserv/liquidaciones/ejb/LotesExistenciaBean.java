@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import sv.com.diserv.liquidaciones.dto.BusquedaLoteExistenciaDTO;
 import sv.com.diserv.liquidaciones.dto.ConsolidadoAsignacionesDTO;
@@ -204,5 +205,30 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
             response.setMensajeRespuesta(e.toString());
         }
         return response;
+    }
+
+    @Override
+    public List<LotesExistencia> loadAllLoteByMovimiento(int inicio, int fin, Integer idmov) throws DiservBusinessException {
+       logger.log(Level.INFO, "[loadAllLoteByMovimiento] desde:" + inicio + " hasta:" + fin);
+        List<LotesExistencia> lotesList = null;
+        Query query;
+        try {
+            query = em.createNamedQuery("LotesExistencia.findByIdMov");
+            query.setParameter("idmov", idmov);
+            query.setFirstResult(inicio);
+            query.setMaxResults(fin);
+            lotesList = query.getResultList();
+            if (lotesList != null) {
+                logger.log(Level.INFO, "[loadAllMovimientosDet] Se encontraron " + lotesList.size() + " lotes");
+            }
+        } catch (NoResultException ex) {
+            logger.log(Level.INFO, "[loadAllMovimientosDet][NoResultException]No se encontraron lotes");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "No se encontraron lotes");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.log(Level.INFO, "[loadAllMovimientosDet][Exception]Se mostro una excepcion al buscar lotes");
+            throw new DiservBusinessException(Constants.CODE_OPERATION_FALLIDA, "Excepcion desconocida:" + e.toString());
+        }
+        return lotesList;
     }
 }
