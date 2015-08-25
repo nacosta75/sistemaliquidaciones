@@ -88,7 +88,7 @@ public class ListaLotesCtrl extends BaseController{
             if (totalLote != null) {
                 setTotalLote(totalLote);
             } else {
-                logger.info("[onCreate$listaClienteWindow]No se pudo obtener total registros");
+                logger.info("[onCreate$listaClienteWindow] No se pudo obtener total registros");
             }
         } catch (Exception e) {
             e.printStackTrace();

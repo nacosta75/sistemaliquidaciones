@@ -231,4 +231,24 @@ public class LotesExistenciaBean implements LotesExistenciasBeanLocal {
         }
         return lotesList;
     }
+
+    @Override
+    public Integer countAllLotesByMovArticulo(int articulo, Integer idmov) throws DiservBusinessException {
+      logger.log(Level.INFO, "[countAllLotesByMovArticulo]INIT");
+        int count = 0;
+        Query query;
+        try {
+            query = em.createNativeQuery("SELECT count(s.IDLOTE) FROM LOTES_EXISTENCIA s where s.IDARTICULO=? and s.idmov=? "); 
+            query.setParameter(1, articulo);
+            query.setParameter(2, idmov);
+            
+            count = (int) query.getSingleResult();
+            //count = ((Long) query.getSingleResult()).intValue();
+            logger.log(Level.INFO, "[Total de registros encontrados]" + count);
+        } catch (Exception e) {
+            logger.log(Level.INFO, "[Excepcion en countAllLiquidacion]" + e.toString());
+            e.printStackTrace();
+        }
+        return count;
+    }
 }
