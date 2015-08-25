@@ -17,15 +17,12 @@ import org.zkoss.zul.Window;
 import sv.com.diserv.liquidaciones.ejb.LotesExistenciasBeanLocal;
 import sv.com.diserv.liquidaciones.ejb.MovimientosBeanLocal;
 import sv.com.diserv.liquidaciones.entity.LotesExistencia;
-import sv.com.diserv.liquidaciones.entity.Movimientos;
 import sv.com.diserv.liquidaciones.entity.MovimientosDet;
 import sv.com.diserv.liquidaciones.exception.DiservBusinessException;
 import sv.com.diserv.liquidaciones.exception.ServiceLocatorException;
 import sv.com.diserv.liquidaciones.util.Constants;
 import sv.com.diserv.liquidaciones.util.ServiceLocator;
-import sv.com.diserv.web.ui.asignaciones.render.LotesItemRenderer;
-import static sv.com.diserv.web.ui.inventario.ListaComprasCtrl.logger;
-import sv.com.diserv.web.ui.inventario.rendered.MovimientoItemRenderer;
+import sv.com.diserv.web.ui.inventario.rendered.LstLotesItemRendered;
 import sv.com.diserv.web.ui.util.BaseController;
 import sv.com.diserv.web.ui.util.MensajeMultilinea;
 
@@ -68,7 +65,7 @@ public class ListaLotesCtrl extends BaseController{
      
       public void onCreate$listaLoteWindow(Event event) throws Exception {
         logger.log(Level.INFO, "[onCreate$listaLoteWindow]Event:{0}", event.toString());
-        doOnCreateCommon(listaLoteWindow);
+        doOnCreateCommon(listaLoteWindow,event);
         MensajeMultilinea.doSetTemplate();
          if (this.args.containsKey("detalleMovimientoSelected")) {
             detalleMovimientoSelected = ((MovimientosDet) this.args.get("detalleMovimientoSelected"));
@@ -79,10 +76,23 @@ public class ListaLotesCtrl extends BaseController{
 
        
         //doCheckPermisos();
-        //reloadTotal();
+        reloadTotal();
         refreshModel(numeroPaginInicio);
 //        setOrderDataByListHeaderAuditoriaEvaluaciones();
 //        setOrderDataByListHeaderAuditoriaIndicadores();
+    }
+      
+      public void reloadTotal() {
+        try {
+            totalLote = lotesBean.countAllLotesByMovArticulo(detalleMovimientoSelected.getIdarticulo().getIdarticulo(), detalleMovimientoSelected.getIdmov().getIdmov());
+            if (totalLote != null) {
+                setTotalLote(totalLote);
+            } else {
+                logger.info("[onCreate$listaClienteWindow]No se pudo obtener total registros");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void refreshModel(int activePage) throws DiservBusinessException {
@@ -91,7 +101,7 @@ public class ListaLotesCtrl extends BaseController{
             listaLoteExistencia = lotesBean.loadAllLoteByMovimiento(activePage * getUserLogin().getRegistrosLista(), getUserLogin().getRegistrosLista(), detalleMovimientoSelected.getIdmov().getIdmov());
             if (listaLoteExistencia.size() > 0) {
                 listBoxLote.setModel(new ListModelList(listaLoteExistencia));
-                listBoxLote.setItemRenderer(new LotesItemRenderer());
+                listBoxLote.setItemRenderer(new LstLotesItemRendered());
                 pagingLote.setTotalSize(getTotalLote());
             } else {
                 logger.info("No se cargaron registros");
