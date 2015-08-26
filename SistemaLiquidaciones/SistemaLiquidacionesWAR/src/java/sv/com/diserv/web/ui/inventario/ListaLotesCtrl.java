@@ -78,7 +78,7 @@ public class ListaLotesCtrl extends BaseController{
         //doCheckPermisos();
         reloadTotal();
         refreshModel(numeroPaginInicio);
-//        setOrderDataByListHeaderAuditoriaEvaluaciones();
+ //        setOrderDataByListHeaderAuditoriaEvaluaciones();
 //        setOrderDataByListHeaderAuditoriaIndicadores();
     }
       
